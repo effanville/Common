@@ -1,0 +1,6 @@
+bin
+.vs
+StructureCommon/bin
+StructureCommon/obj
+UICommon/obj
+UICommon/bin
