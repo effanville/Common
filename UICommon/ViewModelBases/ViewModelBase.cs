@@ -46,9 +46,22 @@ namespace UICommon.ViewModelBases
             Header = header;
         }
 
+        public ViewModelBase(string header, T database)
+        {
+            Header = header;
+            DataStore = database;
+        }
+
         public ViewModelBase(string header, Action<object> loadTab)
         {
             Header = header;
+            LoadSelectedTab = loadTab;
+        }
+
+        public ViewModelBase(string header, T database, Action<object> loadTab)
+        {
+            Header = header;
+            DataStore = database;
             LoadSelectedTab = loadTab;
         }
 
