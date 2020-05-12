@@ -9,6 +9,9 @@ namespace UICommon.Events
             Value = value;
         }
 
-        public T Value { get; private set; }
+        public T Value
+        {
+            get; private set;
+        }
     }
 }

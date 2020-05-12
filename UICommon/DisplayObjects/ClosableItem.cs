@@ -11,7 +11,10 @@ namespace UICommon.DisplayObjects
         ///</summary>
         public string Title
         {
-            set => ((ClosableHeader)Header).label_TabTitle.Content = value;
+            set
+            {
+                ((ClosableHeader)Header).label_TabTitle.Content = value;
+            }
         }
 
         // Constructor

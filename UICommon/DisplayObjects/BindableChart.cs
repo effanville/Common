@@ -8,8 +8,15 @@ namespace UICommon.DisplayObjects
     {
         public IEnumerable SeriesSource
         {
-            get => (IEnumerable)GetValue(SeriesSourceProperty);
-            set => SetValue(SeriesSourceProperty, value);
+            get
+            {
+                return (IEnumerable)GetValue(SeriesSourceProperty);
+            }
+
+            set
+            {
+                SetValue(SeriesSourceProperty, value);
+            }
         }
 
         public static readonly DependencyProperty SeriesSourceProperty = DependencyProperty.Register(
