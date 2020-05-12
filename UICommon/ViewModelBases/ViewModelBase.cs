@@ -29,10 +29,7 @@ namespace UICommon.ViewModelBases
         /// </summary>
         public virtual bool Closable
         {
-            get
-            {
-                return false;
-            }
+            get => false;
         }
 
         public virtual Action<object> LoadSelectedTab
