@@ -7,6 +7,15 @@ namespace StructureCommon.Extensions
     /// </summary>
     public static class DateTimeExtensions
     {
+
+        /// <summary>
+        /// Outputs a date in the UK format (the good format) from a datetime.
+        /// </summary>
+        public static string ToUkDateString(this DateTime date)
+        {
+            return date.Day + "/" + date.Month + "/" + date.Year;
+        }
+
         /// <summary>
         /// Returns a string representation of the DateTime in a format suitable to be 
         /// used in filenames.
