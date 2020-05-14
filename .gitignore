@@ -4,3 +4,5 @@ StructureCommon/bin
 StructureCommon/obj
 UICommon/obj
 UICommon/bin
+StructureCommon.Tests/obj
+UICommon.Tests/obj
