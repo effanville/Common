@@ -3,6 +3,9 @@ using System.Windows.Input;
 
 namespace UICommon.Commands
 {
+    /// <summary>
+    /// Command instance that executes with an argument that is an object.
+    /// </summary>
     public sealed class RelayCommandObject : ICommand
     {
         private readonly Action<object> fExecute;
@@ -11,11 +14,17 @@ namespace UICommon.Commands
 
         private event EventHandler fCanExecuteChangedInternal;
 
+        /// <summary>
+        /// Constructor that takes an execution method, and can always execute
+        /// </summary>
         public RelayCommandObject(Action<object> execute)
             : this(execute, DefaultCanExecute)
         {
         }
 
+        /// <summary>
+        /// Constructor that takes a execution method and whether one can execute.
+        /// </summary>
         public RelayCommandObject(Action<object> execute, Predicate<object> canExecute)
         {
             if (execute == null)
@@ -47,11 +56,13 @@ namespace UICommon.Commands
             }
         }
 
+        /// <inheritdoc/>
         public bool CanExecute(object parameter)
         {
             return fCanExecute != null && fCanExecute((object)parameter);
         }
 
+        /// <inheritdoc/>
         public void Execute(object parameter)
         {
             fExecute((object)parameter);

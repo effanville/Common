@@ -24,7 +24,8 @@ namespace UICommon.Services
 
         /// <summary>
         /// Shows a standard message box with the specified parameters.
-        /// </summary>
+        /// </summary>       
+        /// <inheritdoc/>
         public MessageBoxResult ShowMessageBox(string text, string title, MessageBoxButton buttons, MessageBoxImage imageType)
         {
             return MessageBox.Show(fDefaultParent, text, title, buttons, imageType);
@@ -33,6 +34,7 @@ namespace UICommon.Services
         /// <summary>
         /// Shows a standard message box with the specified parameters with non-default owner.
         /// </summary>
+        /// <inheritdoc/>
         public MessageBoxResult ShowMessageBox(Window owner, string text, string title, MessageBoxButton buttons, MessageBoxImage imageType)
         {
             return MessageBox.Show(owner, text, title, buttons, imageType);
@@ -43,20 +45,21 @@ namespace UICommon.Services
         /// either a window itself, or is a viewModel.
         /// In the latter case one should add a template into the DialogTemplate.xaml file.
         /// </summary>
+        /// <inheritdoc/>
         public void DisplayCustomDialog(object obj)
         {
             // If obj is a window, then display that window.
             if (obj is Window window)
             {
                 window.Owner = fDefaultParent;
-                window.ShowDialog();
+                _ = window.ShowDialog();
             }
             else
             {
                 // if obj isnt a window, guess it is a view model, so try to display as such.
                 var dialog = new DialogWindow() { DataContext = obj };
                 dialog.ShowInTaskbar = true;
-                dialog.ShowDialog();
+                _ = dialog.ShowDialog();
             }
         }
     }

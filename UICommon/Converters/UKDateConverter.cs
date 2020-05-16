@@ -5,7 +5,10 @@ using System.Windows.Markup;
 
 namespace UICommon.Converters
 {
-    public class StringToUKDateConverter : MarkupExtension, IValueConverter
+    /// <summary>
+    /// Converter to convert from a DateTime into the UK representation of that DateTime.
+    /// </summary>
+    public sealed class StringToUKDateConverter : MarkupExtension, IValueConverter
     {
         private static StringToUKDateConverter sConverter;
 
@@ -19,16 +22,30 @@ namespace UICommon.Converters
             return sConverter;
         }
 
+        /// <summary>
+        /// Converts into the UK representation of that date.
+        /// </summary>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is DateTime date)
             {
-                return date.ToUKDateString();
+                if (culture.IetfLanguageTag == "en-US")
+                {
+                    CultureInfo UKEnglishCulture = new CultureInfo("en-GB");
+                    return date.ToString(UKEnglishCulture.DateTimeFormat);
+                }
+                else
+                {
+                    return date.ToString(culture.DateTimeFormat);
+                }
             }
 
             return null;
         }
 
+        /// <summary>
+        /// Converts back from a string into the relevant datetime
+        /// </summary>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is string stringValue)
