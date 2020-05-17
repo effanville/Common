@@ -26,12 +26,17 @@ namespace UICommon.Converters
         /// </summary>
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if ((bool)value)
+            if (value is bool booleanValue)
             {
-                return "Yes";
+                if (booleanValue)
+                {
+                    return "Yes";
+                }
+
+                return "No";
             }
 
-            return "No";
+            return null;
         }
 
         /// <summary>
