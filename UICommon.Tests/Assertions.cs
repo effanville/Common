@@ -3,7 +3,7 @@ using StructureCommon.NamingStructures;
 using StructureCommon.Validation;
 using System.Collections.Generic;
 
-namespace StructureCommon.Tests
+namespace UICommon.Tests
 {
     public static class Assertions
     {
