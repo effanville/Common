@@ -16,7 +16,7 @@ namespace UICommon.ViewModelBases
         }
 
         /// <summary>
-        /// A callback to the tab manager to enable specifying this tab to be closed.
+        /// A callback to the tab manager to load a tab from a specified key.
         /// </summary>
         public virtual Action<object> LoadSelectedTab
         {
@@ -57,8 +57,10 @@ namespace UICommon.ViewModelBases
         }
 
         /// <summary>
-        /// Updates both the data and 
+        /// Updates the data and provides a mechanism to remove the tab
         /// </summary>
+        /// <param name="dataToDisplay">The data to update with.</param>
+        /// <param name="removeTab"> Callback specifying whether this tab should be removed</param>
         public virtual void UpdateData(T dataToDisplay, Action<object> removeTab)
         {
             DataStore = null;
