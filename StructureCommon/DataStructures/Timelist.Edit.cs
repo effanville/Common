@@ -1,6 +1,6 @@
-﻿using StructureCommon.Reporting;
-using System;
+﻿using System;
 using System.Linq;
+using StructureCommon.Reporting;
 
 namespace StructureCommon.DataStructures
 {
@@ -11,7 +11,7 @@ namespace StructureCommon.DataStructures
         /// </summary>
         private void AddData(DateTime date, double value, IReportLogger reportLogger = null)
         {
-            var valuation = new DailyValuation(date, value);
+            DailyValuation valuation = new DailyValuation(date, value);
             fValues.Add(valuation);
             OnDataEdit(this);
             _ = reportLogger?.Log(ReportSeverity.Detailed, ReportType.Report, ReportLocation.AddingData, $"Added value {value}");

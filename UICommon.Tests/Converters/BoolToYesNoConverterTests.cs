@@ -11,7 +11,7 @@ namespace UICommon.Tests.Converters
         [TestCase("yes", null)]
         public void CanConvert(object input, object expected)
         {
-            var converter = new BoolToYesNoConverter();
+            BoolToYesNoConverter converter = new BoolToYesNoConverter();
             Assert.AreEqual(expected, converter.Convert(input, null, null, null));
         }
 
@@ -20,7 +20,7 @@ namespace UICommon.Tests.Converters
         [TestCase(4, null)]
         public void CanConvertBack(object input, object expected)
         {
-            var converter = new BoolToYesNoConverter();
+            BoolToYesNoConverter converter = new BoolToYesNoConverter();
             Assert.AreEqual(expected, converter.ConvertBack(input, null, null, null));
         }
 
@@ -28,9 +28,9 @@ namespace UICommon.Tests.Converters
         [TestCase(false)]
         public void RountTripConvert(object input)
         {
-            var converter = new BoolToYesNoConverter();
-            var converted = converter.Convert(input, null, null, null);
-            var convertBack = converter.ConvertBack(converted, null, null, null);
+            BoolToYesNoConverter converter = new BoolToYesNoConverter();
+            object converted = converter.Convert(input, null, null, null);
+            object convertBack = converter.ConvertBack(converted, null, null, null);
             Assert.AreEqual(input, convertBack);
         }
 
@@ -38,9 +38,9 @@ namespace UICommon.Tests.Converters
         [TestCase("No")]
         public void RountTripConvertBack(object input)
         {
-            var converter = new BoolToYesNoConverter();
-            var converted = converter.ConvertBack(input, null, null, null);
-            var convertBack = converter.Convert(converted, null, null, null);
+            BoolToYesNoConverter converter = new BoolToYesNoConverter();
+            object converted = converter.ConvertBack(input, null, null, null);
+            object convertBack = converter.Convert(converted, null, null, null);
             Assert.AreEqual(input, convertBack);
         }
     }

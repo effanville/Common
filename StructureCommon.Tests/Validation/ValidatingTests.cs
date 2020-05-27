@@ -1,5 +1,5 @@
-﻿using NUnit.Framework;
-using System;
+﻿using System;
+using NUnit.Framework;
 using StructureCommon.Validation;
 
 namespace StructureCommon.Tests.Validation
@@ -22,7 +22,7 @@ namespace StructureCommon.Tests.Validation
                 expected.Messages.AddRange(messages);
             }
 
-            var valid = Validating.NotNegative(value, property, null);
+            ValidationResult valid = Validating.NotNegative(value, property, null);
 
             Assertions.ValidationEqual(expected, valid);
         }
@@ -46,7 +46,7 @@ namespace StructureCommon.Tests.Validation
                 expected.Messages.AddRange(messages);
             }
 
-            var valid = Validating.NotLessThan(value, limit, property, null);
+            ValidationResult valid = Validating.NotLessThan(value, limit, property, null);
 
             Assertions.ValidationEqual(expected, valid);
         }
@@ -70,7 +70,7 @@ namespace StructureCommon.Tests.Validation
                 expected.Messages.AddRange(messages);
             }
 
-            var valid = Validating.NotGreaterThan(value, limit, property, null);
+            ValidationResult valid = Validating.NotGreaterThan(value, limit, property, null);
 
             Assertions.ValidationEqual(expected, valid);
         }
@@ -94,7 +94,7 @@ namespace StructureCommon.Tests.Validation
                 expected.Messages.AddRange(messages);
             }
 
-            var valid = Validating.NotEqualTo(value, equality, property, null);
+            ValidationResult valid = Validating.NotEqualTo(value, equality, property, null);
 
             Assertions.ValidationEqual(expected, valid);
         }
@@ -114,7 +114,7 @@ namespace StructureCommon.Tests.Validation
                 expected.Messages.AddRange(messages);
             }
 
-            var valid = Validating.IsNotNullOrEmpty(value, property, null);
+            ValidationResult valid = Validating.IsNotNullOrEmpty(value, property, null);
 
             Assertions.ValidationEqual(expected, valid);
         }

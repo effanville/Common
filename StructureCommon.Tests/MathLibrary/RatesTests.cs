@@ -1,8 +1,8 @@
+using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using StructureCommon.DataStructures;
 using StructureCommon.FinanceFunctions;
-using System;
-using System.Collections.Generic;
 
 namespace StructureCommon.Tests.MathLibrary.FinanceFunctions
 {

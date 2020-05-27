@@ -1,7 +1,7 @@
-﻿using StructureCommon.DataStructures;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using StructureCommon.DataStructures;
 
 namespace StructureCommon.FinanceFunctions
 {
@@ -127,7 +127,7 @@ namespace StructureCommon.FinanceFunctions
                 return 0.0;
             }
             // reduce number of investments to recent only
-            var recentInvestments = new List<DailyValuation>
+            List<DailyValuation> recentInvestments = new List<DailyValuation>
             {
                 startValue
             };

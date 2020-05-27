@@ -1,6 +1,6 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using StructureCommon.MathLibrary.ParameterEstimation;
-using System;
 
 namespace StructureCommon.Tests.MathLibrary.ParameterEstimation
 {
@@ -36,8 +36,8 @@ namespace StructureCommon.Tests.MathLibrary.ParameterEstimation
                         expectedEstimator = new double[] { 3.5, 1, 2.5 }
                     };
                 case (4):
-                    var dataValues = new double[50, 3];
-                    var yValues = new double[50];
+                    double[,] dataValues = new double[50, 3];
+                    double[] yValues = new double[50];
                     for (int i = 0; i < 50; i++)
                     {
                         dataValues[i, 0] = 1;
@@ -53,8 +53,8 @@ namespace StructureCommon.Tests.MathLibrary.ParameterEstimation
                     };
                 case (5):
                     Random rnd = new Random();
-                    var dataValuesRnd = new double[50, 3];
-                    var yValuesRnd = new double[50];
+                    double[,] dataValuesRnd = new double[50, 3];
+                    double[] yValuesRnd = new double[50];
                     for (int i = 0; i < 50; i++)
                     {
                         dataValuesRnd[i, 0] = 1 + rnd.NextDouble();
@@ -70,8 +70,8 @@ namespace StructureCommon.Tests.MathLibrary.ParameterEstimation
                     };
                 case (6):
                     Random rnd2 = new Random();
-                    var dataValuesRnd2 = new double[400, 10];
-                    var yValuesRnd2 = new double[400];
+                    double[,] dataValuesRnd2 = new double[400, 10];
+                    double[] yValuesRnd2 = new double[400];
                     for (int i = 0; i < 20; i++)
                     {
                         for (int j = 0; j < 20; j++)
@@ -111,8 +111,8 @@ namespace StructureCommon.Tests.MathLibrary.ParameterEstimation
         [Test]
         public void LSECorrect([Values(1, 2, 3, 4, 5, 6)] int valuesIndex)
         {
-            var estimatorValues = EstimatorValues.GetValues(valuesIndex);
-            var estimator = new LSEstimator(estimatorValues.data, estimatorValues.rhs);
+            EstimatorValues estimatorValues = EstimatorValues.GetValues(valuesIndex);
+            LSEstimator estimator = new LSEstimator(estimatorValues.data, estimatorValues.rhs);
             Assertions.AreEqual(estimatorValues.expectedEstimator, estimator.Estimator, 1e-6, "Expected Estimator not correct");
         }
     }

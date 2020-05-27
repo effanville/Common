@@ -1,7 +1,7 @@
-﻿using StructureCommon.Reporting;
-using System;
+﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using StructureCommon.Reporting;
 
 namespace StructureCommon.WebAccess
 {
@@ -11,7 +11,7 @@ namespace StructureCommon.WebAccess
     /// </summary>
     public static class WebDownloader
     {
-        private static HttpClient client = new HttpClient();
+        private static readonly HttpClient client = new HttpClient();
 
         /// <summary>
         /// Determines whether the string is well formed as a url.

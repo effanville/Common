@@ -1,7 +1,7 @@
-﻿using NUnit.Framework;
+﻿using System.Collections.Generic;
+using NUnit.Framework;
 using StructureCommon.NamingStructures;
 using StructureCommon.Validation;
-using System.Collections.Generic;
 
 namespace StructureCommon.Tests
 {

@@ -1,5 +1,5 @@
-﻿using StructureCommon.Validation;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using StructureCommon.Validation;
 
 namespace StructureCommon.Extensions
 {

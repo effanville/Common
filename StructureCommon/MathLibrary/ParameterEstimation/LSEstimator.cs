@@ -72,7 +72,7 @@ namespace StructureCommon.MathLibrary.ParameterEstimation
         {
             FitData = data;
             FitValues = values;
-            var XTY = data.Transpose().PostMultiplyVector(values);
+            double[] XTY = data.Transpose().PostMultiplyVector(values);
             Estimator = data.XTX().Inverse().PostMultiplyVector(XTY);
         }
     }

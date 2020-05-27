@@ -1,7 +1,7 @@
-﻿using NUnit.Framework;
-using System.Collections.Generic;
-using StructureCommon.Validation;
+﻿using System.Collections.Generic;
+using NUnit.Framework;
 using StructureCommon.NamingStructures;
+using StructureCommon.Validation;
 
 namespace StructureCommon.Tests.NamingStructures
 {
@@ -14,7 +14,7 @@ namespace StructureCommon.Tests.NamingStructures
             string surname = "Bloggs";
             string forename = "Joe";
 
-            var name = new Name(surname, forename);
+            Name name = new Name(surname, forename);
 
             Assert.AreEqual(forename, name.SecondaryName);
             Assert.AreEqual(surname, name.PrimaryName);
@@ -26,7 +26,7 @@ namespace StructureCommon.Tests.NamingStructures
             string surname = "Bloggs";
             string forename = "Joe";
 
-            var name = new Name(surname, forename);
+            Name name = new Name(surname, forename);
 
             Assert.AreEqual(forename, name.SecondaryName);
             Assert.AreEqual(surname, name.PrimaryName);
@@ -51,7 +51,7 @@ namespace StructureCommon.Tests.NamingStructures
         [TestCase(null, null, null, null, true)]
         public void EqualityCorrect(string surname, string forename, string testingSurname, string testingForename, bool expected)
         {
-            var player = new Name(surname, forename);
+            Name player = new Name(surname, forename);
             Assert.AreEqual(expected, player.Equals(new Name(testingSurname, testingForename)));
         }
 
@@ -61,7 +61,7 @@ namespace StructureCommon.Tests.NamingStructures
             string surname = "Bloggs";
             string forename = "Joe";
 
-            var name = new Name(surname, forename);
+            Name name = new Name(surname, forename);
 
             Assert.AreEqual(forename, name.SecondaryName);
             Assert.AreEqual(surname, name.PrimaryName);
@@ -77,8 +77,8 @@ namespace StructureCommon.Tests.NamingStructures
         [TestCase(null, null, false)]
         public void TestValidity(string surname, string forename, bool isValid)
         {
-            var name = new Name(surname, forename);
-            var valid = name.Validate();
+            Name name = new Name(surname, forename);
+            bool valid = name.Validate();
             Assert.AreEqual(isValid, valid);
         }
 
@@ -90,12 +90,12 @@ namespace StructureCommon.Tests.NamingStructures
         [TestCase(null, "Joe", false, new string[] { "PrimaryName cannot be empty or null." })]
         public void TestValidityMessage(string surname, string forename, bool isValid, string[] isValidMessage)
         {
-            var name = new Name(surname, forename);
-            var valid = name.Validation();
-            var expectedList = new List<ValidationResult>();
+            Name name = new Name(surname, forename);
+            List<ValidationResult> valid = name.Validation();
+            List<ValidationResult> expectedList = new List<ValidationResult>();
             if (!isValid)
             {
-                var expected = new ValidationResult
+                ValidationResult expected = new ValidationResult
                 {
                     IsValid = isValid
                 };
@@ -109,17 +109,17 @@ namespace StructureCommon.Tests.NamingStructures
         [Test]
         public void TestValidityMessageBothNamesNull()
         {
-            var name = new Name(null, null);
-            var valid = name.Validation();
-            var expectedList = new List<ValidationResult>();
-            var expectedSurnameError = new ValidationResult
+            Name name = new Name(null, null);
+            List<ValidationResult> valid = name.Validation();
+            List<ValidationResult> expectedList = new List<ValidationResult>();
+            ValidationResult expectedSurnameError = new ValidationResult
             {
                 IsValid = false
             };
             expectedSurnameError.Messages.AddRange(new string[] { "PrimaryName cannot be empty or null." });
             expectedList.Add(expectedSurnameError);
 
-            var expectedForenameError = new ValidationResult
+            ValidationResult expectedForenameError = new ValidationResult
             {
                 IsValid = false
             };

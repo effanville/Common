@@ -28,8 +28,8 @@ namespace StructureCommon.DataStructures
                 return LatestValuation();
             }
 
-            var earlier = NearestEarlierValue(date);
-            var later = NearestLaterValue(date);
+            DailyValuation earlier = NearestEarlierValue(date);
+            DailyValuation later = NearestLaterValue(date);
 
             double value = earlier.Value + (later.Value - earlier.Value) / (later.Day - earlier.Day).Days * (date - earlier.Day).Days;
             return new DailyValuation(date, value);
@@ -58,8 +58,8 @@ namespace StructureCommon.DataStructures
                 return fValues[0].Copy();
             }
 
-            var earlier = NearestEarlierValue(date);
-            var later = NearestLaterValue(date);
+            DailyValuation earlier = NearestEarlierValue(date);
+            DailyValuation later = NearestLaterValue(date);
 
             double value = earlier.Value + (later.Value - earlier.Value) / (later.Day - earlier.Day).Days * (date - earlier.Day).Days;
             return new DailyValuation(date, value);
@@ -315,7 +315,7 @@ namespace StructureCommon.DataStructures
         /// </summary>
         public List<DailyValuation> GetValuesBetween(DateTime earlierTime, DateTime laterTime)
         {
-            var valuesBetween = new List<DailyValuation>();
+            List<DailyValuation> valuesBetween = new List<DailyValuation>();
 
             foreach (DailyValuation value in fValues)
             {

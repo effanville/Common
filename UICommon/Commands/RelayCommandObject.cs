@@ -59,13 +59,13 @@ namespace UICommon.Commands
         /// <inheritdoc/>
         public bool CanExecute(object parameter)
         {
-            return fCanExecute != null && fCanExecute((object)parameter);
+            return fCanExecute != null && fCanExecute(parameter);
         }
 
         /// <inheritdoc/>
         public void Execute(object parameter)
         {
-            fExecute((object)parameter);
+            fExecute(parameter);
         }
 
         public void OnCanExecuteChanged()

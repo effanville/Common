@@ -11,7 +11,7 @@ namespace StructureCommon.MathLibrary.Functions
         /// <summary>
         /// various stored parameters for computation speed.
         /// </summary>
-        private GaussLegendreQuadrature glq = new GaussLegendreQuadrature();
+        private readonly GaussLegendreQuadrature glq = new GaussLegendreQuadrature();
         private const int ASwitch = 100;
         private const double eps = double.Epsilon;
         private const double fpMin = eps;

@@ -61,8 +61,8 @@
 
         public double[,] Inverse()
         {
-            var inverse = new double[Size, Size];
-            var col = new double[Size];
+            double[,] inverse = new double[Size, Size];
+            double[] col = new double[Size];
             for (int j = 0; j < Size; j++)
             {
                 for (int i = 0; i < Size; i++)

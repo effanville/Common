@@ -1,7 +1,7 @@
-using NUnit.Framework;
-using StructureCommon.DataStructures;
 using System;
 using System.Collections.Generic;
+using NUnit.Framework;
+using StructureCommon.DataStructures;
 
 namespace StructureCommon.Tests.DataStructures
 {

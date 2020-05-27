@@ -1,7 +1,7 @@
-﻿using StructureCommon.Reporting;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using StructureCommon.Reporting;
 
 namespace StructureCommon.FileAccess
 {
@@ -24,7 +24,7 @@ namespace StructureCommon.FileAccess
                 reader = new StreamReader(filePath);
 
                 string line = null;
-                var valuationsToRead = new List<string[]>();
+                List<string[]> valuationsToRead = new List<string[]>();
                 while ((line = reader.ReadLine()) != null)
                 {
                     string[] words = line.Split(',');

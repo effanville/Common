@@ -1,13 +1,13 @@
-﻿using StructureCommon.MathLibrary.Functions;
-using System;
+﻿using System;
+using StructureCommon.MathLibrary.Functions;
 
 namespace StructureCommon.MathLibrary.ProbabilityDistributions
 {
     public class GammaDistribution : Gamma, IProbabilityDistribution
     {
-        private double Alpha;
-        private double Beta;
-        private double Fac;
+        private readonly double Alpha;
+        private readonly double Beta;
+        private readonly double Fac;
 
         public GammaDistribution(double alpha, double beta)
         {

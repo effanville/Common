@@ -1,6 +1,6 @@
-﻿using StructureCommon.Reporting;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
+using StructureCommon.Reporting;
 
 namespace StructureCommon.FileAccess
 {
