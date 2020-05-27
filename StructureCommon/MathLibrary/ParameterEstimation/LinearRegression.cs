@@ -1,5 +1,5 @@
-﻿using StructureCommon.MathLibrary.Functions;
-using System;
+﻿using System;
+using StructureCommon.MathLibrary.Functions;
 
 namespace StructureCommon.MathLibrary.ParameterEstimation
 {
@@ -136,7 +136,7 @@ namespace StructureCommon.MathLibrary.ParameterEstimation
         {
             FitData = data;
             FitValues = values;
-            var gamma = new Gamma();
+            Gamma gamma = new Gamma();
             int i = 0;
             double ss = 0;
             double sx = 0, sy = 0, st2 = 0;

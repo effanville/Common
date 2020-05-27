@@ -1,6 +1,6 @@
-﻿using StructureCommon.FinanceFunctions;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using StructureCommon.FinanceFunctions;
 
 namespace StructureCommon.DataStructures
 {
@@ -11,10 +11,10 @@ namespace StructureCommon.DataStructures
     {
         public TimeList Inverted()
         {
-            var invertedValues = new List<DailyValuation>();
+            List<DailyValuation> invertedValues = new List<DailyValuation>();
             if (fValues != null && fValues.Count > 0)
             {
-                foreach (var value in fValues)
+                foreach (DailyValuation value in fValues)
                 {
                     invertedValues.Add(new DailyValuation(value.Day, 1 / value.Value));
                 }
@@ -31,7 +31,7 @@ namespace StructureCommon.DataStructures
             if (fValues != null && fValues.Count > 0)
             {
                 double sum = 0;
-                foreach (var val in fValues)
+                foreach (DailyValuation val in fValues)
                 {
                     sum += val.Value;
                 }
@@ -47,8 +47,8 @@ namespace StructureCommon.DataStructures
         /// </summary>
         public double CAR(DateTime earlierTime, DateTime laterTime)
         {
-            var earlierValue = NearestEarlierValue(earlierTime);
-            var laterValue = NearestEarlierValue(laterTime);
+            DailyValuation earlierValue = NearestEarlierValue(earlierTime);
+            DailyValuation laterValue = NearestEarlierValue(laterTime);
             if (earlierValue == null || laterValue == null)
             {
                 return double.NaN;

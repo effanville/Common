@@ -1,6 +1,6 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using StructureCommon.DataStructures;
-using System;
 
 namespace StructureCommon.Tests.DataStructures
 {

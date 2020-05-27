@@ -11,7 +11,7 @@ namespace StructureCommon.ChangeLogging
         /// <summary>
         /// The value to record whether it has changed.
         /// </summary>
-        T valueToLogChanges;
+        private readonly T valueToLogChanges;
 
         /// <summary>
         /// Whether a value in <see cref="valueToLogChanges"/> is a new value or not.

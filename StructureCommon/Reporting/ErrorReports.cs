@@ -38,7 +38,7 @@ namespace StructureCommon.Reporting
             return fReports.Any();
         }
 
-        private List<ErrorReport> fReports;
+        private readonly List<ErrorReport> fReports;
 
         /// <summary>
         /// Adds the reports from another repository of reports to this one.
@@ -106,7 +106,7 @@ namespace StructureCommon.Reporting
         /// </summary>
         public List<ErrorReport> GetReports()
         {
-            var copiedReports = new List<ErrorReport>();
+            List<ErrorReport> copiedReports = new List<ErrorReport>();
             copiedReports.AddRange(fReports);
             return copiedReports;
         }

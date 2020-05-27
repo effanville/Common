@@ -57,7 +57,7 @@ namespace UICommon.Services
             else
             {
                 // if obj isnt a window, guess it is a view model, so try to display as such.
-                var dialog = new DialogWindow() { DataContext = obj };
+                DialogWindow dialog = new DialogWindow() { DataContext = obj };
                 dialog.ShowInTaskbar = true;
                 _ = dialog.ShowDialog();
             }

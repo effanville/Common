@@ -21,7 +21,7 @@ namespace UICommon.DisplayObjects
         public ClosableTab()
         {
             // Create an instance of the usercontrol
-            var closableTabHeader = new ClosableHeader();
+            ClosableHeader closableTabHeader = new ClosableHeader();
             // Assign the usercontrol to the tab header
             Header = closableTabHeader;
             // Attach to the CloseableHeader events

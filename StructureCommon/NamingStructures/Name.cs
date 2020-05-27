@@ -1,9 +1,9 @@
-﻿using StructureCommon.Extensions;
-using StructureCommon.Validation;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
+using StructureCommon.Extensions;
+using StructureCommon.Validation;
 
 namespace StructureCommon.NamingStructures
 {
@@ -209,7 +209,7 @@ namespace StructureCommon.NamingStructures
         /// <inheritdoc/>
         public List<ValidationResult> Validation()
         {
-            var output = new List<ValidationResult>();
+            List<ValidationResult> output = new List<ValidationResult>();
             output.AddIfNotNull(Validating.IsNotNullOrEmpty(PrimaryName, nameof(PrimaryName), ToString()));
             output.AddIfNotNull(Validating.IsNotNullOrEmpty(SecondaryName, nameof(SecondaryName), ToString()));
             return output;

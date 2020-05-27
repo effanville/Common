@@ -6,7 +6,7 @@
         {
             if (value < 0)
             {
-                var notNegativeResult = new ValidationResult(isValid: false, propertyName, location);
+                ValidationResult notNegativeResult = new ValidationResult(isValid: false, propertyName, location);
                 notNegativeResult.AddMessage($"{propertyName} cannot take a negative value.");
                 return notNegativeResult;
             }
@@ -18,7 +18,7 @@
         {
             if (value < lowerLimit)
             {
-                var notLessThanResult = new ValidationResult(isValid: false, propertyName, location);
+                ValidationResult notLessThanResult = new ValidationResult(isValid: false, propertyName, location);
                 notLessThanResult.AddMessage($"{propertyName} cannot take values below {lowerLimit}.");
                 return notLessThanResult;
             }
@@ -30,7 +30,7 @@
         {
             if (value > upperLimit)
             {
-                var notMoreThanResult = new ValidationResult(isValid: false, propertyName, location);
+                ValidationResult notMoreThanResult = new ValidationResult(isValid: false, propertyName, location);
                 notMoreThanResult.AddMessage($"{propertyName} cannot take values above {upperLimit}.");
                 return notMoreThanResult;
             }
@@ -42,7 +42,7 @@
         {
             if (!value.Equals(expected))
             {
-                var notEqualTo = new ValidationResult(isValid: false, propertyName, location);
+                ValidationResult notEqualTo = new ValidationResult(isValid: false, propertyName, location);
                 notEqualTo.AddMessage($"{propertyName} was expected to be equal to {expected}.");
                 return notEqualTo;
             }
@@ -54,7 +54,7 @@
         {
             if (string.IsNullOrEmpty(value))
             {
-                var result = new ValidationResult(isValid: false, propertyName, location);
+                ValidationResult result = new ValidationResult(isValid: false, propertyName, location);
                 result.AddMessage($"{propertyName} cannot be empty or null.");
                 return result;
             }

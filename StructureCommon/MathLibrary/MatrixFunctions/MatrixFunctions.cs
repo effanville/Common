@@ -4,7 +4,7 @@
     {
         public static double[,] Identity(int n)
         {
-            var Id = new double[n, n];
+            double[,] Id = new double[n, n];
             for (int index = 0; index < n; index++)
             {
                 Id[index, index] = 1.0;
@@ -100,7 +100,7 @@
 
         public static double[,] Inverse(this double[,] matrix)
         {
-            var decomp = new LUDecomposition(matrix);
+            LUDecomposition decomp = new LUDecomposition(matrix);
             return decomp.Inverse();
         }
     }

@@ -17,16 +17,16 @@ namespace StructureCommon.Tests.MathLibrary.Matrices
         [Test]
         public void TransposeCorrect([Values(1, 2, 3, 4, 5, 6, 7)] int expectedMatrixIndex)
         {
-            var matrix = MatrixTestHelper.GetMatrix(expectedMatrixIndex);
+            TestMatrixValues matrix = MatrixTestHelper.GetMatrix(expectedMatrixIndex);
             Assert.AreEqual(matrix.Transpose, matrix.Matrix.Transpose());
         }
 
         [Test]
         public void LUDecompCorrect([Values(1, 2, 3, 4, 5, 6, 7, 8)] int expectedMatrixIndex)
         {
-            var matrix = MatrixTestHelper.GetMatrix(expectedMatrixIndex);
-            var lUDecomposition = new LUDecomposition(matrix.Matrix);
-            var product = lUDecomposition.LowerDecomp.Multiply(lUDecomposition.UpperDecomp);
+            TestMatrixValues matrix = MatrixTestHelper.GetMatrix(expectedMatrixIndex);
+            LUDecomposition lUDecomposition = new LUDecomposition(matrix.Matrix);
+            double[,] product = lUDecomposition.LowerDecomp.Multiply(lUDecomposition.UpperDecomp);
             Assertions.AreEqual(matrix.Matrix, product, 1e-3, "products wrong");
             Assert.AreEqual(lUDecomposition.Invertible, true);
             Assertions.AreEqual(matrix.Upper, lUDecomposition.UpperDecomp, 1e-3, "Upper wrong");
@@ -36,7 +36,7 @@ namespace StructureCommon.Tests.MathLibrary.Matrices
         [Test]
         public void InverseCorrect([Values(1, 2, 3, 4, 5, 6, 7, 8)] int expectedMatrixIndex)
         {
-            var matrix = MatrixTestHelper.GetMatrix(expectedMatrixIndex);
+            TestMatrixValues matrix = MatrixTestHelper.GetMatrix(expectedMatrixIndex);
             Assertions.AreEqual(matrix.Inverse, matrix.Matrix.Inverse(), 1e-6);
         }
 
@@ -61,9 +61,9 @@ namespace StructureCommon.Tests.MathLibrary.Matrices
         [TestCase(7, 7)]
         public void MultiplyOK(int matrixIndex, int matrix2Index)
         {
-            var matrix = MatrixTestHelper.GetMatrix(matrixIndex);
-            var vector = MatrixTestHelper.GetMatrix(matrix2Index);
-            var expected = MatrixTestHelper.GetExpectedMatrixProduct(matrixIndex, matrix2Index);
+            TestMatrixValues matrix = MatrixTestHelper.GetMatrix(matrixIndex);
+            TestMatrixValues vector = MatrixTestHelper.GetMatrix(matrix2Index);
+            double[,] expected = MatrixTestHelper.GetExpectedMatrixProduct(matrixIndex, matrix2Index);
             Assert.AreEqual(expected, matrix.Matrix.Multiply(vector.Matrix));
         }
 
@@ -88,16 +88,16 @@ namespace StructureCommon.Tests.MathLibrary.Matrices
         [TestCase(6, 7)]
         public void VectorMatrixMultiplyOK(int matrixIndex, int vectorIndex)
         {
-            var matrix = MatrixTestHelper.GetMatrix(matrixIndex);
-            var vector = MatrixTestHelper.GetVector(vectorIndex);
-            var expected = MatrixTestHelper.GetExpectedProduct(matrixIndex, vectorIndex);
+            TestMatrixValues matrix = MatrixTestHelper.GetMatrix(matrixIndex);
+            double[] vector = MatrixTestHelper.GetVector(vectorIndex);
+            double[] expected = MatrixTestHelper.GetExpectedProduct(matrixIndex, vectorIndex);
             Assert.AreEqual(expected, matrix.Matrix.PostMultiplyVector(vector));
         }
 
         [Test]
         public void ComputeXTXOK([Values(1, 2, 3, 4, 5, 6, 7)] int expectedMatrixIndex)
         {
-            var matrix = MatrixTestHelper.GetMatrix(expectedMatrixIndex);
+            TestMatrixValues matrix = MatrixTestHelper.GetMatrix(expectedMatrixIndex);
             Assert.AreEqual(matrix.XTX, matrix.Matrix.XTX());
         }
     }
