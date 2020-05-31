@@ -9,7 +9,7 @@ namespace UICommon.Tests.Converters
     {
         private static readonly CultureInfo UKEnglishCulture = new CultureInfo("en-GB");
 
-        [TestCase("13/2/2019", "13/02/2019 00:00:00")]
+        [TestCase("13/2/2019", "13/02/2019")]
         public void CanConvert(object input, object expected)
         {
             DateTime inputTime = DateTime.Parse(input.ToString());
@@ -17,7 +17,7 @@ namespace UICommon.Tests.Converters
             Assert.AreEqual(expected, converter.Convert(inputTime, null, null, UKEnglishCulture));
         }
 
-        [TestCase("13/2/2019", "2019-02-13 00:00:00")]
+        [TestCase("13/2/2019", "2019-02-13")]
         public void CanConvertBack(object input, object expected)
         {
             DateTime expectedTime = DateTime.Parse(expected.ToString());
@@ -36,8 +36,7 @@ namespace UICommon.Tests.Converters
             Assert.AreEqual(inputTime, convertBack);
         }
 
-        [TestCase("13/2/2019")]
-        [TestCase("13/2/2019")]
+        [TestCase("13/02/2019")]
         public void RountTripConvertBack(object input)
         {
             StringToUKDateConverter converter = new StringToUKDateConverter();
