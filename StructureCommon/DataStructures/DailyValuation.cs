@@ -1,4 +1,5 @@
 ﻿using System;
+using StructureCommon.Extensions;
 
 namespace StructureCommon.DataStructures
 {
@@ -12,7 +13,7 @@ namespace StructureCommon.DataStructures
         /// </summary>
         public override string ToString()
         {
-            return string.Concat(Day.Day.ToString().PadLeft(2, '0'), "/", Day.Month.ToString().PadLeft(2, '0'), "/", Day.Year, ", ", Value.ToString());
+            return Day.ToUkDateStringPadded() + ", " + Value.ToString();
         }
 
         /// <summary>
@@ -58,6 +59,9 @@ namespace StructureCommon.DataStructures
             Value = value;
         }
 
+        /// <summary>
+        /// The date stored in this valuation.
+        /// </summary>
         protected DateTime fDate;
 
         /// <summary>
@@ -75,6 +79,9 @@ namespace StructureCommon.DataStructures
             }
         }
 
+        /// <summary>
+        /// The value stored in this valuation.
+        /// </summary>
         protected double fValue;
 
         /// <summary>
@@ -108,6 +115,9 @@ namespace StructureCommon.DataStructures
             Value = idealValue;
         }
 
+        /// <summary>
+        /// Creates a new <see cref="DailyValuation"/> from the given one.
+        /// </summary>
         public DailyValuation(DailyValuation dailyValue)
             : this(dailyValue.Day, dailyValue.Value)
         {

@@ -16,7 +16,6 @@ dotnet_diagnostic.IDE0005.severity = warning
 # CS1591: Missing XML comment for publicly visible type or member
 dotnet_diagnostic.CS1591.severity = warning
 
-
 #### Core EditorConfig Options ####
 
 # Indentation and spacing
@@ -108,7 +107,7 @@ csharp_prefer_braces = true:error
 csharp_prefer_simple_using_statement = false:error
 
 # Expression-level preferences
-csharp_prefer_simple_default_expression = true:suggestion
+csharp_prefer_simple_default_expression = false:warning
 csharp_style_deconstructed_variable_declaration = true:suggestion
 csharp_style_inlined_variable_declaration = true:suggestion
 csharp_style_pattern_local_over_anonymous_function = true:suggestion

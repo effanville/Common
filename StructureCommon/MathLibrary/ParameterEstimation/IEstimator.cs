@@ -5,20 +5,33 @@
     /// </summary>
     public interface IEstimator
     {
+        /// <summary>
+        /// The number of parameters fitted.
+        /// </summary>
         int NumberOfParameters
         {
             get;
         }
 
+        /// <summary>
+        /// The number of data points used to fit the data.
+        /// </summary>
         int NumberOfDataPoints
         {
             get;
         }
 
+        /// <summary>
+        /// The fit data used in the constructor to fit the parameters.
+        /// </summary>
         double[,] FitData
         {
             get;
         }
+
+        /// <summary>
+        /// The values data used in the constructor to fit the parameters
+        /// </summary>
         double[] FitValues
         {
             get;

@@ -7,13 +7,21 @@ namespace StructureCommon.Extensions
     /// </summary>
     public static class DateTimeExtensions
     {
-
         /// <summary>
         /// Outputs a date in the UK format (the good format) from a datetime.
         /// </summary>
         public static string ToUkDateString(this DateTime date)
         {
             return date.Day + "/" + date.Month + "/" + date.Year;
+        }
+
+        /// <summary>
+        /// Outputs a date in the UK format (the good format) from a datetime
+        /// where single digit days and months are padded to be 2 digit.
+        /// </summary>
+        public static string ToUkDateStringPadded(this DateTime Day)
+        {
+            return Day.Day.ToString().PadLeft(2, '0') + "/" + Day.Month.ToString().PadLeft(2, '0') + "/" + Day.Year;
         }
 
         /// <summary>

@@ -8,10 +8,10 @@ namespace StructureCommon.Reporting
     /// </summary>
     public class ErrorReports
     {
-        public override string ToString()
-        {
-            return $"These reports contain {Count()} entries: {GetReports(ReportType.Error)} errors,{GetReports(ReportType.Warning)} warnings and {GetReports(ReportType.Report)} reports.";
-        }
+        /// <summary>
+        /// List of all reports held.
+        /// </summary>
+        private readonly List<ErrorReport> fReports;
 
         /// <summary>
         /// Creates an instance with an empty list of reports.
@@ -19,6 +19,12 @@ namespace StructureCommon.Reporting
         public ErrorReports()
         {
             fReports = new List<ErrorReport>();
+        }
+
+        /// <inheritdoc/>
+        public override string ToString()
+        {
+            return $"These reports contain {Count()} entries: {GetReports(ReportType.Error)} errors,{GetReports(ReportType.Warning)} warnings and {GetReports(ReportType.Report)} reports.";
         }
 
         /// <summary>
@@ -38,8 +44,6 @@ namespace StructureCommon.Reporting
             return fReports.Any();
         }
 
-        private readonly List<ErrorReport> fReports;
-
         /// <summary>
         /// Adds the reports from another repository of reports to this one.
         /// </summary>
@@ -54,9 +58,9 @@ namespace StructureCommon.Reporting
         /// </summary>
         public void AddReportFromStrings(string severity, string type, string location, string message)
         {
-            ReportSeverity.TryParse(severity, out ReportSeverity reportSeverity);
-            ReportType.TryParse(type, out ReportType typeOfReport);
-            ReportLocation.TryParse(location, out ReportLocation locationType);
+            _ = ReportSeverity.TryParse(severity, out ReportSeverity reportSeverity);
+            _ = ReportType.TryParse(type, out ReportType typeOfReport);
+            _ = ReportLocation.TryParse(location, out ReportLocation locationType);
 
             AddErrorReport(reportSeverity, typeOfReport, locationType, message);
         }

@@ -9,6 +9,10 @@ namespace StructureCommon.DataStructures
     /// </summary>
     public partial class TimeList
     {
+        /// <summary>
+        /// Provides a new <see cref="TimeList"/> with multiplicative inverses as values,
+        /// and where the value 0 is mapped to <see cref="double.PositiveInfinity"/>.
+        /// </summary>
         public TimeList Inverted()
         {
             List<DailyValuation> invertedValues = new List<DailyValuation>();
@@ -16,7 +20,14 @@ namespace StructureCommon.DataStructures
             {
                 foreach (DailyValuation value in fValues)
                 {
-                    invertedValues.Add(new DailyValuation(value.Day, 1 / value.Value));
+                    if (!value.Value.Equals(0))
+                    {
+                        invertedValues.Add(new DailyValuation(value.Day, 1 / value.Value));
+                    }
+                    else
+                    {
+                        invertedValues.Add(new DailyValuation(value.Day, double.PositiveInfinity));
+                    }
                 }
             }
 

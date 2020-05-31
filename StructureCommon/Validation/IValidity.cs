@@ -2,6 +2,9 @@
 
 namespace StructureCommon.Validation
 {
+    /// <summary>
+    /// An interface for validation routines for a class.
+    /// </summary>
     public interface IValidity
     {
         /// <summary>

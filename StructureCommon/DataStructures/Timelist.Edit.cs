@@ -90,6 +90,13 @@ namespace StructureCommon.DataStructures
             return false;
         }
 
+        /// <summary>
+        /// Edits data in the TimeList on the date provided if it can.
+        /// </summary>
+        /// <param name="oldDate">The date to edit data on.</param>
+        /// <param name="newDate">The date to set the value to be stored on.</param>
+        /// <param name="value">The value to set for this date.</param>
+        /// <param name="reportLogger">Reports the logging of this action.</param>
         public bool TryEditData(DateTime oldDate, DateTime newDate, double value, IReportLogger reportLogger = null)
         {
             if (fValues != null && fValues.Any())
