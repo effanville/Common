@@ -5,7 +5,7 @@ namespace StructureCommon.ChangeLogging
     /// <summary>
     /// Class that can store information on whether something in the type T has been edited.
     /// </summary>
-    /// <typeparam name="T">Object that implements <typeparamref name="IChangeLoggable"/></typeparam>
+    /// <typeparam name="T">Object that implements <see cref="IChangeLoggable"/></typeparam>
     public class ChangeLog<T> where T : IChangeLoggable
     {
         /// <summary>

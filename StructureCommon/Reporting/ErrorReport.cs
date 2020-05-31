@@ -7,39 +7,6 @@ namespace StructureCommon.Reporting
     /// </summary>
     public class ErrorReport : IComparable
     {
-        /// <summary>
-        /// Output of error as a string. This does not include the severity of the report.
-        /// </summary>
-        /// <returns></returns>
-        public override string ToString()
-        {
-            return ErrorType.ToString() + " - " + ErrorLocation.ToString() + " - " + Message;
-
-        }
-
-        /// <summary>
-        /// Method of comparison
-        /// </summary>
-        public int CompareTo(object obj)
-        {
-            if (obj is ErrorReport value)
-            {
-                if (value.ErrorType.Equals(ErrorType))
-                {
-                    if (value.ErrorLocation.Equals(ErrorLocation))
-                    {
-                        return Message.CompareTo(value.Message);
-                    }
-
-                    return value.ErrorLocation.CompareTo(ErrorLocation);
-                }
-
-                return ErrorType.CompareTo(value.ErrorType);
-            }
-
-            return 0;
-        }
-
         private ReportSeverity fErrorSeverity;
 
         /// <summary>
@@ -108,23 +75,72 @@ namespace StructureCommon.Reporting
             }
         }
 
+        /// <summary>
+        /// Default constructor with no arguments.
+        /// </summary>
         public ErrorReport()
         {
         }
 
-        public ErrorReport(ReportType type, ReportLocation errorLocation, string msg)
+        /// <summary>
+        /// Constructs an error report with default <see cref="ReportSeverity"/>. 
+        /// </summary>
+        /// <param name="type">The type of the report.</param>
+        /// <param name="errorLocation">The location of the report.</param>
+        /// <param name="message">Any additional information to include.</param>
+        public ErrorReport(ReportType type, ReportLocation errorLocation, string message)
         {
             ErrorType = type;
             ErrorLocation = errorLocation;
-            Message = msg;
+            Message = message;
         }
 
-        public ErrorReport(ReportSeverity severity, ReportType type, ReportLocation errorLocation, string msg)
+        /// <summary>
+        /// Constructs a full report, setting all properties.
+        /// </summary>
+        /// <param name="severity">The seriousness of the report.</param>
+        /// <param name="type">The type of the report.</param>
+        /// <param name="errorLocation">The location of the report.</param>
+        /// <param name="message">Any additional information to include.</param>
+        public ErrorReport(ReportSeverity severity, ReportType type, ReportLocation errorLocation, string message)
         {
             ErrorSeverity = severity;
             ErrorType = type;
             ErrorLocation = errorLocation;
-            Message = msg;
+            Message = message;
+        }
+
+        /// <summary>
+        /// Output of error as a string. This does not include the severity of the report.
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return ErrorType.ToString() + " - " + ErrorLocation.ToString() + " - " + Message;
+
+        }
+
+        /// <summary>
+        /// Method of comparison
+        /// </summary>
+        public int CompareTo(object obj)
+        {
+            if (obj is ErrorReport value)
+            {
+                if (value.ErrorType.Equals(ErrorType))
+                {
+                    if (value.ErrorLocation.Equals(ErrorLocation))
+                    {
+                        return Message.CompareTo(value.Message);
+                    }
+
+                    return value.ErrorLocation.CompareTo(ErrorLocation);
+                }
+
+                return ErrorType.CompareTo(value.ErrorType);
+            }
+
+            return 0;
         }
     }
 }

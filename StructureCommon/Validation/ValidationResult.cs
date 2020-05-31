@@ -2,6 +2,9 @@
 
 namespace StructureCommon.Validation
 {
+    /// <summary>
+    /// A class detailing the validity of a property or field.
+    /// </summary>
     public class ValidationResult
     {
         /// <summary>
@@ -60,6 +63,10 @@ namespace StructureCommon.Validation
         /// </summary>
         public List<string> Messages { get; set; } = new List<string>();
 
+        /// <summary>
+        /// Adds a message to the list of messages.
+        /// </summary>
+        /// <param name="message">The message to add.</param>
         public void AddMessage(string message)
         {
             Messages.Add(message);
@@ -73,6 +80,12 @@ namespace StructureCommon.Validation
             Location = amending + "." + Location;
         }
 
+        /// <summary>
+        /// Constructs an instance.
+        /// </summary>
+        /// <param name="isValid"></param>
+        /// <param name="propertyName"></param>
+        /// <param name="location"></param>
         public ValidationResult(bool isValid = false, string propertyName = null, string location = null)
         {
             IsValid = isValid;

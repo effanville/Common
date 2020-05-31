@@ -19,6 +19,7 @@ namespace StructureCommon.FileAccess
         /// <typeparam name="T">The type of object being written to the file.</typeparam>
         /// <param name="filePath">The file path to write the object instance to.</param>
         /// <param name="objectToWrite">The object instance to write to the file.</param>
+        /// <param name="error">String containing any error that may have occurred.</param>
         /// <param name="append">If false the file will be overwritten if it already exists. If true the contents will be appended to the file.</param>
         public static void WriteToXmlFile<T>(string filePath, T objectToWrite, out string error, bool append = false) where T : new()
         {
@@ -50,6 +51,7 @@ namespace StructureCommon.FileAccess
         /// </summary>
         /// <typeparam name="T">The type of object to read from the file.</typeparam>
         /// <param name="filePath">The file path to read the object instance from.</param>
+        /// <param name="error">Any error message reporting any issues.</param>
         /// <returns>Returns a new instance of the object read from the XML file.</returns>
         public static T ReadFromXmlFile<T>(string filePath, out string error) where T : new()
         {

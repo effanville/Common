@@ -1,7 +1,17 @@
 ﻿namespace StructureCommon.Validation
 {
+    /// <summary>
+    /// Contains standard validation routines.
+    /// </summary>
     public static class Validating
     {
+        /// <summary>
+        /// Provides validation on a value being not negative ( i.e. x \geq 0).
+        /// </summary>
+        /// <param name="value">The value x to validate.</param>
+        /// <param name="propertyName">The metadata name of the property the value represents.</param>
+        /// <param name="location">The location where the validation takes place.</param>
+        /// <returns>A validation result in the case that the value is negative, specifying the property and the location from the location and property.</returns>
         public static ValidationResult NotNegative(double value, string propertyName, string location)
         {
             if (value < 0)
@@ -14,6 +24,14 @@
             return null;
         }
 
+        /// <summary>
+        /// Provides validation on a value being smaller than a value ( i.e. x \geq a).
+        /// </summary>
+        /// <param name="value">The value x to validate.</param>
+        /// <param name="lowerLimit">The lower value a.</param>
+        /// <param name="propertyName">The metadata name of the property the value represents.</param>
+        /// <param name="location">The location where the validation takes place.</param>
+        /// <returns>A validation result in the case that the value is below the lowerLimit, specifying the property and the location from the location and property.</returns>
         public static ValidationResult NotLessThan(double value, double lowerLimit, string propertyName, string location)
         {
             if (value < lowerLimit)
@@ -26,6 +44,14 @@
             return null;
         }
 
+        /// <summary>
+        /// Provides validation on a value being larger than a value ( i.e. x \leq a).
+        /// </summary>
+        /// <param name="value">The value x to validate.</param>
+        /// <param name="upperLimit">The upper value a.</param>
+        /// <param name="propertyName">The metadata name of the property the value represents.</param>
+        /// <param name="location">The location where the validation takes place.</param>
+        /// <returns>A validation result in the case that the value is above the upperLimit, specifying the property and the location from the location and property.</returns>
         public static ValidationResult NotGreaterThan(double value, double upperLimit, string propertyName, string location)
         {
             if (value > upperLimit)
@@ -38,6 +64,14 @@
             return null;
         }
 
+        /// <summary>
+        /// Provides validation on a value not being equal to another ( i.e. x \neq a).
+        /// </summary>
+        /// <param name="value">The value x to validate.</param>
+        /// <param name="expected">The expected value to equal a.</param>
+        /// <param name="propertyName">The metadata name of the property the value represents.</param>
+        /// <param name="location">The location where the validation takes place.</param>
+        /// <returns>A validation result in the case that the value is not equal to the expected, specifying the property and the location from the location and property.</returns>
         public static ValidationResult NotEqualTo(double value, double expected, string propertyName, string location)
         {
             if (!value.Equals(expected))
@@ -50,6 +84,13 @@
             return null;
         }
 
+        /// <summary>
+        /// Provides validation on a value being not null or empty.
+        /// </summary>
+        /// <param name="value">The value to validate.</param>
+        /// <param name="propertyName">The metadata name of the property the value represents.</param>
+        /// <param name="location">The location where the validation takes place.</param>
+        /// <returns>A validation result in the case that the value is null or empty, specifying the property and the location from the location and property.</returns>
         public static ValidationResult IsNotNullOrEmpty(string value, string propertyName, string location)
         {
             if (string.IsNullOrEmpty(value))

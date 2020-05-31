@@ -1,5 +1,8 @@
 ﻿namespace StructureCommon.MathLibrary.Matrices
 {
+    /// <summary>
+    /// Contains the lower-upper decomposition of a given matrix. 
+    /// </summary>
     public class LUDecomposition
     {
         private int Size;
@@ -11,17 +14,23 @@
         public bool Invertible = true;
         public bool Square = true;
 
+        /// <summary>
+        /// Constructor given a matrix. This calculates the lower-upper decomposition.
+        /// </summary>
         public LUDecomposition(double[,] matrix)
         {
             GenerateLUDecomp(matrix);
         }
 
-        // here solving the equation Ax = b.
-        // solve first Ly = b,
-        // then solve Ux = y
-        // x is then the output.
+        /// <summary>
+        /// Routine to solve the exquations Ax = b, where <paramref name="b"/> is provided here
+        /// and A is the original matrix used in the constructor.
+        /// </summary>
         public double[] LinearSolve(double[] b)
         {
+            // This proceeds by first solving the equation Ly = b,
+            // then solve Ux = y
+            // x is then the output.
             double[] y = new double[Size];
             double[] x = new double[Size];
             int vectorRowIndex, firstNonZeroIndex = 0, pivotIndex, matrixColumnIndex;
@@ -59,6 +68,9 @@
             return x;
         }
 
+        /// <summary>
+        /// Calculates the inverse of the matrix in the constructor.
+        /// </summary>
         public double[,] Inverse()
         {
             double[,] inverse = new double[Size, Size];
@@ -81,6 +93,10 @@
             return inverse;
         }
 
+        /// <summary>
+        /// Routine that generates the LU decomposition. 
+        /// Can only be called in the constructor.
+        /// </summary>
         private void GenerateLUDecomp(double[,] matrix)
         {
             if (!matrix.GetLength(0).Equals(matrix.GetLength(1)))

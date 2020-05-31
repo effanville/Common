@@ -10,17 +10,20 @@ namespace StructureCommon.MathLibrary.ParameterEstimation
     /// </summary>
     public class LinearRegression : IEstimator
     {
+        /// <inheritdoc/>
         public double[] Estimator
         {
             get;
             private set;
         }
 
+        /// <inheritdoc/>
         public double[,] Uncertainty
         {
             get; private set;
         }
 
+        /// <inheritdoc/>
         public double GoodnessOfFit
         {
             get; private set;
@@ -31,6 +34,7 @@ namespace StructureCommon.MathLibrary.ParameterEstimation
             get; private set;
         }
 
+        /// <inheritdoc/>
         public int NumberOfParameters
         {
             get
@@ -39,6 +43,7 @@ namespace StructureCommon.MathLibrary.ParameterEstimation
             }
         }
 
+        /// <inheritdoc/>
         public int NumberOfDataPoints
         {
             get
@@ -47,11 +52,13 @@ namespace StructureCommon.MathLibrary.ParameterEstimation
             }
         }
 
+        /// <inheritdoc/>
         public double[,] FitData
         {
             get; private set;
         }
 
+        /// <inheritdoc/>
         public double[] FitValues
         {
             get; private set;
@@ -75,6 +82,7 @@ namespace StructureCommon.MathLibrary.ParameterEstimation
             GenerateEstimator(data, values);
         }
 
+        /// <inheritdoc/>
         public double Evaluate(double[] point)
         {
             if (point.Length != 1)
@@ -84,6 +92,7 @@ namespace StructureCommon.MathLibrary.ParameterEstimation
             return Estimator[0] + point[0] * Estimator[1];
         }
 
+        /// <inheritdoc/>
         public void GenerateEstimator(double[,] data, double[] values)
         {
             FitData = data;

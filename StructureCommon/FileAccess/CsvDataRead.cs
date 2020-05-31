@@ -5,7 +5,6 @@ using StructureCommon.Reporting;
 
 namespace StructureCommon.FileAccess
 {
-
     /// <summary>
     /// Contains routines to extract data from csv files.
     /// </summary>
@@ -14,6 +13,7 @@ namespace StructureCommon.FileAccess
         /// <summary>
         /// Reads data from a csv file.
         /// </summary>
+        /// <param name="dataGainer">The object to read data out of.</param>
         /// <param name="filePath">The path of file to read from.</param>
         /// <param name="reportLogger">Reporting Callback.</param>
         public static List<object> ReadFromCsv<T>(T dataGainer, string filePath, IReportLogger reportLogger = null) where T : ICSVAccess
@@ -50,6 +50,7 @@ namespace StructureCommon.FileAccess
         /// <summary>
         /// Exports data to a file in csv format.
         /// </summary>
+        /// <param name="dataTypeToWrite">The object to read data out of.</param>
         /// <param name="filePath">The path of file to read from.</param>
         /// <param name="reportLogger">Reporting Callback.</param>
         public static void WriteToCSVFile<T>(T dataTypeToWrite, string filePath, IReportLogger reportLogger = null) where T : ICSVAccess
