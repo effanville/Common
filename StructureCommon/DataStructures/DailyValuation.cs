@@ -95,7 +95,7 @@ namespace StructureCommon.DataStructures
         /// <summary>
         /// empty constructor.
         /// </summary>
-        protected DailyValuation()
+        public DailyValuation()
         {
         }
 
