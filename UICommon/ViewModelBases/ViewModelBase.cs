@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace UICommon.ViewModelBases
+﻿namespace UICommon.ViewModelBases
 {
     /// <summary>
     /// Base for ViewModels containing display purpose objects.
@@ -25,37 +23,20 @@ namespace UICommon.ViewModelBases
         }
 
         /// <summary>
-        /// Whether this element should be able to be closed.
+        /// Constructor only setting the header value.
         /// </summary>
-        public virtual bool Closable
-        {
-            get
-            {
-                return false;
-            }
-        }
-
-        public virtual Action<object> LoadSelectedTab
-        {
-            get;
-            set;
-        }
-
         public ViewModelBase(string header)
         {
             Header = header;
         }
 
-        public ViewModelBase(string header, Action<object> loadTab)
+        /// <summary>
+        /// Constructor setting the header and database values.
+        /// </summary>
+        public ViewModelBase(string header, T database)
         {
             Header = header;
-            LoadSelectedTab = loadTab;
-        }
-
-        public virtual void UpdateData(T dataToDisplay, Action<object> removeTab)
-        {
-            DataStore = null;
-            DataStore = dataToDisplay;
+            DataStore = database;
         }
 
         /// <summary>

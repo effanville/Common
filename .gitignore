@@ -4,3 +4,12 @@ StructureCommon/bin
 StructureCommon/obj
 UICommon/obj
 UICommon/bin
+StructureCommon.Tests/obj
+UICommon.Tests/obj
+nuget
+UICommon/Properties/PublishProfiles/publishnetcoreapp3.1.pubxml.user
+UICommon/Properties/PublishProfiles/publishnet48.pubxml.user
+StructureCommon/StructureCommon.csproj.user
+UICommon/UICommon.csproj.user
+StructureCommon/Properties/PublishProfiles/net48Profile.pubxml.user
+StructureCommon/Properties/PublishProfiles/netcoreapp3.1.pubxml.user

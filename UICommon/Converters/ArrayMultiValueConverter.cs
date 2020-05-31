@@ -8,7 +8,7 @@ namespace UICommon.Converters
     /// <summary>
     /// Converter to convert an array of objects into a single object (and not back again)
     /// </summary>
-    public class ArrayMultiValueConverter : MarkupExtension, IMultiValueConverter
+    public sealed class ArrayMultiValueConverter : MarkupExtension, IMultiValueConverter
     {
         private static ArrayMultiValueConverter sConverter;
 

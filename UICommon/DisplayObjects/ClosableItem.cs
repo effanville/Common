@@ -4,7 +4,7 @@ using System.Windows.Input;
 
 namespace UICommon.DisplayObjects
 {
-    class ClosableTab : TabItem
+    internal class ClosableTab : TabItem
     {
         /// <summary>
         /// Property - Set the Title of the Tab
@@ -21,7 +21,7 @@ namespace UICommon.DisplayObjects
         public ClosableTab()
         {
             // Create an instance of the usercontrol
-            var closableTabHeader = new ClosableHeader();
+            ClosableHeader closableTabHeader = new ClosableHeader();
             // Assign the usercontrol to the tab header
             Header = closableTabHeader;
             // Attach to the CloseableHeader events
@@ -62,13 +62,14 @@ namespace UICommon.DisplayObjects
 
         // Button Close Click - Remove the Tab - (or raise
         // an event indicating a "CloseTab" event has occurred)
-        void button_close_Click(object sender, RoutedEventArgs e)
+        private void button_close_Click(object sender, RoutedEventArgs e)
         {
             ((TabControl)Parent).Items.Remove(this);
         }
+
         // Label SizeChanged - When the Size of the Label changes
         // (due to setting the Title) set position of button properly
-        void label_TabTitle_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void label_TabTitle_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             ((ClosableHeader)Header).button_close.Margin = new Thickness(
                ((ClosableHeader)Header).label_TabTitle.ActualWidth + 5, 3, 4, 0);

@@ -3,14 +3,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StructureCommon", "StructureCommon\StructureCommon.csproj", "{3C7B2621-4A28-40AE-807F-52F1B6965660}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StructureCommon", "StructureCommon\StructureCommon.csproj", "{3C7B2621-4A28-40AE-807F-52F1B6965660}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UICommon", "UICommon\UICommon.csproj", "{EC58508D-FE02-48B7-A7C6-8F29E060E996}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UICommon", "UICommon\UICommon.csproj", "{EC58508D-FE02-48B7-A7C6-8F29E060E996}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2A5FEEA6-F6DE-45DC-9800-3CFE3E36D3A2}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StructureCommon.Tests", "StructureCommon.Tests\StructureCommon.Tests.csproj", "{3F789DFF-0A8D-4163-9C5A-E5C748D64AF9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UICommon.Tests", "UICommon.Tests\UICommon.Tests.csproj", "{68892F98-75CB-4768-B888-5B85402B9E12}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,6 +30,14 @@ Global
 		{EC58508D-FE02-48B7-A7C6-8F29E060E996}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC58508D-FE02-48B7-A7C6-8F29E060E996}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC58508D-FE02-48B7-A7C6-8F29E060E996}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F789DFF-0A8D-4163-9C5A-E5C748D64AF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F789DFF-0A8D-4163-9C5A-E5C748D64AF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F789DFF-0A8D-4163-9C5A-E5C748D64AF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F789DFF-0A8D-4163-9C5A-E5C748D64AF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68892F98-75CB-4768-B888-5B85402B9E12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68892F98-75CB-4768-B888-5B85402B9E12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68892F98-75CB-4768-B888-5B85402B9E12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68892F98-75CB-4768-B888-5B85402B9E12}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

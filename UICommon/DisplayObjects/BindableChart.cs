@@ -12,6 +12,7 @@ namespace UICommon.DisplayObjects
             {
                 return (IEnumerable)GetValue(SeriesSourceProperty);
             }
+
             set
             {
                 SetValue(SeriesSourceProperty, value);

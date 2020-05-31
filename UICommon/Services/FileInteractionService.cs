@@ -1,5 +1,5 @@
-﻿using Microsoft.Win32;
-using System.Windows;
+﻿using System.Windows;
+using Microsoft.Win32;
 
 namespace UICommon.Services
 {
@@ -24,6 +24,7 @@ namespace UICommon.Services
         /// <summary>
         /// Interaction with a saving dialog.
         /// </summary>
+        /// <inheritdoc/>
         public FileInteractionResult SaveFile(string defaultExt, string fileName, string initialDirectory = null, string filter = null)
         {
             SaveFileDialog saving = new SaveFileDialog() { DefaultExt = defaultExt, FileName = fileName };
@@ -49,6 +50,7 @@ namespace UICommon.Services
         /// <summary>
         /// Interaction with an opening file dialog.
         /// </summary>
+        /// <inheritdoc/>
         public FileInteractionResult OpenFile(string defaultExt, string initialDirectory = null, string filter = null)
         {
             OpenFileDialog openFile = new OpenFileDialog() { DefaultExt = defaultExt };

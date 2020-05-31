@@ -7,7 +7,7 @@ namespace UICommon.Converters
     /// <summary>
     /// Converts a boolean to the strings "Yes" and "No" and back again.
     /// </summary>
-    public class BoolToYesNoConverter : MarkupExtension, IValueConverter
+    public sealed class BoolToYesNoConverter : MarkupExtension, IValueConverter
     {
         private static BoolToYesNoConverter sConverter;
 
@@ -21,16 +21,27 @@ namespace UICommon.Converters
             return sConverter;
         }
 
+        /// <summary>
+        /// Converts from boolean object into yes/no string object.
+        /// </summary>
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if ((bool)value)
+            if (value is bool booleanValue)
             {
-                return "Yes";
+                if (booleanValue)
+                {
+                    return "Yes";
+                }
+
+                return "No";
             }
 
-            return "No";
+            return null;
         }
 
+        /// <summary>
+        /// Converts back from yes/no string object into boolean object.
+        /// </summary>
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             if (value is string name)
