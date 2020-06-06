@@ -124,6 +124,35 @@
         }
 
         /// <summary>
+        /// Calculates X^TX + lI in a manner requiring one iteration through all matrix 
+        /// values.
+        /// </summary>
+        /// <param name="matrix">The matrix X</param>
+        /// <param name="lambda">The value to add to the diagonal.</param>
+        /// <returns></returns>
+        public static double[,] XTXPlusI(this double[,] matrix, double lambda)
+        {
+            double[,] output = new double[matrix.GetLength(0), matrix.GetLength(0)];
+            for (int i = 0; i < output.GetLength(0); i++)
+            {
+                for (int j = 0; j < output.GetLength(0); j++)
+                {
+                    for (int k = 0; k < matrix.GetLength(0); k++)
+                    {
+                        output[i, j] += matrix[k, i] * matrix[k, j];
+                    }
+                    // now add identity element to diagonal
+                    if (i.Equals(j))
+                    {
+                        output[i, j] += lambda;
+                    }
+                }
+            }
+
+            return output;
+        }
+
+        /// <summary>
         /// Returns the inverse of the matrix.
         /// </summary>
         /// <param name="matrix">The matrix to calculate the inverse of.</param>

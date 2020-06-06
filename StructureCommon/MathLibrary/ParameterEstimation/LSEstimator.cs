@@ -46,13 +46,15 @@ namespace StructureCommon.MathLibrary.ParameterEstimation
         /// <inheritdoc/>
         public double[,] FitData
         {
-            get; private set;
+            get;
+            private set;
         }
 
         /// <inheritdoc/>
         public double[] FitValues
         {
-            get; private set;
+            get;
+            private set;
         }
 
         /// <summary>
