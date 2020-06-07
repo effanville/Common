@@ -132,10 +132,10 @@
         /// <returns></returns>
         public static double[,] XTXPlusI(this double[,] matrix, double lambda)
         {
-            double[,] output = new double[matrix.GetLength(0), matrix.GetLength(0)];
-            for (int i = 0; i < output.GetLength(0); i++)
+            double[,] output = new double[matrix.GetLength(1), matrix.GetLength(1)];
+            for (int i = 0; i < matrix.GetLength(1); i++)
             {
-                for (int j = 0; j < output.GetLength(0); j++)
+                for (int j = 0; j < matrix.GetLength(1); j++)
                 {
                     for (int k = 0; k < matrix.GetLength(0); k++)
                     {

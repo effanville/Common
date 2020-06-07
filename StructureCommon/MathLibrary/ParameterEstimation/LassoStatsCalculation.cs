@@ -1,26 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace StructureCommon.MathLibrary.ParameterEstimation
+﻿namespace StructureCommon.MathLibrary.ParameterEstimation
 {
     public static class LassoStatsCalculation
     {
-        public static double MeanSquareError(double[] A, double[] B)
-        {
-            if (A.Length != B.Length)
-            {
-                return -1;
-            }
-
-            double sum = 0;
-            for (int vectorIndex = 0; vectorIndex < A.Length; vectorIndex++)
-            {
-                sum += Math.Pow(A[vectorIndex] - B[vectorIndex], 2);
-            }
-            return sum;
-        }
-
         public static double VectorMatrixRowMult(double[,] matrix, double[] vector, int rowIndex)
         {
             if (matrix.GetLength(1) != vector.Length)

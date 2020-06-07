@@ -34,6 +34,14 @@ namespace StructureCommon.Tests.MathLibrary.Matrices
         }
 
         [Test]
+        public void XTXPlusICorrect([Values(1, 2, 3, 4, 5, 6, 7)] int expectedMatrixIndex)
+        {
+            TestMatrixValues matrix = MatrixTestHelper.GetMatrix(expectedMatrixIndex);
+            var actual = matrix.Matrix.XTXPlusI(1);
+            Assertions.AreEqual(matrix.XTXPlusI, actual, 1e-3, "products wrong");
+        }
+
+        [Test]
         public void InverseCorrect([Values(1, 2, 3, 4, 5, 6, 7, 8)] int expectedMatrixIndex)
         {
             TestMatrixValues matrix = MatrixTestHelper.GetMatrix(expectedMatrixIndex);
