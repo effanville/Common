@@ -5,6 +5,7 @@
         public double[,] Matrix;
         public double[,] Transpose;
         public double[,] XTX;
+        public double[,] XTXPlusI;
         public double[,] Lower;
         public double[,] Upper;
         public double[] Pivot;
@@ -232,6 +233,7 @@
                         Matrix = new double[,] { { 1 } },
                         Transpose = new double[,] { { 1 } },
                         XTX = new double[,] { { 1 } },
+                        XTXPlusI = new double[,] { { 2 } },
                         Lower = new double[,] { { 1 } },
                         Upper = new double[,] { { 1 } },
                         Inverse = new double[,] { { 1 } }
@@ -244,6 +246,7 @@
                         Matrix = new double[,] { { 1, 0 }, { 0, 1 } },
                         Transpose = new double[,] { { 1, 0 }, { 0, 1 } },
                         XTX = new double[,] { { 1, 0 }, { 0, 1 } },
+                        XTXPlusI = new double[,] { { 2, 0 }, { 0, 2 } },
                         Lower = new double[,] { { 1, 0 }, { 0, 1 } },
                         Upper = new double[,] { { 1, 0 }, { 0, 1 } },
                         Inverse = new double[,] { { 1, 0 }, { 0, 1 } }
@@ -256,6 +259,7 @@
                         Matrix = new double[,] { { 1, 0, 0 }, { 0, 1, 0 }, { 0, 0, 1 } },
                         Transpose = new double[,] { { 1, 0, 0 }, { 0, 1, 0 }, { 0, 0, 1 } },
                         XTX = new double[,] { { 1, 0, 0 }, { 0, 1, 0 }, { 0, 0, 1 } },
+                        XTXPlusI = new double[,] { { 2, 0, 0 }, { 0, 2, 0 }, { 0, 0, 2 } },
                         Lower = new double[,] { { 1, 0, 0 }, { 0, 1, 0 }, { 0, 0, 1 } },
                         Upper = new double[,] { { 1, 0, 0 }, { 0, 1, 0 }, { 0, 0, 1 } },
                         Inverse = new double[,] { { 1, 0, 0 }, { 0, 1, 0 }, { 0, 0, 1 } }
@@ -268,6 +272,7 @@
                         Matrix = new double[,] { { 1, 0, 1 }, { 0, 1, 0 }, { 0, 0, 1 } },
                         Transpose = new double[,] { { 1, 0, 0 }, { 0, 1, 0 }, { 1, 0, 1 } },
                         XTX = new double[,] { { 1, 0, 1 }, { 0, 1, 0 }, { 1, 0, 2 } },
+                        XTXPlusI = new double[,] { { 2, 0, 1 }, { 0, 2, 0 }, { 1, 0, 3 } },
                         Lower = new double[,] { { 1, 0, 0 }, { 0, 1, 0 }, { 0, 0, 1 } },
                         Upper = new double[,] { { 1, 0, 1 }, { 0, 1, 0 }, { 0, 0, 1 } },
                         Inverse = new double[,] { { 1, 0, -1 }, { 0, 1, 0 }, { 0, 0, 1 } }
@@ -280,6 +285,7 @@
                         Matrix = new double[,] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 7, 9 } },
                         Transpose = new double[,] { { 1, 4, 7 }, { 2, 5, 7 }, { 3, 6, 9 } },
                         XTX = new double[,] { { 66, 71, 90 }, { 71, 78, 99 }, { 90, 99, 126 } },
+                        XTXPlusI = new double[,] { { 67, 71, 90 }, { 71, 79, 99 }, { 90, 99, 127 } },
                         Lower = new double[,] { { 1, 0, 0 }, { 4, 1, 0 }, { 7, 2.333333333333333333333333333, 1 } },
                         Upper = new double[,] { { 1, 2, 3 }, { 0, -3, -6 }, { 0, 0, 2 } },
                         Inverse = new double[,] { { -0.49999999999999956, -0.5, 0.5 }, { -1.0000000000000007, 2, -1 }, { 1.166666666666667, -1.1666666666666666666666, 0.5 } }
@@ -292,6 +298,7 @@
                         Matrix = new double[,] { { 7, 4.3, 3 }, { 9, 2.2, -7.2 }, { 4, 88, -2.3 } },
                         Transpose = new double[,] { { 7, 9, 4 }, { 4.3, 2.2, 88 }, { 3, -7.2, -2.3 } },
                         XTX = new double[,] { { 146, 401.9, -53 }, { 401.9, 7767.33, -205.33999999999997 }, { -53, -205.33999999999997, 66.13 } },
+                        XTXPlusI = new double[,] { { 147, 401.9, -53 }, { 401.9, 7768.33, -205.33999999999997 }, { -53, -205.33999999999997, 67.13 } },
                         Lower = new double[,] { { 1, 0, 0 }, { 1.2857142857142858, 1, 0 }, { 0.5714285714285714, -25.699570815450645, 1 } },
                         Upper = new double[,] { { 7, 4.3, 3 }, { 0, -3.3285714285714283, -11.057142857142857 }, { 0, 0, -288.17811158798287 } },
                         Pivot = new double[] { 2, 3, 1 },
@@ -323,6 +330,13 @@
                                                      { 0, 0, 0, 0, 1, 0, 0 },
                                                      { 0, 0, 0, 0, 0, 1, 0 },
                                                      { 0, 0, 0, 0, 0, 0, 1 } },
+                        XTXPlusI = new double[,] { { 2, 0, 0, 0, 0, 0, 0 },
+                                                     { 0, 2, 0, 0, 0, 0, 0 },
+                                                     { 0, 0, 2, 0, 0, 0, 0 },
+                                                     { 0, 0, 0, 2, 0, 0, 0 },
+                                                     { 0, 0, 0, 0, 2, 0, 0 },
+                                                     { 0, 0, 0, 0, 0, 2, 0 },
+                                                     { 0, 0, 0, 0, 0, 0, 2 } },
                         Lower = new double[,] { { 1, 0, 0, 0, 0, 0, 0 },
                                                      { 0, 1, 0, 0, 0, 0, 0 },
                                                      { 0, 0, 1, 0, 0, 0, 0 },

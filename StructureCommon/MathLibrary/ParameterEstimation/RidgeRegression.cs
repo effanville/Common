@@ -6,7 +6,11 @@ using StructureCommon.MathLibrary.Matrices;
 namespace StructureCommon.MathLibrary.ParameterEstimation
 {
     /// <summary>
-    /// Estimator class for the Lasso weights.
+    /// Estimator class for the Ridge regression weights.
+    /// This calculates a solution of
+    /// (X + lambda I)^(-1)X^Ty
+    /// where X = <see cref="FitData"/> and y = <see cref="FitValues"/> and lambda is some parameter
+    /// either to be determined by the algorithm or pre specified.
     /// </summary>
     public sealed class RidgeRegression : IEstimator
     {
@@ -141,16 +145,14 @@ namespace StructureCommon.MathLibrary.ParameterEstimation
         /// <param name="values">The values vector for each entry in data matrix.</param>
         /// <param name="lambda"></param>
         /// <returns></returns>
-        double[] CalculateRidgeWeights(double[,] data, double[] values, double lambda)
+        private double[] CalculateRidgeWeights(double[,] data, double[] values, double lambda)
         {
-            double[,] datamod = data.XTXPlusI(Math.Pow(lambda, 2));
-
-
             // compute M = (data^T data+ lambda^2 I)^-1
-            var decomp = new LUDecomposition(datamod);
-            double[,] inverse = decomp.Inverse();
-
-            return inverse.Multiply(data.Transpose()).PostMultiplyVector(values);
+            double[,] datamod = data.XTXPlusI(Math.Pow(lambda, 2));
+            double[,] inverse = datamod.Inverse();
+            double[] transpose = data.Transpose().PostMultiplyVector(values);
+            double[] matrix = inverse.PostMultiplyVector(transpose);
+            return matrix;
         }
 
         /// <summary>
@@ -163,10 +165,10 @@ namespace StructureCommon.MathLibrary.ParameterEstimation
         /// <param name="increment">Increment value to use in the range.</param>
         /// <param name="numberPartitions">The number of partitions to use in the estimation.</param>
         /// <returns></returns>
-        double CalculateBestLambda(double[,] data, double[] values, double lowerBound = 0.01, double upperBound = 0.11, double increment = 0.01, int numberPartitions = 5)
+        private double CalculateBestLambda(double[,] data, double[] values, double lowerBound = 0.01, double upperBound = 0.11, double increment = 0.01, int numberPartitions = 5)
         {
             Dictionary<double, double> errorValues = new Dictionary<double, double>();
-            int tot = data.GetLength(1) / numberPartitions;
+            int tot = data.GetLength(0) / numberPartitions;
             int[,] PartitionIndices = new int[5, tot];
             for (int i = 0; i < numberPartitions; i++)
             {
@@ -179,7 +181,7 @@ namespace StructureCommon.MathLibrary.ParameterEstimation
             while (lambdaValue <= upperBound)
             {
                 double error = 0;
-                for (int partitionIndex = 0; partitionIndex < PartitionIndices.GetLength(1); partitionIndex++)
+                for (int partitionIndex = 0; partitionIndex < PartitionIndices.GetLength(0); partitionIndex++)
                 {
                     error += ErrorFromExpected(lambdaValue, PartitionIndices, partitionIndex, data, values);
                 }
@@ -187,10 +189,18 @@ namespace StructureCommon.MathLibrary.ParameterEstimation
                 lambdaValue += increment;
             }
 
-            return errorValues.Max().Key;
+            KeyValuePair<double, double> smallestError = errorValues.First();
+            foreach (KeyValuePair<double, double> errorValue in errorValues)
+            {
+                if (errorValue.Value < smallestError.Value)
+                {
+                    smallestError = errorValue;
+                }
+            }
+            return smallestError.Key;
         }
 
-        double ErrorFromExpected(double lambda, int[,] partitionIndices, int partitionIndex, double[,] data, double[] values)
+        private double ErrorFromExpected(double lambda, int[,] partitionIndices, int partitionIndex, double[,] data, double[] values)
         {
             double[,] dataSubset = new double[partitionIndices.GetLength(1), data.GetLength(1)];
             double[] valuesSubset = new double[partitionIndices.GetLength(1)];
@@ -206,14 +216,12 @@ namespace StructureCommon.MathLibrary.ParameterEstimation
 
             double[] weightsThisTime = CalculateRidgeWeights(dataSubset, valuesSubset, lambda);
             double[] actualValues = new double[partitionIndices.GetLength(1)];
-            double[] expectedValues = new double[partitionIndices.GetLength(1)];
             for (int i = 0; i < partitionIndices.GetLength(1); i++)
             {
-                expectedValues[i] = values[partitionIndices[partitionIndex, i]];
                 actualValues[i] = LassoStatsCalculation.VectorMatrixRowMult(data, weightsThisTime, partitionIndices[partitionIndex, i]);
             }
 
-            return LassoStatsCalculation.MeanSquareError(actualValues, expectedValues);
+            return Residuals.MeanSquareError(actualValues, valuesSubset);
         }
     }
 }
