@@ -7,21 +7,25 @@ namespace StructureCommon.MathLibrary.ParameterEstimation
     /// </summary>
     public class LSEstimator : IEstimator
     {
+        /// <inheritdoc/>
         public double[] Estimator
         {
             get; private set;
         }
 
+        /// <inheritdoc/>
         public double[,] Uncertainty
         {
             get; private set;
         }
 
+        /// <inheritdoc/>
         public double GoodnessOfFit
         {
             get; private set;
         }
 
+        /// <inheritdoc/>
         public int NumberOfParameters
         {
             get
@@ -30,6 +34,7 @@ namespace StructureCommon.MathLibrary.ParameterEstimation
             }
         }
 
+        /// <inheritdoc/>
         public int NumberOfDataPoints
         {
             get
@@ -38,21 +43,31 @@ namespace StructureCommon.MathLibrary.ParameterEstimation
             }
         }
 
+        /// <inheritdoc/>
         public double[,] FitData
         {
-            get; private set;
+            get;
+            private set;
         }
 
+        /// <inheritdoc/>
         public double[] FitValues
         {
-            get; private set;
+            get;
+            private set;
         }
 
+        /// <summary>
+        /// Default constructor. This calculates the estimator.
+        /// </summary>
+        /// <param name="data">The data matrix used in the estimation.</param>
+        /// <param name="values">The values matrix used in the estimation.</param>
         public LSEstimator(double[,] data, double[] values)
         {
             GenerateEstimator(data, values);
         }
 
+        /// <inheritdoc/>
         public double Evaluate(double[] point)
         {
             if (Estimator.Length != point.Length)
@@ -68,6 +83,7 @@ namespace StructureCommon.MathLibrary.ParameterEstimation
             return value;
         }
 
+        /// <inheritdoc/>
         public void GenerateEstimator(double[,] data, double[] values)
         {
             FitData = data;

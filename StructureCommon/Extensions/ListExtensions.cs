@@ -3,6 +3,9 @@ using StructureCommon.Validation;
 
 namespace StructureCommon.Extensions
 {
+    /// <summary>
+    /// Contains extensions for lists.
+    /// </summary>
     public static class ListExtensions
     {
         /// <summary>

@@ -1,7 +1,13 @@
 ﻿namespace StructureCommon.MathLibrary.Matrices
 {
+    /// <summary>
+    /// Implementations of matrix manipulations.
+    /// </summary>
     public static class MatrixFunctions
     {
+        /// <summary>
+        /// Returns the Identity matrix of size <paramref name="n"/>.
+        /// </summary>
         public static double[,] Identity(int n)
         {
             double[,] Id = new double[n, n];
@@ -12,6 +18,9 @@
             return Id;
         }
 
+        /// <summary>
+        /// Returns the transpose of the provided matrix.
+        /// </summary>
         public static double[,] Transpose(this double[,] matrix)
         {
             if (matrix.GetLength(1).Equals(0) || matrix.GetLength(0).Equals(0))
@@ -30,6 +39,11 @@
             return transpose;
         }
 
+        /// <summary>
+        /// Multiplies the matrices together, in the order AB.
+        /// </summary>
+        /// <param name="firstMatrix">The first matrix A</param>
+        /// <param name="secondMatrix">The second matrix B.</param>
         public static double[,] Multiply(this double[,] firstMatrix, double[,] secondMatrix)
         {
             if (!firstMatrix.GetLength(1).Equals(secondMatrix.GetLength(0)))
@@ -55,9 +69,15 @@
             return multiply;
         }
 
-        public static double[] PostMultiplyVector(this double[,] firstMatrix, double[] secondMatrix)
+        /// <summary>
+        /// Returns the Matrix post multiplied by the vector.
+        /// </summary>
+        /// <param name="firstMatrix"></param>
+        /// <param name="vector"></param>
+        /// <returns></returns>
+        public static double[] PostMultiplyVector(this double[,] firstMatrix, double[] vector)
         {
-            if (!firstMatrix.GetLength(1).Equals(secondMatrix.GetLength(0)))
+            if (!firstMatrix.GetLength(1).Equals(vector.GetLength(0)))
             {
                 return new double[0];
             }
@@ -68,7 +88,7 @@
                 double thisIndexSum = 0.0;
                 for (int innerIndex = 0; innerIndex < firstMatrix.GetLength(1); innerIndex++)
                 {
-                    thisIndexSum += firstMatrix[firstMatrixRowIndex, innerIndex] * secondMatrix[innerIndex];
+                    thisIndexSum += firstMatrix[firstMatrixRowIndex, innerIndex] * vector[innerIndex];
                 }
 
                 multiply[firstMatrixRowIndex] = thisIndexSum;
@@ -77,6 +97,11 @@
             return multiply;
         }
 
+        /// <summary>
+        /// Returns the matrix transpose multiplied by itself, X^TX
+        /// </summary>
+        /// <param name="matrix"></param>
+        /// <returns></returns>
         public static double[,] XTX(this double[,] matrix)
         {
 
@@ -98,6 +123,40 @@
             return multiply;
         }
 
+        /// <summary>
+        /// Calculates X^TX + lI in a manner requiring one iteration through all matrix 
+        /// values.
+        /// </summary>
+        /// <param name="matrix">The matrix X</param>
+        /// <param name="lambda">The value to add to the diagonal.</param>
+        /// <returns></returns>
+        public static double[,] XTXPlusI(this double[,] matrix, double lambda)
+        {
+            double[,] output = new double[matrix.GetLength(1), matrix.GetLength(1)];
+            for (int i = 0; i < matrix.GetLength(1); i++)
+            {
+                for (int j = 0; j < matrix.GetLength(1); j++)
+                {
+                    for (int k = 0; k < matrix.GetLength(0); k++)
+                    {
+                        output[i, j] += matrix[k, i] * matrix[k, j];
+                    }
+                    // now add identity element to diagonal
+                    if (i.Equals(j))
+                    {
+                        output[i, j] += lambda;
+                    }
+                }
+            }
+
+            return output;
+        }
+
+        /// <summary>
+        /// Returns the inverse of the matrix.
+        /// </summary>
+        /// <param name="matrix">The matrix to calculate the inverse of.</param>
+        /// <returns></returns>
         public static double[,] Inverse(this double[,] matrix)
         {
             LUDecomposition decomp = new LUDecomposition(matrix);

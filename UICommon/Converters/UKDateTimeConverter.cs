@@ -8,9 +8,9 @@ namespace UICommon.Converters
     /// <summary>
     /// Converter to convert from a DateTime into the UK representation of that DateTime.
     /// </summary>
-    public sealed class StringToUKDateConverter : MarkupExtension, IValueConverter
+    public sealed class StringToUKDateTimeConverter : MarkupExtension, IValueConverter
     {
-        private static StringToUKDateConverter sConverter;
+        private static StringToUKDateTimeConverter sConverter;
 
         /// <summary>
         /// Called to construct the value provider when required.
@@ -19,7 +19,7 @@ namespace UICommon.Converters
         {
             if (sConverter == null)
             {
-                sConverter = new StringToUKDateConverter();
+                sConverter = new StringToUKDateTimeConverter();
             }
 
             return sConverter;
@@ -35,11 +35,11 @@ namespace UICommon.Converters
                 if (culture.IetfLanguageTag == "en-US")
                 {
                     CultureInfo UKEnglishCulture = new CultureInfo("en-GB");
-                    return date.ToString("d", UKEnglishCulture.DateTimeFormat);
+                    return date.ToString(UKEnglishCulture.DateTimeFormat);
                 }
                 else
                 {
-                    return date.ToString("d", culture.DateTimeFormat);
+                    return date.ToString(culture.DateTimeFormat);
                 }
             }
 
@@ -58,14 +58,14 @@ namespace UICommon.Converters
                     CultureInfo UKEnglishCulture = new CultureInfo("en-GB");
                     if (DateTime.TryParse(stringValue, UKEnglishCulture.DateTimeFormat, DateTimeStyles.None, out DateTime date))
                     {
-                        return date.Date;
+                        return date;
                     }
                 }
                 else
                 {
                     if (DateTime.TryParse(stringValue, culture.DateTimeFormat, DateTimeStyles.None, out DateTime date))
                     {
-                        return date.Date;
+                        return date;
                     }
                 }
             }

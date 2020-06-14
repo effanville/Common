@@ -134,9 +134,10 @@ namespace StructureCommon.NamingStructures
         public override bool Equals(object obj)
         {
             return EqualityMethod(obj);
-
         }
 
+
+        /// <inheritdoc/>
         public override int GetHashCode()
         {
             return PrimaryName == null ? 0 : PrimaryName.GetHashCode() + 10 ^ 12 * (SecondaryName == null ? 0 : SecondaryName.GetHashCode());
