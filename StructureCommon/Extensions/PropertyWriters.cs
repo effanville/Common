@@ -13,9 +13,9 @@
         /// <param name="separator">The string to separate the names.</param>
         public static string PropertyNames<T>(this T objectToUse, string separator) where T : class
         {
-            var properties = objectToUse.GetType().GetProperties();
+            System.Reflection.PropertyInfo[] properties = objectToUse.GetType().GetProperties();
             string header = string.Empty;
-            foreach (var property in properties)
+            foreach (System.Reflection.PropertyInfo property in properties)
             {
                 header += property.Name;
                 header += separator;
@@ -32,7 +32,7 @@
         /// <param name="separator">The string to separate the values.</param>
         public static string PropertyValues<T>(this T objectToUse, string separator)
         {
-            var properties = objectToUse.GetType().GetProperties();
+            System.Reflection.PropertyInfo[] properties = objectToUse.GetType().GetProperties();
             string data = string.Empty;
 
             for (int i = 0; i < properties.Length; i++)

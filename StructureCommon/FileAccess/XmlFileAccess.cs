@@ -33,7 +33,7 @@ namespace StructureCommon.FileAccess
             }
             catch (Exception ex)
             {
-                error = ex.Message;
+                error = ex.Message + " " + ex.InnerException ?? ex.InnerException.Message;
                 return;
             }
             finally
