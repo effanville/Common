@@ -70,6 +70,26 @@ namespace StructureCommon.FileAccess
             }
         }
 
+        public static void WriteTable<T>(this StreamWriter writer, ExportType exportType, IEnumerable<IEnumerable<T>> values, bool headerFirstColumn)
+        {
+            T forTypes = default(T);
+            foreach (T value in values)
+            {
+                if (value != null)
+                {
+                    forTypes = value;
+                    break;
+                }
+            }
+
+            if (forTypes == null)
+            {
+                return;
+            }
+
+            writer.WriteTable(exportType, forTypes.GetType().GetProperties().Select(type => type.Name), values, headerFirstColumn);
+        }
+
         /// <summary>
         /// Writes an enumerable to a table, where the columns are all the properties of the type <typeparamref name="T"/>.
         /// </summary>
@@ -96,6 +116,52 @@ namespace StructureCommon.FileAccess
             }
 
             writer.WriteTable(exportType, forTypes.GetType().GetProperties().Select(type => type.Name), values, headerFirstColumn);
+        }
+
+        public static void WriteTable<T>(this StreamWriter writer, ExportType exportType, IEnumerable<string> headerValues, IEnumerable<IEnumerable<T>> rowValues, bool headerFirstColumn)
+        {
+            switch (exportType)
+            {
+                case (ExportType.Csv):
+                {
+                    WriteTableHeader(writer, exportType, headerValues);
+                    foreach (var value in rowValues)
+                    {
+                        WriteTableRow(writer, exportType, value.Select(val => val.ToString()), headerFirstColumn);
+                    }
+                    break;
+                }
+                case (ExportType.Html):
+                {
+                    writer.WriteLine("<table>");
+                    writer.WriteLine("<thead><tr>");
+                    WriteTableHeader(writer, exportType, headerValues);
+                    writer.WriteLine("</tr></thead>");
+                    writer.WriteLine("<tbody>");
+
+                    foreach (var value in rowValues)
+                    {
+                        if (value != null)
+                        {
+                            writer.WriteLine("<tr>");
+                            WriteTableRow(writer, exportType, value.Select(val => val.ToString()), headerFirstColumn);
+                            writer.WriteLine("</tr>");
+                        }
+                        if (value == null)
+                        {
+                            writer.WriteLine("<tr><td><br/></td></tr>");
+                        }
+                    }
+
+                    writer.WriteLine("</tbody>");
+                    writer.WriteLine("</table>");
+                    break;
+                }
+                default:
+                {
+                    break;
+                }
+            }
         }
 
         /// <summary>
