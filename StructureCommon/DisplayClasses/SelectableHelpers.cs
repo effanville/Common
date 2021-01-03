@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace UICommon.DisplayClasses
+namespace StructureCommon.DisplayClasses
 {
     public static class SelectableHelpers
     {
