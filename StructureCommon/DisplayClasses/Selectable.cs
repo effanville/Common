@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace UICommon.DisplayClasses
+namespace StructureCommon.DisplayClasses
 {
     /// <summary>
     /// Class that wraps a boolean around an instance of a type <typeparamref name="T"/>
