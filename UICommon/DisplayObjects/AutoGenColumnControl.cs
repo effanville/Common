@@ -1,8 +1,8 @@
 ﻿using System.Windows.Controls;
 
-namespace FinanceWindows.StatsWindow
+namespace UICommon.DisplayObjects
 {
-    internal class AutoGenColumnControl : UserControl
+    public class AutoGenColumnControl : UserControl
     {
         protected void OnAutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
         {

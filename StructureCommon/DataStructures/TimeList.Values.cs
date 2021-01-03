@@ -37,6 +37,7 @@ namespace StructureCommon.DataStructures
 
         /// <summary>
         /// Returns linearly interpolated value of the List on the date provided.
+        /// The value prior to the first value is zero.
         /// </summary>
         public DailyValuation ValueZeroBefore(DateTime date)
         {
@@ -87,7 +88,7 @@ namespace StructureCommon.DataStructures
                     return LatestValuation();
                 }
 
-                // list sorted with earliest at start. First occurence greater than value means 
+                // list sorted with earliest at start. First occurence greater than value means
                 // the first value later.
                 for (int i = Count() - 1; i > -1; i--)
                 {
@@ -106,7 +107,7 @@ namespace StructureCommon.DataStructures
         }
 
         /// <summary>
-        /// Returns DailyValuation closest to the date but earlier to it. 
+        /// Returns DailyValuation closest to the date but earlier to it.
         /// If a strictly earlier one cannot be found then return null.
         /// </summary>
         public DailyValuation RecentPreviousValue(DateTime date)
@@ -178,7 +179,7 @@ namespace StructureCommon.DataStructures
                     return FirstValuation();
                 }
 
-                // list sorted with earliest at start. First occurence greater than value means 
+                // list sorted with earliest at start. First occurence greater than value means
                 // the first value later.
                 for (int i = 0; i < Count(); i++)
                 {
@@ -214,7 +215,7 @@ namespace StructureCommon.DataStructures
                     return FirstValuation();
                 }
 
-                // list sorted with earliest at start. First occurence greater than value means 
+                // list sorted with earliest at start. First occurence greater than value means
                 // the first value later.
                 for (int i = 0; i < Count(); i++)
                 {
