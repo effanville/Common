@@ -70,7 +70,7 @@ namespace StructureCommon.FileAccess
             }
         }
 
-        public static void WriteTable<T>(this StreamWriter writer, ExportType exportType, IEnumerable<IEnumerable<T>> values, bool headerFirstColumn)
+        public static void WriteTableFromEnumerable<T>(this StreamWriter writer, ExportType exportType, IEnumerable<IEnumerable<T>> values, bool headerFirstColumn)
         {
             T forTypes = default(T);
             foreach (T value in values)
@@ -87,7 +87,7 @@ namespace StructureCommon.FileAccess
                 return;
             }
 
-            writer.WriteTable(exportType, forTypes.GetType().GetProperties().Select(type => type.Name), values, headerFirstColumn);
+            writer.WriteTableFromEnumerable(exportType, forTypes.GetType().GetProperties().Select(type => type.Name), values, headerFirstColumn);
         }
 
         /// <summary>
@@ -118,7 +118,15 @@ namespace StructureCommon.FileAccess
             writer.WriteTable(exportType, forTypes.GetType().GetProperties().Select(type => type.Name), values, headerFirstColumn);
         }
 
-        public static void WriteTable<T>(this StreamWriter writer, ExportType exportType, IEnumerable<string> headerValues, IEnumerable<IEnumerable<T>> rowValues, bool headerFirstColumn)
+        /// <summary>
+        /// Writes an enumerable to a table, where the column headers are specified./>.
+        /// </summary>
+        /// <typeparam name="T">The type of object to write out.</typeparam>
+        /// <param name="writer">The writer to write with.</param>
+        /// <param name="exportType">The type of file to export to.</param>
+        /// <param name="values">The values to write into the table.</param>
+        /// <param name="headerFirstColumn">Whether first column should be header style or not.</param>
+        public static void WriteTableFromEnumerable<T>(this StreamWriter writer, ExportType exportType, IEnumerable<string> headerValues, IEnumerable<IEnumerable<T>> rowValues, bool headerFirstColumn)
         {
             switch (exportType)
             {
