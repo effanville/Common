@@ -6,7 +6,7 @@ namespace StructureCommon.DataStructures
     /// <summary>
     /// Holds a date and a value to act as the value on that day.
     /// </summary>
-    public class DailyValuation : IComparable
+    public class Daily<T> : IComparable where T : class
     {
         /// <summary>
         /// The date for the valuation
@@ -20,32 +20,25 @@ namespace StructureCommon.DataStructures
         /// <summary>
         /// The specific valuation
         /// </summary>
-        public double Value
+        public T Value
         {
             get;
             set;
         }
 
         /// <summary>
-        /// empty constructor.
-        /// </summary>
-        public DailyValuation()
-        {
-        }
-
-        /// <summary>
         /// Standard constructor.
         /// </summary>
-        public DailyValuation(DateTime idealDate, double idealValue)
+        public Daily(DateTime idealDate, T idealValue)
         {
             Day = idealDate;
             Value = idealValue;
         }
 
         /// <summary>
-        /// Creates a new <see cref="DailyValuation"/> from the given one.
+        /// Creates a new <see cref="Daily"/> from the given one.
         /// </summary>
-        public DailyValuation(DailyValuation dailyValue)
+        public Daily(Daily<T> dailyValue)
             : this(dailyValue.Day, dailyValue.Value)
         {
         }
@@ -63,7 +56,7 @@ namespace StructureCommon.DataStructures
         /// </summary>
         public virtual int CompareTo(object obj)
         {
-            DailyValuation a = (DailyValuation)obj;
+            Daily<T> a = (Daily<T>)obj;
             return DateTime.Compare(Day, a.Day);
         }
 
@@ -71,15 +64,15 @@ namespace StructureCommon.DataStructures
         /// Returns a copy of the specified valuation
         /// </summary>
         /// <returns></returns>
-        public DailyValuation Copy()
+        public Daily<T> Copy()
         {
-            return new DailyValuation(Day, Value);
+            return new Daily<T>(Day, Value);
         }
 
         /// <summary>
         /// Sets the data in the daily valuation.
         /// </summary>
-        public void SetData(DateTime date, double value)
+        public void SetData(DateTime date, T value)
         {
             Day = date;
             Value = value;
@@ -96,7 +89,7 @@ namespace StructureCommon.DataStructures
         /// <summary>
         /// Sets the value field.
         /// </summary>
-        public void SetValue(double value)
+        public void SetValue(T value)
         {
             Value = value;
         }

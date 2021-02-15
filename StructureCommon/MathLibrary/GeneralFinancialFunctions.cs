@@ -45,7 +45,7 @@ namespace StructureCommon.FinanceFunctions
         }
 
         /// <summary>
-        /// Function evaluation for the IRR method below. 
+        /// Function evaluation for the IRR method below.
         /// This evaluates
         /// f(x) = <paramref name="latest.Value"/> -sum(<paramref name="investments"/>[i].Value x (1+<paramref name="expectedReturnRate"/>)^{<paramref name="latest.Date"/>-investments[i].Date})
         /// </summary>
