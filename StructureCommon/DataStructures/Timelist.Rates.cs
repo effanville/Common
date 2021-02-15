@@ -82,7 +82,7 @@ namespace StructureCommon.DataStructures
         }
 
         /// <summary>
-        /// Returns the internal rate of return between <param name="latestValue"/> and <param name="startValue"/>
+        /// Returns the internal rate of return between <param name="startValue"/> and <param name="latestValue"/>.
         /// </summary>
         internal double IRRTime(DailyValuation startValue, DailyValuation latestValue)
         {

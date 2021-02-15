@@ -6,18 +6,12 @@ namespace StructureCommon.DataStructures
 {
     public partial class TimeList
     {
-        /// <summary>
-        /// Returns linearly interpolated value of the List on the date provided.
-        /// </summary>
+        /// <inheritdoc/>
         public DailyValuation Value(DateTime date)
         {
             if (fValues == null)
             {
                 return new DailyValuation(DateTime.Today, 1.0);
-            }
-            if (Count() == 1)
-            {
-                return fValues[0].Copy();
             }
             if (date < FirstDate())
             {
@@ -27,32 +21,6 @@ namespace StructureCommon.DataStructures
             {
                 return LatestValuation();
             }
-
-            DailyValuation earlier = NearestEarlierValue(date);
-            DailyValuation later = NearestLaterValue(date);
-
-            double value = earlier.Value + (later.Value - earlier.Value) / (later.Day - earlier.Day).Days * (date - earlier.Day).Days;
-            return new DailyValuation(date, value);
-        }
-
-        /// <summary>
-        /// Returns linearly interpolated value of the List on the date provided.
-        /// </summary>
-        public DailyValuation ValueZeroBefore(DateTime date)
-        {
-            if (fValues == null)
-            {
-                return new DailyValuation(DateTime.Today, 1.0);
-            }
-
-            if (date < FirstDate())
-            {
-                return new DailyValuation(date, 0.0);
-            }
-            if (date >= LatestDate())
-            {
-                return LatestValuation();
-            }
             if (Count() == 1)
             {
                 return fValues[0].Copy();
@@ -63,6 +31,44 @@ namespace StructureCommon.DataStructures
 
             double value = earlier.Value + (later.Value - earlier.Value) / (later.Day - earlier.Day).Days * (date - earlier.Day).Days;
             return new DailyValuation(date, value);
+        }
+
+        /// <inheritdoc/>
+        public DailyValuation Value(DateTime date, Func<DailyValuation, DailyValuation, DateTime, double> interpolationFunction)
+        {
+            return Value(date, (valuation, dateTime) => valuation, (valuation, dateTime) => valuation, interpolationFunction);
+        }
+
+        /// <inheritdoc/>
+        public DailyValuation Value(DateTime date, Func<DailyValuation, DateTime, DailyValuation> priorEstimator, Func<DailyValuation, DateTime, DailyValuation> postEstimator, Func<DailyValuation, DailyValuation, DateTime, double> interpolationFunction)
+        {
+            if (fValues == null)
+            {
+                return new DailyValuation(DateTime.Today, 1.0);
+            }
+            if (date < FirstDate())
+            {
+                return priorEstimator(FirstValuation(), date);
+            }
+            if (date >= LatestDate())
+            {
+                return postEstimator(LatestValuation(), date);
+            }
+            if (Count() == 1)
+            {
+                return fValues[0].Copy();
+            }
+
+            return new DailyValuation(date, interpolationFunction(NearestEarlierValue(date), NearestLaterValue(date), date));
+        }
+
+        /// <summary>
+        /// Returns linearly interpolated value of the List on the date provided.
+        /// The value prior to the first value is zero.
+        /// </summary>
+        public DailyValuation ValueZeroBefore(DateTime date)
+        {
+            return Value(date, (valuation, dateTime) => new DailyValuation(date, 0.0), (valuation, datetime) => valuation, (earlier, later, calculationDate) => earlier.Value + (later.Value - earlier.Value) / (later.Day - earlier.Day).Days * (calculationDate - earlier.Day).Days);
         }
 
         /// <summary>
@@ -87,7 +93,7 @@ namespace StructureCommon.DataStructures
                     return LatestValuation();
                 }
 
-                // list sorted with earliest at start. First occurence greater than value means 
+                // list sorted with earliest at start. First occurence greater than value means
                 // the first value later.
                 for (int i = Count() - 1; i > -1; i--)
                 {
@@ -106,7 +112,7 @@ namespace StructureCommon.DataStructures
         }
 
         /// <summary>
-        /// Returns DailyValuation closest to the date but earlier to it. 
+        /// Returns DailyValuation closest to the date but earlier to it.
         /// If a strictly earlier one cannot be found then return null.
         /// </summary>
         public DailyValuation RecentPreviousValue(DateTime date)
@@ -157,7 +163,7 @@ namespace StructureCommon.DataStructures
         }
 
         /// <summary>
-        /// returns nearest valuation in the timelist to the date provided.
+        /// returns nearest valuation after the date provided in the timelist.
         /// </summary>
         public DailyValuation NearestLaterValue(DateTime date)
         {
@@ -178,7 +184,7 @@ namespace StructureCommon.DataStructures
                     return FirstValuation();
                 }
 
-                // list sorted with earliest at start. First occurence greater than value means 
+                // list sorted with earliest at start. First occurence greater than value means
                 // the first value later.
                 for (int i = 0; i < Count(); i++)
                 {
@@ -214,7 +220,7 @@ namespace StructureCommon.DataStructures
                     return FirstValuation();
                 }
 
-                // list sorted with earliest at start. First occurence greater than value means 
+                // list sorted with earliest at start. First occurence greater than value means
                 // the first value later.
                 for (int i = 0; i < Count(); i++)
                 {
@@ -238,12 +244,7 @@ namespace StructureCommon.DataStructures
         /// </summary>
         public DateTime FirstDate()
         {
-            if (fValues != null && fValues.Any())
-            {
-                return fValues[0].Copy().Day;
-            }
-
-            return new DateTime();
+            return FirstValuation()?.Day ?? new DateTime();
         }
 
         /// <summary>
@@ -251,11 +252,7 @@ namespace StructureCommon.DataStructures
         /// </summary>
         public double FirstValue()
         {
-            if (fValues != null && fValues.Any())
-            {
-                return fValues[0].Copy().Value;
-            }
-            return 0.0;
+            return FirstValuation()?.Value ?? 0.0;
         }
 
         /// <summary>
@@ -277,11 +274,7 @@ namespace StructureCommon.DataStructures
         /// </summary>
         public DateTime LatestDate()
         {
-            if (fValues != null && fValues.Any())
-            {
-                return fValues[fValues.Count() - 1].Copy().Day;
-            }
-            return new DateTime();
+            return LatestValuation()?.Day ?? new DateTime();
         }
 
         /// <summary>
@@ -289,12 +282,7 @@ namespace StructureCommon.DataStructures
         /// </summary>
         public double LatestValue()
         {
-            if (fValues != null && fValues.Any())
-            {
-                return fValues[fValues.Count() - 1].Copy().Value;
-            }
-
-            return 0.0;
+            return LatestValuation()?.Value ?? 0.0;
         }
 
         /// <summary>

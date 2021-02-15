@@ -8,7 +8,7 @@ namespace StructureCommon.DataStructures
     /// Sorted list of values, with last value the most recent, and first the oldest.
     /// </summary>
     /// <remarks>This list is sorted, with oldest value the first and latest the last.</remarks>
-    public partial class TimeList
+    public partial class TimeList : ITimeList
     {
         /// <summary>
         /// Event that controls when data is edited.
@@ -40,9 +40,7 @@ namespace StructureCommon.DataStructures
             }
         }
 
-        /// <summary>
-        /// Obtains a copy of the data.
-        /// </summary>
+        /// <inheritdoc/>
         public DailyValuation this[int index]
         {
             get
@@ -68,20 +66,39 @@ namespace StructureCommon.DataStructures
             fValues = new List<DailyValuation>();
         }
 
-        /// <summary>
-        /// Returns true if contains any entries. 
-        /// </summary>
+        /// <inheritdoc/>
         public bool Any()
         {
             return fValues != null && fValues.Any();
         }
 
-        /// <summary>
-        /// Returns the number of valuations in the timelist.
-        /// </summary>
+        /// <inheritdoc/>
         public int Count()
         {
             return fValues.Count;
+        }
+
+        /// <inheritdoc/>
+        public void CleanValues()
+        {
+            if (fValues.Count <= 1)
+            {
+                return;
+            }
+
+            var lastValue = fValues[0];
+            for (int valueIndex = 1; valueIndex < fValues.Count; ++valueIndex)
+            {
+                if (fValues[valueIndex].Value.Equals(lastValue.Value))
+                {
+                    fValues.RemoveAt(valueIndex);
+                    --valueIndex;
+                }
+                else
+                {
+                    lastValue = fValues[valueIndex];
+                }
+            }
         }
     }
 }

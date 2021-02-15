@@ -22,5 +22,21 @@ namespace UICommon.ViewModelBases
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+
+        /// <summary>
+        /// Updates the existing value if different from the new value
+        /// and raises OnPropertyChanged if so.
+        /// </summary>
+        /// <typeparam name="T">The type of the values.</typeparam>
+        /// <param name="existingValue">The existing value.</param>
+        /// <param name="newValue">The new value to update with.</param>
+        public void SetAndNotify<T>(ref T existingValue, T newValue)
+        {
+            if (!existingValue.Equals(newValue))
+            {
+                existingValue = newValue;
+                OnPropertyChanged();
+            }
+        }
     }
 }
