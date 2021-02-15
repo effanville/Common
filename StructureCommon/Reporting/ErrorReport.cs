@@ -7,6 +7,11 @@ namespace StructureCommon.Reporting
     /// </summary>
     public class ErrorReport : IComparable
     {
+        /// <summary>
+        /// The time the report was logged.
+        /// </summary>
+        public DateTime TimeStamp;
+
         private ReportSeverity fErrorSeverity;
 
         /// <summary>
@@ -80,16 +85,18 @@ namespace StructureCommon.Reporting
         /// </summary>
         public ErrorReport()
         {
+            TimeStamp = DateTime.Now;
         }
 
         /// <summary>
-        /// Constructs an error report with default <see cref="ReportSeverity"/>. 
+        /// Constructs an error report with default <see cref="ReportSeverity"/>.
         /// </summary>
         /// <param name="type">The type of the report.</param>
         /// <param name="errorLocation">The location of the report.</param>
         /// <param name="message">Any additional information to include.</param>
         public ErrorReport(ReportType type, ReportLocation errorLocation, string message)
         {
+            TimeStamp = DateTime.Now;
             ErrorType = type;
             ErrorLocation = errorLocation;
             Message = message;
@@ -104,6 +111,7 @@ namespace StructureCommon.Reporting
         /// <param name="message">Any additional information to include.</param>
         public ErrorReport(ReportSeverity severity, ReportType type, ReportLocation errorLocation, string message)
         {
+            TimeStamp = DateTime.Now;
             ErrorSeverity = severity;
             ErrorType = type;
             ErrorLocation = errorLocation;
@@ -116,7 +124,7 @@ namespace StructureCommon.Reporting
         /// <returns></returns>
         public override string ToString()
         {
-            return ErrorType.ToString() + " - " + ErrorLocation.ToString() + " - " + Message;
+            return $"[{TimeStamp}]{ErrorType} - {ErrorLocation} - {Message}";
 
         }
 
