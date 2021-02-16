@@ -32,7 +32,15 @@ namespace UICommon.ViewModelBases
         /// <param name="newValue">The new value to update with.</param>
         public void SetAndNotify<T>(ref T existingValue, T newValue)
         {
-            if (!existingValue.Equals(newValue))
+            if (existingValue == null)
+            {
+                if (newValue != null)
+                {
+                    existingValue = newValue;
+                    OnPropertyChanged();
+                }
+            }
+            else if (!existingValue.Equals(newValue))
             {
                 existingValue = newValue;
                 OnPropertyChanged();
