@@ -3,6 +3,9 @@ using StructureCommon.MathLibrary.Functions;
 
 namespace StructureCommon.MathLibrary.ProbabilityDistributions
 {
+    /// <summary>
+    /// The Gamma distribution
+    /// </summary>
     public class GammaDistribution : Gamma, IProbabilityDistribution
     {
         private readonly double Alpha;
@@ -21,12 +24,9 @@ namespace StructureCommon.MathLibrary.ProbabilityDistributions
             Beta = beta;
             Fac = alpha + Math.Log(beta) - BasicFunctions.LogGamma(alpha);
         }
-        public double gammaq(double param1, double param2)
-        {
-            return 0.0;
-        }
 
-        public double p(double x)
+        /// <inheritdoc/>
+        public double Probabilitydensity(double x)
         {
             if (x <= 0.0)
             {
@@ -35,7 +35,8 @@ namespace StructureCommon.MathLibrary.ProbabilityDistributions
             return Math.Exp(-Beta * x * (Alpha - 1) * Math.Log(x) + Fac);
         }
 
-        public double cdf(double x)
+        /// <inheritdoc/>
+        public double Cdf(double x)
         {
             if (x <= 0.0)
             {
@@ -44,7 +45,8 @@ namespace StructureCommon.MathLibrary.ProbabilityDistributions
             return GammaP(Alpha, Beta * x);
         }
 
-        public double invcdf(double p)
+        /// <inheritdoc/>
+        public double InverseCdf(double p)
         {
             if (p < 0.0 || p >= 1)
             {

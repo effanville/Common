@@ -5,6 +5,10 @@ namespace StructureCommon.Mathematics
 {
     public static class VectorStats
     {
+        /// <summary>
+        /// Calculates the maximum value of the list in the first <paramref name="number"/>
+        /// values. A list that is too short returns <see cref="double.NaN"/>
+        /// </summary>
         public static double Max(List<double> values, int number)
         {
             if (values.Count < number)

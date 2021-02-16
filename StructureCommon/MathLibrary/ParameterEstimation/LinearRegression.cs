@@ -141,6 +141,12 @@ namespace StructureCommon.MathLibrary.ParameterEstimation
             Uncertainty = new double[,] { { siga, cov }, { cov, sigb } };
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="values"></param>
+        /// <param name="sigmaValues"></param>
         public void GenerateEstimator(double[,] data, double[] values, double[] sigmaValues)
         {
             FitData = data;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using StructureCommon.MathLibrary.Matrices;
 
 namespace StructureCommon.MathLibrary.ParameterEstimation
 {
@@ -347,7 +348,7 @@ namespace StructureCommon.MathLibrary.ParameterEstimation
             for (int i = 0; i < partitionIndices.GetLength(1); i++)
             {
                 expectedValues[i] = data[partitionIndices[partitionIndex, i], data.GetLength(1) - 1];
-                actualValues[i] = LassoStatsCalculation.VectorMatrixRowMult(data, weightsThisTime, partitionIndices[partitionIndex, i]);
+                actualValues[i] = MatrixFunctions.VectorMatrixRowMult(data, weightsThisTime, partitionIndices[partitionIndex, i]);
             }
 
             return Residuals.MeanSquareError(actualValues, expectedValues);
