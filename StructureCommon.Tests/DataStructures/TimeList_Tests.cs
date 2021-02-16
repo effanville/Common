@@ -100,7 +100,7 @@ namespace StructureCommon.Tests.DataStructures
                 _ = timelist.TryAddValue(value.date, value.value);
             }
 
-            Func<DailyValuation, DailyValuation, DateTime, double> interpolator = (earlier, later, date) => earlier.Value + (later.Value - earlier.Value) / (later.Day - earlier.Day).Days * (date - earlier.Day).Days;
+            Func<DailyValuation, DailyValuation, DateTime, double> interpolator = (earlier, later, chosenDate) => earlier.Value + (later.Value - earlier.Value) / (later.Day - earlier.Day).Days * (chosenDate - earlier.Day).Days;
             var actualValue = timelist.Value(date, interpolator);
             if (expectedResult == null)
             {

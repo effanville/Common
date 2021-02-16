@@ -61,7 +61,7 @@ namespace UICommon.Tests
             if (expected != null && actual != null)
             {
                 Assert.AreEqual(expected.PrimaryName, actual.PrimaryName, "Both Primary Names should be the same.");
-                Assert.AreEqual(expected.SecondaryName, actual.SecondaryName);
+                Assert.AreEqual(expected.SecondaryName, actual.SecondaryName, "Secondary names not the same");
             }
         }
 
