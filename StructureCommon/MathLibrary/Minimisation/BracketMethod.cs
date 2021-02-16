@@ -72,11 +72,5 @@ namespace StructureCommon.Minimisation
                 }
             }
         }
-
-        private void shift2(double a, double b, double c)
-        {
-            a = b;
-            b = c;
-        }
     }
 }

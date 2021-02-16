@@ -218,7 +218,7 @@ namespace StructureCommon.MathLibrary.ParameterEstimation
             double[] actualValues = new double[partitionIndices.GetLength(1)];
             for (int i = 0; i < partitionIndices.GetLength(1); i++)
             {
-                actualValues[i] = LassoStatsCalculation.VectorMatrixRowMult(data, weightsThisTime, partitionIndices[partitionIndex, i]);
+                actualValues[i] = MatrixFunctions.VectorMatrixRowMult(data, weightsThisTime, partitionIndices[partitionIndex, i]);
             }
 
             return Residuals.MeanSquareError(actualValues, valuesSubset);

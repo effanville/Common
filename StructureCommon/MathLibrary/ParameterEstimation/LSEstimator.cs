@@ -89,7 +89,21 @@ namespace StructureCommon.MathLibrary.ParameterEstimation
             FitData = data;
             FitValues = values;
             double[] XTY = data.Transpose().PostMultiplyVector(values);
-            Estimator = data.XTX().Inverse().PostMultiplyVector(XTY);
+            var matrix = data.XTX().Inverse();
+            Estimator = matrix.PostMultiplyVector(XTY);
+            var residual = 0.0;
+            for (int i = 0; i < FitData.Length; i++)
+            {
+                double value = FitValues[i];
+                for (int j = 0; j < FitData.Length; j++)
+                {
+                    value += Estimator[j] * FitData[i, j];
+                }
+
+                residual += value * value;
+            }
+            residual /= (NumberOfDataPoints - NumberOfParameters);
+            Uncertainty = matrix.ScalarMult(residual);
         }
     }
 }

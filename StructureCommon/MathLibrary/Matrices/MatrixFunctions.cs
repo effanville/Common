@@ -2,6 +2,8 @@
 {
     /// <summary>
     /// Implementations of matrix manipulations.
+    /// These consider the matrices to be dense, and generally loop 
+    /// through rows and columns. Not performant.
     /// </summary>
     public static class MatrixFunctions
     {
@@ -95,6 +97,58 @@
             }
 
             return multiply;
+        }
+
+        public static double[,] ScalarMult(this double[,] matrix, double scalar)
+        {
+            double[,] multiply = new double[matrix.GetLength(0), matrix.GetLength(1)];
+            for (int matrixRowIndex = 0; matrixRowIndex < matrix.GetLength(0); matrixRowIndex++)
+            {
+                for (int matrixColumnIndex = 0; matrixColumnIndex < matrix.GetLength(1); matrixColumnIndex++)
+                {
+                    multiply[matrixRowIndex, matrixColumnIndex] = matrix[matrixRowIndex, matrixColumnIndex] * scalar;
+                }
+            }
+
+            return multiply;
+        }
+
+        /// <summary>
+        /// Multiplies a specific row in a matrix by a vector.
+        /// </summary>
+        public static double VectorMatrixRowMult(double[,] matrix, double[] vector, int rowIndex)
+        {
+            if (matrix.GetLength(1) != vector.Length)
+            {
+                return double.NaN;
+            }
+
+            double sum = 0;
+            for (int columnIndex = 0; columnIndex < vector.Length; columnIndex++)
+            {
+                sum += matrix[rowIndex, columnIndex] * vector[columnIndex];
+            }
+
+            return sum;
+        }
+
+        /// <summary>
+        /// Multiples a specific column in a matrix by a vector.
+        /// </summary>
+        public static double VectorMatrixColumnMult(double[,] matrix, double[] vector, int columnIndex)
+        {
+            if (matrix.GetLength(0) != vector.Length)
+            {
+                return double.NaN;
+            }
+
+            double sum = 0;
+            for (int rowIndex = 0; rowIndex < vector.Length; rowIndex++)
+            {
+                sum += matrix[rowIndex, columnIndex] * vector[rowIndex];
+            }
+
+            return sum;
         }
 
         /// <summary>
