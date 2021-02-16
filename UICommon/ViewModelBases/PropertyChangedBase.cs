@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace UICommon.ViewModelBases
 {
@@ -17,10 +18,7 @@ namespace UICommon.ViewModelBases
         /// </summary>
         public void OnPropertyChanged(string propertyName = null)
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         /// <summary>
@@ -30,20 +28,12 @@ namespace UICommon.ViewModelBases
         /// <typeparam name="T">The type of the values.</typeparam>
         /// <param name="existingValue">The existing value.</param>
         /// <param name="newValue">The new value to update with.</param>
-        public void SetAndNotify<T>(ref T existingValue, T newValue)
+        public void SetAndNotify<T>(ref T existingValue, T newValue, [CallerMemberName] string propertyName = null)
         {
-            if (existingValue == null)
-            {
-                if (newValue != null)
-                {
-                    existingValue = newValue;
-                    OnPropertyChanged();
-                }
-            }
-            else if (!existingValue.Equals(newValue))
+            if (!Equals(existingValue, newValue))
             {
                 existingValue = newValue;
-                OnPropertyChanged();
+                OnPropertyChanged(propertyName);
             }
         }
     }
