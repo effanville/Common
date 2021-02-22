@@ -4,7 +4,7 @@ namespace UICommon.DisplayObjects
 {
     public class AutoGenColumnControl : UserControl
     {
-        protected void OnAutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        public void OnAutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
         {
             if (e.PropertyType == typeof(System.DateTime))
             {
