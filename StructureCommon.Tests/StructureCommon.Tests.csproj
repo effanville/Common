@@ -1,10 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>net5.0;netcoreapp3.1;net48</TargetFrameworks>
-
     <IsPackable>false</IsPackable>
   </PropertyGroup>
+
+  <Import Project="../Build/CommonProperties.build.props"/>
 
   <ItemGroup>
     <PackageReference Include="NUnit" Version="3.12.0" />
@@ -15,17 +16,5 @@
   <ItemGroup>
     <ProjectReference Include="..\StructureCommon\StructureCommon.csproj" />
   </ItemGroup>
-  
-  <ItemGroup>
-    <None Include="..\.editorconfig" Link=".editorconfig" />
-  </ItemGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>..\bin\Debug\</OutputPath>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>..\bin\Release</OutputPath>
-  </PropertyGroup>
 
 </Project>

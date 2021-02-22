@@ -3,27 +3,11 @@
   <PropertyGroup>
     <TargetFrameworks>net5.0-windows;netcoreapp3.1;net48</TargetFrameworks>
     <UseWPF>true</UseWPF>
-    <Deterministic>false</Deterministic>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
   
   <PropertyGroup>
-    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version>1.0.5</Version>
-    <Authors>Effanville</Authors>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <None Include="..\.editorconfig" Link=".editorconfig" />
-  </ItemGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>..\bin\Debug\</OutputPath>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>..\bin\Release</OutputPath>
+    <AssemblyVersion>1.0.5</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp3.1|AnyCPU'">
@@ -31,15 +15,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\StructureCommon\StructureCommon.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="DotNetProjects.WpfToolkit.DataVisualization" Version="6.0.79" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
     <PackageReference Include="System.Windows.Forms.DataVisualization" Version="1.0.0-prerelease.20110.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\StructureCommon\StructureCommon.csproj" />
   </ItemGroup>
 
 </Project>

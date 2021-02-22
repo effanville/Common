@@ -2,31 +2,17 @@
 
   <PropertyGroup>
     <TargetFrameworks>net5.0;netcoreapp3.1;net48</TargetFrameworks>
-    <Deterministic>false</Deterministic>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
 
+  <Import Project="../Build/CommonProperties.build.props"/>
+  
   <PropertyGroup>
-    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version>1.0.5</Version>
-    <Authors>Effanville</Authors>
+    <AssemblyVersion>1.0.5</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp3.1|AnyCPU'">
     <DocumentationFile>..\bin\Release\StructureCommon.xml</DocumentationFile>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <None Include="..\.editorconfig" Link=".editorconfig" />
-  </ItemGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>..\bin\Debug\</OutputPath>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>..\bin\Release</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>

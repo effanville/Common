@@ -1,6 +1,4 @@
-﻿using System.Reflection;
+﻿using System.Runtime.CompilerServices;
 
 // Which testing suite internals are visible to
-
-[assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyFileVersion("1.0.*")]
+[assembly: InternalsVisibleTo("UICommon.Tests")]
