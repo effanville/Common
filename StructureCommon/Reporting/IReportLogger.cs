@@ -41,6 +41,7 @@ namespace StructureCommon.Reporting
         /// <param name="location">The location the report pertains to.</param>
         /// <param name="message">The message specifying more information about the report.</param>
         /// <exception cref="Exception"/>
+		[Obsolete("should use version with types")]
         bool LogWithStrings(string severity, string type, string location, string message);
 
         /// <summary>
@@ -50,6 +51,7 @@ namespace StructureCommon.Reporting
         /// <param name="location">The location the report pertains to.</param>
         /// <param name="message">The message specifying more information about the report.</param>
         /// <exception cref="Exception"/>
+		[Obsolete("should use version with types")]
         bool LogUsefulWithStrings(string type, string location, string message);
 
         /// <summary>
@@ -59,6 +61,7 @@ namespace StructureCommon.Reporting
         /// <param name="location">The location the report pertains to.</param>
         /// <param name="message">The message specifying more information about the report.</param>
         /// <exception cref="Exception"/>
+		[Obsolete("should use version with types")]
         bool LogUsefulErrorWithStrings(string location, string message);
     }
 }
