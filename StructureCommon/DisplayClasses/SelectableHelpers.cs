@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace StructureCommon.DisplayClasses
 {
@@ -8,7 +9,7 @@ namespace StructureCommon.DisplayClasses
         /// Returns the boolean associated to a specific instance <paramref name="nameToSearch"/>
         /// out of the list <paramref name="names"/>. Returns false if it is not found.
         /// </summary>
-        public static bool GetData<T>(List<Selectable<T>> names, T nameToSearch)
+        public static bool GetData<T>(List<Selectable<T>> names, T nameToSearch) where T : IEquatable<T>
         {
             foreach (var name in names)
             {
@@ -20,6 +21,5 @@ namespace StructureCommon.DisplayClasses
 
             return false;
         }
-
     }
 }
