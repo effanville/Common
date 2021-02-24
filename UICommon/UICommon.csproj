@@ -9,6 +9,8 @@
     <Version>1.0.6</Version>
     <AssemblyVersion>1.0.6</AssemblyVersion>
   </PropertyGroup>
+  
+  <Import Project="../Build/CommonProperties.build.props"/>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp3.1|AnyCPU'">
     <DocumentationFile>..\bin\Release\UICommon.xml</DocumentationFile>

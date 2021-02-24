@@ -19,6 +19,7 @@
         /// In an area when saving information to disc.
         /// </summary>
         Saving,
+		
         /// <summary>
         /// In an area loading a file or some information from disc.
         /// </summary>
@@ -47,7 +48,7 @@
         /// <summary>
         /// An area pertaining to calcluating statistics.
         /// </summary>
-        StatisticsPage,
+        StatisticsGeneration,
 
         /// <summary>
         /// An area to do with getting data from a data store.
@@ -57,6 +58,21 @@
         /// <summary>
         /// In an area to do with help notifications.
         /// </summary>
-        Help
-    }
+        Help,
+		
+		/// <summary>
+		/// An area to do with data alteration.
+		/// </summary>
+		DataAlteration,
+         
+		/// <summary>
+        /// An area pertaining to calcluating statistics.
+        /// </summary>
+        StatisticsGeneration,
+		
+		/// <summary>
+		/// An area pertaining to execution.
+		/// </summary>
+		Execution
+	}
 }

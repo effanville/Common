@@ -42,6 +42,14 @@ namespace StructureCommon.DisplayClasses
             Selected = selected;
             Instance = instance;
         }
+		
+		/// <summary>
+		/// Empty constructor.
+		/// </summary>
+		public Selectable()
+		{
+			Selected = false;
+		}
 
         /// <summary>
         /// Event handler controlling property changed
