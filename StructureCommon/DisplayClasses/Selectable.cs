@@ -49,6 +49,7 @@ namespace StructureCommon.DisplayClasses
 		public Selectable()
 		{
 			Selected = false;
+            Instance = default(T);
 		}
 
         /// <summary>
