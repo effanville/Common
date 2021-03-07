@@ -4,11 +4,11 @@
     <TargetFrameworks>net5.0;netcoreapp3.1;net48</TargetFrameworks>
   </PropertyGroup>
 
-  <Import Project="../Build/CommonProperties.build.props"/>
+  <Import Project="../Build/CommonProperties.build.props" />
   
   <PropertyGroup>
-    <Version>1.0.6</Version>
-    <AssemblyVersion>1.0.6</AssemblyVersion>
+    <Version>1.0.7</Version>
+    <AssemblyVersion>1.0.7</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp3.1|AnyCPU'">
@@ -16,6 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.IO.Abstractions" Version="13.2.23" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
   </ItemGroup>
 
