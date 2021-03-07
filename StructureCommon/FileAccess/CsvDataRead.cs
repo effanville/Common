@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Abstractions;
 using StructureCommon.Reporting;
 
 namespace StructureCommon.FileAccess
@@ -18,32 +19,37 @@ namespace StructureCommon.FileAccess
         /// <param name="reportLogger">Reporting Callback.</param>
         public static List<object> ReadFromCsv<T>(T dataGainer, string filePath, IReportLogger reportLogger = null) where T : ICSVAccess
         {
-            TextReader reader = null;
+            return ReadFromCsv(dataGainer, new FileSystem(), filePath, reportLogger);
+        }
+
+        /// <summary>
+        /// Reads data from a csv file.
+        /// </summary>
+        /// <param name="dataGainer">The object to read data out of.</param>
+        /// <param name="filePath">The path of file to read from.</param>
+        /// <param name="reportLogger">Reporting Callback.</param>
+        public static List<object> ReadFromCsv<T>(T dataGainer, IFileSystem fileSystem, string filePath, IReportLogger reportLogger = null) where T : ICSVAccess
+        {
             try
             {
-                reader = new StreamReader(filePath);
-
-                string line = null;
-                List<string[]> valuationsToRead = new List<string[]>();
-                while ((line = reader.ReadLine()) != null)
+                using (Stream stream = fileSystem.FileStream.Create(filePath, FileMode.Open))
+                using (TextReader reader = new StreamReader(stream))
                 {
-                    string[] words = line.Split(',');
-                    valuationsToRead.Add(words);
-                }
+                    string line = null;
+                    List<string[]> valuationsToRead = new List<string[]>();
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        string[] words = line.Split(',');
+                        valuationsToRead.Add(words);
+                    }
 
-                return dataGainer.CreateDataFromCsv(valuationsToRead, reportLogger);
+                    return dataGainer.CreateDataFromCsv(valuationsToRead, reportLogger);
+                }
             }
             catch (Exception ex)
             {
                 _ = reportLogger?.Log(ReportSeverity.Critical, ReportType.Error, ReportLocation.Loading, ex.Message);
                 return new List<object>();
-            }
-            finally
-            {
-                if (reader != null)
-                {
-                    reader.Close();
-                }
             }
         }
 
@@ -55,22 +61,28 @@ namespace StructureCommon.FileAccess
         /// <param name="reportLogger">Reporting Callback.</param>
         public static void WriteToCSVFile<T>(T dataTypeToWrite, string filePath, IReportLogger reportLogger = null) where T : ICSVAccess
         {
-            TextWriter writer = null;
+            WriteToCSVFile(dataTypeToWrite, new FileSystem(), filePath, reportLogger);
+        }
+
+        /// <summary>
+        /// Exports data to a file in csv format.
+        /// </summary>
+        /// <param name="dataTypeToWrite">The object to read data out of.</param>
+        /// <param name="filePath">The path of file to read from.</param>
+        /// <param name="reportLogger">Reporting Callback.</param>
+        public static void WriteToCSVFile<T>(T dataTypeToWrite, IFileSystem fileSystem, string filePath, IReportLogger reportLogger = null) where T : ICSVAccess
+        {
             try
             {
-                writer = new StreamWriter(filePath);
-                dataTypeToWrite.WriteDataToCsv(writer, reportLogger);
+                using (Stream stream = fileSystem.FileStream.Create(filePath, FileMode.Create))
+                using (TextWriter writer = new StreamWriter(stream))
+                {
+                    dataTypeToWrite.WriteDataToCsv(writer, reportLogger);
+                }
             }
             catch (Exception ex)
             {
                 _ = reportLogger?.Log(ReportSeverity.Critical, ReportType.Error, ReportLocation.Loading, ex.Message);
-            }
-            finally
-            {
-                if (writer != null)
-                {
-                    writer.Close();
-                }
             }
         }
     }
