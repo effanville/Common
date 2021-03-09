@@ -6,8 +6,8 @@ namespace StructureCommon.DisplayClasses
     /// Class that wraps a boolean around an instance of a type <typeparamref name="T"/>. when the boolean 
     /// is changed it raises the <see cref="SelectedChanged"/> event.
     /// </summary>
-    /// <typeparam name="T">An object that implements the <see cref="IEquatable{T}"/> interface.</typeparam>
-    public class Selectable<T> where T : IEquatable<T>
+    /// <typeparam name="T">An object.</typeparam>
+    public class Selectable<T>
     {
         private bool fSelected;
         /// <summary>
@@ -67,37 +67,6 @@ namespace StructureCommon.DisplayClasses
             {
                 SelectedChanged(this, new EventArgs());
             }
-        }
-
-        /// <summary>
-        /// Determines equality of this object. This is solely equality <br/>
-        /// based upon the <see cref="Instance"/> and is not determined<br/>
-        /// by the <see cref="Selected"/> propety.
-        /// </summary>
-        public bool Equals(T other)
-        {
-            return Instance?.Equals(other) ?? other != null;
-        }
-
-        /// <summary>
-        /// General mechanism for determining equality.
-        /// </summary>
-        public override bool Equals(object obj)
-        {
-            if (obj is Selectable<T> selec)
-            {
-                return Equals(selec);
-            }
-
-            return false;
-        }
-
-        /// <inheritdoc/>
-        public override int GetHashCode()
-        {
-            int hashCode = 17;
-            hashCode = hashCode + 23 * Instance.GetHashCode();
-            return hashCode;
         }
     }
 }
