@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO.Abstractions;
 
 namespace StructureCommon.Reporting
 {
@@ -7,6 +8,11 @@ namespace StructureCommon.Reporting
     /// </summary>
     public interface IReportLogger
     {
+        ErrorReports Reports
+        {
+            get;
+        }
+
         /// <summary>
         /// Logs a report using the type enums.
         /// </summary>
@@ -63,5 +69,15 @@ namespace StructureCommon.Reporting
         /// <exception cref="Exception"/>
 		[Obsolete("should use version with types")]
         bool LogUsefulErrorWithStrings(string location, string message);
+
+        /// <summary>
+        /// Write the reports to a suitable file.
+        /// </summary>
+		void WriteReportsToFile(string filePath);
+
+        /// <summary>
+        /// Write the reports to a suitable file.
+        /// </summary>
+		void WriteReportsToFile(string filePath, IFileSystem fileSystem);
     }
 }

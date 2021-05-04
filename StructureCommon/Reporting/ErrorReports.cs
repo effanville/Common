@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace StructureCommon.Reporting
@@ -6,7 +7,7 @@ namespace StructureCommon.Reporting
     /// <summary>
     /// Collection of ErrorReport with added query functionality to tell the user what is happening.
     /// </summary>
-    public class ErrorReports
+    public class ErrorReports : IEnumerable<ErrorReport>
     {
         /// <summary>
         /// List of all reports held.
@@ -165,6 +166,24 @@ namespace StructureCommon.Reporting
         public void Clear()
         {
             fReports.Clear();
+        }
+
+        public ErrorReport this[int index]
+        {
+            get
+            {
+                return fReports[index];
+            }
+        }
+
+        public IEnumerator<ErrorReport> GetEnumerator()
+        {
+            return fReports.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }
