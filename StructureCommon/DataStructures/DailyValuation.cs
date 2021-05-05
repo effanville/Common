@@ -100,5 +100,30 @@ namespace StructureCommon.DataStructures
         {
             Value = value;
         }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            if (obj is DailyValuation other)
+            {
+                return Equals(other);
+            }
+
+            return false;
+        }
+
+        public bool Equals(DailyValuation other)
+        {
+            return Day.Equals(other.Day) && Value.Equals(other.Value);
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            int hashCode = 17;
+            hashCode = 23 * hashCode + Day.GetHashCode();
+            hashCode = 23 * hashCode + Value.GetHashCode();
+            return hashCode;
+        }
     }
 }
