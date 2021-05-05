@@ -9,6 +9,8 @@ namespace StructureCommon.Reporting
     /// </summary>
     public class ErrorReports : IEnumerable<ErrorReport>
     {
+        private readonly object lockObject = new object();
+
         /// <summary>
         /// List of all reports held.
         /// </summary>
@@ -25,7 +27,7 @@ namespace StructureCommon.Reporting
         /// <inheritdoc/>
         public override string ToString()
         {
-            return $"These reports contain {Count()} entries: {GetReports(ReportType.Error)} errors,{GetReports(ReportType.Warning)} warnings and {GetReports(ReportType.Report)} reports.";
+            return $"These reports contain {Count()} entries: {GetReports(ReportType.Error)} errors, {GetReports(ReportType.Warning)} warnings and {GetReports(ReportType.Information)} reports.";
         }
 
         /// <summary>
@@ -33,7 +35,10 @@ namespace StructureCommon.Reporting
         /// </summary>
         public int Count()
         {
-            return fReports.Count();
+            lock (lockObject)
+            {
+                return fReports.Count;
+            }
         }
 
         /// <summary>
@@ -42,7 +47,10 @@ namespace StructureCommon.Reporting
         /// <returns></returns>
         public bool Any()
         {
-            return fReports.Any();
+            lock (lockObject)
+            {
+                return fReports.Any();
+            }
         }
 
         /// <summary>
@@ -51,11 +59,14 @@ namespace StructureCommon.Reporting
         /// <param name="reports"></param>
         public void AddReports(ErrorReports reports)
         {
-            fReports.AddRange(reports.GetReports());
+            lock (lockObject)
+            {
+                fReports.AddRange(reports.GetReports());
+            }
         }
 
         /// <summary>
-        /// Adds a report to the existing list 
+        /// Adds a report to the existing list
         /// </summary>
         public void AddReportFromStrings(string severity, string type, string location, string message)
         {
@@ -67,31 +78,26 @@ namespace StructureCommon.Reporting
         }
 
         /// <summary>
-        /// Adds a report of any type to the existing list 
+        /// Adds a report of any type to the existing list
         /// </summary>
         public void AddErrorReport(ReportSeverity severity, ReportType type, ReportLocation location, string newReport)
         {
-            fReports.Add(new ErrorReport(severity, type, location, newReport));
+            lock (lockObject)
+            {
+                fReports.Add(new ErrorReport(severity, type, location, newReport));
+            }
         }
 
         /// <summary>
-        /// Adds a report of any type to the existing list 
-        /// </summary>
-        private void AddGeneralReport(ReportType type, ReportLocation location, string newReport)
-        {
-            fReports.Add(new ErrorReport(type, location, newReport));
-        }
-
-        /// <summary>
-        /// Adds a report to the existing list 
+        /// Adds a report to the existing list
         /// </summary>
         public void AddReport(string newReport, ReportLocation location = ReportLocation.Unknown)
         {
-            AddGeneralReport(ReportType.Report, location, newReport);
+            AddGeneralReport(ReportType.Information, location, newReport);
         }
 
         /// <summary>
-        /// Adds an Error report to the existing list 
+        /// Adds an Error report to the existing list
         /// </summary>
         public void AddError(string newReport, ReportLocation location = ReportLocation.Unknown)
         {
@@ -99,7 +105,7 @@ namespace StructureCommon.Reporting
         }
 
         /// <summary>
-        /// Adds a Warning report to the existing list 
+        /// Adds a Warning report to the existing list
         /// </summary>
         public void AddWarning(string newReport, ReportLocation location = ReportLocation.Unknown)
         {
@@ -107,13 +113,25 @@ namespace StructureCommon.Reporting
         }
 
         /// <summary>
+        /// Adds a report of any type to the existing list
+        /// </summary>
+        private void AddGeneralReport(ReportType type, ReportLocation location, string newReport)
+        {
+            lock (lockObject)
+            {
+                fReports.Add(new ErrorReport(type, location, newReport));
+            }
+        }
+
+        /// <summary>
         /// Returns a copy of all reports held in the structure.
         /// </summary>
         public List<ErrorReport> GetReports()
         {
-            List<ErrorReport> copiedReports = new List<ErrorReport>();
-            copiedReports.AddRange(fReports);
-            return copiedReports;
+            lock (lockObject)
+            {
+                return new List<ErrorReport>(fReports);
+            }
         }
 
         /// <summary>
@@ -121,16 +139,16 @@ namespace StructureCommon.Reporting
         /// </summary>
         public List<ErrorReport> GetReports(ReportSeverity severity = ReportSeverity.Useful)
         {
-            if (severity.Equals(ReportSeverity.Critical))
+            switch (severity)
             {
-                return fReports.Where(report => report.ErrorSeverity == severity).ToList();
+                case ReportSeverity.Critical:
+                    return GetReports().Where(report => report.ErrorSeverity == severity).ToList();
+                default:
+                case ReportSeverity.Useful:
+                    return GetReports().Where(report => report.ErrorSeverity == severity || report.ErrorSeverity == ReportSeverity.Critical).ToList();
+                case ReportSeverity.Detailed:
+                    return GetReports();
             }
-            if (severity.Equals(ReportSeverity.Useful))
-            {
-                return fReports.Where(report => report.ErrorSeverity == severity || report.ErrorSeverity == ReportSeverity.Critical).ToList();
-            }
-
-            return GetReports();
         }
 
         /// <summary>
@@ -138,7 +156,7 @@ namespace StructureCommon.Reporting
         /// </summary>
         public List<ErrorReport> GetReports(ReportLocation location)
         {
-            return fReports.Where(report => report.ErrorLocation == location).ToList();
+            return GetReports().Where(report => report.ErrorLocation == location).ToList();
         }
 
         /// <summary>
@@ -146,7 +164,7 @@ namespace StructureCommon.Reporting
         /// </summary>
         public List<ErrorReport> GetReports(ReportType reportType)
         {
-            return fReports.Where(report => report.ErrorType == reportType).ToList();
+            return GetReports().Where(report => report.ErrorType == reportType).ToList();
         }
 
         /// <summary>
@@ -154,9 +172,12 @@ namespace StructureCommon.Reporting
         /// </summary>
         public void RemoveReport(int i)
         {
-            if (i >= 0 && i < fReports.Count())
+            lock (lockObject)
             {
-                fReports.RemoveAt(i);
+                if (i >= 0 && i < fReports.Count)
+                {
+                    fReports.RemoveAt(i);
+                }
             }
         }
 
@@ -165,14 +186,20 @@ namespace StructureCommon.Reporting
         /// </summary>
         public void Clear()
         {
-            fReports.Clear();
+            lock (lockObject)
+            {
+                fReports.Clear();
+            }
         }
 
         public ErrorReport this[int index]
         {
             get
             {
-                return fReports[index];
+                lock (lockObject)
+                {
+                    return fReports[index];
+                }
             }
         }
 

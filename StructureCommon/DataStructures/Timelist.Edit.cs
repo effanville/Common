@@ -49,7 +49,7 @@ namespace StructureCommon.DataStructures
                 {
                     if (fValues[i].Day == date)
                     {
-                        _ = reportLogger?.Log(ReportSeverity.Detailed, ReportType.Report, ReportLocation.EditingData, $"Editing Data: {date} value changed from {fValues[i].Value} to {value}");
+                        _ = reportLogger?.Log(ReportSeverity.Detailed, ReportType.Information, ReportLocation.EditingData, $"Editing Data: {date} value changed from {fValues[i].Value} to {value}");
                         OnDataEdit(this);
                         fValues[i].SetValue(value);
 
@@ -70,7 +70,7 @@ namespace StructureCommon.DataStructures
                 {
                     if (fValues[i].Day == oldDate)
                     {
-                        _ = reportLogger?.Log(ReportSeverity.Detailed, ReportType.Report, ReportLocation.EditingData, $"Editing Data: {oldDate} value changed from {fValues[i].Value} to {newDate} - {value}");
+                        _ = reportLogger?.Log(ReportSeverity.Detailed, ReportType.Information, ReportLocation.EditingData, $"Editing Data: {oldDate} value changed from {fValues[i].Value} to {newDate} - {value}");
                         fValues[i].SetData(newDate, value);
                         OnDataEdit(this);
                         return true;
@@ -99,7 +99,7 @@ namespace StructureCommon.DataStructures
                 {
                     if (fValues[i].Day == date)
                     {
-                        _ = reportLogger?.Log(ReportSeverity.Detailed, ReportType.Report, ReportLocation.DeletingData, $"Deleted value: date - {date} and value - {fValues[i].Value}");
+                        _ = reportLogger?.Log(ReportSeverity.Detailed, ReportType.Information, ReportLocation.DeletingData, $"Deleted value: date - {date} and value - {fValues[i].Value}");
                         fValues.RemoveAt(i);
                         OnDataEdit(this);
                         return true;
@@ -137,7 +137,7 @@ namespace StructureCommon.DataStructures
             DailyValuation valuation = new DailyValuation(date, value);
             fValues.Add(valuation);
             OnDataEdit(this);
-            _ = reportLogger?.Log(ReportSeverity.Detailed, ReportType.Report, ReportLocation.AddingData, $"Added on {date} value {value}.");
+            _ = reportLogger?.Log(ReportSeverity.Detailed, ReportType.Information, ReportLocation.AddingData, $"Added on {date} value {value}.");
             Sort();
         }
 

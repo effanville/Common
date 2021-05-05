@@ -5,79 +5,48 @@ namespace StructureCommon.Reporting
     /// <summary>
     /// A report structure containing information about a possible problem (or just info) happening in the program.
     /// </summary>
-    public class ErrorReport : IComparable
+    public class ErrorReport : IComparable<ErrorReport>
     {
         /// <summary>
         /// The time the report was logged.
         /// </summary>
         public DateTime TimeStamp;
 
-        private ReportSeverity fErrorSeverity;
 
         /// <summary>
         /// How serious the report is, enabling a grading of the reports based on seriousness.
         /// </summary>
         public ReportSeverity ErrorSeverity
         {
-            get
-            {
-                return fErrorSeverity;
-            }
-            set
-            {
-                fErrorSeverity = value;
-            }
+            get;
+            set;
         }
-
-        private ReportType fErrorType;
 
         /// <summary>
         /// The type of the report (is this an error or a warning etc).
         /// </summary>
         public ReportType ErrorType
         {
-            get
-            {
-                return fErrorType;
-            }
-            set
-            {
-                fErrorType = value;
-            }
+            get;
+            set;
         }
-
-        private ReportLocation fErrorLocation;
 
         /// <summary>
         /// Where is this a report from.
         /// </summary>
         public ReportLocation ErrorLocation
         {
-            get
-            {
-                return fErrorLocation;
-            }
-            set
-            {
-                fErrorLocation = value;
-            }
+            get;
+            set;
         }
-
-        private string fMessage;
 
         /// <summary>
         /// Any extra text needed to aid info to the report.
         /// </summary>
         public string Message
         {
-            get
-            {
-                return fMessage;
-            }
-            set
-            {
-                fMessage = value;
-            }
+            get;
+            set;
         }
 
         /// <summary>
@@ -91,9 +60,6 @@ namespace StructureCommon.Reporting
         /// <summary>
         /// Constructs an error report with default <see cref="ReportSeverity"/>.
         /// </summary>
-        /// <param name="type">The type of the report.</param>
-        /// <param name="errorLocation">The location of the report.</param>
-        /// <param name="message">Any additional information to include.</param>
         public ErrorReport(ReportType type, ReportLocation errorLocation, string message)
         {
             TimeStamp = DateTime.Now;
@@ -105,10 +71,6 @@ namespace StructureCommon.Reporting
         /// <summary>
         /// Constructs a full report, setting all properties.
         /// </summary>
-        /// <param name="severity">The seriousness of the report.</param>
-        /// <param name="type">The type of the report.</param>
-        /// <param name="errorLocation">The location of the report.</param>
-        /// <param name="message">Any additional information to include.</param>
         public ErrorReport(ReportSeverity severity, ReportType type, ReportLocation errorLocation, string message)
         {
             TimeStamp = DateTime.Now;
@@ -121,7 +83,6 @@ namespace StructureCommon.Reporting
         /// <summary>
         /// Output of error as a string. This does not include the severity of the report.
         /// </summary>
-        /// <returns></returns>
         public override string ToString()
         {
             return $"[{TimeStamp}]{ErrorType} - {ErrorLocation} - {Message}";
@@ -133,22 +94,27 @@ namespace StructureCommon.Reporting
         /// </summary>
         public int CompareTo(object obj)
         {
-            if (obj is ErrorReport value)
+            if (obj is ErrorReport other)
             {
-                if (value.ErrorType.Equals(ErrorType))
-                {
-                    if (value.ErrorLocation.Equals(ErrorLocation))
-                    {
-                        return Message.CompareTo(value.Message);
-                    }
-
-                    return value.ErrorLocation.CompareTo(ErrorLocation);
-                }
-
-                return ErrorType.CompareTo(value.ErrorType);
+                return CompareTo(other);
             }
 
             return 0;
+        }
+
+        public int CompareTo(ErrorReport other)
+        {
+            if (other.ErrorType.Equals(ErrorType))
+            {
+                if (other.ErrorLocation.Equals(ErrorLocation))
+                {
+                    return string.Compare(Message, other.Message);
+                }
+
+                return other.ErrorLocation.CompareTo(ErrorLocation);
+            }
+
+            return ErrorType.CompareTo(other.ErrorType);
         }
     }
 }
