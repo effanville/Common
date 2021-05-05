@@ -93,5 +93,30 @@ namespace StructureCommon.DataStructures
         {
             Value = value;
         }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            if (obj is Daily<T> other)
+            {
+                return Equals(other);
+            }
+
+            return false;
+        }
+
+        private bool Equals(Daily<T> other)
+        {
+            return Day.Equals(other.Day) && Value.Equals(other.Value);
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            int hashCode = 17;
+            hashCode = 23 * hashCode + Day.GetHashCode();
+            hashCode = 23 * hashCode + Value.GetHashCode();
+            return hashCode;
+        }
     }
 }

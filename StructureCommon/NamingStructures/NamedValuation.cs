@@ -8,23 +8,6 @@ namespace StructureCommon.NamingStructures
     /// </summary>
     public class NamedValuation : DailyValuation
     {
-        /// <inheritdoc/>
-        public override int CompareTo(object obj)
-        {
-            if (obj is NamedValuation value)
-            {
-                return Names.CompareTo(value.Names) + base.CompareTo(value);
-            }
-
-            return 0;
-        }
-
-        /// <inheritdoc/>
-        public override string ToString()
-        {
-            return Names.ToString() + "-" + base.ToString();
-        }
-
         /// <summary>
         /// Names associated to the values.
         /// </summary>
@@ -37,7 +20,8 @@ namespace StructureCommon.NamingStructures
         /// <summary>
         /// Empty constructor.
         /// </summary>
-        public NamedValuation() : base()
+        public NamedValuation()
+            : base()
         {
         }
 
@@ -56,6 +40,40 @@ namespace StructureCommon.NamingStructures
         public NamedValuation(string company, string name, DailyValuation toAddOnto)
             : this(company, name, toAddOnto.Day, toAddOnto.Value)
         {
+        }        /// <inheritdoc/>
+        public override int CompareTo(object obj)
+        {
+            if (obj is NamedValuation value)
+            {
+                return Names.CompareTo(value.Names) + base.CompareTo(value);
+            }
+
+            return 0;
+        }
+
+        /// <inheritdoc/>
+        public override string ToString()
+        {
+            return Names.ToString() + "-" + base.ToString();
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is NamedValuation other)
+            {
+                return Names.Equals(other.Names) && base.Equals(other);
+            }
+
+            return false;
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            int hashCode = 17;
+            hashCode = 23 * hashCode + Names.GetHashCode();
+            hashCode = 23 * hashCode + base.GetHashCode();
+            return hashCode;
         }
     }
 }
