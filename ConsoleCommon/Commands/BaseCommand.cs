@@ -98,6 +98,7 @@ namespace ConsoleCommon.Commands
             bool optionsValid = true;
             if (Options != null && Options.Count > 0)
             {
+                // cycle through user given values filling in option values.
                 for (int index = 0; index < args.Length - 1; index++)
                 {
                     if (!args[index].StartsWith("--"))
@@ -107,20 +108,23 @@ namespace ConsoleCommon.Commands
                     else
                     {
                         string optionName = args[index].TrimStart('-');
-                        if (!Options.Any(opt => opt.Name.Equals(optionName)))
+                        if (!Options.Any(opt => opt.Name.Equals(optionName, StringComparison.OrdinalIgnoreCase)))
                         {
                             fConsole.WriteError($"Option {optionName} is not a valid option for the {Name} command.");
                             return false;
                         }
 
-                        var option = Options.First(opt => opt.Name.Equals(optionName));
+                        var option = Options.First(opt => opt.Name.Equals(optionName, StringComparison.OrdinalIgnoreCase));
                         option.InputValue = args[index + 1];
+                    }
+                }
 
-                        bool valid = option.Validate();
-                        if (!valid)
-                        {
-                            optionsValid = false;
-                        }
+                foreach (var option in Options)
+                {
+                    bool valid = option.Validate();
+                    if (!valid)
+                    {
+                        optionsValid = false;
                     }
                 }
             }
