@@ -156,6 +156,7 @@ namespace StructureCommon.DataStructures
 
             Day = date;
             Value = value;
+            reader.ReadEndElement();
         }
 
         /// <inheritdoc/>
@@ -188,9 +189,8 @@ namespace StructureCommon.DataStructures
         {
             // new shorter xml format
             _ = reader.MoveToContent();
-            bool thing = reader.Name == XmlBaseElementNew;
 
-            if (thing)
+            if (reader.Name == XmlBaseElementNew)
             {
                 string dayString = reader.GetAttribute(XmlDayElementNew);
                 string valueString = reader.GetAttribute(XmlValueElementNew);
@@ -200,10 +200,16 @@ namespace StructureCommon.DataStructures
 
                 Day = date;
                 Value = value;
+                _ = reader.MoveToElement();
+                reader.ReadStartElement();
+            }
+            else if (reader.Name == XmlBaseElement)
+            {
+                ReadXmlOld(reader);
             }
             else
             {
-                ReadXmlOld(reader);
+
             }
         }
 
