@@ -9,7 +9,7 @@ namespace StructureCommon.DataStructures
         /// <inheritdoc/>
         public bool ValueExists(DateTime date, out int index)
         {
-            if (fValues != null && fValues.Any())
+            if (fValues.Any())
             {
                 for (int i = 0; i < fValues.Count; i++)
                 {
@@ -26,13 +26,17 @@ namespace StructureCommon.DataStructures
         }
 
         /// <inheritdoc/>
+        [Obsolete("should use set data instead.")]
         public bool TryAddValue(DateTime date, double value, IReportLogger reportLogger = null)
         {
-            for (int i = 0; i < fValues.Count; i++)
+            if (fValues.Any())
             {
-                if (fValues[i].Day == date)
+                for (int i = 0; i < fValues.Count; i++)
                 {
-                    return false;
+                    if (fValues[i].Day == date)
+                    {
+                        return false;
+                    }
                 }
             }
 
@@ -41,9 +45,30 @@ namespace StructureCommon.DataStructures
         }
 
         /// <inheritdoc/>
+        public void SetData(DateTime date, double value, IReportLogger reportLogger = null)
+        {
+            if (fValues.Any())
+            {
+                for (int i = 0; i < fValues.Count; i++)
+                {
+                    if (fValues[i].Day == date)
+                    {
+                        _ = reportLogger?.Log(ReportSeverity.Detailed, ReportType.Information, ReportLocation.EditingData, $"Editing Data: {date} value changed from {fValues[i].Value} to {value}");
+                        OnDataEdit(this);
+                        fValues[i].Value = value;
+                        return;
+                    }
+                }
+            }
+
+            AddData(date, value, reportLogger);
+        }
+
+        /// <inheritdoc/>
+        [Obsolete("should use set data instead.")]
         public bool TryEditData(DateTime date, double value, IReportLogger reportLogger = null)
         {
-            if (fValues != null && fValues.Any())
+            if (fValues.Any())
             {
                 for (int i = 0; i < fValues.Count; i++)
                 {
@@ -64,7 +89,7 @@ namespace StructureCommon.DataStructures
         /// <inheritdoc/>
         public bool TryEditData(DateTime oldDate, DateTime newDate, double value, IReportLogger reportLogger = null)
         {
-            if (fValues != null && fValues.Any())
+            if (fValues.Any())
             {
                 for (int i = 0; i < fValues.Count; i++)
                 {
@@ -93,7 +118,7 @@ namespace StructureCommon.DataStructures
         /// <inheritdoc/>
         public bool TryDeleteValue(DateTime date, IReportLogger reportLogger = null)
         {
-            if (fValues != null && fValues.Any())
+            if (fValues.Any())
             {
                 for (int i = 0; i < fValues.Count; i++)
                 {
@@ -115,7 +140,7 @@ namespace StructureCommon.DataStructures
         public bool TryGetValue(DateTime date, out double value)
         {
             value = 0;
-            if (fValues != null && fValues.Any())
+            if (fValues.Any())
             {
                 for (int i = 0; i < fValues.Count; i++)
                 {
@@ -126,6 +151,7 @@ namespace StructureCommon.DataStructures
                     }
                 }
             }
+
             return false;
         }
 
@@ -146,7 +172,7 @@ namespace StructureCommon.DataStructures
         /// </summary>
         private void Sort()
         {
-            if (fValues != null && fValues.Any())
+            if (fValues.Any())
             {
                 fValues = fValues.OrderBy(x => x.Day).ToList();
             }

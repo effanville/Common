@@ -15,23 +15,23 @@ namespace StructureCommon.DataStructures
         /// </summary>
         public TimeList Inverted()
         {
-            List<DailyValuation> invertedValues = new List<DailyValuation>();
+            TimeList inverted = new TimeList();
             if (fValues != null && fValues.Count > 0)
             {
                 foreach (DailyValuation value in fValues)
                 {
                     if (!value.Value.Equals(0))
                     {
-                        invertedValues.Add(new DailyValuation(value.Day, 1 / value.Value));
+                        inverted.SetData(value.Day, 1 / value.Value);
                     }
                     else
                     {
-                        invertedValues.Add(new DailyValuation(value.Day, double.PositiveInfinity));
+                        inverted.SetData(value.Day, double.PositiveInfinity);
                     }
                 }
             }
 
-            return new TimeList(invertedValues);
+            return inverted;
         }
 
         /// <summary>

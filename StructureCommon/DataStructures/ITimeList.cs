@@ -52,11 +52,13 @@ namespace StructureCommon.DataStructures
         /// <summary>
         /// Adds value to the data only if value of the date doesn't currently exist.
         /// </summary>
+        [Obsolete("should use set data instead.")]
         bool TryAddValue(DateTime date, double value, IReportLogger reportLogger = null);
 
         /// <summary>
         /// Edits data on <paramref name="date"/> and replaces existing value with <paramref name="value"/>.
         /// </summary>
+        [Obsolete("should use SetData instead.")]
         bool TryEditData(DateTime date, double value, IReportLogger reportLogger = null);
 
         /// <summary>
@@ -67,6 +69,15 @@ namespace StructureCommon.DataStructures
         /// <param name="value">The value to set for this date.</param>
         /// <param name="reportLogger">Reports the logging of this action.</param>
         bool TryEditData(DateTime oldDate, DateTime newDate, double value, IReportLogger reportLogger = null);
+
+        /// <summary>
+        /// Sets data in the TimeList on the date provided. Adds if it doesnt exist, edits if it does.
+        /// </summary>
+        /// <param name="oldDate">The date to edit data on.</param>
+        /// <param name="newDate">The date to set the value to be stored on.</param>
+        /// <param name="value">The value to set for this date.</param>
+        /// <param name="reportLogger">Reports the logging of this action.</param>
+        void SetData(DateTime date, double value, IReportLogger reportLogger = null);
 
         /// <summary>
         /// Edits the data on date specified. If data doesn't exist then adds the data.
