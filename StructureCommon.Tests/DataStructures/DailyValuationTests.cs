@@ -22,6 +22,18 @@ namespace StructureCommon.Tests.DataStructures
             Assert.AreEqual(result, comparison);
         }
 
+        [Test]
+        public void CreateNewDeepCopy()
+        {
+            var first = new DailyValuation(new DateTime(2018, 1, 1), 4);
+            var second = new DailyValuation(first);
+
+            second.Day = new DateTime(2014, 1, 1);
+            second.Value = 6;
+            Assert.AreNotEqual(first.Day, second.Day);
+            Assert.AreNotEqual(first.Value, second.Value);
+        }
+
         [TestCase("1/1/2018", 1)]
         public void CopyTests(DateTime date, double value)
         {
@@ -29,7 +41,7 @@ namespace StructureCommon.Tests.DataStructures
 
             DailyValuation newData = data.Copy();
 
-            newData.SetDay(DateTime.Parse("1/1/2019"));
+            newData.Day = (DateTime.Parse("1/1/2019"));
             Assert.AreNotEqual(data, newData);
         }
 

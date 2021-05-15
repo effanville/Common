@@ -89,22 +89,6 @@ namespace StructureCommon.DataStructures
             Value = value;
         }
 
-        /// <summary>
-        /// Sets the day field only.
-        /// </summary>
-        public void SetDay(DateTime date)
-        {
-            Day = date;
-        }
-
-        /// <summary>
-        /// Sets the value field.
-        /// </summary>
-        public void SetValue(double value)
-        {
-            Value = value;
-        }
-
         /// <inheritdoc/>
         public override bool Equals(object obj)
         {
