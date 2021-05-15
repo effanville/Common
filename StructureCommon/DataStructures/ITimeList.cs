@@ -50,18 +50,6 @@ namespace StructureCommon.DataStructures
         bool TryGetValue(DateTime date, out double value);
 
         /// <summary>
-        /// Adds value to the data only if value of the date doesn't currently exist.
-        /// </summary>
-        [Obsolete("should use set data instead.")]
-        bool TryAddValue(DateTime date, double value, IReportLogger reportLogger = null);
-
-        /// <summary>
-        /// Edits data on <paramref name="date"/> and replaces existing value with <paramref name="value"/>.
-        /// </summary>
-        [Obsolete("should use SetData instead.")]
-        bool TryEditData(DateTime date, double value, IReportLogger reportLogger = null);
-
-        /// <summary>
         /// Edits data in the TimeList on the date provided if it can.
         /// </summary>
         /// <param name="oldDate">The date to edit data on.</param>
@@ -73,16 +61,10 @@ namespace StructureCommon.DataStructures
         /// <summary>
         /// Sets data in the TimeList on the date provided. Adds if it doesnt exist, edits if it does.
         /// </summary>
-        /// <param name="oldDate">The date to edit data on.</param>
-        /// <param name="newDate">The date to set the value to be stored on.</param>
+        /// <param name="date">The date to edit data on.</param>
         /// <param name="value">The value to set for this date.</param>
         /// <param name="reportLogger">Reports the logging of this action.</param>
         void SetData(DateTime date, double value, IReportLogger reportLogger = null);
-
-        /// <summary>
-        /// Edits the data on date specified. If data doesn't exist then adds the data.
-        /// </summary>
-        void TryEditDataOtherwiseAdd(DateTime oldDate, DateTime date, double value, IReportLogger reportLogger = null);
 
         /// <summary>
         /// Deletes data if exists. If deletes, returns true.
@@ -123,5 +105,11 @@ namespace StructureCommon.DataStructures
         /// A valuation with the date and the value on that date. The date is not necessarily the date requested. For example
         /// if the prior evaluator returns a different date, then that date is recorded.</returns>
         DailyValuation Value(DateTime date, Func<DailyValuation, DateTime, DailyValuation> priorEstimator, Func<DailyValuation, DateTime, DailyValuation> postEstimator, Func<DailyValuation, DailyValuation, DateTime, double> interpolationFunction);
+
+        /// <summary>
+        /// Provides a new <see cref="TimeList"/> with multiplicative inverses as values,
+        /// and where the value 0 is mapped to <see cref="double.PositiveInfinity"/>.
+        /// </summary>
+        TimeList Inverted();
     }
 }
