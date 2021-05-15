@@ -9,16 +9,19 @@ namespace StructureCommon.DataStructures
     /// </summary>
     public partial class TimeList
     {
-        /// <summary>
-        /// Provides a new <see cref="TimeList"/> with multiplicative inverses as values,
-        /// and where the value 0 is mapped to <see cref="double.PositiveInfinity"/>.
-        /// </summary>
+
+        /// <inheritdoc />
         public TimeList Inverted()
         {
+            return Inverted(Values());
+        }
+
+        private static TimeList Inverted(List<DailyValuation> values)
+        {
             TimeList inverted = new TimeList();
-            if (fValues != null && fValues.Count > 0)
+            if (values.Count > 0)
             {
-                foreach (DailyValuation value in fValues)
+                foreach (DailyValuation value in values)
                 {
                     if (!value.Value.Equals(0))
                     {
@@ -39,10 +42,15 @@ namespace StructureCommon.DataStructures
         /// </summary>
         public double Sum()
         {
-            if (fValues != null && fValues.Count > 0)
+            return Sum(Values());
+        }
+
+        private static double Sum(List<DailyValuation> values)
+        {
+            if (values.Count > 0)
             {
                 double sum = 0;
-                foreach (DailyValuation val in fValues)
+                foreach (DailyValuation val in values)
                 {
                     sum += val.Value;
                 }
@@ -58,8 +66,13 @@ namespace StructureCommon.DataStructures
         /// </summary>
         public double CAR(DateTime earlierTime, DateTime laterTime)
         {
-            DailyValuation earlierValue = NearestEarlierValue(earlierTime);
-            DailyValuation laterValue = NearestEarlierValue(laterTime);
+            return CAR(Values(), earlierTime, laterTime);
+        }
+
+        private static double CAR(List<DailyValuation> values, DateTime earlierTime, DateTime laterTime)
+        {
+            DailyValuation earlierValue = NearestEarlierValue(values, earlierTime);
+            DailyValuation laterValue = NearestEarlierValue(values, laterTime);
             if (earlierValue == null || laterValue == null)
             {
                 return double.NaN;
@@ -67,24 +80,40 @@ namespace StructureCommon.DataStructures
 
             return FinancialFunctions.CAR(earlierValue, laterValue);
         }
+
         /// <summary>
         /// Returns internal rate of return of the values in the TimeList
         /// </summary>
         internal double IRR(DailyValuation latestValue)
         {
-            // if have only one investment easy to return the CAR.
-            if (Count() == 1)
+            return IRR(Values(), latestValue);
+        }
+
+        private static double IRR(List<DailyValuation> values, DailyValuation latestValue)
+        {
+            if (values == null || values.Count == 0 || latestValue == null)
             {
-                return FinancialFunctions.CAR(latestValue, FirstValuation());
+                return double.NaN;
             }
 
-            return FinancialFunctions.IRR(fValues, latestValue);
+            // if have only one investment easy to return the CAR.
+            if (values.Count == 1)
+            {
+                return FinancialFunctions.CAR(latestValue, FirstValuation(values));
+            }
+
+            return FinancialFunctions.IRR(values, latestValue);
         }
 
         /// <summary>
         /// Returns the internal rate of return between <param name="startValue"/> and <param name="latestValue"/>.
         /// </summary>
-        internal double IRRTime(DailyValuation startValue, DailyValuation latestValue)
+        internal double IRR(DailyValuation startValue, DailyValuation latestValue)
+        {
+            return IRR(Values(), startValue, latestValue);
+        }
+
+        private static double IRR(List<DailyValuation> values, DailyValuation startValue, DailyValuation latestValue)
         {
             if (startValue == null || latestValue == null)
             {
@@ -92,12 +121,12 @@ namespace StructureCommon.DataStructures
             }
 
             // if have only one investment easy to return the CAR.
-            if (Count() == 1)
+            if (values.Count == 1)
             {
                 return FinancialFunctions.CAR(latestValue, startValue);
             }
 
-            return FinancialFunctions.IRRTime(startValue, GetValuesBetween(startValue.Day, latestValue.Day), latestValue);
+            return FinancialFunctions.IRRTime(startValue, GetValuesBetween(values, startValue.Day, latestValue.Day), latestValue);
         }
     }
 }

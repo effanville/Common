@@ -13,6 +13,8 @@ namespace StructureCommon.DataStructures
     /// <remarks>This list is sorted, with oldest value the first and latest the last.</remarks>
     public partial class TimeList : ITimeList, IEquatable<TimeList>, IXmlSerializable
     {
+        private readonly object valuesLock = new object();
+
         /// <summary>
         /// Event that controls when data is edited.
         /// </summary>
@@ -27,6 +29,18 @@ namespace StructureCommon.DataStructures
         /// Collection of data within the TimeList.
         /// </summary>
         private List<DailyValuation> fValues;
+
+        /// <summary>
+        /// Get a copy of the currently held data in the <see cref="TimeList"/>
+        /// </summary>
+        /// <returns></returns>
+        public List<DailyValuation> Values()
+        {
+            lock (valuesLock)
+            {
+                return fValues.ToList();
+            }
+        }
 
         /// <inheritdoc/>
         public DailyValuation this[int index]
@@ -57,36 +71,23 @@ namespace StructureCommon.DataStructures
         /// <inheritdoc/>
         public bool Any()
         {
-            return fValues != null && fValues.Any();
+            return Any(Values());
+        }
+
+        private static bool Any(List<DailyValuation> values)
+        {
+            return values.Any();
         }
 
         /// <inheritdoc/>
         public int Count()
         {
-            return fValues.Count;
+            return Count(Values());
         }
 
-        /// <inheritdoc/>
-        public void CleanValues()
+        private static int Count(List<DailyValuation> values)
         {
-            if (fValues.Count <= 1)
-            {
-                return;
-            }
-
-            var lastValue = fValues[0];
-            for (int valueIndex = 1; valueIndex < fValues.Count; ++valueIndex)
-            {
-                if (fValues[valueIndex].Value.Equals(lastValue.Value))
-                {
-                    fValues.RemoveAt(valueIndex);
-                    --valueIndex;
-                }
-                else
-                {
-                    lastValue = fValues[valueIndex];
-                }
-            }
+            return values.Count;
         }
 
         /// <inheritdoc/>
@@ -105,14 +106,16 @@ namespace StructureCommon.DataStructures
 
             if (!isEmpty)
             {
-                while (reader.NodeType != XmlNodeType.EndElement && reader.NodeType != XmlNodeType.None)
+                lock (valuesLock)
                 {
-                    var valuation = new DailyValuation();
-                    valuation.ReadXml(reader);
-                    fValues.Add(valuation);
-                    _ = reader.MoveToContent();
+                    while (reader.NodeType != XmlNodeType.EndElement && reader.NodeType != XmlNodeType.None)
+                    {
+                        var valuation = new DailyValuation();
+                        valuation.ReadXml(reader);
+                        fValues.Add(valuation);
+                        _ = reader.MoveToContent();
+                    }
                 }
-
                 if (reader.NodeType != XmlNodeType.None)
                 {
                     reader.ReadEndElement();
@@ -124,11 +127,14 @@ namespace StructureCommon.DataStructures
         public virtual void WriteXml(XmlWriter writer)
         {
             writer.WriteStartElement(XmlBaseName);
-            foreach (var value in fValues)
-            {
-                value.WriteXml(writer);
-            }
 
+            lock (valuesLock)
+            {
+                foreach (var value in fValues)
+                {
+                    value.WriteXml(writer);
+                }
+            }
             writer.WriteEndElement();
         }
 
@@ -146,9 +152,13 @@ namespace StructureCommon.DataStructures
         public override int GetHashCode()
         {
             int hashCode = 17;
-            foreach (var value in fValues)
+
+            lock (valuesLock)
             {
-                hashCode = 23 * hashCode + value.GetHashCode();
+                foreach (var value in fValues)
+                {
+                    hashCode = 23 * hashCode + value.GetHashCode();
+                }
             }
 
             return hashCode;
@@ -157,21 +167,24 @@ namespace StructureCommon.DataStructures
         /// <inheritdoc/>
         public bool Equals(TimeList other)
         {
-            int count = Count();
-            if (count != other.Count())
+            lock (valuesLock)
             {
-                return false;
-            }
-
-            for (int i = 0; i < count; i++)
-            {
-                var value = fValues[i];
-                if (!value.Equals(other[i]))
+                int count = fValues.Count;
+                var otherData = other.Values();
+                if (count != otherData.Count)
                 {
                     return false;
                 }
-            }
 
+                for (int i = 0; i < count; i++)
+                {
+                    var value = fValues[i];
+                    if (!value.Equals(otherData[i]))
+                    {
+                        return false;
+                    }
+                }
+            }
             return true;
         }
     }
