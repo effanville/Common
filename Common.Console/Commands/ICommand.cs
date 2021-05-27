@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Common.Console.Options;
 
 namespace Common.Console.Commands
@@ -24,17 +26,17 @@ namespace Common.Console.Commands
         }
 
         /// <summary>
-        /// Suitable input option names for the command.
+        /// The options for this command.
         /// </summary>
-        string[] OptionsByName
+        IList<CommandOption> Options
         {
             get;
         }
 
         /// <summary>
-        /// The options for this command.
+        /// Any sub commands for this command.
         /// </summary>
-        IList<CommandOption> Options
+        IList<ICommand> SubCommands
         {
             get;
         }
@@ -50,13 +52,13 @@ namespace Common.Console.Commands
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        bool ValidateOptions(string[] args);
+        bool Validate(IConsole console, string[] args);
 
         /// <summary>
         /// Execute the given command.
         /// </summary>
         /// <param name="args">The command line arguments.</param>
         /// <returns>The exit code of the command.</returns>
-        int Execute(string[] args = null);
+        int Execute(IConsole console, string[] args = null);
     }
 }

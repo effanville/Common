@@ -82,8 +82,12 @@ namespace Common.Console.Options
             {
                 Value = parsedValue;
             }
+            else
+            {
+                ErrorMessage = "Failed to validate option.";
+            }
 
-            return Validator(parsedValue);
+            return valid;
         }
     }
 }
