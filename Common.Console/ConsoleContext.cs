@@ -7,7 +7,7 @@ using Common.Structure.Reporting;
 namespace Common.Console
 {
     /// <summary>
-    /// Contains the context for a console application, as well as the 
+    /// Contains the context for a console application, as well as the
     /// validation and execution routines.
     /// </summary>
     public sealed class ConsoleContext
@@ -157,7 +157,7 @@ namespace Common.Console
             }
 
             var commandArgs = Args.Skip(1).ToArray();
-            return fCommand.ValidateOptions(commandArgs);
+            return fCommand.Validate(commandArgs, Console);
         }
 
         /// <summary>
@@ -185,6 +185,7 @@ namespace Common.Console
                     return 0;
                 }
             }
+
             return fCommand.Execute(commandArgs);
         }
     }

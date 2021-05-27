@@ -66,6 +66,16 @@ namespace Common.Console.Options
             Validator = validator;
         }
 
+        public string GetPrettyErrorMessage()
+        {
+            if (string.IsNullOrWhiteSpace(ErrorMessage))
+            {
+                return $"Option {Name} has no error.";
+            }
+
+            return $"Option {Name} - {ErrorMessage}";
+        }
+
         /// <summary>
         /// Validate the already specified <see cref="InputValue"/> value based on the validation 
         /// specified in construction.
