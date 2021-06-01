@@ -6,7 +6,7 @@ namespace StructureCommon.DataStructures
     /// <summary>
     /// Holds a date and a value to act as the value on that day.
     /// </summary>
-    public class Daily<T> : IComparable where T : class
+    public class Daily<T> : IComparable where T : IEquatable<T>
     {
         /// <summary>
         /// The date for the valuation
@@ -75,22 +75,6 @@ namespace StructureCommon.DataStructures
         public void SetData(DateTime date, T value)
         {
             Day = date;
-            Value = value;
-        }
-
-        /// <summary>
-        /// Sets the day field only.
-        /// </summary>
-        public void SetDay(DateTime date)
-        {
-            Day = date;
-        }
-
-        /// <summary>
-        /// Sets the value field.
-        /// </summary>
-        public void SetValue(T value)
-        {
             Value = value;
         }
 
