@@ -4,10 +4,10 @@ using StructureCommon.Reporting;
 namespace StructureCommon.DataStructures
 {
     /// <summary>
-    /// A list of <see cref="T"/>s that is ordered by the <see cref="DailyValuation.Day"/> property.
+    /// A list of <see cref="T"/>s that is ordered by the <see cref="Daily{T}.Day"/> property.
     /// Contains methods to add and alter the data, as well as calculate values.
     /// </summary>
-    public interface ITimeList<T> where T : class
+    public interface ITimeList<T> where T : IEquatable<T>
     {
         /// <summary>
         /// Event that is raised when data is edited.
@@ -50,14 +50,12 @@ namespace StructureCommon.DataStructures
         bool TryGetValue(DateTime date, out T value);
 
         /// <summary>
-        /// Adds value to the data only if value of the date doesn't currently exist.
+        /// Sets data in the TimeList on the date provided. Adds if it doesnt exist, edits if it does.
         /// </summary>
-        bool TryAddValue(DateTime date, T value, IReportLogger reportLogger = null);
-
-        /// <summary>
-        /// Edits data on <paramref name="date"/> and replaces existing value with <paramref name="value"/>.
-        /// </summary>
-        bool TryEditData(DateTime date, T value, IReportLogger reportLogger = null);
+        /// <param name="date">The date to edit data on.</param>
+        /// <param name="value">The value to set for this date.</param>
+        /// <param name="reportLogger">Reports the logging of this action.</param>
+        void SetData(DateTime date, T value, IReportLogger reportLogger = null);
 
         /// <summary>
         /// Edits data in the TimeList on the date provided if it can.
@@ -69,20 +67,17 @@ namespace StructureCommon.DataStructures
         bool TryEditData(DateTime oldDate, DateTime newDate, T value, IReportLogger reportLogger = null);
 
         /// <summary>
-        /// Edits the data on date specified. If data doesn't exist then adds the data.
-        /// </summary>
-        void TryEditDataOtherwiseAdd(DateTime oldDate, DateTime date, T value, IReportLogger reportLogger = null);
-
-        /// <summary>
         /// Deletes data if exists. If deletes, returns true.
         /// </summary>
+        /// <param name="date">The date to edit data on.</param>
+        /// <param name="reportLogger">Reports the logging of this action.</param>
         bool TryDeleteValue(DateTime date, IReportLogger reportLogger = null);
 
         /// <summary>
         /// Returns the linearly interpolated value of the List on the date provided.
         /// </summary>
         /// <param name="date">The date to retrieve the value on.</param>
-        DailyValuation Value(DateTime date);
+        Daily<T> Value(DateTime date);
 
         /// <summary>
         /// Returns the value of the <see cref="TimeList"/> with various methods to interpolate. The value prior to the first date returns the first date,
@@ -96,7 +91,7 @@ namespace StructureCommon.DataStructures
         /// <returns>
         /// A valuation with the date and the value on that date. The date is not necessarily the date requested. For example
         /// if the prior evaluator returns a different date, then that date is recorded.</returns>
-        DailyValuation Value(DateTime date, Func<Daily<T>, Daily<T>, DateTime, double> interpolationFunction);
+        Daily<T> Value(DateTime date, Func<Daily<T>, Daily<T>, DateTime, double> interpolationFunction);
 
         /// <summary>
         /// Returns the value of the <see cref="TimeList"/> with various methods to interpolate.
@@ -105,12 +100,12 @@ namespace StructureCommon.DataStructures
         /// <param name="priorEstimator">The Function to estimate the value prior to the first value. This is a function of the first valuation and the date to evaluate on.</param>
         /// <param name="postEstimator">The Function to estimate the value after the final value. This is a function of the Last valuation and the date to evaluate on.</param>
         /// <param name="interpolationFunction">The function to interpolate between values. This is a function
-        /// of the <see cref="DailyValuation"/> before the date to calculate,
-        /// the date, and the <see cref="DailyValuation"/> after the calculation date, and returns the value on that date. For example, this could
+        /// of the <see cref="Daily{T}"/> before the date to calculate,
+        /// the date, and the <see cref="Daily{T}"/> after the calculation date, and returns the value on that date. For example, this could
         /// linearly interpolate between values.</param>
         /// <returns>
         /// A valuation with the date and the value on that date. The date is not necessarily the date requested. For example
         /// if the prior evaluator returns a different date, then that date is recorded.</returns>
-        DailyValuation Value(DateTime date, Func<Daily<T>, DateTime, Daily<T>> priorEstimator, Func<Daily<T>, DateTime, Daily<T>> postEstimator, Func<Daily<T>, Daily<T>, DateTime, double> interpolationFunction);
+        Daily<T> Value(DateTime date, Func<Daily<T>, DateTime, Daily<T>> priorEstimator, Func<Daily<T>, DateTime, Daily<T>> postEstimator, Func<Daily<T>, Daily<T>, DateTime, double> interpolationFunction);
     }
 }
