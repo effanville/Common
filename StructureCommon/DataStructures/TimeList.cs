@@ -101,8 +101,19 @@ namespace StructureCommon.DataStructures
         /// <inheritdoc/>
         public virtual void ReadXml(XmlReader reader)
         {
+            bool isInnerEmpty = false;
             bool isEmpty = reader.IsEmptyElement;
-            reader.ReadStartElement(XmlBaseName);
+
+            reader.ReadStartElement();
+
+            // if the timelist is part of a larger class, then the data is stored in an
+            // extra node.
+            bool partOfClass = reader.AttributeCount > 0 || reader.LocalName == XmlBaseName;
+            if (partOfClass)
+            {
+                isInnerEmpty = reader.IsEmptyElement;
+                reader.ReadStartElement(XmlBaseName);
+            }
 
             if (!isEmpty)
             {
@@ -118,6 +129,11 @@ namespace StructureCommon.DataStructures
                 }
                 if (reader.NodeType != XmlNodeType.None)
                 {
+                    if (partOfClass && !isInnerEmpty)
+                    {
+                        reader.ReadEndElement();
+                    }
+
                     reader.ReadEndElement();
                 }
             }

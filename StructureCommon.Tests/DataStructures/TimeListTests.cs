@@ -174,6 +174,8 @@ namespace StructureCommon.Tests.DataStructures
                 .SetName($"{testName}-old1");
             yield return new TestCaseData("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<Values>\r\n<DailyValuation>\r\n<Day>2018-01-01T00:00:00</Day>\r\n<Value>0</Value>\r\n</DailyValuation>\r\n</Values>", new TimeList(new List<DailyValuation>() { new DailyValuation(new DateTime(2018, 1, 1), 0.0) }))
                 .SetName($"{testName}-old2");
+            yield return new TestCaseData("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<Values />", new TimeList(new List<DailyValuation>()))
+.SetName($"{testName}-old3");
         }
 
         [TestCaseSource(nameof(ReadSerializationData), new object[] { nameof(ReadXmlTests) })]
