@@ -6,7 +6,7 @@ namespace StructureCommon.DataStructures
     /// <summary>
     /// Holds a date and a value to act as the value on that day.
     /// </summary>
-    public class Daily<T> : IComparable where T : class
+    public class Daily<T> : IComparable where T : IEquatable<T>
     {
         /// <summary>
         /// The date for the valuation
@@ -78,20 +78,29 @@ namespace StructureCommon.DataStructures
             Value = value;
         }
 
-        /// <summary>
-        /// Sets the day field only.
-        /// </summary>
-        public void SetDay(DateTime date)
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
         {
-            Day = date;
+            if (obj is Daily<T> other)
+            {
+                return Equals(other);
+            }
+
+            return false;
         }
 
-        /// <summary>
-        /// Sets the value field.
-        /// </summary>
-        public void SetValue(T value)
+        private bool Equals(Daily<T> other)
         {
-            Value = value;
+            return Day.Equals(other.Day) && Value.Equals(other.Value);
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            int hashCode = 17;
+            hashCode = 23 * hashCode + Day.GetHashCode();
+            hashCode = 23 * hashCode + Value.GetHashCode();
+            return hashCode;
         }
     }
 }

@@ -18,6 +18,6 @@
         /// <summary>
         /// Just some information that could be useful or needed.
         /// </summary>
-        Report = 2
+        Information = 2
     }
 }

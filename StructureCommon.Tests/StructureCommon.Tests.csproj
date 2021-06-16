@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net5.0;netcoreapp3.1;net48</TargetFrameworks>
+    <TargetFramework>net48</TargetFramework>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
-  <Import Project="../Build/CommonProperties.build.props"/>
+  <Import Project="../Build/CommonProperties.build.props" />
 
   <ItemGroup>
     <PackageReference Include="NUnit" Version="3.12.0" />

@@ -128,19 +128,25 @@ namespace StructureCommon.NamingStructures
             return 0;
         }
 
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            int hashCode = 17;
+            hashCode = 23 * hashCode + PrimaryName.GetHashCode();
+            hashCode = 23 * hashCode + SecondaryName.GetHashCode();
+            return hashCode;
+        }
         /// <summary>
         /// Returns whether another object is the same as this one.
         /// </summary>
         public override bool Equals(object obj)
         {
-            return EqualityMethod(obj);
-        }
+            if (obj is Name otherName)
+            {
+                return Equals(otherName);
+            }
 
-
-        /// <inheritdoc/>
-        public override int GetHashCode()
-        {
-            return PrimaryName == null ? 0 : PrimaryName.GetHashCode() + 10 ^ 12 * (SecondaryName == null ? 0 : SecondaryName.GetHashCode());
+            return false;
         }
 
         /// <summary>
@@ -149,56 +155,20 @@ namespace StructureCommon.NamingStructures
         /// </summary>
         public bool IsEqualTo(object obj)
         {
-            return EqualityMethod(obj);
-        }
-
-        /// <summary>
-        /// The method by which one determines equality.
-        /// </summary>
-        private bool EqualityMethod(object obj)
-        {
             if (obj is Name otherName)
             {
-                if (otherName == null)
-                {
-                    return false;
-                }
-                if (string.IsNullOrEmpty(PrimaryName) && string.IsNullOrEmpty(SecondaryName))
-                {
-                    if (string.IsNullOrEmpty(otherName.PrimaryName) && string.IsNullOrEmpty(otherName.SecondaryName))
-                    {
-                        return true;
-                    }
-
-                    return false;
-                }
-                if (string.IsNullOrEmpty(PrimaryName))
-                {
-                    if (string.IsNullOrEmpty(otherName.PrimaryName))
-                    {
-                        return SecondaryName.Equals(otherName.SecondaryName);
-                    }
-
-                    return false;
-                }
-
-                if (string.IsNullOrEmpty(SecondaryName))
-                {
-                    if (string.IsNullOrEmpty(otherName.SecondaryName))
-                    {
-                        return PrimaryName.Equals(otherName.PrimaryName);
-                    }
-
-                    return false;
-                }
-
-                if (PrimaryName.Equals(otherName.PrimaryName) && SecondaryName.Equals(otherName.SecondaryName))
-                {
-                    return true;
-                }
+                return Equals(otherName);
             }
 
             return false;
+        }
+
+        /// <inheritdoc/>
+        public bool Equals(Name other)
+        {
+            bool primaryEqual = PrimaryName?.Equals(other.PrimaryName) ?? other.PrimaryName == null;
+            bool secondaryEqual = SecondaryName?.Equals(other.SecondaryName) ?? other.SecondaryName == null;
+            return primaryEqual && secondaryEqual;
         }
 
         /// <inheritdoc/>
@@ -219,11 +189,10 @@ namespace StructureCommon.NamingStructures
         /// <summary>
         /// Provides a mechanism to edit the names in this Name.
         /// </summary>
-        public bool EditName(string primaryName, string secondaryName)
+        public void EditName(string primaryName, string secondaryName)
         {
             PrimaryName = primaryName;
             SecondaryName = secondaryName;
-            return true;
         }
     }
 }

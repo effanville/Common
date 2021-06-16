@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml;
+using System.Xml.Schema;
+using System.Xml.Serialization;
 
 namespace StructureCommon.DataStructures
 {
@@ -8,8 +11,10 @@ namespace StructureCommon.DataStructures
     /// Sorted list of values, with last value the most recent, and first the oldest.
     /// </summary>
     /// <remarks>This list is sorted, with oldest value the first and latest the last.</remarks>
-    public partial class TimeList : ITimeList
+    public partial class TimeList : ITimeList, IEquatable<TimeList>, IXmlSerializable
     {
+        private readonly object valuesLock = new object();
+
         /// <summary>
         /// Event that controls when data is edited.
         /// </summary>
@@ -26,17 +31,14 @@ namespace StructureCommon.DataStructures
         private List<DailyValuation> fValues;
 
         /// <summary>
-        /// This should only be used for serialisation.
+        /// Get a copy of the currently held data in the <see cref="TimeList"/>
         /// </summary>
-        public List<DailyValuation> Values
+        /// <returns></returns>
+        public List<DailyValuation> Values()
         {
-            get
+            lock (valuesLock)
             {
-                return fValues;
-            }
-            set
-            {
-                fValues = value;
+                return fValues.ToList();
             }
         }
 
@@ -53,7 +55,7 @@ namespace StructureCommon.DataStructures
         /// Constructor adding values.
         /// </summary>
         /// <remarks>For testing only.</remarks>
-        public TimeList(List<DailyValuation> values)
+        internal TimeList(List<DailyValuation> values)
         {
             fValues = values;
         }
@@ -69,36 +71,137 @@ namespace StructureCommon.DataStructures
         /// <inheritdoc/>
         public bool Any()
         {
-            return fValues != null && fValues.Any();
+            return Any(Values());
+        }
+
+        private static bool Any(List<DailyValuation> values)
+        {
+            return values.Any();
         }
 
         /// <inheritdoc/>
         public int Count()
         {
-            return fValues.Count;
+            return Count(Values());
+        }
+
+        private static int Count(List<DailyValuation> values)
+        {
+            return values.Count;
         }
 
         /// <inheritdoc/>
-        public void CleanValues()
+        public XmlSchema GetSchema()
         {
-            if (fValues.Count <= 1)
+            return null;
+        }
+
+        private const string XmlBaseName = "Values";
+
+        /// <inheritdoc/>
+        public virtual void ReadXml(XmlReader reader)
+        {
+            bool isInnerEmpty = false;
+            bool isEmpty = reader.IsEmptyElement;
+
+            reader.ReadStartElement();
+
+            // if the timelist is part of a larger class, then the data is stored in an
+            // extra node.
+            bool partOfClass = reader.AttributeCount > 0 || reader.LocalName == XmlBaseName;
+            if (partOfClass)
             {
-                return;
+                isInnerEmpty = reader.IsEmptyElement;
+                reader.ReadStartElement(XmlBaseName);
             }
 
-            var lastValue = fValues[0];
-            for (int valueIndex = 1; valueIndex < fValues.Count; ++valueIndex)
+            if (!isEmpty)
             {
-                if (fValues[valueIndex].Value.Equals(lastValue.Value))
+                lock (valuesLock)
                 {
-                    fValues.RemoveAt(valueIndex);
-                    --valueIndex;
+                    while (reader.NodeType != XmlNodeType.EndElement && reader.NodeType != XmlNodeType.None)
+                    {
+                        var valuation = new DailyValuation();
+                        valuation.ReadXml(reader);
+                        fValues.Add(valuation);
+                        _ = reader.MoveToContent();
+                    }
                 }
-                else
+                if (reader.NodeType != XmlNodeType.None)
                 {
-                    lastValue = fValues[valueIndex];
+                    if (partOfClass && !isInnerEmpty)
+                    {
+                        reader.ReadEndElement();
+                    }
+
+                    reader.ReadEndElement();
                 }
             }
+        }
+
+        /// <inheritdoc/>
+        public virtual void WriteXml(XmlWriter writer)
+        {
+            writer.WriteStartElement(XmlBaseName);
+
+            lock (valuesLock)
+            {
+                foreach (var value in fValues)
+                {
+                    value.WriteXml(writer);
+                }
+            }
+            writer.WriteEndElement();
+        }
+
+        /// <inheritdoc/>
+        public override bool Equals(object other)
+        {
+            if (other is TimeList otherTimeList)
+            {
+                return Equals(otherTimeList);
+            }
+
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            int hashCode = 17;
+
+            lock (valuesLock)
+            {
+                foreach (var value in fValues)
+                {
+                    hashCode = 23 * hashCode + value.GetHashCode();
+                }
+            }
+
+            return hashCode;
+        }
+
+        /// <inheritdoc/>
+        public bool Equals(TimeList other)
+        {
+            lock (valuesLock)
+            {
+                int count = fValues.Count;
+                var otherData = other.Values();
+                if (count != otherData.Count)
+                {
+                    return false;
+                }
+
+                for (int i = 0; i < count; i++)
+                {
+                    var value = fValues[i];
+                    if (!value.Equals(otherData[i]))
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
     }
 }

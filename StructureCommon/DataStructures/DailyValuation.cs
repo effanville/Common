@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Globalization;
+using System.Xml;
+using System.Xml.Schema;
+using System.Xml.Serialization;
 using StructureCommon.Extensions;
 
 namespace StructureCommon.DataStructures
@@ -6,7 +10,7 @@ namespace StructureCommon.DataStructures
     /// <summary>
     /// Holds a date and a value to act as the value on that day.
     /// </summary>
-    public class DailyValuation : IComparable
+    public class DailyValuation : IComparable, IXmlSerializable
     {
         /// <summary>
         /// The date for the valuation
@@ -85,20 +89,113 @@ namespace StructureCommon.DataStructures
             Value = value;
         }
 
-        /// <summary>
-        /// Sets the day field only.
-        /// </summary>
-        public void SetDay(DateTime date)
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
         {
-            Day = date;
+            if (obj is DailyValuation other)
+            {
+                return Equals(other);
+            }
+
+            return false;
         }
 
-        /// <summary>
-        /// Sets the value field.
-        /// </summary>
-        public void SetValue(double value)
+        public bool Equals(DailyValuation other)
         {
-            Value = value;
+            return Day.Equals(other.Day) && Value.Equals(other.Value);
         }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            int hashCode = 17;
+            hashCode = 23 * hashCode + Day.GetHashCode();
+            hashCode = 23 * hashCode + Value.GetHashCode();
+            return hashCode;
+        }
+
+        public XmlSchema GetSchema()
+        {
+            return null;
+        }
+
+        private const string XmlBaseElement = "DailyValuation";
+
+        private const string XmlDayElement = "Day";
+        private const string XmlValueElement = "Value";
+
+        /// <inheritdoc/>
+        public void ReadXmlOld(XmlReader reader)
+        {
+            reader.ReadStartElement(XmlBaseElement);
+            reader.ReadStartElement(XmlDayElement);
+            string day = reader.ReadContentAsString();
+            reader.ReadEndElement();
+            reader.ReadStartElement(XmlValueElement);
+            string values = reader.ReadContentAsString();
+            reader.ReadEndElement();
+
+            _ = DateTime.TryParse(day, out DateTime date);
+            _ = double.TryParse(values, NumberStyles.Any, CultureInfo.InvariantCulture, out double value);
+
+            Day = date;
+            Value = value;
+            reader.ReadEndElement();
+        }
+
+        /// <inheritdoc/>
+        public void WriteXmlOld(XmlWriter writer)
+        {
+            writer.WriteStartElement(XmlBaseElement);
+            writer.WriteStartElement(XmlDayElement);
+            writer.WriteValue(Day);
+            writer.WriteEndElement();
+            writer.WriteStartElement(XmlValueElement);
+            writer.WriteString(Value.ToString(CultureInfo.InvariantCulture));
+            writer.WriteEndElement();
+            writer.WriteEndElement();
+        }
+
+        private const string XmlBaseElementNew = "DV";
+
+        private const string XmlDayElementNew = "D";
+        private const string XmlValueElementNew = "V";
+
+        public void WriteXml(XmlWriter writer)
+        {
+            writer.WriteStartElement(XmlBaseElementNew);
+            writer.WriteAttributeString(XmlDayElementNew, Day.ToString("yyyy-MM-ddTHH:mm:ss"));
+            writer.WriteAttributeString(XmlValueElementNew, Value.ToString(CultureInfo.InvariantCulture));
+            writer.WriteEndElement();
+        }
+        /// <inheritdoc/>
+        public void ReadXml(XmlReader reader)
+        {
+            // new shorter xml format
+            _ = reader.MoveToContent();
+
+            if (reader.Name == XmlBaseElementNew)
+            {
+                string dayString = reader.GetAttribute(XmlDayElementNew);
+                string valueString = reader.GetAttribute(XmlValueElementNew);
+
+                _ = DateTime.TryParse(dayString, out DateTime date);
+                _ = double.TryParse(valueString, NumberStyles.Any, CultureInfo.InvariantCulture, out double value);
+
+                Day = date;
+                Value = value;
+                _ = reader.MoveToElement();
+                reader.ReadStartElement();
+            }
+            else if (reader.Name == XmlBaseElement)
+            {
+                ReadXmlOld(reader);
+            }
+            else
+            {
+
+            }
+        }
+
     }
 }

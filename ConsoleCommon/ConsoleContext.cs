@@ -177,12 +177,14 @@ namespace ConsoleCommon
             }
 
             var commandArgs = Args.Skip(1).ToArray();
-            if (HelpNames.Contains(commandArgs[0]))
+            if (commandArgs.Any())
             {
-                fCommand.WriteHelp(Console);
-                return 0;
+                if (HelpNames.Contains(commandArgs[0]))
+                {
+                    fCommand.WriteHelp(Console);
+                    return 0;
+                }
             }
-
             return fCommand.Execute(commandArgs);
         }
     }

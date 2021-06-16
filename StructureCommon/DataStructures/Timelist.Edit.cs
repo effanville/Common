@@ -7,13 +7,40 @@ namespace StructureCommon.DataStructures
     public partial class TimeList
     {
         /// <inheritdoc/>
+        public void CleanValues()
+        {
+            lock (valuesLock)
+            {
+                if (fValues.Count <= 1)
+                {
+                    return;
+                }
+
+                var lastValue = fValues[0];
+                for (int valueIndex = 1; valueIndex < fValues.Count; ++valueIndex)
+                {
+                    if (fValues[valueIndex].Value.Equals(lastValue.Value))
+                    {
+                        fValues.RemoveAt(valueIndex);
+                        --valueIndex;
+                    }
+                    else
+                    {
+                        lastValue = fValues[valueIndex];
+                    }
+                }
+            }
+        }
+
+        /// <inheritdoc/>
         public bool ValueExists(DateTime date, out int index)
         {
-            if (fValues != null && fValues.Any())
+            var values = Values();
+            if (values.Any())
             {
-                for (int i = 0; i < fValues.Count; i++)
+                for (int i = 0; i < values.Count; i++)
                 {
-                    if (fValues[i].Day == date)
+                    if (values[i].Day == date)
                     {
                         index = i;
                         return true;
@@ -26,127 +53,180 @@ namespace StructureCommon.DataStructures
         }
 
         /// <inheritdoc/>
+        [Obsolete("should use set data instead.")]
         public bool TryAddValue(DateTime date, double value, IReportLogger reportLogger = null)
         {
-            for (int i = 0; i < fValues.Count; i++)
+            lock (valuesLock)
             {
-                if (fValues[i].Day == date)
+                if (fValues.Any())
                 {
-                    return false;
+                    for (int i = 0; i < fValues.Count; i++)
+                    {
+                        if (fValues[i].Day == date)
+                        {
+                            return false;
+                        }
+                    }
                 }
+
+                DailyValuation valuation = new DailyValuation(date, value);
+                fValues.Add(valuation);
+                _ = reportLogger?.Log(ReportSeverity.Detailed, ReportType.Information, ReportLocation.AddingData, $"Adding value: added on {date} value {value}.");
+                Sort();
             }
 
-            AddData(date, value, reportLogger);
+            OnDataEdit(this);
             return true;
         }
 
         /// <inheritdoc/>
+        public void SetData(DateTime date, double value, IReportLogger reportLogger = null)
+        {
+            bool edited = false;
+            lock (valuesLock)
+            {
+                if (fValues.Any())
+                {
+                    for (int i = 0; i < fValues.Count; i++)
+                    {
+                        if (fValues[i].Day == date)
+                        {
+                            _ = reportLogger?.Log(ReportSeverity.Detailed, ReportType.Information, ReportLocation.EditingData, $"Editing Data: {date} value changed from {fValues[i].Value} to {value}");
+                            fValues[i].Value = value;
+                            edited = true;
+                        }
+                    }
+                }
+
+                if (!edited)
+                {
+                    DailyValuation valuation = new DailyValuation(date, value);
+                    fValues.Add(valuation);
+                    _ = reportLogger?.Log(ReportSeverity.Detailed, ReportType.Information, ReportLocation.AddingData, $"Adding value: added on {date} value {value}.");
+                    Sort();
+                    edited = true;
+                }
+            }
+
+            if (edited)
+            {
+                OnDataEdit(this);
+            }
+        }
+
+        /// <inheritdoc/>
+        [Obsolete("should use set data instead.")]
         public bool TryEditData(DateTime date, double value, IReportLogger reportLogger = null)
         {
-            if (fValues != null && fValues.Any())
+            bool edited = false;
+            lock (valuesLock)
             {
-                for (int i = 0; i < fValues.Count; i++)
+                if (fValues.Any())
                 {
-                    if (fValues[i].Day == date)
+                    for (int i = 0; i < fValues.Count; i++)
                     {
-                        _ = reportLogger?.Log(ReportSeverity.Detailed, ReportType.Report, ReportLocation.EditingData, $"Editing Data: {date} value changed from {fValues[i].Value} to {value}");
-                        OnDataEdit(this);
-                        fValues[i].SetValue(value);
+                        if (fValues[i].Day == date)
+                        {
+                            _ = reportLogger?.Log(ReportSeverity.Detailed, ReportType.Information, ReportLocation.EditingData, $"Editing Data: {date} value changed from {fValues[i].Value} to {value}");
+                            fValues[i].Value = value;
 
-                        return true;
+                            return true;
+                        }
                     }
                 }
             }
 
-            return false;
+            if (edited)
+            {
+                OnDataEdit(this);
+            }
+
+            return edited;
         }
 
         /// <inheritdoc/>
         public bool TryEditData(DateTime oldDate, DateTime newDate, double value, IReportLogger reportLogger = null)
         {
-            if (fValues != null && fValues.Any())
+            bool edited = false;
+            lock (valuesLock)
             {
-                for (int i = 0; i < fValues.Count; i++)
+                if (fValues.Any())
                 {
-                    if (fValues[i].Day == oldDate)
+                    for (int i = 0; i < fValues.Count; i++)
                     {
-                        _ = reportLogger?.Log(ReportSeverity.Detailed, ReportType.Report, ReportLocation.EditingData, $"Editing Data: {oldDate} value changed from {fValues[i].Value} to {newDate} - {value}");
-                        fValues[i].SetData(newDate, value);
-                        OnDataEdit(this);
-                        return true;
+                        if (fValues[i].Day == oldDate)
+                        {
+                            _ = reportLogger?.Log(ReportSeverity.Detailed, ReportType.Information, ReportLocation.EditingData, $"Editing Data: {oldDate} value changed from {fValues[i].Value} to {newDate} - {value}");
+                            fValues[i].SetData(newDate, value);
+                            edited = true;
+                        }
                     }
                 }
             }
 
-            return false;
-        }
-
-        /// <inheritdoc/>
-        public void TryEditDataOtherwiseAdd(DateTime oldDate, DateTime date, double value, IReportLogger reportLogger = null)
-        {
-            if (!TryEditData(oldDate, date, value, reportLogger))
+            if (edited)
             {
-                AddData(date, value, reportLogger);
+                OnDataEdit(this);
             }
+
+            return edited;
         }
 
         /// <inheritdoc/>
         public bool TryDeleteValue(DateTime date, IReportLogger reportLogger = null)
         {
-            if (fValues != null && fValues.Any())
+            bool deleted = false;
+            lock (valuesLock)
             {
-                for (int i = 0; i < fValues.Count; i++)
+                if (fValues.Any())
                 {
-                    if (fValues[i].Day == date)
+                    for (int i = 0; i < fValues.Count; i++)
                     {
-                        _ = reportLogger?.Log(ReportSeverity.Detailed, ReportType.Report, ReportLocation.DeletingData, $"Deleted value: date - {date} and value - {fValues[i].Value}");
-                        fValues.RemoveAt(i);
-                        OnDataEdit(this);
-                        return true;
+                        if (fValues[i].Day == date)
+                        {
+                            _ = reportLogger?.Log(ReportSeverity.Detailed, ReportType.Information, ReportLocation.DeletingData, $"Deleted value: date - {date} and value - {fValues[i].Value}");
+                            fValues.RemoveAt(i);
+                            deleted = true;
+                        }
                     }
                 }
             }
 
-            _ = reportLogger?.Log(ReportSeverity.Critical, ReportType.Error, ReportLocation.DeletingData, $"Deleting Value: Could not find data on date {date}.");
-            return false;
+            if (deleted)
+            {
+                OnDataEdit(this);
+            }
+
+            return deleted;
         }
 
         /// <inheritdoc/>
         public bool TryGetValue(DateTime date, out double value)
         {
             value = 0;
-            if (fValues != null && fValues.Any())
+            var values = Values();
+            if (values.Any())
             {
-                for (int i = 0; i < fValues.Count; i++)
+                for (int i = 0; i < values.Count; i++)
                 {
-                    if (fValues[i].Day == date)
+                    if (values[i].Day == date)
                     {
-                        value = fValues[i].Copy().Value;
+                        value = values[i].Copy().Value;
                         return true;
                     }
                 }
             }
+
             return false;
         }
 
         /// <summary>
-        /// Adds value to the data.
-        /// </summary>
-        private void AddData(DateTime date, double value, IReportLogger reportLogger = null)
-        {
-            DailyValuation valuation = new DailyValuation(date, value);
-            fValues.Add(valuation);
-            OnDataEdit(this);
-            _ = reportLogger?.Log(ReportSeverity.Detailed, ReportType.Report, ReportLocation.AddingData, $"Added on {date} value {value}.");
-            Sort();
-        }
-
-        /// <summary>
-        /// Orders the list according to date.
+        /// Orders the list according to date.Requires to be called within the
+        /// lock <see cref="valuesLock"/> on<see cref="fValues"/>.
         /// </summary>
         private void Sort()
         {
-            if (fValues != null && fValues.Any())
+            if (fValues.Any())
             {
                 fValues = fValues.OrderBy(x => x.Day).ToList();
             }
