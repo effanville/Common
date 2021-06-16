@@ -5,10 +5,10 @@
   </PropertyGroup>
 
   <Import Project="../Build/CommonProperties.build.props" />
-  
+
   <PropertyGroup>
-    <Version>1.0.8</Version>
-    <AssemblyVersion>1.0.8</AssemblyVersion>
+    <Version>1.0.9</Version>
+    <AssemblyVersion>1.0.9</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp3.1|AnyCPU'">
