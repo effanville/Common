@@ -12,7 +12,7 @@ namespace StructureCommon.Tests.Reporting
         {
             ErrorReports reports = new ErrorReports();
             string errorString = "some problem";
-            reports.AddError(errorString);
+            reports.AddErrorReport(ReportSeverity.Useful, ReportType.Error, ReportLocation.Unknown, errorString);
 
             var shallowCopy = reports.GetReports();
             Assert.AreEqual(1, shallowCopy.Count);
