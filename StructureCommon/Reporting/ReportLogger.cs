@@ -2,7 +2,6 @@
 using System.IO;
 using System.IO.Abstractions;
 using System.Text;
-using StructureCommon.Extensions;
 
 namespace StructureCommon.Reporting
 {
@@ -18,23 +17,7 @@ namespace StructureCommon.Reporting
         {
             get;
             set;
-        }
-
-        /// <summary>
-        /// Log an arbitrary message.
-        /// </summary>
-        public bool LogWithStrings(string severity, string type, string location, string message)
-        {
-            if (fLoggingAction != null)
-            {
-                fLoggingAction(severity.ToEnum<ReportSeverity>(), type.ToEnum<ReportType>(), location.ToEnum<ReportLocation>(), message);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+        } = new ErrorReports();
 
         /// <summary>
         /// Log an arbitrary message.
@@ -44,22 +27,7 @@ namespace StructureCommon.Reporting
             if (fLoggingAction != null)
             {
                 fLoggingAction(severity, type, location, message);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Log an arbitrary message.
-        /// </summary>
-        public bool LogUsefulWithStrings(string type, string location, string message)
-        {
-            if (fLoggingAction != null)
-            {
-                fLoggingAction(ReportSeverity.Useful, type.ToEnum<ReportType>(), location.ToEnum<ReportLocation>(), message);
+                Reports.AddErrorReport(severity, type, location, message);
                 return true;
             }
             else
@@ -76,6 +44,7 @@ namespace StructureCommon.Reporting
             if (fLoggingAction != null)
             {
                 fLoggingAction(ReportSeverity.Useful, type, location, message);
+                Reports.AddErrorReport(ReportSeverity.Useful, type, location, message);
                 return true;
             }
             else
@@ -92,36 +61,13 @@ namespace StructureCommon.Reporting
             if (fLoggingAction != null)
             {
                 fLoggingAction(ReportSeverity.Useful, ReportType.Error, location, message);
+                Reports.AddErrorReport(ReportSeverity.Useful, ReportType.Error, location, message);
                 return true;
             }
             else
             {
                 return false;
             }
-        }
-
-        /// <summary>
-        /// Log an error message.
-        /// </summary>
-        public bool LogUsefulErrorWithStrings(string location, string message)
-        {
-            if (fLoggingAction != null)
-            {
-                fLoggingAction("Useful".ToEnum<ReportSeverity>(), "Error".ToEnum<ReportType>(), location.ToEnum<ReportLocation>(), message);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Constructor for reporting mechanisms. Parameter addReport is the report callback mechanism.
-        /// </summary>
-        public LogReporter(Action<string, string, string, string> addReport)
-        {
-            fLoggingAction = (detailLevel, type, location, message) => addReport(detailLevel.ToString(), type.ToString(), location.ToString(), message);
         }
 
         /// <summary>
@@ -151,6 +97,7 @@ namespace StructureCommon.Reporting
                 {
                     return;
                 }
+
                 using (var memoryStream = new MemoryStream())
                 {
 

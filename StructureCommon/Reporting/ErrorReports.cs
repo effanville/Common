@@ -24,6 +24,15 @@ namespace StructureCommon.Reporting
             fReports = new List<ErrorReport>();
         }
 
+        /// <summary>
+        /// Creates an instance with an list of reports from an
+        /// existing list.
+        /// </summary>
+        public ErrorReports(List<ErrorReport> errorReports)
+        {
+            fReports = errorReports;
+        }
+
         /// <inheritdoc/>
         public override string ToString()
         {
@@ -85,41 +94,6 @@ namespace StructureCommon.Reporting
             lock (lockObject)
             {
                 fReports.Add(new ErrorReport(severity, type, location, newReport));
-            }
-        }
-
-        /// <summary>
-        /// Adds a report to the existing list
-        /// </summary>
-        public void AddReport(string newReport, ReportLocation location = ReportLocation.Unknown)
-        {
-            AddGeneralReport(ReportType.Information, location, newReport);
-        }
-
-        /// <summary>
-        /// Adds an Error report to the existing list
-        /// </summary>
-        public void AddError(string newReport, ReportLocation location = ReportLocation.Unknown)
-        {
-            AddGeneralReport(ReportType.Error, location, newReport);
-        }
-
-        /// <summary>
-        /// Adds a Warning report to the existing list
-        /// </summary>
-        public void AddWarning(string newReport, ReportLocation location = ReportLocation.Unknown)
-        {
-            AddGeneralReport(ReportType.Warning, location, newReport);
-        }
-
-        /// <summary>
-        /// Adds a report of any type to the existing list
-        /// </summary>
-        private void AddGeneralReport(ReportType type, ReportLocation location, string newReport)
-        {
-            lock (lockObject)
-            {
-                fReports.Add(new ErrorReport(type, location, newReport));
             }
         }
 

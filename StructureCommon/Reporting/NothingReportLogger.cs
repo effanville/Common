@@ -32,24 +32,6 @@ namespace StructureCommon.Reporting
         }
 
         /// <inheritdoc/>
-        public bool LogUsefulErrorWithStrings(string location, string message)
-        {
-            return true;
-        }
-
-        /// <inheritdoc/>
-        public bool LogUsefulWithStrings(string type, string location, string message)
-        {
-            return true;
-        }
-
-        /// <inheritdoc/>
-        public bool LogWithStrings(string severity, string type, string location, string message)
-        {
-            return true;
-        }
-
-        /// <inheritdoc/>
         public void WriteReportsToFile(string filePath)
         {
         }
