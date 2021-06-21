@@ -69,15 +69,20 @@ namespace StructureCommon.DataStructures
                     }
                 }
 
-                AddData(date, value, reportLogger);
+                DailyValuation valuation = new DailyValuation(date, value);
+                fValues.Add(valuation);
+                _ = reportLogger?.Log(ReportSeverity.Detailed, ReportType.Information, ReportLocation.AddingData, $"Adding value: added on {date} value {value}.");
+                Sort();
             }
 
+            OnDataEdit(this);
             return true;
         }
 
         /// <inheritdoc/>
         public void SetData(DateTime date, double value, IReportLogger reportLogger = null)
         {
+            bool edited = false;
             lock (valuesLock)
             {
                 if (fValues.Any())
@@ -87,14 +92,25 @@ namespace StructureCommon.DataStructures
                         if (fValues[i].Day == date)
                         {
                             _ = reportLogger?.Log(ReportSeverity.Detailed, ReportType.Information, ReportLocation.EditingData, $"Editing Data: {date} value changed from {fValues[i].Value} to {value}");
-                            OnDataEdit(this);
                             fValues[i].Value = value;
-                            return;
+                            edited = true;
                         }
                     }
                 }
 
-                AddData(date, value, reportLogger);
+                if (!edited)
+                {
+                    DailyValuation valuation = new DailyValuation(date, value);
+                    fValues.Add(valuation);
+                    _ = reportLogger?.Log(ReportSeverity.Detailed, ReportType.Information, ReportLocation.AddingData, $"Adding value: added on {date} value {value}.");
+                    Sort();
+                    edited = true;
+                }
+            }
+
+            if (edited)
+            {
+                OnDataEdit(this);
             }
         }
 
@@ -102,6 +118,7 @@ namespace StructureCommon.DataStructures
         [Obsolete("should use set data instead.")]
         public bool TryEditData(DateTime date, double value, IReportLogger reportLogger = null)
         {
+            bool edited = false;
             lock (valuesLock)
             {
                 if (fValues.Any())
@@ -111,7 +128,6 @@ namespace StructureCommon.DataStructures
                         if (fValues[i].Day == date)
                         {
                             _ = reportLogger?.Log(ReportSeverity.Detailed, ReportType.Information, ReportLocation.EditingData, $"Editing Data: {date} value changed from {fValues[i].Value} to {value}");
-                            OnDataEdit(this);
                             fValues[i].Value = value;
 
                             return true;
@@ -120,12 +136,18 @@ namespace StructureCommon.DataStructures
                 }
             }
 
-            return false;
+            if (edited)
+            {
+                OnDataEdit(this);
+            }
+
+            return edited;
         }
 
         /// <inheritdoc/>
         public bool TryEditData(DateTime oldDate, DateTime newDate, double value, IReportLogger reportLogger = null)
         {
+            bool edited = false;
             lock (valuesLock)
             {
                 if (fValues.Any())
@@ -136,19 +158,24 @@ namespace StructureCommon.DataStructures
                         {
                             _ = reportLogger?.Log(ReportSeverity.Detailed, ReportType.Information, ReportLocation.EditingData, $"Editing Data: {oldDate} value changed from {fValues[i].Value} to {newDate} - {value}");
                             fValues[i].SetData(newDate, value);
-                            OnDataEdit(this);
-                            return true;
+                            edited = true;
                         }
                     }
                 }
             }
 
-            return false;
+            if (edited)
+            {
+                OnDataEdit(this);
+            }
+
+            return edited;
         }
 
         /// <inheritdoc/>
         public bool TryDeleteValue(DateTime date, IReportLogger reportLogger = null)
         {
+            bool deleted = false;
             lock (valuesLock)
             {
                 if (fValues.Any())
@@ -159,15 +186,18 @@ namespace StructureCommon.DataStructures
                         {
                             _ = reportLogger?.Log(ReportSeverity.Detailed, ReportType.Information, ReportLocation.DeletingData, $"Deleted value: date - {date} and value - {fValues[i].Value}");
                             fValues.RemoveAt(i);
-                            OnDataEdit(this);
-                            return true;
+                            deleted = true;
                         }
                     }
                 }
             }
 
-            _ = reportLogger?.Log(ReportSeverity.Critical, ReportType.Error, ReportLocation.DeletingData, $"Deleting Value: Could not find data on date {date}.");
-            return false;
+            if (deleted)
+            {
+                OnDataEdit(this);
+            }
+
+            return deleted;
         }
 
         /// <inheritdoc/>
@@ -188,20 +218,6 @@ namespace StructureCommon.DataStructures
             }
 
             return false;
-        }
-
-        /// <summary>
-        /// Adds value to the data. Requires to be called within the 
-        /// lock <see cref="valuesLock"/> on<see cref="fValues"/>.
-        /// </summary>
-        private void AddData(DateTime date, double value, IReportLogger reportLogger = null)
-        {
-            DailyValuation valuation = new DailyValuation(date, value);
-            fValues.Add(valuation);
-
-            OnDataEdit(this);
-            _ = reportLogger?.Log(ReportSeverity.Detailed, ReportType.Information, ReportLocation.AddingData, $"Adding value: added on {date} value {value}.");
-            Sort();
         }
 
         /// <summary>
