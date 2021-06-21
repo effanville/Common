@@ -9,7 +9,7 @@ namespace StructureCommon.DataStructures
         /// <inheritdoc/>
         public DailyValuation Value(DateTime date)
         {
-            Func<DailyValuation, DailyValuation, DateTime, double> interpolationFunction = (earlier, later, day) => earlier.Value + (later.Value - earlier.Value) / (later.Day - earlier.Day).Days * (day - earlier.Day).Days;
+            double interpolationFunction(DailyValuation earlier, DailyValuation later, DateTime day) => earlier.Value + (later.Value - earlier.Value) / (later.Day - earlier.Day).Days * (day - earlier.Day).Days;
             return Value(
                 date,
                 (valuation, dateTime) => valuation,
