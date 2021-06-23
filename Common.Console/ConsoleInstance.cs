@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ConsoleCommon
+namespace Common.Console
 {
     /// <summary>
     /// An instance of an <see cref="IConsole"/> allowing for

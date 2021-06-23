@@ -21,7 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{11B56BDD
 		Build\CommonProperties.build.props = Build\CommonProperties.build.props
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleCommon", "ConsoleCommon\ConsoleCommon.csproj", "{AD052EB4-CA7E-424B-B88D-8AFA3DBA3EBA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Console", "Common.Console\Common.Console.csproj", "{AD052EB4-CA7E-424B-B88D-8AFA3DBA3EBA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

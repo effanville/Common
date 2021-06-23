@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ConsoleCommon.Commands;
+using Common.Console.Commands;
 using StructureCommon.Reporting;
 
-namespace ConsoleCommon
+namespace Common.Console
 {
     /// <summary>
     /// Contains the context for a console application, as well as the 

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using ConsoleCommon.Options;
+using Common.Console.Options;
 
-namespace ConsoleCommon.Commands
+namespace Common.Console.Commands
 {
     /// <summary>
     /// A command for a console, namely a string that contains specified

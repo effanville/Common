@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ConsoleCommon.Options
+namespace Common.Console.Options
 {
     /// <summary>
     /// A container for a user specified command line input.
