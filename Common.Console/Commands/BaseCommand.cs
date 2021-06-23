@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ConsoleCommon.Options;
+using Common.Console.Options;
 using StructureCommon.Reporting;
 
-namespace ConsoleCommon.Commands
+namespace Common.Console.Commands
 {
     /// <summary>
     /// An abstract implementation of the <see cref="ICommand"/>

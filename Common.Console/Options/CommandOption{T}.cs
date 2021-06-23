@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ConsoleCommon.Options
+namespace Common.Console.Options
 {
     /// <summary>
     /// An option to be input by the user.

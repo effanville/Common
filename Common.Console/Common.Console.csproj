@@ -11,7 +11,7 @@
   <Import Project="../Build/CommonProperties.build.props" />
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp3.1|AnyCPU'">
-    <DocumentationFile>..\bin\Release\ConsoleCommon.xml</DocumentationFile>
+    <DocumentationFile>..\bin\Release\Common.Console.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

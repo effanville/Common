@@ -1,4 +1,4 @@
-﻿namespace ConsoleCommon
+﻿namespace Common.Console
 {
     /// <summary>
     /// An interface of a Console writer.
