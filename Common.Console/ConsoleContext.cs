@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Common.Console.Commands;
-using StructureCommon.Reporting;
+using Common.Structure.Reporting;
 
 namespace Common.Console
 {

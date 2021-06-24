@@ -3,7 +3,7 @@ using NUnit.Framework;
 using Common.Structure.NamingStructures;
 using Common.Structure.Validation;
 
-namespace Common.UI.Tests
+namespace Common.Structure.Tests
 {
     public static class Assertions
     {
@@ -61,7 +61,7 @@ namespace Common.UI.Tests
             if (expected != null && actual != null)
             {
                 Assert.AreEqual(expected.PrimaryName, actual.PrimaryName, "Both Primary Names should be the same.");
-                Assert.AreEqual(expected.SecondaryName, actual.SecondaryName, "Secondary names not the same");
+                Assert.AreEqual(expected.SecondaryName, actual.SecondaryName);
             }
         }
 

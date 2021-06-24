@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
-using StructureCommon.NamingStructures;
+using Common.Structure.NamingStructures;
 
 namespace Common.UI.Converters
 {
