@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StructureCommon", "StructureCommon\StructureCommon.csproj", "{3C7B2621-4A28-40AE-807F-52F1B6965660}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Structure", "Common.Structure\Common.Structure.csproj", "{3C7B2621-4A28-40AE-807F-52F1B6965660}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.UI", "Common.UI\Common.UI.csproj", "{EC58508D-FE02-48B7-A7C6-8F29E060E996}"
 EndProject
@@ -12,7 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StructureCommon.Tests", "StructureCommon.Tests\StructureCommon.Tests.csproj", "{3F789DFF-0A8D-4163-9C5A-E5C748D64AF9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Structure.Tests", "Common.Structure.Tests\Common.Structure.Tests.csproj", "{3F789DFF-0A8D-4163-9C5A-E5C748D64AF9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.UI.Tests", "Common.UI.Tests\Common.UI.Tests.csproj", "{68892F98-75CB-4768-B888-5B85402B9E12}"
 EndProject

@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using StructureCommon.NamingStructures;
+using Common.Structure.NamingStructures;
 using Common.UI.Converters;
 
 namespace Common.UI.Tests.Converters
