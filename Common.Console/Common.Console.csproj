@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netcoreapp3.1;net48;net5.0</TargetFrameworks>
+  </PropertyGroup>
+
+    <PropertyGroup>
+    <Version>1.0.1</Version>
+  </PropertyGroup>
+
+  <Import Project="../Build/CommonProperties.build.props" />
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp3.1|AnyCPU'">
+    <DocumentationFile>..\bin\Release\Common.Console.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Common.Structure\Common.Structure.csproj" />
+  </ItemGroup>
+
+</Project>
