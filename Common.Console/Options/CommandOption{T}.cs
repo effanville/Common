@@ -51,8 +51,14 @@ namespace Common.Console.Options
         }
 
         public CommandOption(string name, string description, Func<T, bool> validator = null)
-            : base(name, description, null)
+            : this(name, description, false, validator)
         {
+        }
+
+        public CommandOption(string name, string description, bool required, Func<T, bool> validator = null)
+            : base(name, description, required, null)
+        {
+            // set validator here, as base validator is a Func<object, bool>
             if (validator != null)
             {
                 Validator = validator;
@@ -66,28 +72,41 @@ namespace Common.Console.Options
         /// <inheritdoc/>
         public override bool Validate()
         {
-            T parsedValue;
-            try
+            bool nullInput = string.IsNullOrEmpty(InputValue);
+            if (nullInput && Required)
             {
-                parsedValue = (T)Convert.ChangeType(InputValue, typeof(T));
-            }
-            catch (Exception ex)
-            {
-                ErrorMessage = ex.Message;
+                ErrorMessage = "No value supplied for required option.";
                 return false;
             }
-
-            bool valid = Validator(parsedValue);
-            if (valid)
+            else if (nullInput)
             {
-                Value = parsedValue;
+                return true;
             }
             else
             {
-                ErrorMessage = "Failed to validate option.";
-            }
+                T parsedValue;
+                try
+                {
+                    parsedValue = (T)Convert.ChangeType(InputValue, typeof(T));
+                }
+                catch (Exception ex)
+                {
+                    ErrorMessage = ex.Message;
+                    return false;
+                }
 
-            return valid;
+                bool valid = Validator(parsedValue);
+                if (valid)
+                {
+                    Value = parsedValue;
+                }
+                else
+                {
+                    ErrorMessage = "Failed to validate option.";
+                }
+
+                return valid;
+            }
         }
     }
 }
