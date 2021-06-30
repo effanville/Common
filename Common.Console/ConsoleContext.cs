@@ -186,7 +186,7 @@ namespace Common.Console
                 }
             }
 
-            return fCommand.Execute(commandArgs);
+            return fCommand.Execute(Console, commandArgs);
         }
     }
 }

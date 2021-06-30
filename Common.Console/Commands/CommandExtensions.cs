@@ -87,14 +87,14 @@ namespace Common.Console.Commands
         /// A default execute algorithm that attempts to execute a sub command.
         /// Returns error if fails to execute a sub command.
         /// </summary>
-        public static int Execute(this ICommand cmd, string[] args)
+        public static int Execute(this ICommand cmd, IConsole console, string[] args)
         {
             var subCommand = cmd.SubCommands.FirstOrDefault(command => command.Name == args[0]);
 
             if (subCommand != null)
             {
                 string[] commandArgs = args.Skip(1).ToArray();
-                return subCommand.Execute(commandArgs);
+                return subCommand.Execute(console, commandArgs);
             }
 
             return 1;
