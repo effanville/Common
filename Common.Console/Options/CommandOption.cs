@@ -25,6 +25,14 @@ namespace Common.Console.Options
         }
 
         /// <summary>
+        /// If true a value for this option must be set.
+        /// </summary>
+        public bool Required
+        {
+            get;
+        }
+
+        /// <summary>
         /// The value input by the user, before parsing.
         /// </summary>
         public string InputValue
@@ -60,9 +68,15 @@ namespace Common.Console.Options
         }
 
         public CommandOption(string name, string description, Func<object, bool> validator)
+            : this(name, description, false, validator)
+        {
+        }
+
+        public CommandOption(string name, string description, bool required, Func<object, bool> validator)
         {
             Name = name;
             Description = description;
+            Required = required;
             Validator = validator;
         }
 
@@ -77,7 +91,7 @@ namespace Common.Console.Options
         }
 
         /// <summary>
-        /// Validate the already specified <see cref="InputValue"/> value based on the validation 
+        /// Validate the already specified <see cref="InputValue"/> value based on the validation
         /// specified in construction.
         /// </summary>
         public virtual bool Validate()
