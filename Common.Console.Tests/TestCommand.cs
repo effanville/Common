@@ -37,7 +37,7 @@ namespace Common.Console.Tests
         /// <inheritdoc/>
         public int Execute(IConsole console, string[] args)
         {
-            return CommandExtensions.Execute(this, args);
+            return CommandExtensions.Execute(this, console, args);
         }
 
         /// <inheritdoc/>
