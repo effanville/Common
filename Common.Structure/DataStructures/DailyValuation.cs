@@ -100,6 +100,11 @@ namespace Common.Structure.DataStructures
             return false;
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public bool Equals(DailyValuation other)
         {
             return Day.Equals(other.Day) && Value.Equals(other.Value);
@@ -114,6 +119,7 @@ namespace Common.Structure.DataStructures
             return hashCode;
         }
 
+        /// <inheritdoc/>
         public XmlSchema GetSchema()
         {
             return null;
@@ -124,7 +130,10 @@ namespace Common.Structure.DataStructures
         private const string XmlDayElement = "Day";
         private const string XmlValueElement = "Value";
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// The old method for reading xml. Used for
+        /// backwards compatibility.
+        /// </summary>
         public void ReadXmlOld(XmlReader reader)
         {
             reader.ReadStartElement(XmlBaseElement);
@@ -143,7 +152,9 @@ namespace Common.Structure.DataStructures
             reader.ReadEndElement();
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// The old method for writing xml. No longer used.
+        /// </summary>
         public void WriteXmlOld(XmlWriter writer)
         {
             writer.WriteStartElement(XmlBaseElement);
@@ -161,6 +172,7 @@ namespace Common.Structure.DataStructures
         private const string XmlDayElementNew = "D";
         private const string XmlValueElementNew = "V";
 
+        /// <inheritdoc/>
         public void WriteXml(XmlWriter writer)
         {
             writer.WriteStartElement(XmlBaseElementNew);

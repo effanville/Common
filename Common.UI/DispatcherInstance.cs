@@ -13,6 +13,9 @@ namespace Common.UI
     {
         private readonly Dispatcher fDispatcher;
 
+        /// <summary>
+        /// Create an instance.
+        /// </summary>
         public DispatcherInstance()
         {
             fDispatcher = Application.Current.Dispatcher;

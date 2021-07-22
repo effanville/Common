@@ -11,6 +11,7 @@ namespace Common.UI.Converters
     {
         private static BoolToYesNoConverter sConverter;
 
+        /// <inheritdoc/>
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
             if (sConverter == null)
