@@ -102,5 +102,25 @@
 
             return null;
         }
+
+        /// <summary>
+        /// Provides validation on a value being different from the default for that type.
+        /// </summary>
+        /// <typeparam name="T">The type of the value.</typeparam>
+        /// <param name="value">The value to assert as not default.</param>
+        /// <param name="propertyName">The name of the property.</param>
+        /// <param name="location">The location where the validation takes place.</param>
+        /// <returns>A validation result in the case that the value is the default, specifying the property and the location from the location and property.</returns>
+        public static ValidationResult IsNotDefault<T>(T value, string propertyName, string location) where T : struct
+        {
+            if (value.Equals(default(T)))
+            {
+                ValidationResult result = new ValidationResult(isValid: false, propertyName, location);
+                result.AddMessage($"{propertyName} cannot be the default value.");
+                return result;
+            }
+
+            return null;
+        }
     }
 }
