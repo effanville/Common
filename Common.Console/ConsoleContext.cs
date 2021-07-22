@@ -64,22 +64,12 @@ namespace Common.Console
             private set;
         }
 
-        public ConsoleContext(string[] args, IConsole console)
-            : this(args, new FileSystem(), console, null)
-        {
-        }
-
-        public ConsoleContext(string[] args, IConsole console, IReportLogger logger)
-            : this(args, new FileSystem(), console, logger)
-        {
-        }
-
-        public ConsoleContext(string[] args, IFileSystem fileSystem, IConsole console, IReportLogger logger)
+        private ConsoleContext(string[] args, IFileSystem fileSystem, IConsole console, IReportLogger logger)
             : this(args, new ConsoleGlobals(fileSystem, console, logger))
         {
         }
 
-        public ConsoleContext(string[] args, ConsoleGlobals globals)
+        private ConsoleContext(string[] args, ConsoleGlobals globals)
         {
             Args = args;
             Globals = globals;
