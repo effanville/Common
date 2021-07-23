@@ -73,6 +73,8 @@ namespace Common.Console
         {
             Args = args;
             Globals = globals;
+            Console = Globals.Console;
+            Logger = Globals.ReportLogger;
         }
 
         /// <summary>
@@ -213,7 +215,7 @@ namespace Common.Console
             string[] commandArgs = Args.Skip(1).ToArray();
             if (commandArgs.Any())
             {
-                if (HelpNames.Contains(commandArgs[0]))
+                if (HelpNames.Contains(commandArgs.FirstOrDefault()))
                 {
                     fCommand.WriteHelp(Console);
                     return 0;

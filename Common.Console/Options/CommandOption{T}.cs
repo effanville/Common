@@ -1,4 +1,5 @@
 ﻿using System;
+using Common.Structure.Extensions;
 
 namespace Common.Console.Options
 {
@@ -87,7 +88,14 @@ namespace Common.Console.Options
                 T parsedValue;
                 try
                 {
-                    parsedValue = (T)Convert.ChangeType(InputValue, typeof(T));
+                    if (typeof(T).IsEnum)
+                    {
+                        parsedValue = InputValue.ToEnum<T>();
+                    }
+                    else
+                    {
+                        parsedValue = (T)Convert.ChangeType(InputValue, typeof(T));
+                    }
                 }
                 catch (Exception ex)
                 {
