@@ -10,7 +10,7 @@ namespace Common.Structure.DataStructures
     /// <summary>
     /// Holds a date and a value to act as the value on that day.
     /// </summary>
-    public class DailyValuation : IComparable, IXmlSerializable
+    public class DailyValuation : IComparable, IComparable<DailyValuation>, IEquatable<DailyValuation>, IXmlSerializable
     {
         /// <summary>
         /// The date for the valuation
@@ -62,13 +62,23 @@ namespace Common.Structure.DataStructures
             return Day.ToUkDateStringPadded() + ", " + Value.ToString();
         }
 
+        /// <inheritdoc/>
+        public int CompareTo(DailyValuation other)
+        {
+            return DateTime.Compare(Day, other.Day);
+        }
+
         /// <summary>
         /// Method of comparison. Compares dates.
         /// </summary>
         public virtual int CompareTo(object obj)
         {
-            DailyValuation a = (DailyValuation)obj;
-            return DateTime.Compare(Day, a.Day);
+            if (obj is DailyValuation val)
+            {
+                return CompareTo(val);
+            }
+
+            return 0;
         }
 
         /// <summary>
@@ -100,11 +110,7 @@ namespace Common.Structure.DataStructures
             return false;
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="other"></param>
-        /// <returns></returns>
+
         public bool Equals(DailyValuation other)
         {
             return Day.Equals(other.Day) && Value.Equals(other.Value);
@@ -208,6 +214,5 @@ namespace Common.Structure.DataStructures
 
             }
         }
-
     }
 }
