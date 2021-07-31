@@ -27,6 +27,7 @@ namespace Common.Structure.FileAccess
         /// </summary>
         /// <param name="dataGainer">The object to read data out of.</param>
         /// <param name="filePath">The path of file to read from.</param>
+        /// <param name="fileSystem">The filesystem to use.</param>
         /// <param name="reportLogger">Reporting Callback.</param>
         public static List<object> ReadFromCsv<T>(T dataGainer, IFileSystem fileSystem, string filePath, IReportLogger reportLogger = null) where T : ICSVAccess
         {
@@ -68,6 +69,7 @@ namespace Common.Structure.FileAccess
         /// Exports data to a file in csv format.
         /// </summary>
         /// <param name="dataTypeToWrite">The object to read data out of.</param>
+        /// <param name="fileSystem">The filesystem to use.</param>
         /// <param name="filePath">The path of file to read from.</param>
         /// <param name="reportLogger">Reporting Callback.</param>
         public static void WriteToCSVFile<T>(T dataTypeToWrite, IFileSystem fileSystem, string filePath, IReportLogger reportLogger = null) where T : ICSVAccess

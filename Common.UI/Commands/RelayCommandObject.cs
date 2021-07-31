@@ -41,6 +41,10 @@ namespace Common.UI.Commands
             fCanExecute = canExecute;
         }
 
+        /// <summary>
+        /// Ensures WPF commanding infrastructure asks all RelayCommand objects whether their
+        /// associated views should be enabled whenever a command is invoked.
+        /// </summary>
         public event EventHandler CanExecuteChanged
         {
             add
@@ -68,6 +72,9 @@ namespace Common.UI.Commands
             fExecute(parameter);
         }
 
+        /// <summary>
+        /// Invokes the <see cref="CanExecuteChanged"/> event.
+        /// </summary>
         public void OnCanExecuteChanged()
         {
             EventHandler handler = fCanExecuteChangedInternal;

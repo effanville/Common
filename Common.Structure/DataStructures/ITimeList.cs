@@ -40,6 +40,11 @@ namespace Common.Structure.DataStructures
         void CleanValues();
 
         /// <summary>
+        /// Removes all instances of the value specified in the list. where the value is the same as the previous one.
+        /// </summary>
+        void CleanValues(double value);
+
+        /// <summary>
         /// Checks if value on <param name="date"/> exists. If exists then <param name="index"/> is output.
         /// </summary>
         bool ValueExists(DateTime date, out int index);

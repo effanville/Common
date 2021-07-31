@@ -33,6 +33,22 @@ namespace Common.Structure.DataStructures
         }
 
         /// <inheritdoc/>
+        public void CleanValues(double value)
+        {
+            lock (valuesLock)
+            {
+                for (int valueIndex = 0; valueIndex < fValues.Count; ++valueIndex)
+                {
+                    if (fValues[valueIndex].Value.Equals(value))
+                    {
+                        fValues.RemoveAt(valueIndex);
+                        --valueIndex;
+                    }
+                }
+            }
+        }
+
+        /// <inheritdoc/>
         public bool ValueExists(DateTime date, out int index)
         {
             var values = Values();
@@ -50,6 +66,17 @@ namespace Common.Structure.DataStructures
 
             index = -1;
             return false;
+        }
+
+        public bool AddOrEditData(DateTime oldDate, DateTime date, double value, IReportLogger reportLogger = null)
+        {
+            if (ValueExists(oldDate, out _))
+            {
+                return TryEditData(oldDate, date, value, reportLogger);
+            }
+
+            SetData(date, value, reportLogger);
+            return true;
         }
 
         /// <inheritdoc/>

@@ -28,19 +28,21 @@ namespace Common.Structure.NamingStructures
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public NamedValuation(string company, string name, DateTime day, double value)
+        public NamedValuation(string primaryName, string secondaryName, DateTime day, double value)
             : base(day, value)
         {
-            Names = new Name(company, name);
+            Names = new Name(primaryName, secondaryName);
         }
 
         /// <summary>
         /// Constructor to create an instance from a base class instance.
         /// </summary>
-        public NamedValuation(string company, string name, DailyValuation toAddOnto)
-            : this(company, name, toAddOnto.Day, toAddOnto.Value)
+        public NamedValuation(string primaryName, string secondaryName, DailyValuation toAddOnto)
+            : this(primaryName, secondaryName, toAddOnto.Day, toAddOnto.Value)
         {
-        }        /// <inheritdoc/>
+        }
+
+        /// <inheritdoc/>
         public override int CompareTo(object obj)
         {
             if (obj is NamedValuation value)
@@ -57,6 +59,7 @@ namespace Common.Structure.NamingStructures
             return Names.ToString() + "-" + base.ToString();
         }
 
+        /// <inheritdoc/>
         public override bool Equals(object obj)
         {
             if (obj is NamedValuation other)

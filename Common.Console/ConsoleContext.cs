@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO.Abstractions;
 using System.Linq;
 using Common.Console.Commands;
 using Common.Structure.Reporting;
@@ -47,6 +48,14 @@ namespace Common.Console
         }
 
         /// <summary>
+        /// Global scope objects for this context.
+        /// </summary>
+        public ConsoleGlobals Globals
+        {
+            get;
+        }
+
+        /// <summary>
         /// A list of valid commands.
         /// </summary>
         public List<ICommand> ValidCommands
@@ -55,24 +64,17 @@ namespace Common.Console
             private set;
         }
 
-        public ConsoleContext(string[] args, IConsole console)
-            : this(args, console, null)
+        private ConsoleContext(string[] args, IFileSystem fileSystem, IConsole console, IReportLogger logger)
+            : this(args, new ConsoleGlobals(fileSystem, console, logger))
         {
         }
 
-        public ConsoleContext(string[] args, IConsole console, IReportLogger logger)
+        private ConsoleContext(string[] args, ConsoleGlobals globals)
         {
             Args = args;
-            Console = console;
-            Logger = logger;
-        }
-
-        /// <summary>
-        /// Sets the commands that are valid in this context.
-        /// </summary>
-        private void SetValidCommands(List<ICommand> commands)
-        {
-            ValidCommands = commands;
+            Globals = globals;
+            Console = Globals.Console;
+            Logger = Globals.ReportLogger;
         }
 
         /// <summary>
@@ -83,7 +85,7 @@ namespace Common.Console
         /// <param name="validCommands">The valid commands for this context.</param>
         public static void SetAndExecute(string[] Args, IConsole console, List<ICommand> validCommands)
         {
-            SetAndExecute(Args, console, null, validCommands);
+            SetAndExecute(Args, new FileSystem(), console, null, validCommands);
         }
 
         /// <summary>
@@ -95,9 +97,43 @@ namespace Common.Console
         /// <param name="validCommands">The valid commands for this context.</param>
         public static void SetAndExecute(string[] Args, IConsole console, IReportLogger logger, List<ICommand> validCommands)
         {
-            var context = new ConsoleContext(Args, console, logger);
+            SetAndExecute(Args, new FileSystem(), console, logger, validCommands);
+        }
+
+        /// <summary>
+        /// Performs a standard routine from the inputs. Validates the arguments before execution.
+        /// </summary>
+        /// <param name="Args">The command line arguments specified.</param>
+        /// <param name="fileSystem">The file system for this interaction.</param>
+        /// <param name="console">The console to write with.</param>
+        /// <param name="logger">The logging routine.</param>
+        /// <param name="validCommands">The valid commands for this context.</param>
+        public static void SetAndExecute(string[] Args, IFileSystem fileSystem, IConsole console, IReportLogger logger, List<ICommand> validCommands)
+        {
+            var context = new ConsoleContext(Args, fileSystem, console, logger);
             context.SetValidCommands(validCommands);
             context.ValidateAndExecute();
+        }
+
+        /// <summary>
+        /// Performs a standard routine from the inputs. Validates the arguments before execution.
+        /// </summary>
+        /// <param name="Args">The command line arguments specified.</param>
+        /// <param name="globals">The global scope objects for this context.</param>
+        /// <param name="validCommands">The valid commands for this context.</param>
+        public static void SetAndExecute(string[] Args, ConsoleGlobals globals, List<ICommand> validCommands)
+        {
+            var context = new ConsoleContext(Args, globals);
+            context.SetValidCommands(validCommands);
+            context.ValidateAndExecute();
+        }
+
+        /// <summary>
+        /// Sets the commands that are valid in this context.
+        /// </summary>
+        private void SetValidCommands(List<ICommand> commands)
+        {
+            ValidCommands = commands;
         }
 
         private void ValidateAndExecute()
@@ -156,7 +192,7 @@ namespace Common.Console
                 return false;
             }
 
-            var commandArgs = Args.Skip(1).ToArray();
+            string[] commandArgs = Args.Skip(1).ToArray();
             return fCommand.Validate(commandArgs, Console);
         }
 
@@ -176,10 +212,10 @@ namespace Common.Console
                 }
             }
 
-            var commandArgs = Args.Skip(1).ToArray();
+            string[] commandArgs = Args.Skip(1).ToArray();
             if (commandArgs.Any())
             {
-                if (HelpNames.Contains(commandArgs[0]))
+                if (HelpNames.Contains(commandArgs.FirstOrDefault()))
                 {
                     fCommand.WriteHelp(Console);
                     return 0;

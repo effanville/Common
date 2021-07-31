@@ -5,9 +5,12 @@ using Common.Structure.NamingStructures;
 
 namespace Common.UI.Converters
 {
+    /// <summary>
+    /// Converts an object of type <see cref="Name"/> into a string.
+    /// </summary>
     public class NameToStringConverter : IValueConverter
     {
-
+        /// <inheritdoc/>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value != null && value.GetType() == typeof(Name))
@@ -18,6 +21,7 @@ namespace Common.UI.Converters
             return value;
         }
 
+        /// <inheritdoc/>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value != null)

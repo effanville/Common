@@ -12,6 +12,7 @@ namespace Common.UI.Converters
     {
         private static ArrayMultiValueConverter sConverter;
 
+        /// <inheritdoc/>
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
             if (sConverter == null)
@@ -22,11 +23,13 @@ namespace Common.UI.Converters
             return sConverter;
         }
 
+        /// <inheritdoc/>
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
             return values.Clone();
         }
 
+        /// <inheritdoc/>
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
