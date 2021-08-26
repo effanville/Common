@@ -1,11 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;net48;net5.0</TargetFrameworks>
+    <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
     <PropertyGroup>
-    <Version>1.0.2</Version>
+      <VersionPrefix>1.0.2</VersionPrefix>
+      <VersionSuffix>0</VersionSuffix>
   </PropertyGroup>
 
   <Import Project="../Build/CommonProperties.build.props" />
