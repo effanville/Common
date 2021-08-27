@@ -4,7 +4,7 @@ using Common.Structure.Reporting;
 namespace Common.Structure.DataStructures
 {
     /// <summary>
-    /// A list of <see cref="T"/>s that is ordered by the <see cref="Daily{T}.Day"/> property.
+    /// A list of <typeparamref name="T"/>s that is ordered by the <see cref="Daily{T}.Day"/> property.
     /// Contains methods to add and alter the data, as well as calculate values.
     /// </summary>
     public interface ITimeList<T> where T : IEquatable<T>
@@ -19,7 +19,7 @@ namespace Common.Structure.DataStructures
         /// </summary>
         /// <param name="index">The index to access data at.</param>
         /// <returns>A copy of the data at the index.</returns>
-        Daily<T> this[int index]
+        IDaily<T> this[int index]
         {
             get;
         }
@@ -77,7 +77,7 @@ namespace Common.Structure.DataStructures
         /// Returns the linearly interpolated value of the List on the date provided.
         /// </summary>
         /// <param name="date">The date to retrieve the value on.</param>
-        Daily<T> Value(DateTime date);
+        IDaily<T> Value(DateTime date);
 
         /// <summary>
         /// Returns the value of the <see cref="TimeList"/> with various methods to interpolate. The value prior to the first date returns the first date,
@@ -91,7 +91,7 @@ namespace Common.Structure.DataStructures
         /// <returns>
         /// A valuation with the date and the value on that date. The date is not necessarily the date requested. For example
         /// if the prior evaluator returns a different date, then that date is recorded.</returns>
-        Daily<T> Value(DateTime date, Func<Daily<T>, Daily<T>, DateTime, double> interpolationFunction);
+        IDaily<T> Value(DateTime date, Func<IDaily<T>, IDaily<T>, DateTime, double> interpolationFunction);
 
         /// <summary>
         /// Returns the value of the <see cref="TimeList"/> with various methods to interpolate.
@@ -100,12 +100,12 @@ namespace Common.Structure.DataStructures
         /// <param name="priorEstimator">The Function to estimate the value prior to the first value. This is a function of the first valuation and the date to evaluate on.</param>
         /// <param name="postEstimator">The Function to estimate the value after the final value. This is a function of the Last valuation and the date to evaluate on.</param>
         /// <param name="interpolationFunction">The function to interpolate between values. This is a function
-        /// of the <see cref="Daily{T}"/> before the date to calculate,
-        /// the date, and the <see cref="Daily{T}"/> after the calculation date, and returns the value on that date. For example, this could
+        /// of the <see cref="IDaily{T}"/> before the date to calculate,
+        /// the date, and the <see cref="IDaily{T}"/> after the calculation date, and returns the value on that date. For example, this could
         /// linearly interpolate between values.</param>
         /// <returns>
         /// A valuation with the date and the value on that date. The date is not necessarily the date requested. For example
         /// if the prior evaluator returns a different date, then that date is recorded.</returns>
-        Daily<T> Value(DateTime date, Func<Daily<T>, DateTime, Daily<T>> priorEstimator, Func<Daily<T>, DateTime, Daily<T>> postEstimator, Func<Daily<T>, Daily<T>, DateTime, double> interpolationFunction);
+        IDaily<T> Value(DateTime date, Func<IDaily<T>, DateTime, IDaily<T>> priorEstimator, Func<IDaily<T>, DateTime, IDaily<T>> postEstimator, Func<IDaily<T>, IDaily<T>, DateTime, double> interpolationFunction);
     }
 }

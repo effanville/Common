@@ -6,7 +6,7 @@ namespace Common.Structure.DataStructures
     /// <summary>
     /// Holds a date and a value to act as the value on that day.
     /// </summary>
-    public class Daily<T> : IComparable where T : IEquatable<T>
+    public class Daily<T> : IDaily<T>, IComparable where T : IEquatable<T>
     {
         /// <summary>
         /// The date for the valuation
@@ -36,7 +36,7 @@ namespace Common.Structure.DataStructures
         }
 
         /// <summary>
-        /// Creates a new <see cref="Daily"/> from the given one.
+        /// Creates a new <see cref="Daily{T}"/> from the given one.
         /// </summary>
         public Daily(Daily<T> dailyValue)
             : this(dailyValue.Day, dailyValue.Value)
@@ -64,7 +64,7 @@ namespace Common.Structure.DataStructures
         /// Returns a copy of the specified valuation
         /// </summary>
         /// <returns></returns>
-        public Daily<T> Copy()
+        public IDaily<T> Copy()
         {
             return new Daily<T>(Day, Value);
         }
