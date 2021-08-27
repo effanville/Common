@@ -11,8 +11,7 @@
   <Import Project="../Build/CommonProperties.build.props" />
 
   <PropertyGroup>
-    <VersionPrefix>1.0.10</VersionPrefix>
-    <VersionSuffix>0</VersionSuffix>
+    <VersionPrefix>1.0.11.0</VersionPrefix>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">

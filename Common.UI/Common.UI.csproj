@@ -6,8 +6,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <VersionPrefix>1.0.7</VersionPrefix>
-    <VersionSuffix>0</VersionSuffix>
+    <VersionPrefix>1.0.8.0</VersionPrefix>
   </PropertyGroup>
 
   <Import Project="../Build/CommonProperties.build.props" />
