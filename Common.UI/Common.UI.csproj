@@ -1,16 +1,15 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net5.0-windows;netcoreapp3.1;net48</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;net5.0-windows</TargetFrameworks>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
   <PropertyGroup>
-    <Version>1.0.7</Version>
-    <AssemblyVersion>1.0.7</AssemblyVersion>
+    <VersionPrefix>1.0.8.0</VersionPrefix>
   </PropertyGroup>
 
-  <Import Project="../Build/CommonProperties.build.props"/>
+  <Import Project="../Build/CommonProperties.build.props" />
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp3.1|AnyCPU'">
     <DocumentationFile>..\bin\Release\Common.UI.xml</DocumentationFile>
@@ -26,6 +25,12 @@
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
     <PackageReference Include="System.Windows.Forms.DataVisualization" Version="1.0.0-prerelease.20110.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>Common.UI.Tests</_Parameter1>
+    </AssemblyAttribute>
   </ItemGroup>
 
 </Project>

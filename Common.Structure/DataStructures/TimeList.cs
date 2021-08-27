@@ -55,7 +55,7 @@ namespace Common.Structure.DataStructures
         /// Constructor adding values.
         /// </summary>
         /// <remarks>For testing only.</remarks>
-        internal TimeList(List<DailyValuation> values)
+        public TimeList(List<DailyValuation> values)
         {
             fValues = values;
         }

@@ -1,14 +1,14 @@
 ﻿namespace Common.Structure.MathLibrary.Matrices
 {
     /// <summary>
-    /// Contains the lower-upper decomposition of a given matrix. 
+    /// Contains the lower-upper decomposition of a given matrix.
     /// </summary>
     public class LUDecomposition
     {
         private int Size;
-        internal double[,] UpperDecomp;
+        public double[,] UpperDecomp;
 
-        internal double[,] LowerDecomp;
+        public double[,] LowerDecomp;
         private int[] PivotValues;
 
         public bool Invertible = true;
@@ -94,7 +94,7 @@
         }
 
         /// <summary>
-        /// Routine that generates the LU decomposition. 
+        /// Routine that generates the LU decomposition.
         /// Can only be called in the constructor.
         /// </summary>
         private void GenerateLUDecomp(double[,] matrix)

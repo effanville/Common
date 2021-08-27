@@ -3,15 +3,18 @@
   <PropertyGroup>
     <TargetFrameworks>net5.0;netcoreapp3.1;net48</TargetFrameworks>
   </PropertyGroup>
-
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+    <_Parameter1>$(AssemblyName).Tests</_Parameter1> <!-- We use the value of AssemblyName to declare the value of the attribute -->
+    </AssemblyAttribute>
+  </ItemGroup>
   <Import Project="../Build/CommonProperties.build.props" />
 
   <PropertyGroup>
-    <Version>1.0.10</Version>
-    <AssemblyVersion>1.0.10</AssemblyVersion>
+    <VersionPrefix>1.0.11.0</VersionPrefix>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp3.1|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
     <DocumentationFile>..\bin\Release\Common.Structure.xml</DocumentationFile>
   </PropertyGroup>
 
@@ -19,5 +22,4 @@
     <PackageReference Include="System.IO.Abstractions" Version="13.2.23" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
   </ItemGroup>
-
 </Project>
