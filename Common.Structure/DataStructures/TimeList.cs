@@ -52,6 +52,14 @@ namespace Common.Structure.DataStructures
         }
 
         /// <summary>
+        /// Returns a copy of the list.
+        /// </summary>
+        public TimeList Copy()
+        {
+            return new TimeList(Values());
+        }
+
+        /// <summary>
         /// Constructor adding values.
         /// </summary>
         /// <remarks>For testing only.</remarks>
