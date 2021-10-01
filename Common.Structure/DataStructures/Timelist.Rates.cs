@@ -71,8 +71,8 @@ namespace Common.Structure.DataStructures
 
         private static double CAR(List<DailyValuation> values, DateTime earlierTime, DateTime laterTime)
         {
-            DailyValuation earlierValue = NearestEarlierValue(values, earlierTime);
-            DailyValuation laterValue = NearestEarlierValue(values, laterTime);
+            DailyValuation earlierValue = ValueOnOrBefore(values, earlierTime);
+            DailyValuation laterValue = ValueOnOrBefore(values, laterTime);
             if (earlierValue == null || laterValue == null)
             {
                 return double.NaN;

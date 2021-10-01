@@ -5,26 +5,17 @@ using Common.Structure.DataStructures;
 
 namespace Common.Structure.Tests.DataStructures
 {
+
+    [TestFixture]
     public class TimeList_RatesTests
     {
-        private static List<TimeList> TestLists()
-        {
-            var output = new List<TimeList>();
-            output.Add(null);
-            output.Add(new TimeList(new List<DailyValuation>() { new DailyValuation(new DateTime(2018, 1, 1), 1000) }));
-            output.Add(new TimeList(new List<DailyValuation>() { new DailyValuation(DateTime.Parse("1/1/2018"), 1000), new DailyValuation(DateTime.Parse("1/6/2018"), 1000) }));
-            output.Add(new TimeList(new List<DailyValuation>() { new DailyValuation(DateTime.Parse("1/1/2017"), 1000), new DailyValuation(DateTime.Parse("1/1/2018"), 1100), new DailyValuation(DateTime.Parse("1/6/2018"), 1200) }));
-            output.Add(new TimeList(new List<DailyValuation>() { new DailyValuation(DateTime.Parse("1/1/2017"), 1000), new DailyValuation(DateTime.Parse("1/1/2018"), -1100), new DailyValuation(DateTime.Parse("1/6/2018"), 1200) }));
-            return output;
-        }
-
         private static IEnumerable<TestCaseData> CARTests()
         {
-            var tests = TestLists();
-            yield return new TestCaseData(tests[1], "1/1/2018", "1/1/2019", 0.0);
-            yield return new TestCaseData(tests[2], "1/1/2018", "1/1/2019", 0.0);
-            yield return new TestCaseData(tests[2], "1/1/2017", "1/1/2019", double.NaN);
-            yield return new TestCaseData(tests[4], "1/1/2017", "1/1/2019", 0.1376);
+            yield return new TestCaseData(TimeListTestData.GetTestTimeList(TimeListTestData.EmptyListKey), "1/1/2018", "1/1/2019", 0.0);
+            yield return new TestCaseData(TimeListTestData.GetTestTimeList(TimeListTestData.SingleEntryKey), "1/1/2018", "1/1/2019", 0.0);
+            yield return new TestCaseData(TimeListTestData.GetTestTimeList(TimeListTestData.TwoEntryKey), "1/1/2018", "1/1/2019", 0.0);
+            yield return new TestCaseData(TimeListTestData.GetTestTimeList(TimeListTestData.TwoEntryKey), "1/1/2017", "1/1/2019", double.NaN);
+            yield return new TestCaseData(TimeListTestData.GetTestTimeList(TimeListTestData.ThreeEntryKey1), "1/1/2017", "1/1/2019", 0.1376);
         }
 
         [TestCaseSource(nameof(CARTests))]
@@ -36,11 +27,11 @@ namespace Common.Structure.Tests.DataStructures
 
         private static IEnumerable<TestCaseData> SumTests()
         {
-            var tests = TestLists();
-            yield return new TestCaseData(tests[1], 1000);
-            yield return new TestCaseData(tests[2], 2000);
-            yield return new TestCaseData(tests[3], 3300);
-            yield return new TestCaseData(tests[4], 1100);
+            yield return new TestCaseData(TimeListTestData.GetTestTimeList(TimeListTestData.EmptyListKey), double.NaN);
+            yield return new TestCaseData(TimeListTestData.GetTestTimeList(TimeListTestData.SingleEntryKey), 1000);
+            yield return new TestCaseData(TimeListTestData.GetTestTimeList(TimeListTestData.TwoEntryKey), 2000);
+            yield return new TestCaseData(TimeListTestData.GetTestTimeList(TimeListTestData.ThreeEntryKey1), 3300);
+            yield return new TestCaseData(TimeListTestData.GetTestTimeList(TimeListTestData.ThreeEntryKey2), 1100);
         }
 
         [TestCaseSource(nameof(SumTests))]
