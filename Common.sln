@@ -23,7 +23,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{11B56BDD
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Console", "Common.Console\Common.Console.csproj", "{AD052EB4-CA7E-424B-B88D-8AFA3DBA3EBA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Console.Tests", "Common.Console.Tests\Common.Console.Tests.csproj", "{BDC91609-7E1A-4B53-9189-4059AD2393C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Console.Tests", "Common.Console.Tests\Common.Console.Tests.csproj", "{BDC91609-7E1A-4B53-9189-4059AD2393C3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Benchmarks", "Common.Benchmarks\Common.Benchmarks.csproj", "{52D1B4E7-5C74-4F70-98C2-070BF1173BED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,6 +57,10 @@ Global
 		{BDC91609-7E1A-4B53-9189-4059AD2393C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BDC91609-7E1A-4B53-9189-4059AD2393C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BDC91609-7E1A-4B53-9189-4059AD2393C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52D1B4E7-5C74-4F70-98C2-070BF1173BED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52D1B4E7-5C74-4F70-98C2-070BF1173BED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52D1B4E7-5C74-4F70-98C2-070BF1173BED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52D1B4E7-5C74-4F70-98C2-070BF1173BED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
