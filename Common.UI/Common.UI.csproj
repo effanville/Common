@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="DotNetProjects.WpfToolkit.DataVisualization" Version="6.0.79" />
+    <PackageReference Include="DotNetProjects.WpfToolkit.DataVisualization" Version="6.0.90" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">

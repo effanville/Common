@@ -13,8 +13,8 @@ namespace Common.Structure.Tests.DataStructures
     {
         private static IEnumerable<(string name, TimeList testList, int count, bool any, string XmlString)> TestLists()
         {
-            yield return ("empty", new TimeList(new List<DailyValuation>()), 0, false, "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<Values />");
-            yield return ("single", new TimeList(new List<DailyValuation>() { new DailyValuation(new DateTime(2018, 1, 1), 0.0) }), 1, true, "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<Values>\r\n  <DV D=\"2018-01-01T00:00:00\" V=\"0\" />\r\n</Values>");
+            yield return ("empty", TimeListTestData.GetTestTimeList(TimeListTestData.EmptyListKey), 0, false, "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<Values />");
+            yield return ("single", TimeListTestData.GetTestTimeList(TimeListTestData.SingleEntryKey), 1, true, "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<Values>\r\n  <DV D=\"2018-01-01T00:00:00\" V=\"1000\" />\r\n</Values>");
             yield return ("repeatedValue", new TimeList(new List<DailyValuation>() { new DailyValuation(new DateTime(2018, 1, 1), 0.0), new DailyValuation(new DateTime(2018, 1, 1), 0.0) }), 1, true, "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<Values>\r\n  <DV D=\"2018-01-01T00:00:00\" V=\"0\" />\r\n  <DV D=\"2018-01-01T00:00:00\" V=\"0\" />\r\n</Values>");
             yield return ("standardList", new TimeList(new List<DailyValuation>() { new DailyValuation(new DateTime(2018, 1, 1), 0.0), new DailyValuation(new DateTime(2019, 1, 1), 1.0), new DailyValuation(new DateTime(2019, 5, 1), 2.0), new DailyValuation(new DateTime(2019, 5, 5), 0.0) }), 4, true, "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<Values>\r\n  <DV D=\"2018-01-01T00:00:00\" V=\"0\" />\r\n  <DV D=\"2019-01-01T00:00:00\" V=\"1\" />\r\n  <DV D=\"2019-05-01T00:00:00\" V=\"2\" />\r\n  <DV D=\"2019-05-05T00:00:00\" V=\"0\" />\r\n</Values>");
         }

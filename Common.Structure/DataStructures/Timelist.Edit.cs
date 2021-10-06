@@ -109,6 +109,7 @@ namespace Common.Structure.DataStructures
         /// <inheritdoc/>
         public void SetData(DateTime date, double value, IReportLogger reportLogger = null)
         {
+            bool valueExists = false;
             bool edited = false;
             lock (valuesLock)
             {
@@ -118,14 +119,19 @@ namespace Common.Structure.DataStructures
                     {
                         if (fValues[i].Day == date)
                         {
-                            _ = reportLogger?.Log(ReportSeverity.Detailed, ReportType.Information, ReportLocation.EditingData, $"Editing Data: {date} value changed from {fValues[i].Value} to {value}");
+                            if (fValues[i].Value != value)
+                            {
+                                edited = true;
+                                _ = reportLogger?.Log(ReportSeverity.Detailed, ReportType.Information, ReportLocation.EditingData, $"Editing Data: {date} value changed from {fValues[i].Value} to {value}");
+                            }
+
                             fValues[i].Value = value;
-                            edited = true;
+                            valueExists = true;
                         }
                     }
                 }
 
-                if (!edited)
+                if (!valueExists)
                 {
                     DailyValuation valuation = new DailyValuation(date, value);
                     fValues.Add(valuation);

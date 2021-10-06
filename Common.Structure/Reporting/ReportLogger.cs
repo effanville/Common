@@ -98,19 +98,13 @@ namespace Common.Structure.Reporting
                     return;
                 }
 
-                using (var memoryStream = new MemoryStream())
+                using (Stream stream = fileSystem.FileStream.Create(filePath, FileMode.Create))
+                using (TextWriter writer = new StreamWriter(stream))
                 {
-
-                    foreach (var report in Reports)
+                    foreach (ErrorReport report in Reports)
                     {
-                        string line = DateTime.Now + "(" + report.ErrorType.ToString() + ")" + report.Message;
-                        byte[] array = Encoding.UTF8.GetBytes(line + "\n");
-                        memoryStream.Write(array, 0, array.Length);
+                        writer.WriteLine(report.ToString());
                     }
-                    FileStream fileWrite = new FileStream(filePath, FileMode.Create, System.IO.FileAccess.Write);
-                    memoryStream.WriteTo(fileWrite);
-
-                    fileWrite.Close();
                 }
             }
             catch (Exception)

@@ -63,12 +63,8 @@ namespace Common.Structure.DataStructures
                 return postEstimator(latest, date);
             }
 
-            if (values.Count == 1)
-            {
-                return values[0].Copy();
-            }
-
-            return new DailyValuation(date, interpolationFunction(NearestEarlierValue(values, date), NearestLaterValue(values, date), date));
+            var vals = ValuesOnOrBeforeAndAfter(values, date);
+            return new DailyValuation(date, interpolationFunction(vals.Item1, vals.Item2, date));
         }
 
         /// <summary>
@@ -84,69 +80,111 @@ namespace Common.Structure.DataStructures
                 (earlier, later, calculationDate) => earlier.Value + (later.Value - earlier.Value) / (later.Day - earlier.Day).Days * (calculationDate - earlier.Day).Days);
         }
 
-        /// <summary>
-        /// Returns the DailyValuation on or before the date specified.
-        /// </summary>
-        public DailyValuation NearestEarlierValue(DateTime date)
+        private static (DailyValuation, DailyValuation) ValuesOnOrBeforeAndAfter(List<DailyValuation> values, DateTime date)
         {
-            return NearestEarlierValue(Values(), date);
+            if (!values.Any())
+            {
+                return (null, null);
+            }
+
+            var first = FirstValuation(values);
+            if (values.Count == 1)
+            {
+                return (first.Copy(), first.Copy());
+            }
+
+            if (date < first.Day)
+            {
+                return (null, first.Copy());
+            }
+
+            var latest = LatestValuation(values);
+            if (date > latest.Day)
+            {
+                return (latest.Copy(), null);
+            }
+
+            int index = GetIndexOf(values, date);
+
+            return (values[index].Copy(), values[index + 1].Copy());
         }
 
-        private static DailyValuation NearestEarlierValue(List<DailyValuation> values, DateTime date)
+        private static int GetIndexOf(List<DailyValuation> values, DateTime date)
         {
-            if (values.Any())
+            int lowerIndex = 0;
+            int upperIndex = values.Count - 1;
+            int midIndex = (int)Math.Floor((double)((values.Count - 1) / 2.0));
+            while (lowerIndex + 1 != upperIndex)
             {
-                if (date < values[0].Day)
+                if (date < values[midIndex].Day)
                 {
-                    return new DailyValuation(date, 0.0);
+                    upperIndex = midIndex;
+                    midIndex = (int)Math.Floor((double)((lowerIndex + upperIndex) / 2));
                 }
-
-                if (values.Count == 1)
+                else if (date >= values[midIndex].Day)
                 {
-                    return values[0].Copy();
-                }
-
-                var latest = LatestValuation(values);
-                if (date > latest.Day)
-                {
-                    return latest;
-                }
-
-                // list sorted with earliest at start. First occurence greater than value means
-                // the first value later.
-                for (int i = values.Count - 1; i > -1; i--)
-                {
-                    if (date > values[i].Day)
-                    {
-                        return values[i].Copy();
-                    }
-                    if (date == values[i].Day)
-                    {
-                        return values[i].Copy();
-                    }
+                    lowerIndex = midIndex;
+                    midIndex = (int)Math.Floor((double)((lowerIndex + upperIndex) / 2));
                 }
             }
 
-            return new DailyValuation(date, 0.0);
+            return lowerIndex;
+        }
+
+        /// <summary>
+        /// Returns the DailyValuation on or before the date specified.
+        /// </summary>
+        public DailyValuation ValueOnOrBefore(DateTime date)
+        {
+            return ValueOnOrBefore(Values(), date);
+        }
+
+        private static DailyValuation ValueOnOrBefore(List<DailyValuation> values, DateTime date)
+        {
+            if (!values.Any())
+            {
+                return null;
+            }
+
+            var first = FirstValuation(values);
+            if (date < first.Day)
+            {
+                return null;
+            }
+
+            var latest = LatestValuation(values);
+            if (date >= latest.Day)
+            {
+                return latest;
+            }
+
+            for (int i = values.Count - 1; i > -1; i--)
+            {
+                if (date >= values[i].Day)
+                {
+                    return values[i].Copy();
+                }
+            }
+
+            return null;
         }
 
         /// <summary>
         /// Returns DailyValuation closest to the date but earlier to it.
         /// If a strictly earlier one cannot be found then return null.
         /// </summary>
-        public DailyValuation RecentPreviousValue(DateTime date)
+        public DailyValuation ValueBefore(DateTime date)
         {
-            return RecentPreviousValue(Values(), date);
+            return ValueBefore(Values(), date);
         }
 
-        private static DailyValuation RecentPreviousValue(List<DailyValuation> values, DateTime date)
+        private static DailyValuation ValueBefore(List<DailyValuation> values, DateTime date)
         {
             if (values != null && values.Any())
             {
-                // Some cases can return early.
-                if (values.Count == 1 || date <= FirstValuation(values).Day)
+                if (date <= FirstValuation(values).Day)
                 {
-                    return new DailyValuation(date, 0.0);
+                    return null;
                 }
 
                 var latest = LatestValuation(values);
@@ -175,88 +213,37 @@ namespace Common.Structure.DataStructures
 
         /// <summary>
         /// returns nearest valuation after the date provided in the timelist.
+        /// If there is no date after the value, then null is returned.
         /// </summary>
-        public DailyValuation NearestLaterValue(DateTime date)
+        public DailyValuation ValueAfter(DateTime date)
         {
-            return NearestLaterValue(Values(), date);
+            return ValueAfter(Values(), date);
         }
 
-        private static DailyValuation NearestLaterValue(List<DailyValuation> values, DateTime date)
+        private static DailyValuation ValueAfter(List<DailyValuation> values, DateTime date)
         {
-            if (values.Any())
+            if (!values.Any())
             {
-                if (values.Count == 1)
-                {
-                    return values[0].Copy();
-                }
-
-                if (date > LatestValuation(values).Day)
-                {
-                    return null;
-                }
-
-                var first = FirstValuation(values);
-                if (date < first.Day)
-                {
-                    return first;
-                }
-
-                // list sorted with earliest at start. First occurence greater than value means
-                // the first value later.
-                for (int i = 0; i < values.Count; i++)
-                {
-                    if (date < values[i].Day)
-                    {
-                        return values[i].Copy();
-                    }
-                }
+                return null;
             }
 
-            return null;
-        }
+            var first = FirstValuation(values);
 
-        /// <summary>
-        /// returns nearest valuation in the timelist to the date provided.
-        /// </summary>
-        internal DailyValuation NearestValue(DateTime date)
-        {
-            return NearestValue(Values(), date);
-        }
-
-        private static DailyValuation NearestValue(List<DailyValuation> values, DateTime date)
-        {
-            if (values != null && values.Any())
+            if (date >= LatestValuation(values).Day)
             {
-                if (values.Count == 1)
-                {
-                    return values[0].Copy();
-                }
+                return null;
+            }
 
-                var latest = LatestValuation(values);
-                if (date > latest.Day)
-                {
-                    return latest;
-                }
+            if (date < first.Day)
+            {
+                return first;
+            }
 
-                var first = FirstValuation(values);
-                if (date < first.Day)
+            for (int i = 0; i < values.Count; i++)
+            {
+                if (date < values[i].Day)
                 {
-                    return first;
-                }
-
-                // list sorted with earliest at start. First occurence greater than value means
-                // the first value later.
-                for (int i = 0; i < values.Count; i++)
-                {
-                    if (date < values[i].Day)
-                    {
-                        if (values[i].Day - date < date - values[i - 1].Day)
-                        {
-                            return values[i].Copy();
-                        }
-
-                        return values[i - 1].Copy();
-                    }
+                    return values[i].Copy();
                 }
             }
 
@@ -272,17 +259,16 @@ namespace Common.Structure.DataStructures
         }
 
         /// <summary>
-        /// Returns first value held, or 0 if no data.
+        /// Returns first value held, or <see cref="double.NaN"/> if no data.
         /// </summary>
         public double FirstValue()
         {
-            return FirstValuation()?.Value ?? 0.0;
+            return FirstValuation()?.Value ?? double.NaN;
         }
 
         /// <summary>
         /// Returns first pair of date and value, or null if this doesn't exist.
         /// </summary>
-        /// <returns></returns>
         public DailyValuation FirstValuation()
         {
             return FirstValuation(Values());
@@ -307,11 +293,11 @@ namespace Common.Structure.DataStructures
         }
 
         /// <summary>
-        /// Returns latest value, or 0 if no data held.
+        /// Returns latest value, or <see cref="double.NaN"/> if no data held.
         /// </summary>
         public double LatestValue()
         {
-            return LatestValuation()?.Value ?? 0.0;
+            return LatestValuation()?.Value ?? double.NaN;
         }
 
         /// <summary>
@@ -333,7 +319,7 @@ namespace Common.Structure.DataStructures
         }
 
         /// <summary>
-        /// returns all valuations on or between the two dates specified, or empty list if none held.
+        /// Returns all valuations on or between the two dates specified, or empty list if none held.
         /// </summary>
         public List<DailyValuation> GetValuesBetween(DateTime earlierTime, DateTime laterTime)
         {

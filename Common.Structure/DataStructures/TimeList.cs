@@ -45,17 +45,22 @@ namespace Common.Structure.DataStructures
         /// <inheritdoc/>
         public DailyValuation this[int index]
         {
-            get
-            {
-                return new DailyValuation(fValues[index]);
-            }
+            get => new DailyValuation(fValues[index]);
+        }
+
+        /// <summary>
+        /// Returns a copy of the list.
+        /// </summary>
+        public TimeList Copy()
+        {
+            return new TimeList(Values());
         }
 
         /// <summary>
         /// Constructor adding values.
         /// </summary>
         /// <remarks>For testing only.</remarks>
-        public TimeList(List<DailyValuation> values)
+        internal TimeList(List<DailyValuation> values)
         {
             fValues = values;
         }
@@ -165,6 +170,7 @@ namespace Common.Structure.DataStructures
             return false;
         }
 
+        /// <inheritdoc/>
         public override int GetHashCode()
         {
             int hashCode = 17;
@@ -202,6 +208,12 @@ namespace Common.Structure.DataStructures
                 }
             }
             return true;
+        }
+
+        /// <inheritdoc/>
+        public override string ToString()
+        {
+            return $"Timelist({Count()})";
         }
     }
 }
