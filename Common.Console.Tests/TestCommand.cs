@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+
 using Common.Console.Commands;
 using Common.Console.Options;
 
@@ -10,13 +11,7 @@ namespace Common.Console.Tests
         {
         }
 
-        public string Name
-        {
-            get
-            {
-                return "Test";
-            }
-        }
+        public string Name => "Test";
 
         public IList<CommandOption> Options
         {

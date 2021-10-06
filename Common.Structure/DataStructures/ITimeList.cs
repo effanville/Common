@@ -1,4 +1,5 @@
 ﻿using System;
+
 using Common.Structure.Reporting;
 
 namespace Common.Structure.DataStructures
