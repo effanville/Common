@@ -92,12 +92,12 @@ namespace Common.Structure.MathLibrary.ParameterEstimation
             var matrix = data.XTX().Inverse();
             Estimator = matrix.PostMultiplyVector(XTY);
             var residual = 0.0;
-            for (int i = 0; i < FitData.Length; i++)
+            for (int i = 0; i < FitData.GetLength(0); i++)
             {
                 double value = FitValues[i];
-                for (int j = 0; j < FitData.Length; j++)
+                for (int j = 0; j < FitData.GetLength(1); j++)
                 {
-                    value += Estimator[j] * FitData[i, j];
+                    value -= Estimator[j] * FitData[i, j];
                 }
 
                 residual += value * value;
