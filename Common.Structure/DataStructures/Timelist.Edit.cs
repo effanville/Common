@@ -135,7 +135,7 @@ namespace Common.Structure.DataStructures
                 {
                     DailyValuation valuation = new DailyValuation(date, value);
                     fValues.Add(valuation);
-                    _ = reportLogger?.Log(ReportSeverity.Detailed, ReportType.Information, ReportLocation.AddingData, $"Adding value: added on {date} value {value}.");
+                    _ = reportLogger?.Log(ReportSeverity.Detailed, ReportType.Information, ReportLocation.AddingData, $"Adding value: {date} value {value}.");
                     Sort();
                     edited = true;
                 }
