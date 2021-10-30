@@ -3,6 +3,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
+using Common.Structure.FileAccess;
+
 namespace Common.Structure.ReportWriting
 {
     /// <summary>
@@ -18,7 +20,7 @@ namespace Common.Structure.ReportWriting
         /// <param name="reportType">The type of file to export to.</param>
         /// <param name="values">The values to write into the table. The property names for <typeparamref name="T"/> give the header values.</param>
         /// <param name="headerFirstColumn">Whether first column should be header style or not.</param>
-        public static void WriteTableFromEnumerable<T>(StringBuilder sb, ReportType reportType, IEnumerable<IEnumerable<T>> values, bool headerFirstColumn)
+        public static void WriteTableFromEnumerable<T>(StringBuilder sb, ExportType reportType, IEnumerable<IEnumerable<T>> values, bool headerFirstColumn)
         {
             T forTypes = default(T);
             foreach (T value in values)
@@ -46,7 +48,7 @@ namespace Common.Structure.ReportWriting
         /// <param name="reportType">The type of file to export to.</param>
         /// <param name="values">The values to write into the table. The property names for <typeparamref name="T"/> give the header values.</param>
         /// <param name="headerFirstColumn">Whether first column should be header style or not.</param>
-        public static void WriteTable<T>(StringBuilder sb, ReportType reportType, IEnumerable<T> values, bool headerFirstColumn)
+        public static void WriteTable<T>(StringBuilder sb, ExportType reportType, IEnumerable<T> values, bool headerFirstColumn)
         {
             T forTypes = default(T);
             foreach (T value in values)
@@ -75,7 +77,7 @@ namespace Common.Structure.ReportWriting
         /// <param name="headerValues">The values to write into the table header.</param>
         /// <param name="rowValues">The values to write for the table data. Each item is a row, and each row is a list of values. The values use the ToString() method to output the value.</param>
         /// <param name="headerFirstColumn">Whether first column should be header style or not.</param>
-        public static void WriteTableFromEnumerable<T>(StringBuilder sb, ReportType reportType, IEnumerable<string> headerValues, IEnumerable<IEnumerable<T>> rowValues, bool headerFirstColumn)
+        public static void WriteTableFromEnumerable<T>(StringBuilder sb, ExportType reportType, IEnumerable<string> headerValues, IEnumerable<IEnumerable<T>> rowValues, bool headerFirstColumn)
         {
             if (headerValues.Count() != rowValues.Count())
             {
@@ -84,7 +86,7 @@ namespace Common.Structure.ReportWriting
 
             switch (reportType)
             {
-                case ReportType.Csv:
+                case ExportType.Csv:
                 {
                     WriteTableHeader(sb, reportType, headerValues);
                     foreach (var value in rowValues)
@@ -94,7 +96,7 @@ namespace Common.Structure.ReportWriting
 
                     return;
                 }
-                case ReportType.Html:
+                case ExportType.Html:
                 {
                     _ = sb.AppendLine("<table>");
                     WriteTableHeader(sb, reportType, headerValues);
@@ -133,7 +135,7 @@ namespace Common.Structure.ReportWriting
         /// <param name="headerValues">The values to write out.</param>
         /// <param name="rowValues">The values to place in successive rows.</param>
         /// <param name="headerFirstColumn">Whether first column should be header style or not.</param>
-        public static void WriteTable<T>(StringBuilder sb, ReportType reportType, IEnumerable<string> headerValues, IEnumerable<T> rowValues, bool headerFirstColumn)
+        public static void WriteTable<T>(StringBuilder sb, ExportType reportType, IEnumerable<string> headerValues, IEnumerable<T> rowValues, bool headerFirstColumn)
         {
             if (headerValues.Count() != rowValues.Count())
             {
@@ -142,7 +144,7 @@ namespace Common.Structure.ReportWriting
 
             switch (reportType)
             {
-                case ReportType.Csv:
+                case ExportType.Csv:
                 {
                     WriteTableHeader(sb, reportType, headerValues);
                     foreach (T value in rowValues)
@@ -153,7 +155,7 @@ namespace Common.Structure.ReportWriting
 
                     return;
                 }
-                case ReportType.Html:
+                case ExportType.Html:
                 {
                     _ = sb.AppendLine("<table>");
                     WriteTableHeader(sb, reportType, headerValues);
@@ -189,16 +191,16 @@ namespace Common.Structure.ReportWriting
         /// <param name="sb">The StreamWriter to use</param>
         /// <param name="reportType">The type of file to export to</param>
         /// <param name="valuesToWrite">The values to use for the header names.</param>
-        public static void WriteTableHeader(StringBuilder sb, ReportType reportType, IEnumerable<string> valuesToWrite)
+        public static void WriteTableHeader(StringBuilder sb, ExportType reportType, IEnumerable<string> valuesToWrite)
         {
             switch (reportType)
             {
-                case ReportType.Csv:
+                case ExportType.Csv:
                 {
                     _ = sb.AppendLine(string.Join(",", valuesToWrite));
                     return;
                 }
-                case ReportType.Html:
+                case ExportType.Html:
                 {
                     _ = sb.AppendLine("<thead><tr>");
                     int i = 0;
@@ -236,16 +238,16 @@ namespace Common.Structure.ReportWriting
         /// <param name="exportType">The type of file to export to</param>
         /// <param name="valuesToWrite">The values to use for the header names.</param>
         /// <param name="headerFirstColumn">Whether first column should be header style or not.</param>
-        public static void WriteTableRow(StringBuilder sb, ReportType exportType, IEnumerable<string> valuesToWrite, bool headerFirstColumn)
+        public static void WriteTableRow(StringBuilder sb, ExportType exportType, IEnumerable<string> valuesToWrite, bool headerFirstColumn)
         {
             switch (exportType)
             {
-                case ReportType.Csv:
+                case ExportType.Csv:
                 {
                     _ = sb.AppendLine(string.Join(",", valuesToWrite));
                     return;
                 }
-                case ReportType.Html:
+                case ExportType.Html:
                 {
                     _ = sb.AppendLine("<tr>");
                     int i = 0;
