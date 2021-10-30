@@ -3,6 +3,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
+using Common.Structure.ReportWriting;
+
 namespace Common.Structure.FileAccess
 {
     /// <summary>
@@ -375,6 +377,7 @@ namespace Common.Structure.FileAccess
             writer.WriteLine("table, th, td { border: 1px solid black; }");
             writer.WriteLine("caption { margin-bottom: 1.2em; font-family: \"Arial\", cursive, sans-serif; font-size:medium; }");
             writer.WriteLine("tr {text-align: center;}");
+            writer.WriteLine("div { max-width: 1000px; max-height: 800px; margin: left;margin-bottom: 1.5em;");
 
             if (useColours)
             {
@@ -387,8 +390,11 @@ namespace Common.Structure.FileAccess
                 writer.WriteLine("th{ height: 1.5em; }");
             }
 
-            writer.WriteLine(" p { line-height: 1.5em; margin-bottom: 1.5em;}");
+            writer.WriteLine("p { line-height: 1.5em; margin-bottom: 1.5em;}");
             writer.WriteLine("</style> ");
+
+            // include namespace for rendering charts.
+            writer.WriteLine("<script src=\"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js\"></script>");
 
             writer.WriteLine("</head>");
             writer.WriteLine("<body>");
