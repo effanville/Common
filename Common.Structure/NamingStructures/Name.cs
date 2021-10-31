@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
+
 using Common.Structure.Extensions;
 using Common.Structure.Validation;
 
@@ -11,7 +12,7 @@ namespace Common.Structure.NamingStructures
     /// Contains naming information, allowing for a primary and secondary name.
     /// If the properties desire to be serialised, one must create wrapping properties for these.
     /// </summary>
-    public class Name : IValidity, IComparable
+    public class Name : IValidity, IComparable, IEquatable<Name>
     {
         /// <summary>
         /// The primary name (the company name)
@@ -89,14 +90,14 @@ namespace Common.Structure.NamingStructures
             //both name and company cannot be null so this is all cases.
             if (string.IsNullOrEmpty(PrimaryName) && !string.IsNullOrEmpty(SecondaryName))
             {
-                return SecondaryName;
+                return $"-{SecondaryName}";
             }
             if (string.IsNullOrEmpty(SecondaryName) && !string.IsNullOrEmpty(PrimaryName))
             {
                 return PrimaryName;
             }
 
-            return SecondaryName + " " + PrimaryName;
+            return $"{PrimaryName}-{SecondaryName}";
         }
 
         /// <summary>
@@ -166,8 +167,8 @@ namespace Common.Structure.NamingStructures
         /// <inheritdoc/>
         public bool Equals(Name other)
         {
-            bool primaryEqual = PrimaryName?.Equals(other.PrimaryName) ?? other.PrimaryName == null;
-            bool secondaryEqual = SecondaryName?.Equals(other.SecondaryName) ?? other.SecondaryName == null;
+            bool primaryEqual = PrimaryName?.Equals(other.PrimaryName) ?? string.IsNullOrEmpty(other.PrimaryName);
+            bool secondaryEqual = SecondaryName?.Equals(other.SecondaryName) ?? string.IsNullOrEmpty(other.SecondaryName);
             return primaryEqual && secondaryEqual;
         }
 

@@ -38,7 +38,7 @@ namespace Common.UI.Tests.Converters
             //This test is broken because it required a specific ToSTring that has changed
             // when moving into this solution. Need to rewrite test to fix.
             object converted = converter.ConvertBack(name.ToString(), null, null, null);
-            Assertions.NamesEqual(name, (Name)converted);
+            Assert.AreEqual(name, (Name)converted);
         }
     }
 }
