@@ -362,8 +362,9 @@ namespace Common.Structure.FileAccess
         public static void CreateHTMLHeader(this StreamWriter writer, string title, bool useColours)
         {
             writer.WriteLine("<!DOCTYPE html>");
-            writer.WriteLine("<html>");
+            writer.WriteLine("<html lang=\"en\">");
             writer.WriteLine("<head>");
+            writer.WriteLine("<meta charset=\"utf-8\"/>");
             writer.WriteLine($"<title>{title}</title>");
             writer.WriteLine("<style>");
             writer.WriteLine("html, h1, h2, h3, h4, h5, h6 {font-family: \"Arial\", cursive, sans-serif; }");
