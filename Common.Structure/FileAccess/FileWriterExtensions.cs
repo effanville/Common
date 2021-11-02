@@ -366,7 +366,7 @@ namespace Common.Structure.FileAccess
             writer.WriteLine("<!DOCTYPE html>");
             writer.WriteLine("<html lang=\"en\">");
             writer.WriteLine("<head>");
-            writer.WriteLine("<meta charset=\"utf-8\"/>");
+            writer.WriteLine("<meta charset=\"utf-8\" http-equiv=\"x-ua-compatible\" content=\"IE=11\"/>");
             writer.WriteLine($"<title>{title}</title>");
             writer.WriteLine("<style>");
             writer.WriteLine("html, h1, h2, h3, h4, h5, h6 {font-family: \"Arial\", cursive, sans-serif; }");
@@ -395,6 +395,8 @@ namespace Common.Structure.FileAccess
 
             // include namespace for rendering charts.
             writer.WriteLine("<script src=\"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js\"></script>");
+            writer.WriteLine("<script src=\"https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js\"></script>");
+            writer.WriteLine("<script src=\"https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js\"></script>");
 
             writer.WriteLine("</head>");
             writer.WriteLine("<body>");
