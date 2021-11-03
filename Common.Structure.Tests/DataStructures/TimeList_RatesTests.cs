@@ -5,13 +5,12 @@ using Common.Structure.DataStructures;
 
 namespace Common.Structure.Tests.DataStructures
 {
-
     [TestFixture]
     public class TimeList_RatesTests
     {
         private static IEnumerable<TestCaseData> CARTests()
         {
-            yield return new TestCaseData(TimeListTestData.GetTestTimeList(TimeListTestData.EmptyListKey), "1/1/2018", "1/1/2019", 0.0);
+            yield return new TestCaseData(TimeListTestData.GetTestTimeList(TimeListTestData.EmptyListKey), "1/1/2018", "1/1/2019", double.NaN);
             yield return new TestCaseData(TimeListTestData.GetTestTimeList(TimeListTestData.SingleEntryKey), "1/1/2018", "1/1/2019", 0.0);
             yield return new TestCaseData(TimeListTestData.GetTestTimeList(TimeListTestData.TwoEntryKey), "1/1/2018", "1/1/2019", 0.0);
             yield return new TestCaseData(TimeListTestData.GetTestTimeList(TimeListTestData.TwoEntryKey), "1/1/2017", "1/1/2019", double.NaN);

@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+
 using Microsoft.Win32;
 
 namespace Common.UI.Services
@@ -39,12 +40,12 @@ namespace Common.UI.Services
                 saving.Filter = filter;
             }
             bool? saved = saving.ShowDialog(fDefaultParent);
-            if (saved != null && (bool)saved)
+            if (saved.HasValue)
             {
-                return new FileInteractionResult(saved, saving.FileName);
+                return new FileInteractionResult(saved.Value, saving.FileName);
             }
 
-            return new FileInteractionResult(saved, null);
+            return new FileInteractionResult(false, null);
         }
 
         /// <summary>
@@ -66,12 +67,12 @@ namespace Common.UI.Services
             }
 
             bool? showed = openFile.ShowDialog(fDefaultParent);
-            if (showed != null && (bool)showed)
+            if (showed.HasValue)
             {
-                return new FileInteractionResult(showed, openFile.FileName);
+                return new FileInteractionResult(showed.Value, openFile.FileName);
             }
 
-            return new FileInteractionResult(showed, null);
+            return new FileInteractionResult(false, null);
         }
     }
 }

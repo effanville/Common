@@ -1,4 +1,4 @@
-﻿namespace Common.Structure.FileAccess
+﻿namespace Common.Structure.ReportWriting
 {
     /// <summary>
     /// Container for all used Html tags

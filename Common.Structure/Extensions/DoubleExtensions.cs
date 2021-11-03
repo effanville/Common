@@ -25,5 +25,17 @@ namespace Common.Structure.Extensions
             return (Math.Truncate(value * decimalPlaces) / decimalPlaces);
         }
 
+        /// <summary>
+        /// Compares two doubles <paramref name="value"/> and <paramref name="otherValue"/> up to a tolerance <paramref name="tol"/>.
+        /// </summary>
+        public static bool Equals(this double value, double otherValue, double tol)
+        {
+            if (Math.Abs(value - otherValue) < tol)
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 }

@@ -26,10 +26,10 @@ namespace Common.UI.Converters
         {
             if (value != null)
             {
-                string[] splitted = value.ToString().Split(' ');
+                string[] splitted = value.ToString().Split('-');
                 if (splitted.Length == 2)
                 {
-                    return new Name(splitted[1], splitted[0]);
+                    return new Name(splitted[0], splitted[1]);
                 }
                 if (splitted.Length == 1)
                 {

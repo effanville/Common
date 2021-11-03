@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+
 using Common.Structure.Reporting;
 
 namespace Common.Structure.DataStructures
@@ -68,6 +69,7 @@ namespace Common.Structure.DataStructures
             return false;
         }
 
+        /// <inheritdoc/>
         public bool AddOrEditData(DateTime oldDate, DateTime date, double value, IReportLogger reportLogger = null)
         {
             if (ValueExists(oldDate, out _))
@@ -76,33 +78,6 @@ namespace Common.Structure.DataStructures
             }
 
             SetData(date, value, reportLogger);
-            return true;
-        }
-
-        /// <inheritdoc/>
-        [Obsolete("should use set data instead.")]
-        public bool TryAddValue(DateTime date, double value, IReportLogger reportLogger = null)
-        {
-            lock (valuesLock)
-            {
-                if (fValues.Any())
-                {
-                    for (int i = 0; i < fValues.Count; i++)
-                    {
-                        if (fValues[i].Day == date)
-                        {
-                            return false;
-                        }
-                    }
-                }
-
-                DailyValuation valuation = new DailyValuation(date, value);
-                fValues.Add(valuation);
-                _ = reportLogger?.Log(ReportSeverity.Detailed, ReportType.Information, ReportLocation.AddingData, $"Adding value: added on {date} value {value}.");
-                Sort();
-            }
-
-            OnDataEdit(this);
             return true;
         }
 
@@ -135,7 +110,7 @@ namespace Common.Structure.DataStructures
                 {
                     DailyValuation valuation = new DailyValuation(date, value);
                     fValues.Add(valuation);
-                    _ = reportLogger?.Log(ReportSeverity.Detailed, ReportType.Information, ReportLocation.AddingData, $"Adding value: added on {date} value {value}.");
+                    _ = reportLogger?.Log(ReportSeverity.Detailed, ReportType.Information, ReportLocation.AddingData, $"Adding value: {date} value {value}.");
                     Sort();
                     edited = true;
                 }
@@ -145,36 +120,6 @@ namespace Common.Structure.DataStructures
             {
                 OnDataEdit(this);
             }
-        }
-
-        /// <inheritdoc/>
-        [Obsolete("should use set data instead.")]
-        public bool TryEditData(DateTime date, double value, IReportLogger reportLogger = null)
-        {
-            bool edited = false;
-            lock (valuesLock)
-            {
-                if (fValues.Any())
-                {
-                    for (int i = 0; i < fValues.Count; i++)
-                    {
-                        if (fValues[i].Day == date)
-                        {
-                            _ = reportLogger?.Log(ReportSeverity.Detailed, ReportType.Information, ReportLocation.EditingData, $"Editing Data: {date} value changed from {fValues[i].Value} to {value}");
-                            fValues[i].Value = value;
-
-                            return true;
-                        }
-                    }
-                }
-            }
-
-            if (edited)
-            {
-                OnDataEdit(this);
-            }
-
-            return edited;
         }
 
         /// <inheritdoc/>

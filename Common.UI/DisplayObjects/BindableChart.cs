@@ -4,19 +4,16 @@ using System.Windows.Controls.DataVisualization.Charting;
 
 namespace Common.UI.DisplayObjects
 {
+    /// <summary>
+    /// A chart that can have its source bound to.
+    /// </summary>
     public class BindableChart : Chart
     {
         public IEnumerable SeriesSource
         {
-            get
-            {
-                return (IEnumerable)GetValue(SeriesSourceProperty);
-            }
+            get => (IEnumerable)GetValue(SeriesSourceProperty);
 
-            set
-            {
-                SetValue(SeriesSourceProperty, value);
-            }
+            set => SetValue(SeriesSourceProperty, value);
         }
 
         public static readonly DependencyProperty SeriesSourceProperty = DependencyProperty.Register(

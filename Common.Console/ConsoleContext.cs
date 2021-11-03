@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO.Abstractions;
 using System.Linq;
+
 using Common.Console.Commands;
 using Common.Structure.Reporting;
 
@@ -185,7 +186,7 @@ namespace Common.Console
         /// <returns></returns>
         public bool Validate()
         {
-            fCommand = ValidCommands.FirstOrDefault(comd => comd.Name == Args[0]);
+            fCommand = ValidCommands.FirstOrDefault(comd => comd.Name.Equals(Args[0], StringComparison.OrdinalIgnoreCase));
             if (fCommand == null)
             {
                 Console.WriteError("Could not locate suitable command to execute.");
@@ -204,7 +205,7 @@ namespace Common.Console
         {
             if (fCommand == null)
             {
-                fCommand = ValidCommands.FirstOrDefault(comd => comd.Name == Args[0]);
+                fCommand = ValidCommands.FirstOrDefault(comd => comd.Name.Equals(Args[0], StringComparison.OrdinalIgnoreCase));
                 if (fCommand == null)
                 {
                     Console.WriteError("Could not locate suitable command to execute.");

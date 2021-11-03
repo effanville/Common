@@ -89,7 +89,7 @@ namespace Common.Console.Commands
         /// </summary>
         public static int Execute(this ICommand cmd, IConsole console, string[] args)
         {
-            var subCommand = cmd.SubCommands.FirstOrDefault(command => command.Name == args[0]);
+            var subCommand = cmd.SubCommands.FirstOrDefault(command => command.Name.Equals(args[0], StringComparison.OrdinalIgnoreCase));
 
             if (subCommand != null)
             {
