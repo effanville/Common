@@ -51,7 +51,7 @@ namespace Common.Structure.FileAccess
             }
             catch (Exception ex)
             {
-                error = ex.Message + " " + ex.InnerException ?? ex.InnerException.Message;
+                error = $"{ex.Message}-InnerException {ex.InnerException}";
                 return;
             }
         }
@@ -92,7 +92,7 @@ namespace Common.Structure.FileAccess
             }
             catch (Exception ex)
             {
-                error = ex.Message;
+                error = $"{ex.Message}-InnerException {ex.InnerException}";
                 return default(T);
             }
         }
