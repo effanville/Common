@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using Common.Structure.FinanceFunctions;
 
 namespace Common.Structure.DataStructures

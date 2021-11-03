@@ -56,6 +56,17 @@ namespace Common.Structure.DataStructures
         bool TryGetValue(DateTime date, out double value);
 
         /// <summary>
+        /// Edits data if it exists on that date (and can update the date of that entry), and otherwise
+        /// it adds data on the date.
+        /// </summary>
+        /// <param name="oldDate"></param>
+        /// <param name="newDate"></param>
+        /// <param name="value"></param>
+        /// <param name="reportLogger"></param>
+        /// <returns></returns>
+        bool AddOrEditData(DateTime oldDate, DateTime newDate, double value, IReportLogger reportLogger = null);
+
+        /// <summary>
         /// Edits data in the TimeList on the date provided if it can.
         /// </summary>
         /// <param name="oldDate">The date to edit data on.</param>
