@@ -8,7 +8,7 @@
         /// <summary>
         /// Whether the interaction was a success or not.
         /// </summary>
-        public bool? Success
+        public bool Success
         {
             get;
             set;
@@ -26,7 +26,7 @@
         /// <summary>
         /// Constructor setting values.
         /// </summary>
-        public FileInteractionResult(bool? success, string filePath)
+        public FileInteractionResult(bool success, string filePath)
         {
             Success = success;
             FilePath = filePath;
