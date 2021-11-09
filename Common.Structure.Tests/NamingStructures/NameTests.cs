@@ -65,7 +65,7 @@ namespace Common.Structure.Tests.NamingStructures
 
             Assert.AreEqual(forename, name.SecondaryName);
             Assert.AreEqual(surname, name.PrimaryName);
-            Assert.AreEqual(forename + " " + surname, name.ToString());
+            Assert.AreEqual($"{surname}-{forename}", name.ToString());
         }
 
         [TestCase("Smith", "Steve", true)]
