@@ -127,7 +127,7 @@ namespace Common.Structure.DataStructures
                 return FinancialFunctions.CAR(latestValue, startValue);
             }
 
-            return FinancialFunctions.IRRTime(startValue, GetValuesBetween(values, startValue.Day, latestValue.Day), latestValue);
+            return FinancialFunctions.IRR(startValue, GetValuesBetween(values, startValue.Day, latestValue.Day), latestValue);
         }
     }
 }
