@@ -2,5 +2,6 @@ bin
 .vs
 nuget
 */*.user
-*/bin
-*/obj
+**/bin
+**/obj
+**/tools

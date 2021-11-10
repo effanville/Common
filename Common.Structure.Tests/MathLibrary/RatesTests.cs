@@ -1,14 +1,16 @@
 using System;
 using System.Collections.Generic;
+
 using NUnit.Framework;
+
 using Common.Structure.DataStructures;
 using Common.Structure.FinanceFunctions;
 
 namespace Common.Structure.Tests.MathLibrary.FinanceFunctions
 {
+    [TestFixture]
     public class RatesTests
     {
-
         private static List<DailyValuation> Switcher(int i)
         {
             switch (i)
@@ -24,11 +26,6 @@ namespace Common.Structure.Tests.MathLibrary.FinanceFunctions
             return null;
         }
 
-        [SetUp]
-        public void Setup()
-        {
-        }
-
         [TestCase("1/1/2018", 10.0, "1/1/2019", 20.0, 1.0)]
         [TestCase("1/1/2017", 10.0, "1/1/2019", 90.0, 2.0)]
         [TestCase("1/1/2018", 0.0, "1/1/2019", 90.0, double.NaN)]
@@ -36,9 +33,9 @@ namespace Common.Structure.Tests.MathLibrary.FinanceFunctions
         [TestCase("1/1/2018", 10.0, "1/1/2019", 0.0, -1.0)]
         [TestCase("1/1/2018", 10.0, "1/1/2018", 11.0, double.NaN)]
         [TestCase("1/1/2018", 10.0, "1/1/2018", 10.0, 0.0)]
-        public void CAR_BasicData_Tests(string first, double firstValue, string last, double lastValue, double expected)
+        public void CAR_BasicData_Tests(DateTime first, double firstValue, DateTime last, double lastValue, double expected)
         {
-            double rate = FinancialFunctions.CAR(DateTime.Parse(first), firstValue, DateTime.Parse(last), lastValue);
+            double rate = FinancialFunctions.CAR(first, firstValue, last, lastValue);
             Assert.AreEqual(expected, rate, "CAR is not as expected.");
         }
 
@@ -49,31 +46,42 @@ namespace Common.Structure.Tests.MathLibrary.FinanceFunctions
         [TestCase("1/1/2018", 10.0, "1/1/2019", 0.0, -1.0)]
         [TestCase("1/1/2018", 10.0, "1/1/2018", 11.0, double.NaN)]
         [TestCase("1/1/2018", 10.0, "1/1/2018", 10.0, 0.0)]
-        public void CAR_ComplexInput_Tests(string first, double firstValue, string last, double lastValue, double expected)
+        public void CAR_ComplexInput_Tests(DateTime first, double firstValue, DateTime last, double lastValue, double expected)
         {
-            double rate = FinancialFunctions.CAR(new DailyValuation(DateTime.Parse(first), firstValue), new DailyValuation(DateTime.Parse(last), lastValue));
+            double rate = FinancialFunctions.CAR(new DailyValuation(first, firstValue), new DailyValuation(last, lastValue));
             Assert.AreEqual(expected, rate, "CAR is not as expected.");
         }
 
         [TestCase(0, "1/1/2019", 2000.0, double.NaN)]
         [TestCase(1, "1/1/2019", 2000.0, 1.0)]
-        [TestCase(2, "1/1/2019", 2000.0, 0.0)]
-        [TestCase(2, "1/1/2019", 4000.0, 1.351)]
-        public void IRRTests(int switcher, string last, double lastValue, double expected)
+        [TestCase(2, "1/1/2019", 2000.0, 4.76837158203125E-07)]
+        [TestCase(2, "1/1/2019", 4000.0, 1.3498024940490723)]
+        public void IRRTests(int switcher, DateTime last, double lastValue, double expected)
         {
-            double rate = FinancialFunctions.IRR(Switcher(switcher), new DailyValuation(DateTime.Parse(last), lastValue));
-            Assert.AreEqual(expected, rate, 1e-3, "CAR is not as expected.");
+            double rate = FinancialFunctions.IRR(Switcher(switcher), new DailyValuation(last, lastValue));
+            Assert.AreEqual(expected, rate, 1e-8, "CAR is not as expected.");
         }
 
         [TestCase(0, "1/1/2018", 1000.0, "1/1/2019", 2000.0, double.NaN)]
         [TestCase(1, "1/1/2018", 1000.0, "1/1/2019", 2000.0, 1.0)]
-        [TestCase(1, "1/6/2018", 1000.0, "1/1/2019", 2000.0, 2.261)]
-        [TestCase(2, "1/1/2018", 1000.0, "1/1/2019", 2000.0, 0.0)]
-        [TestCase(2, "1/1/2018", 1000.0, "1/1/2019", 4000.0, 1.351)]
-        public void IRR_Time_Tests(int switcher, string start, double startValue, string last, double lastValue, double expected)
+        [TestCase(1, "6/1/2018", 1000.0, "1/1/2019", 2000.0, 2.2616624310427929)]
+        [TestCase(2, "1/1/2018", 1000.0, "1/1/2019", 2000.0, 0.00048828125)]
+        [TestCase(2, "1/1/2018", 1000.0, "1/1/2019", 4000.0, 1.35107421875)]
+        public void IRR_Time_Tests(int switcher, DateTime start, double startValue, DateTime last, double lastValue, double expected)
         {
-            double rate = FinancialFunctions.IRRTime(new DailyValuation(DateTime.Parse(start), startValue), Switcher(switcher), new DailyValuation(DateTime.Parse(last), lastValue));
-            Assert.AreEqual(expected, rate, 1e-3, "CAR is not as expected.");
+            double rate = FinancialFunctions.IRR(new DailyValuation(start, startValue), Switcher(switcher), new DailyValuation(last, lastValue), 10);
+            Assert.AreEqual(expected, rate, 1e-8, "CAR is not as expected.");
+        }
+
+        [TestCase(0, "1/1/2018", 1000.0, "1/1/2019", 2000.0, double.NaN)]
+        [TestCase(1, "1/1/2018", 1000.0, "1/1/2019", 2000.0, 1.0)]
+        [TestCase(1, "6/1/2018", 1000.0, "1/1/2019", 2000.0, 2.2616624310427929)]
+        [TestCase(2, "1/1/2018", 1000.0, "1/1/2019", 2000.0, 4.76837158203125E-07)]
+        [TestCase(2, "1/1/2018", 1000.0, "1/1/2019", 4000.0, 1.3498024940490723)]
+        public void IRR_Time_Tests_HighAccuracy(int switcher, DateTime start, double startValue, DateTime last, double lastValue, double expected)
+        {
+            double rate = FinancialFunctions.IRR(new DailyValuation(start, startValue), Switcher(switcher), new DailyValuation(last, lastValue), 20);
+            Assert.AreEqual(expected, rate, 1e-8, "CAR is not as expected.");
         }
     }
 }
