@@ -79,11 +79,6 @@ namespace Common.Structure.ReportWriting
         /// <param name="headerFirstColumn">Whether first column should be header style or not.</param>
         public static void WriteTableFromEnumerable<T>(StringBuilder sb, ExportType reportType, IEnumerable<string> headerValues, IEnumerable<IEnumerable<T>> rowValues, bool headerFirstColumn)
         {
-            if (headerValues.Count() != rowValues.Count())
-            {
-                return;
-            }
-
             switch (reportType)
             {
                 case ExportType.Csv:
@@ -137,11 +132,6 @@ namespace Common.Structure.ReportWriting
         /// <param name="headerFirstColumn">Whether first column should be header style or not.</param>
         public static void WriteTable<T>(StringBuilder sb, ExportType reportType, IEnumerable<string> headerValues, IEnumerable<T> rowValues, bool headerFirstColumn)
         {
-            if (headerValues.Count() != rowValues.Count())
-            {
-                return;
-            }
-
             switch (reportType)
             {
                 case ExportType.Csv:
