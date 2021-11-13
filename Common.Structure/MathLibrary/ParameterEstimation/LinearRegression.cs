@@ -1,4 +1,5 @@
 ﻿using System;
+
 using Common.Structure.MathLibrary.Functions;
 
 namespace Common.Structure.MathLibrary.ParameterEstimation
@@ -20,48 +21,41 @@ namespace Common.Structure.MathLibrary.ParameterEstimation
         /// <inheritdoc/>
         public double[,] Uncertainty
         {
-            get; private set;
+            get;
+            private set;
         }
 
         /// <inheritdoc/>
         public double GoodnessOfFit
         {
-            get; private set;
+            get;
+            private set;
         }
 
         public double ChiSquared
         {
-            get; private set;
+            get;
+            private set;
         }
 
         /// <inheritdoc/>
-        public int NumberOfParameters
-        {
-            get
-            {
-                return Estimator.Length;
-            }
-        }
+        public int NumberOfParameters => Estimator.Length;
 
         /// <inheritdoc/>
-        public int NumberOfDataPoints
-        {
-            get
-            {
-                return FitValues.Length;
-            }
-        }
+        public int NumberOfDataPoints => FitValues.Length;
 
         /// <inheritdoc/>
         public double[,] FitData
         {
-            get; private set;
+            get;
+            private set;
         }
 
         /// <inheritdoc/>
         public double[] FitValues
         {
-            get; private set;
+            get;
+            private set;
         }
 
         public LinearRegression(double[,] data, double[] values, double[] sigmaValues)
@@ -97,8 +91,8 @@ namespace Common.Structure.MathLibrary.ParameterEstimation
         {
             FitData = data;
             FitValues = values;
-            double ss = 0.0, sx = 0.0, sy = 0.0;
-            double t = 0;
+            double ss, sx = 0.0, sy = 0.0;
+            double t;
             double st2 = 0;
             double b = 0.0;
             for (int i = 0; i < values.Length; i++)
@@ -141,21 +135,15 @@ namespace Common.Structure.MathLibrary.ParameterEstimation
             Uncertainty = new double[,] { { siga, cov }, { cov, sigb } };
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="data"></param>
-        /// <param name="values"></param>
-        /// <param name="sigmaValues"></param>
+        /// <inheritdoc/>
         public void GenerateEstimator(double[,] data, double[] values, double[] sigmaValues)
         {
             FitData = data;
             FitValues = values;
-            Gamma gamma = new Gamma();
-            int i = 0;
+            int i;
             double ss = 0;
             double sx = 0, sy = 0, st2 = 0;
-            double t = 0, wt = 0, sxoss = 0;
+            double t, wt, sxoss;
             double b = 0.0;
             for (i = 0; i < values.Length; i++)
             {
@@ -189,7 +177,7 @@ namespace Common.Structure.MathLibrary.ParameterEstimation
             double q = 0;
             if (values.Length > 2)
             {
-                q = gamma.GammaQ(0.5 * (values.Length - 2), 0.5 * chi2);
+                q = Gamma.GammaQ(0.5 * (values.Length - 2), 0.5 * chi2);
             }
 
             Estimator = new double[] { a, b };

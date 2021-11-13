@@ -26,22 +26,10 @@ namespace Common.Structure.MathLibrary.ParameterEstimation
         }
 
         /// <inheritdoc/>
-        public int NumberOfParameters
-        {
-            get
-            {
-                return Estimator.Length;
-            }
-        }
+        public int NumberOfParameters => Estimator.Length;
 
         /// <inheritdoc/>
-        public int NumberOfDataPoints
-        {
-            get
-            {
-                return FitValues.Length;
-            }
-        }
+        public int NumberOfDataPoints => FitValues.Length;
 
         /// <inheritdoc/>
         public double[,] FitData
@@ -102,8 +90,14 @@ namespace Common.Structure.MathLibrary.ParameterEstimation
 
                 residual += value * value;
             }
+
             residual /= (NumberOfDataPoints - NumberOfParameters);
             Uncertainty = matrix.ScalarMult(residual);
+        }
+
+        public void GenerateEstimator(double[,] data, double[] values, double[] sigmaValues)
+        {
+            GenerateEstimator(data, values);
         }
     }
 }

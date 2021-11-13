@@ -73,5 +73,13 @@
         /// <param name="data">The data values to use.</param>
         /// <param name="values">The expected outcomes for each row of the data matrix.</param>
         void GenerateEstimator(double[,] data, double[] values);
+
+        /// <summary>
+        /// Calculates the values of the estimator from the data and expected values.
+        /// </summary>
+        /// <param name="data">The data values to use.</param>
+        /// <param name="values">The expected outcomes for each row of the data matrix.</param>
+        /// <param name="sigmaValues">The uncertainty in each of the values values.</param>
+        void GenerateEstimator(double[,] data, double[] values, double[] sigmaValues);
     }
 }

@@ -6,25 +6,16 @@ namespace Common.Structure.MathLibrary.Functions
     /// The incomplete Gamma function written as P(a,x).
     /// See Numerical Recipes in C third edition p261
     /// </summary>
-    public class Gamma
+    public static class Gamma
     {
-        /// <summary>
-        /// various stored parameters for computation speed.
-        /// </summary>
-        private readonly GaussLegendreQuadrature glq = new GaussLegendreQuadrature();
         private const int ASwitch = 100;
         private const double eps = double.Epsilon;
         private const double fpMin = eps;
 
         /// <summary>
-        /// The last calculated value of the gamma.
-        /// </summary>
-        private double LogGamma = 0.0;
-
-        /// <summary>
         /// Evaluates the incomplete gamma function  with upper limit on integral of x
         /// </summary>
-        public double GammaP(double a, double x)
+        public static double GammaP(double a, double x)
         {
             if (x < 0.0 || a <= 0.0)
             {
@@ -52,7 +43,7 @@ namespace Common.Structure.MathLibrary.Functions
         /// <summary>
         /// Returns 1-GammaP (a,x)
         /// </summary>
-        public double GammaQ(double a, double x)
+        public static double GammaQ(double a, double x)
         {
             if (x < 0.0 || a <= 0.0)
             {
@@ -80,18 +71,17 @@ namespace Common.Structure.MathLibrary.Functions
         /// <summary>
         /// The inverse function of GammaP, given fixed a.
         /// </summary>
-        public double InverseGammaP(double p, double a)
+        public static double InverseGammaP(double p, double a)
         {
-            int j = 0;
-            double x = 0.0, err;
+            double x, err;
             double eps = 1.0e-8;
             double lna1 = 0;
             double a1 = a - 1;
             double afac = 0.0;
-            double pp = 0;
-            double t = 0.0;
-            double u = 0.0;
-            LogGamma = BasicFunctions.LogGamma(a);
+            double pp;
+            double t;
+            double u;
+            double logGamma = BasicFunctions.LogGamma(a);
 
             if (a <= 0.0)
             {
@@ -111,7 +101,7 @@ namespace Common.Structure.MathLibrary.Functions
             if (a > 1.0)
             {
                 lna1 = Math.Log(a1);
-                afac = Math.Exp(a1 * (lna1 - 1.0) - LogGamma);
+                afac = Math.Exp(a1 * (lna1 - 1.0) - logGamma);
                 pp = (p < 0.5) ? p : 1.0 - p;
                 t = Math.Sqrt(-2 * Math.Log(pp));
                 x = (2.30753 + t * 0.27061) / (1.0 + t * (0.99229 + t * 0.04481)) - t;
@@ -135,7 +125,7 @@ namespace Common.Structure.MathLibrary.Functions
                 }
             }
 
-            for (j = 0; j < 12; j++)
+            for (int iteration = 0; iteration < 12; iteration++)
             {
                 if (x <= 0.0)
                 {
@@ -149,7 +139,7 @@ namespace Common.Structure.MathLibrary.Functions
                 }
                 else
                 {
-                    t = Math.Exp(-x + a1 * Math.Log(x) - LogGamma);
+                    t = Math.Exp(-x + a1 * Math.Log(x) - logGamma);
                 }
 
                 u = err / t;
@@ -168,12 +158,12 @@ namespace Common.Structure.MathLibrary.Functions
             return x;
         }
 
-        private double GammaFromSeries(double a, double x)
+        private static double GammaFromSeries(double a, double x)
         {
             double sum = 1.0 / a;
             double del = 1.0 / a;
             double ap = a;
-            LogGamma = BasicFunctions.LogGamma(a);
+            double logGamma = BasicFunctions.LogGamma(a);
 
             do
             {
@@ -182,22 +172,21 @@ namespace Common.Structure.MathLibrary.Functions
                 sum += del;
             } while (Math.Abs(del) < Math.Abs(sum) * eps);
 
-            return sum * Math.Exp(-x + a * Math.Log(x) - LogGamma);
+            return sum * Math.Exp(-x + a * Math.Log(x) - logGamma);
         }
 
-        private double GammaFromContinuedFraction(double a, double x)
+        private static double GammaFromContinuedFraction(double a, double x)
         {
-            int i = 0;
-            double an = 0, del = 0;
-            LogGamma = BasicFunctions.LogGamma(a);
+            double an, del;
+            double logGamma = BasicFunctions.LogGamma(a);
             double b = x + 1.0 - a;
             double c = 1.0 / fpMin;
             double d = 1.0 / b;
             double h = d;
 
-            for (i = 0; ; i++)
+            for (int iteration = 0; ; iteration++)
             {
-                an = -1 * (i - a);
+                an = -1 * (iteration - a);
                 b += 2.0;
                 d = an * d + b;
 
@@ -223,18 +212,17 @@ namespace Common.Structure.MathLibrary.Functions
                 }
             }
 
-            return Math.Exp(-x + a * Math.Log(x) - LogGamma) * h;
+            return Math.Exp(-x + a * Math.Log(x) - logGamma) * h;
         }
 
-        private double GammaPApprox(double a, double x, int n)
+        private static double GammaPApprox(double a, double x, int n)
         {
-            int j = 0;
-            double xu = 0;
-            double t = 0, sum = 0, ans = 0;
+            double xu;
+            double t, sum = 0, ans;
             double a1 = a - 1.0;
             double loga1 = Math.Log(a1);
             double sqrta1 = Math.Sqrt(a1);
-            LogGamma = BasicFunctions.LogGamma(a);
+            double logGamma = BasicFunctions.LogGamma(a);
 
             if (x > a1)
             {
@@ -245,13 +233,13 @@ namespace Common.Structure.MathLibrary.Functions
                 xu = Math.Max(0.0, Math.Min(a1 - 7.5 * sqrta1, x - 5.0 * sqrta1));
             }
 
-            for (j = 0; j < glq.NumberValues; j++)
+            for (int gaussIndex = 0; gaussIndex < GaussLegendreQuadrature.NumberValues; gaussIndex++)
             {
-                t = x + (xu - x) * glq.Abscissa[j];
-                sum += glq.Weights[j] * Math.Exp(-(t - a1) + a1 * (Math.Log(t) - loga1));
+                t = x + (xu - x) * GaussLegendreQuadrature.Abscissa[gaussIndex];
+                sum += GaussLegendreQuadrature.Weights[gaussIndex] * Math.Exp(-(t - a1) + a1 * (Math.Log(t) - loga1));
             }
 
-            ans = sum * (xu - x) * Math.Exp(a1 * (loga1 - 1.0) - LogGamma);
+            ans = sum * (xu - x) * Math.Exp(a1 * (loga1 - 1.0) - logGamma);
             return (n == 0) ? (ans > 0 ? 1.0 - ans : -ans) : (ans >= 0.0 ? ans : 1.0 + ans);
         }
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using Common.Structure.MathLibrary.Matrices;
 
 namespace Common.Structure.MathLibrary.ParameterEstimation
@@ -19,22 +20,10 @@ namespace Common.Structure.MathLibrary.ParameterEstimation
     public sealed class LassoRegression : IEstimator
     {
         /// <inheritdoc/>
-        public int NumberOfParameters
-        {
-            get
-            {
-                return Estimator.Length;
-            }
-        }
+        public int NumberOfParameters => Estimator.Length;
 
         /// <inheritdoc/>
-        public int NumberOfDataPoints
-        {
-            get
-            {
-                return FitValues.Length;
-            }
-        }
+        public int NumberOfDataPoints => FitValues.Length;
 
         /// <inheritdoc/>
         public double[,] FitData
@@ -58,46 +47,10 @@ namespace Common.Structure.MathLibrary.ParameterEstimation
         }
 
         /// <inheritdoc/>
-        public double[,] Uncertainty
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public double[,] Uncertainty => throw new NotImplementedException();
 
         /// <inheritdoc/>
-        public double GoodnessOfFit
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        /// <inheritdoc/>
-        public double Evaluate(double[] point)
-        {
-            if (Estimator.Length != point.Length)
-            {
-                return double.NaN;
-            }
-            double value = 0.0;
-            for (int index = 0; index < Estimator.Length; index++)
-            {
-                value += Estimator[index] * point[index];
-            }
-
-            return value;
-        }
-
-        /// <inheritdoc/>
-        public void GenerateEstimator(double[,] data, double[] values)
-        {
-            double bestlambda = CalculateBestLambda(data, values);
-
-            Estimator = CalculateLassoWeights(data, values, bestlambda);
-        }
+        public double GoodnessOfFit => throw new NotImplementedException();
 
         /// <summary>
         /// Generates an instance.
@@ -142,8 +95,40 @@ namespace Common.Structure.MathLibrary.ParameterEstimation
             Estimator = CalculateLassoWeights(data, values, lambda);
         }
 
+        /// <inheritdoc/>
+        public double Evaluate(double[] point)
+        {
+            if (Estimator.Length != point.Length)
+            {
+                return double.NaN;
+            }
+            double value = 0.0;
+            for (int index = 0; index < Estimator.Length; index++)
+            {
+                value += Estimator[index] * point[index];
+            }
+
+            return value;
+        }
+
+        /// <inheritdoc/>
+        public void GenerateEstimator(double[,] data, double[] values)
+        {
+            FitData = data;
+            FitValues = values;
+            double bestlambda = CalculateBestLambda(data, values);
+
+            Estimator = CalculateLassoWeights(data, values, bestlambda);
+        }
+
+        /// <inheritdoc/>
+        public void GenerateEstimator(double[,] data, double[] values, double[] sigmaValues)
+        {
+            GenerateEstimator(data, values);
+        }
+
         /*Computes the normalization factor*/
-        private double NormalisationFactor(int columnIndex, double[,] matrix, int numberMatrixRows)
+        private static double NormalisationFactor(int columnIndex, double[,] matrix, int numberMatrixRows)
         {
             double sum = 0.0;
             for (int rowIndex = 0; rowIndex < numberMatrixRows; rowIndex++)
@@ -155,7 +140,7 @@ namespace Common.Structure.MathLibrary.ParameterEstimation
         }
 
         /*Computes the partial sum*/
-        private double PartialSum(int numberParameterDimensions, int ignoreParameterIndex, double[] weights, double[,] matrix, int rowIndex)
+        private static double PartialSum(int numberParameterDimensions, int ignoreParameterIndex, double[] weights, double[,] matrix, int rowIndex)
         {
             double sum = 0.0;
             for (int j = 0; j < numberParameterDimensions; j++)
@@ -170,7 +155,7 @@ namespace Common.Structure.MathLibrary.ParameterEstimation
         }
 
         /* Computes rho-j */
-        private double Rho_j(double[,] matrix, double[] values, int numberObservationDimensions, int ignoreParameterIndex, int numberParameterDimensions, double[] weights)
+        private static double Rho_j(double[,] matrix, double[] values, int numberObservationDimensions, int ignoreParameterIndex, int numberParameterDimensions, double[] weights)
         {
             double sum = 0.0;
             double partial_sum;
@@ -183,7 +168,7 @@ namespace Common.Structure.MathLibrary.ParameterEstimation
             return sum;
         }
 
-        private double Intercept(double[] weights, double[,] arr, double[] values, int num_dim, int num_obs)
+        private static double Intercept(double[] weights, double[,] arr, double[] values, int num_dim, int num_obs)
         {
             double sum = 0.0;
             for (int rowIndex = 0; rowIndex < num_obs; rowIndex++)
@@ -200,7 +185,7 @@ namespace Common.Structure.MathLibrary.ParameterEstimation
         /// <param name="data"></param>
         /// <param name="lambda"></param>
         /// <returns></returns>
-        private double[] CalculateLassoWeights(double[,] data, double[] values, double lambda, double tolerance = 1e-12, bool addIntercept = false)
+        private static double[] CalculateLassoWeights(double[,] data, double[] values, double lambda, double tolerance = 1e-12, bool addIntercept = false)
         {
             int numberParameters = data.GetLength(1);
             int numberObservations = data.GetLength(0);
