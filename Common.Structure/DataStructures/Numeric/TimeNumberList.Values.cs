@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Common.Structure.DataStructures
+namespace Common.Structure.DataStructures.Numeric
 {
-    public partial class TimeList
+    public partial class TimeNumberList
     {
         /// <inheritdoc/>
-        public DailyValuation Value(DateTime date)
+        public DailyNumeric Value(DateTime date)
         {
-            decimal interpolationFunction(DailyValuation earlier, DailyValuation later, DateTime day) => earlier.Value + (later.Value - earlier.Value) / (later.Day - earlier.Day).Days * (day - earlier.Day).Days;
+            double interpolationFunction(DailyNumeric earlier, DailyNumeric later, DateTime day) => earlier.Value + (later.Value - earlier.Value) / (later.Day - earlier.Day).Days * (day - earlier.Day).Days;
             return Value(
                 date,
                 (valuation, dateTime) => valuation,
@@ -18,9 +18,9 @@ namespace Common.Structure.DataStructures
         }
 
         /// <inheritdoc/>
-        public DailyValuation Value(
+        public DailyNumeric Value(
             DateTime date,
-            Func<DailyValuation, DailyValuation, DateTime, decimal> interpolationFunction)
+            Func<DailyNumeric, DailyNumeric, DateTime, double> interpolationFunction)
         {
             return Value(
                 date,
@@ -30,11 +30,11 @@ namespace Common.Structure.DataStructures
         }
 
         /// <inheritdoc/>
-        public DailyValuation Value(
+        public DailyNumeric Value(
             DateTime date,
-            Func<DailyValuation, DateTime, DailyValuation> priorEstimator,
-            Func<DailyValuation, DateTime, DailyValuation> postEstimator,
-            Func<DailyValuation, DailyValuation, DateTime, decimal> interpolationFunction)
+            Func<DailyNumeric, DateTime, DailyNumeric> priorEstimator,
+            Func<DailyNumeric, DateTime, DailyNumeric> postEstimator,
+            Func<DailyNumeric, DailyNumeric, DateTime, double> interpolationFunction)
         {
             return Value(
                 Values(),
@@ -44,12 +44,12 @@ namespace Common.Structure.DataStructures
                 interpolationFunction);
         }
 
-        private static DailyValuation Value(
-            List<DailyValuation> values,
+        private static DailyNumeric Value(
+            List<DailyNumeric> values,
             DateTime date,
-            Func<DailyValuation, DateTime, DailyValuation> priorEstimator,
-            Func<DailyValuation, DateTime, DailyValuation> postEstimator,
-            Func<DailyValuation, DailyValuation, DateTime, decimal> interpolationFunction)
+            Func<DailyNumeric, DateTime, DailyNumeric> priorEstimator,
+            Func<DailyNumeric, DateTime, DailyNumeric> postEstimator,
+            Func<DailyNumeric, DailyNumeric, DateTime, double> interpolationFunction)
         {
             if (!values.Any())
             {
@@ -69,23 +69,23 @@ namespace Common.Structure.DataStructures
             }
 
             var vals = ValuesOnOrBeforeAndAfter(values, date);
-            return new DailyValuation(date, interpolationFunction(vals.Item1, vals.Item2, date));
+            return new DailyNumeric(date, interpolationFunction(vals.Item1, vals.Item2, date));
         }
 
         /// <summary>
         /// Returns linearly interpolated value of the List on the date provided.
         /// The value prior to the first value is zero.
         /// </summary>
-        public DailyValuation ValueZeroBefore(DateTime date)
+        public DailyNumeric ValueZeroBefore(DateTime date)
         {
             return Value(
                 date,
-                (valuation, dateTime) => new DailyValuation(date, 0.0m),
+                (valuation, dateTime) => new DailyNumeric(date, 0.0),
                 (valuation, datetime) => valuation,
                 (earlier, later, calculationDate) => earlier.Value + (later.Value - earlier.Value) / (later.Day - earlier.Day).Days * (calculationDate - earlier.Day).Days);
         }
 
-        private static (DailyValuation, DailyValuation) ValuesOnOrBeforeAndAfter(List<DailyValuation> values, DateTime date)
+        private static (DailyNumeric, DailyNumeric) ValuesOnOrBeforeAndAfter(List<DailyNumeric> values, DateTime date)
         {
             if (!values.Any())
             {
@@ -114,7 +114,7 @@ namespace Common.Structure.DataStructures
             return (values[index].Copy(), values[index + 1].Copy());
         }
 
-        private static int GetIndexOf(List<DailyValuation> values, DateTime date)
+        private static int GetIndexOf(List<DailyNumeric> values, DateTime date)
         {
             int lowerIndex = 0;
             int upperIndex = values.Count - 1;
@@ -137,14 +137,14 @@ namespace Common.Structure.DataStructures
         }
 
         /// <summary>
-        /// Returns the DailyValuation on or before the date specified.
+        /// Returns the DailyNumeric on or before the date specified.
         /// </summary>
-        public DailyValuation ValueOnOrBefore(DateTime date)
+        public DailyNumeric ValueOnOrBefore(DateTime date)
         {
             return ValueOnOrBefore(Values(), date);
         }
 
-        private static DailyValuation ValueOnOrBefore(List<DailyValuation> values, DateTime date)
+        private static DailyNumeric ValueOnOrBefore(List<DailyNumeric> values, DateTime date)
         {
             if (!values.Any())
             {
@@ -175,15 +175,15 @@ namespace Common.Structure.DataStructures
         }
 
         /// <summary>
-        /// Returns DailyValuation closest to the date but earlier to it.
+        /// Returns DailyNumeric closest to the date but earlier to it.
         /// If a strictly earlier one cannot be found then return null.
         /// </summary>
-        public DailyValuation ValueBefore(DateTime date)
+        public DailyNumeric ValueBefore(DateTime date)
         {
             return ValueBefore(Values(), date);
         }
 
-        private static DailyValuation ValueBefore(List<DailyValuation> values, DateTime date)
+        private static DailyNumeric ValueBefore(List<DailyNumeric> values, DateTime date)
         {
             if (values != null && values.Any())
             {
@@ -213,19 +213,19 @@ namespace Common.Structure.DataStructures
                 }
             }
 
-            return new DailyValuation(date, 0.0m);
+            return new DailyNumeric(date, 0.0);
         }
 
         /// <summary>
         /// returns nearest valuation after the date provided in the timelist.
         /// If there is no date after the value, then null is returned.
         /// </summary>
-        public DailyValuation ValueAfter(DateTime date)
+        public DailyNumeric ValueAfter(DateTime date)
         {
             return ValueAfter(Values(), date);
         }
 
-        private static DailyValuation ValueAfter(List<DailyValuation> values, DateTime date)
+        private static DailyNumeric ValueAfter(List<DailyNumeric> values, DateTime date)
         {
             if (!values.Any())
             {
@@ -266,7 +266,7 @@ namespace Common.Structure.DataStructures
         /// <summary>
         /// Returns first value held, or null if no data.
         /// </summary>
-        public decimal? FirstValue()
+        public double? FirstValue()
         {
             return FirstValuation()?.Value;
         }
@@ -274,12 +274,12 @@ namespace Common.Structure.DataStructures
         /// <summary>
         /// Returns first pair of date and value, or null if this doesn't exist.
         /// </summary>
-        public DailyValuation FirstValuation()
+        public DailyNumeric FirstValuation()
         {
             return FirstValuation(Values());
         }
 
-        private static DailyValuation FirstValuation(List<DailyValuation> values)
+        private static DailyNumeric FirstValuation(List<DailyNumeric> values)
         {
             if (values.Any())
             {
@@ -300,7 +300,7 @@ namespace Common.Structure.DataStructures
         /// <summary>
         /// Returns latest value, or null if no data held.
         /// </summary>
-        public decimal? LatestValue()
+        public double? LatestValue()
         {
             return LatestValuation()?.Value;
         }
@@ -308,12 +308,12 @@ namespace Common.Structure.DataStructures
         /// <summary>
         /// Returns a pair of date and value of the most recently held data, or null if no data held.
         /// </summary>
-        public DailyValuation LatestValuation()
+        public DailyNumeric LatestValuation()
         {
             return LatestValuation(Values());
         }
 
-        private static DailyValuation LatestValuation(List<DailyValuation> values)
+        private static DailyNumeric LatestValuation(List<DailyNumeric> values)
         {
             if (values.Any())
             {
@@ -326,16 +326,16 @@ namespace Common.Structure.DataStructures
         /// <summary>
         /// Returns all valuations on or between the two dates specified, or empty list if none held.
         /// </summary>
-        public List<DailyValuation> GetValuesBetween(DateTime earlierTime, DateTime laterTime)
+        public List<DailyNumeric> GetValuesBetween(DateTime earlierTime, DateTime laterTime)
         {
             return GetValuesBetween(Values(), earlierTime, laterTime);
         }
 
-        private static List<DailyValuation> GetValuesBetween(List<DailyValuation> values, DateTime earlierTime, DateTime laterTime)
+        private static List<DailyNumeric> GetValuesBetween(List<DailyNumeric> values, DateTime earlierTime, DateTime laterTime)
         {
-            List<DailyValuation> valuesBetween = new List<DailyValuation>();
+            List<DailyNumeric> valuesBetween = new List<DailyNumeric>();
 
-            foreach (DailyValuation value in values)
+            foreach (DailyNumeric value in values)
             {
                 if (value.Day >= earlierTime && value.Day <= laterTime)
                 {

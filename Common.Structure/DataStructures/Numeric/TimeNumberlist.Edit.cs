@@ -3,9 +3,9 @@ using System.Linq;
 
 using Common.Structure.Reporting;
 
-namespace Common.Structure.DataStructures
+namespace Common.Structure.DataStructures.Numeric
 {
-    public partial class TimeList
+    public partial class TimeNumberList
     {
         /// <inheritdoc/>
         public void CleanValues()
@@ -70,7 +70,7 @@ namespace Common.Structure.DataStructures
         }
 
         /// <inheritdoc/>
-        public bool AddOrEditData(DateTime oldDate, DateTime date, decimal value, IReportLogger reportLogger = null)
+        public bool AddOrEditData(DateTime oldDate, DateTime date, double value, IReportLogger reportLogger = null)
         {
             if (TryEditData(oldDate, date, value, reportLogger))
             {
@@ -82,7 +82,7 @@ namespace Common.Structure.DataStructures
         }
 
         /// <inheritdoc/>
-        public void SetData(DateTime date, decimal value, IReportLogger reportLogger = null)
+        public void SetData(DateTime date, double value, IReportLogger reportLogger = null)
         {
             bool valueExists = false;
             bool edited = false;
@@ -108,7 +108,7 @@ namespace Common.Structure.DataStructures
 
                 if (!valueExists)
                 {
-                    DailyValuation valuation = new DailyValuation(date, value);
+                    DailyNumeric valuation = new DailyNumeric(date, value);
                     fValues.Add(valuation);
                     _ = reportLogger?.Log(ReportSeverity.Detailed, ReportType.Information, ReportLocation.AddingData, $"Adding value: {date} value {value}.");
                     Sort();
@@ -123,7 +123,7 @@ namespace Common.Structure.DataStructures
         }
 
         /// <inheritdoc/>
-        public bool TryEditData(DateTime oldDate, DateTime newDate, decimal value, IReportLogger reportLogger = null)
+        public bool TryEditData(DateTime oldDate, DateTime newDate, double value, IReportLogger reportLogger = null)
         {
             bool edited = false;
             lock (valuesLock)
@@ -179,7 +179,7 @@ namespace Common.Structure.DataStructures
         }
 
         /// <inheritdoc/>
-        public bool TryGetValue(DateTime date, out decimal value)
+        public bool TryGetValue(DateTime date, out double value)
         {
             value = 0;
             var values = Values();

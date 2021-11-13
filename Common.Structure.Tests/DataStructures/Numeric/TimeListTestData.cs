@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Common.Structure.DataStructures;
 
-namespace Common.Structure.Tests.DataStructures
+using Common.Structure.DataStructures.Numeric;
+
+namespace Common.Structure.Tests.DataStructures.Numeric
 {
     public static class TimeListTestData
     {
@@ -27,9 +28,9 @@ namespace Common.Structure.Tests.DataStructures
             ThreeEntryKey2,
         };
 
-        private static Dictionary<string, TimeList> fExampleData;
+        private static Dictionary<string, TimeNumberList> fExampleData;
 
-        private static void AddData(TimeList sut, int numberEntriesToAdd, DateTime startDate, double startValue, int dayIncrement, double valueIncrement)
+        private static void AddData(TimeNumberList sut, int numberEntriesToAdd, DateTime startDate, double startValue, int dayIncrement, double valueIncrement)
         {
             DateTime latestDate = startDate;
             double latestValue = startValue;
@@ -43,51 +44,51 @@ namespace Common.Structure.Tests.DataStructures
 
         private static void SetupTestLists()
         {
-            fExampleData = new Dictionary<string, TimeList>
+            fExampleData = new Dictionary<string, TimeNumberList>
             {
                 { NullListKey, null },
-                { EmptyListKey, new TimeList() }
+                { EmptyListKey, new TimeNumberList() }
             };
 
-            TimeList tl1 = new TimeList();
+            TimeNumberList tl1 = new TimeNumberList();
             tl1.SetData(new DateTime(2018, 1, 1), 1000);
             fExampleData.Add(SingleEntryKey, tl1);
 
-            TimeList tl2 = new TimeList();
+            TimeNumberList tl2 = new TimeNumberList();
             tl2.SetData(new DateTime(2018, 1, 1), 1000);
             tl2.SetData(new DateTime(2018, 6, 1), 1000);
             fExampleData.Add(TwoEntryKey, tl2);
 
-            TimeList tl3 = new TimeList();
+            TimeNumberList tl3 = new TimeNumberList();
             tl3.SetData(new DateTime(2017, 1, 1), 1000);
             tl3.SetData(new DateTime(2018, 1, 1), 1100);
             tl3.SetData(new DateTime(2018, 6, 1), 1200);
             fExampleData.Add(ThreeEntryKey1, tl3);
 
-            TimeList tl4 = new TimeList();
+            TimeNumberList tl4 = new TimeNumberList();
             tl4.SetData(new DateTime(2017, 1, 1), 1000);
             tl4.SetData(new DateTime(2018, 1, 1), -1100);
             tl4.SetData(new DateTime(2018, 6, 1), 1200);
             fExampleData.Add(ThreeEntryKey2, tl4);
 
-            TimeList tl5 = new TimeList();
+            TimeNumberList tl5 = new TimeNumberList();
             AddData(tl5, 10, new DateTime(2018, 5, 4), 2.0, 55, 12.2);
             fExampleData.Add(TenEntryKey, tl5);
 
-            TimeList tl6 = new TimeList();
+            TimeNumberList tl6 = new TimeNumberList();
             AddData(tl6, 100, new DateTime(2014, 5, 4), 2.0, 55, 12.2);
             fExampleData.Add(HundredEntryKey, tl6);
 
-            TimeList tl7 = new TimeList();
+            TimeNumberList tl7 = new TimeNumberList();
             AddData(tl7, 1000, new DateTime(2010, 5, 4), 2.0, 55, 12.2);
             fExampleData.Add(ThousandEntryKey, tl7);
 
-            TimeList tl8 = new TimeList();
+            TimeNumberList tl8 = new TimeNumberList();
             AddData(tl8, 10000, new DateTime(2000, 5, 4), 2.0, 55, 12.2);
             fExampleData.Add(TenThousandEntryKey, tl8);
         }
 
-        public static TimeList GetTestTimeList(string key)
+        public static TimeNumberList GetTestTimeList(string key)
         {
             if (fExampleData == null)
             {

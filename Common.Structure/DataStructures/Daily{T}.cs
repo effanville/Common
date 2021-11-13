@@ -1,4 +1,5 @@
 ﻿using System;
+
 using Common.Structure.Extensions;
 
 namespace Common.Structure.DataStructures
@@ -6,7 +7,7 @@ namespace Common.Structure.DataStructures
     /// <summary>
     /// Holds a date and a value to act as the value on that day.
     /// </summary>
-    public class Daily<T> : IDaily<T>, IComparable where T : IEquatable<T>
+    public class Daily<T> : IComparable, IComparable<Daily<T>>, IEquatable<Daily<T>> where T : IEquatable<T>
     {
         /// <summary>
         /// The date for the valuation
@@ -54,17 +55,28 @@ namespace Common.Structure.DataStructures
         /// <summary>
         /// Method of comparison. Compares dates.
         /// </summary>
-        public virtual int CompareTo(object obj)
+        public int CompareTo(object obj)
         {
-            Daily<T> a = (Daily<T>)obj;
-            return DateTime.Compare(Day, a.Day);
+            if (obj is Daily<T> other)
+            {
+                return CompareTo(other);
+            }
+
+            return 0;
         }
+
+        /// <inheritdoc/>
+        public int CompareTo(Daily<T> other)
+        {
+            return DateTime.Compare(Day, other.Day);
+        }
+
 
         /// <summary>
         /// Returns a copy of the specified valuation
         /// </summary>
         /// <returns></returns>
-        public IDaily<T> Copy()
+        public Daily<T> Copy()
         {
             return new Daily<T>(Day, Value);
         }
@@ -89,7 +101,8 @@ namespace Common.Structure.DataStructures
             return false;
         }
 
-        private bool Equals(Daily<T> other)
+        /// <inheritdoc/>
+        public bool Equals(Daily<T> other)
         {
             return Day.Equals(other.Day) && Value.Equals(other.Value);
         }
