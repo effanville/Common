@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using Common.Structure.MathLibrary.Matrices;
 
 namespace Common.Structure.MathLibrary.ParameterEstimation
@@ -71,29 +72,6 @@ namespace Common.Structure.MathLibrary.ParameterEstimation
             }
         }
 
-        /// <inheritdoc/>
-        public double Evaluate(double[] point)
-        {
-            if (Estimator.Length != point.Length)
-            {
-                return double.NaN;
-            }
-            double value = 0.0;
-            for (int index = 0; index < Estimator.Length; index++)
-            {
-                value += Estimator[index] * point[index];
-            }
-
-            return value;
-        }
-
-        /// <inheritdoc/>
-        public void GenerateEstimator(double[,] data, double[] values)
-        {
-            double bestlambda = CalculateBestLambda(data, values);
-            Estimator = CalculateRidgeWeights(data, values, bestlambda);
-        }
-
         /// <summary>
         /// Generates an instance.
         /// </summary>
@@ -136,6 +114,35 @@ namespace Common.Structure.MathLibrary.ParameterEstimation
             FitData = data;
             FitValues = values;
             Estimator = CalculateRidgeWeights(data, values, lambda);
+        }
+
+        /// <inheritdoc/>
+        public double Evaluate(double[] point)
+        {
+            if (Estimator.Length != point.Length)
+            {
+                return double.NaN;
+            }
+            double value = 0.0;
+            for (int index = 0; index < Estimator.Length; index++)
+            {
+                value += Estimator[index] * point[index];
+            }
+
+            return value;
+        }
+
+        /// <inheritdoc/>
+        public void GenerateEstimator(double[,] data, double[] values)
+        {
+            double bestlambda = CalculateBestLambda(data, values);
+            Estimator = CalculateRidgeWeights(data, values, bestlambda);
+        }
+
+        /// <inheritdoc/>
+        public void GenerateEstimator(double[,] data, double[] values, double[] sigmaValues)
+        {
+            GenerateEstimator(data, values, sigmaValues);
         }
 
         /// <summary>

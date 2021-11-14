@@ -1,4 +1,5 @@
 ﻿using System;
+
 using Common.Structure.MathLibrary.Functions;
 
 namespace Common.Structure.MathLibrary.ProbabilityDistributions
@@ -6,7 +7,7 @@ namespace Common.Structure.MathLibrary.ProbabilityDistributions
     /// <summary>
     /// The Gamma distribution
     /// </summary>
-    public class GammaDistribution : Gamma, IProbabilityDistribution
+    public class GammaDistribution : IProbabilityDistribution
     {
         private readonly double Alpha;
         private readonly double Beta;
@@ -42,7 +43,8 @@ namespace Common.Structure.MathLibrary.ProbabilityDistributions
             {
                 return double.NaN;
             }
-            return GammaP(Alpha, Beta * x);
+
+            return Gamma.GammaP(Alpha, Beta * x);
         }
 
         /// <inheritdoc/>
@@ -52,7 +54,8 @@ namespace Common.Structure.MathLibrary.ProbabilityDistributions
             {
                 return double.NaN;
             }
-            return InverseGammaP(p, Alpha) / Beta;
+
+            return Gamma.InverseGammaP(p, Alpha) / Beta;
         }
     }
 }

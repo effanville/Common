@@ -3,12 +3,14 @@ using System.Globalization;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
+
 using Common.Structure.Extensions;
 
 namespace Common.Structure.DataStructures
 {
     /// <summary>
-    /// Holds a date and a value to act as the value on that day.
+    /// Holds a date and a decimal value to act as the value on that day. This is particularly for use
+    /// with financial data.
     /// </summary>
     public class DailyValuation : IComparable, IComparable<DailyValuation>, IEquatable<DailyValuation>, IXmlSerializable
     {
@@ -24,7 +26,7 @@ namespace Common.Structure.DataStructures
         /// <summary>
         /// The specific valuation
         /// </summary>
-        public double Value
+        public decimal Value
         {
             get;
             set;
@@ -40,7 +42,7 @@ namespace Common.Structure.DataStructures
         /// <summary>
         /// Standard constructor.
         /// </summary>
-        public DailyValuation(DateTime idealDate, double idealValue)
+        public DailyValuation(DateTime idealDate, decimal idealValue)
         {
             Day = idealDate;
             Value = idealValue;
@@ -93,7 +95,7 @@ namespace Common.Structure.DataStructures
         /// <summary>
         /// Sets the data in the daily valuation.
         /// </summary>
-        public void SetData(DateTime date, double value)
+        public void SetData(DateTime date, decimal value)
         {
             Day = date;
             Value = value;
@@ -110,7 +112,7 @@ namespace Common.Structure.DataStructures
             return false;
         }
 
-
+        /// <inheritdoc/>
         public bool Equals(DailyValuation other)
         {
             return Day.Equals(other.Day) && Value.Equals(other.Value);
@@ -151,7 +153,7 @@ namespace Common.Structure.DataStructures
             reader.ReadEndElement();
 
             _ = DateTime.TryParse(day, out DateTime date);
-            _ = double.TryParse(values, NumberStyles.Any, CultureInfo.InvariantCulture, out double value);
+            _ = decimal.TryParse(values, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal value);
 
             Day = date;
             Value = value;
@@ -198,7 +200,7 @@ namespace Common.Structure.DataStructures
                 string valueString = reader.GetAttribute(XmlValueElementNew);
 
                 _ = DateTime.TryParse(dayString, out DateTime date);
-                _ = double.TryParse(valueString, NumberStyles.Any, CultureInfo.InvariantCulture, out double value);
+                _ = decimal.TryParse(valueString, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal value);
 
                 Day = date;
                 Value = value;

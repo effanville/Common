@@ -53,18 +53,18 @@ namespace Common.Structure.DataStructures
         /// <summary>
         /// obtains first instance of the value for the date requested. Returns false if no data.
         /// </summary>
-        bool TryGetValue(DateTime date, out double value);
+        bool TryGetValue(DateTime date, out decimal value);
 
         /// <summary>
         /// Edits data if it exists on that date (and can update the date of that entry), and otherwise
         /// it adds data on the date.
         /// </summary>
-        /// <param name="oldDate"></param>
-        /// <param name="newDate"></param>
-        /// <param name="value"></param>
-        /// <param name="reportLogger"></param>
+        /// <param name="oldDate">The date to edit data on.</param>
+        /// <param name="newDate">The date to set the value to be stored on.</param>
+        /// <param name="value">The value to set on the new date.</param>
+        /// <param name="reportLogger">Reports the logging of this action.</param>
         /// <returns></returns>
-        bool AddOrEditData(DateTime oldDate, DateTime newDate, double value, IReportLogger reportLogger = null);
+        bool AddOrEditData(DateTime oldDate, DateTime newDate, decimal value, IReportLogger reportLogger = null);
 
         /// <summary>
         /// Edits data in the TimeList on the date provided if it can.
@@ -73,7 +73,8 @@ namespace Common.Structure.DataStructures
         /// <param name="newDate">The date to set the value to be stored on.</param>
         /// <param name="value">The value to set for this date.</param>
         /// <param name="reportLogger">Reports the logging of this action.</param>
-        bool TryEditData(DateTime oldDate, DateTime newDate, double value, IReportLogger reportLogger = null);
+        /// <returns>Whether the editing was successful.</returns>
+        bool TryEditData(DateTime oldDate, DateTime newDate, decimal value, IReportLogger reportLogger = null);
 
         /// <summary>
         /// Sets data in the TimeList on the date provided. Adds if it doesnt exist, edits if it does.
@@ -81,7 +82,7 @@ namespace Common.Structure.DataStructures
         /// <param name="date">The date to edit data on.</param>
         /// <param name="value">The value to set for this date.</param>
         /// <param name="reportLogger">Reports the logging of this action.</param>
-        void SetData(DateTime date, double value, IReportLogger reportLogger = null);
+        void SetData(DateTime date, decimal value, IReportLogger reportLogger = null);
 
         /// <summary>
         /// Deletes data if exists. If deletes, returns true.
@@ -106,7 +107,7 @@ namespace Common.Structure.DataStructures
         /// <returns>
         /// A valuation with the date and the value on that date. The date is not necessarily the date requested. For example
         /// if the prior evaluator returns a different date, then that date is recorded.</returns>
-        DailyValuation Value(DateTime date, Func<DailyValuation, DailyValuation, DateTime, double> interpolationFunction);
+        DailyValuation Value(DateTime date, Func<DailyValuation, DailyValuation, DateTime, decimal> interpolationFunction);
 
         /// <summary>
         /// Returns the value of the <see cref="TimeList"/> with various methods to interpolate.
@@ -121,11 +122,11 @@ namespace Common.Structure.DataStructures
         /// <returns>
         /// A valuation with the date and the value on that date. The date is not necessarily the date requested. For example
         /// if the prior evaluator returns a different date, then that date is recorded.</returns>
-        DailyValuation Value(DateTime date, Func<DailyValuation, DateTime, DailyValuation> priorEstimator, Func<DailyValuation, DateTime, DailyValuation> postEstimator, Func<DailyValuation, DailyValuation, DateTime, double> interpolationFunction);
+        DailyValuation Value(DateTime date, Func<DailyValuation, DateTime, DailyValuation> priorEstimator, Func<DailyValuation, DateTime, DailyValuation> postEstimator, Func<DailyValuation, DailyValuation, DateTime, decimal> interpolationFunction);
 
         /// <summary>
         /// Provides a new <see cref="TimeList"/> with multiplicative inverses as values,
-        /// and where the value 0 is mapped to <see cref="double.PositiveInfinity"/>.
+        /// and where the value 0 is mapped to <see cref="decimal.MaxValue"/>.
         /// </summary>
         TimeList Inverted();
     }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Common.Structure.Mathematics
+namespace Common.Structure.MathLibrary.Vectors
 {
     public static class VectorStats
     {

@@ -20,10 +20,10 @@ namespace Common.Structure.Minimisation
             {
                 double temp = fa;
                 fa = fb;
-                fb = fa;
+                fb = temp;
                 temp = ax;
                 ax = bx;
-                bx = ax;
+                bx = temp;
             }
 
             cx = bx + Gold + (bx - ax);
@@ -59,17 +59,30 @@ namespace Common.Structure.Minimisation
                     fu = func(u);
                     if (fu < fc)
                     {
-
+                        SHFT(ref bx, ref cx, ref u, cx + Gold * (cx - bx));
+                        SHFT(ref fb, ref fc, ref fu, func(u));
                     }
                 }
-                else if (1 == 1)
+                else if ((u - ulim) * (ulim - cx) >= 0.0)
                 {
+                    u = ulim;
+                    fu = func(u);
                 }
                 else
                 {
                     u = cx + Gold * (cx - bx);
                     fu = func(u);
                 }
+
+                SHFT(ref ax, ref bx, ref cx, u);
+                SHFT(ref fa, ref fb, ref fc, fu);
+            }
+
+            void SHFT(ref double first, ref double second, ref double c, double d)
+            {
+                first = second;
+                second = c;
+                c = d;
             }
         }
     }

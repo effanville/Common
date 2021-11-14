@@ -3,26 +3,26 @@ using System.Collections.Generic;
 
 using Common.Structure.MathLibrary.Finance;
 
-namespace Common.Structure.DataStructures
+namespace Common.Structure.DataStructures.Numeric
 {
     /// <summary>
     /// Sorted list of values, with last value the most recent, and first the oldest.
     /// </summary>
-    public partial class TimeList
+    public partial class TimeNumberList
     {
 
         /// <inheritdoc />
-        public TimeList Inverted()
+        public TimeNumberList Inverted()
         {
             return Inverted(Values());
         }
 
-        private static TimeList Inverted(List<DailyValuation> values)
+        private static TimeNumberList Inverted(List<DailyNumeric> values)
         {
-            TimeList inverted = new TimeList();
+            TimeNumberList inverted = new TimeNumberList();
             if (values.Count > 0)
             {
-                foreach (DailyValuation value in values)
+                foreach (DailyNumeric value in values)
                 {
                     if (!value.Value.Equals(0))
                     {
@@ -30,7 +30,7 @@ namespace Common.Structure.DataStructures
                     }
                     else
                     {
-                        inverted.SetData(value.Day, decimal.MaxValue);
+                        inverted.SetData(value.Day, double.PositiveInfinity);
                     }
                 }
             }
@@ -41,17 +41,17 @@ namespace Common.Structure.DataStructures
         /// <summary>
         /// Adds all values in the list. The sum of an empty list is defined to be 0.
         /// </summary>
-        public decimal Sum()
+        public double Sum()
         {
             return Sum(Values());
         }
 
-        private static decimal Sum(List<DailyValuation> values)
+        private static double Sum(List<DailyNumeric> values)
         {
             if (values.Count > 0)
             {
-                decimal sum = 0;
-                foreach (DailyValuation val in values)
+                double sum = 0;
+                foreach (DailyNumeric val in values)
                 {
                     sum += val.Value;
                 }
@@ -59,7 +59,7 @@ namespace Common.Structure.DataStructures
                 return sum;
             }
 
-            return 0.0m;
+            return 0.0;
         }
 
         /// <summary>
@@ -70,10 +70,10 @@ namespace Common.Structure.DataStructures
             return CAR(Values(), earlierTime, laterTime);
         }
 
-        private static double CAR(List<DailyValuation> values, DateTime earlierTime, DateTime laterTime)
+        private static double CAR(List<DailyNumeric> values, DateTime earlierTime, DateTime laterTime)
         {
-            DailyValuation earlierValue = ValueOnOrBefore(values, earlierTime);
-            DailyValuation laterValue = ValueOnOrBefore(values, laterTime);
+            DailyNumeric earlierValue = ValueOnOrBefore(values, earlierTime);
+            DailyNumeric laterValue = ValueOnOrBefore(values, laterTime);
             if (earlierValue == null || laterValue == null)
             {
                 return double.NaN;
@@ -85,12 +85,12 @@ namespace Common.Structure.DataStructures
         /// <summary>
         /// Returns internal rate of return of the values in the TimeList
         /// </summary>
-        internal double IRR(DailyValuation latestValue)
+        internal double IRR(DailyNumeric latestValue)
         {
             return IRR(Values(), latestValue);
         }
 
-        private static double IRR(List<DailyValuation> values, DailyValuation latestValue)
+        private static double IRR(List<DailyNumeric> values, DailyNumeric latestValue)
         {
             if (values == null || values.Count == 0 || latestValue == null)
             {
@@ -109,12 +109,12 @@ namespace Common.Structure.DataStructures
         /// <summary>
         /// Returns the internal rate of return between <param name="startValue"/> and <param name="latestValue"/>.
         /// </summary>
-        internal double IRR(DailyValuation startValue, DailyValuation latestValue)
+        internal double IRR(DailyNumeric startValue, DailyNumeric latestValue)
         {
             return IRR(Values(), startValue, latestValue);
         }
 
-        private static double IRR(List<DailyValuation> values, DailyValuation startValue, DailyValuation latestValue)
+        private static double IRR(List<DailyNumeric> values, DailyNumeric startValue, DailyNumeric latestValue)
         {
             if (startValue == null || latestValue == null)
             {

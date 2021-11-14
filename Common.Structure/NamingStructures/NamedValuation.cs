@@ -1,4 +1,5 @@
 ﻿using System;
+
 using Common.Structure.DataStructures;
 
 namespace Common.Structure.NamingStructures
@@ -28,7 +29,7 @@ namespace Common.Structure.NamingStructures
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public NamedValuation(string primaryName, string secondaryName, DateTime day, double value)
+        public NamedValuation(string primaryName, string secondaryName, DateTime day, decimal value)
             : base(day, value)
         {
             Names = new Name(primaryName, secondaryName);
