@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+
 using Common.Structure.Reporting;
 
 namespace Common.Structure.WebAccess
@@ -44,7 +45,7 @@ namespace Common.Structure.WebAccess
                 return string.Empty;
             }
 
-            string newUrl = Uri.EscapeUriString(url);
+            string newUrl = Uri.EscapeDataString(url);
             string output = string.Empty;
             if (WebDownloader.IsValidWebAddress(newUrl))
             {
