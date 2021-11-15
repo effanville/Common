@@ -6,14 +6,14 @@ using Common.Structure.DataStructures.Numeric;
 
 namespace Common.Structure.MathLibrary.Finance
 {
-    public static class DrawDownFunctions
+    public static partial class FinanceFunctions
     {
         /// <summary>
         /// Calculates the DrawDown of a list of values.
         /// </summary>
         public static decimal Drawdown(List<DailyValuation> values)
         {
-            if (values.Any())
+            if (values != null && values.Any())
             {
                 decimal peakValue = decimal.MinValue;
                 for (int i = 0; i < values.Count; i++)
@@ -25,7 +25,7 @@ namespace Common.Structure.MathLibrary.Finance
                     }
                 }
 
-                return 100.0m * (peakValue - values.Last().Value) / peakValue;
+                return peakValue.Equals(0.0m) ? 0.0m : 100.0m * (peakValue - values.Last().Value) / peakValue;
             }
 
             return decimal.MaxValue;
@@ -37,7 +37,7 @@ namespace Common.Structure.MathLibrary.Finance
         /// </summary>
         public static double Drawdown(List<DailyNumeric> values)
         {
-            if (values.Any())
+            if (values != null && values.Any())
             {
                 double peakValue = double.MinValue;
                 for (int i = 0; i < values.Count; i++)
@@ -49,7 +49,7 @@ namespace Common.Structure.MathLibrary.Finance
                     }
                 }
 
-                return 100.0 * (peakValue - values.Last().Value) / peakValue;
+                return peakValue.Equals(0.0) ? 0.0 : 100.0 * (peakValue - values.Last().Value) / peakValue;
             }
 
             return double.NaN;

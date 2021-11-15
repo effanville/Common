@@ -18,7 +18,7 @@ namespace Common.Structure.MathLibrary.Finance
         /// <returns>A double value representing the MDD.</returns>
         public static decimal MDD(List<DailyValuation> values)
         {
-            if (values.Any())
+            if (values != null && values.Any())
             {
                 decimal maximumDrawDown = 0.0m;
                 decimal peakValue = decimal.MinValue;
@@ -30,7 +30,7 @@ namespace Common.Structure.MathLibrary.Finance
                         peakValue = value;
                     }
 
-                    decimal drawDown = 100.0m * (peakValue - value) / peakValue;
+                    decimal drawDown = peakValue.Equals(0.0m) ? 0.0m : 100.0m * (peakValue - value) / peakValue;
                     if (drawDown > maximumDrawDown)
                     {
                         maximumDrawDown = drawDown;
@@ -50,7 +50,7 @@ namespace Common.Structure.MathLibrary.Finance
         /// <returns>A double value representing the MDD.</returns>
         public static double MDD(List<DailyNumeric> values)
         {
-            if (values.Any())
+            if (values != null && values.Any())
             {
                 double maximumDrawDown = 0.0;
                 double peakValue = double.MinValue;
