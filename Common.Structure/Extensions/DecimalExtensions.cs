@@ -32,9 +32,35 @@ namespace Common.Structure.Extensions
                 return value.Equals(otherValue);
             }
 
-            decimal val = Math.Abs(value - otherValue);
-
             if (Math.Abs(value - otherValue) < tol)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Compares two doubles up to but not including a tolerance 
+        /// and with the possibility of a relative comparison.
+        /// </summary>
+        /// <param name="value">The main value to compare with.</param>
+        /// <param name="otherValue">The other value to compare to.</param>
+        /// <param name="tol">The tolerance to compare with.</param>
+        /// <param name="isRelative">Should the comparison be relative.</param>
+        public static bool Equals(this decimal value, decimal otherValue, decimal tol, bool isRelative)
+        {
+            if (tol.Equals(0.0m))
+            {
+                return value.Equals(otherValue);
+            }
+
+            if (!isRelative || value.Equals(0.0m))
+            {
+                return value.Equals(otherValue, tol);
+            }
+
+            if (Math.Min(Math.Abs(value - otherValue), Math.Abs(value - otherValue) / value) < tol)
             {
                 return true;
             }

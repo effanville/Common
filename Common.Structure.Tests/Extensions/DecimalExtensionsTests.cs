@@ -59,6 +59,36 @@ namespace Common.Structure.Tests.Extensions
             Assert.AreEqual(expected, actual);
         }
 
+        private static IEnumerable<TestCaseData> EqualsRelativeTestsData()
+        {
+            yield return new TestCaseData(0.0m, 0.0m, 0.0m, false, true);
+            yield return new TestCaseData(0.0m, 0.1m, 0.0m, false, false);
+            yield return new TestCaseData(0.0m, 0.0m, 0.0000001m, false, true);
+            yield return new TestCaseData(0.01m, 0.0101m, 0.001m, false, true);
+            yield return new TestCaseData(0.01m, 0.0001m, 0.001m, false, false);
+            yield return new TestCaseData(0.01m, 0.011m, 0.0001m, false, false);
+            yield return new TestCaseData(10m, 20m, 10m, false, false);
+            yield return new TestCaseData(10m, 20m, 9m, false, false);
+            yield return new TestCaseData(10m, 20m, 11m, false, true);
+            yield return new TestCaseData(0.0m, 0.0m, 0.0m, true, true);
+            yield return new TestCaseData(0.0m, 0.1m, 0.0m, true, false);
+            yield return new TestCaseData(0.0m, 0.0m, 0.0000001m, true, true);
+            yield return new TestCaseData(5.0m, 5.0m, 0.0000001m, true, true);
+            yield return new TestCaseData(0.01m, 0.0101m, 0.001m, true, true);
+            yield return new TestCaseData(0.01m, 0.0001m, 0.001m, true, false);
+            yield return new TestCaseData(0.01m, 0.011m, 0.0001m, true, false);
+            yield return new TestCaseData(10m, 20m, 1.0m, true, false);
+            yield return new TestCaseData(10m, 20m, 0.95m, true, false);
+            yield return new TestCaseData(10m, 20m, 1.05m, true, true);
+        }
+
+        [TestCaseSource(nameof(EqualsRelativeTestsData))]
+        public void EqualsRelativeTests(decimal first, decimal second, decimal tol, bool isRelative, bool expected)
+        {
+            bool actual = first.Equals(second, tol, isRelative);
+            Assert.AreEqual(expected, actual);
+        }
+
         private static IEnumerable<TestCaseData> PowTestsData()
         {
             yield return new TestCaseData(1.0m, 0, 1.0m);
