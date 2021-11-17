@@ -5,3 +5,4 @@ nuget
 **/bin
 **/obj
 **/tools
+Build/source/Properties/launchSettings.json
