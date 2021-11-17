@@ -11,7 +11,7 @@ namespace Build.Tasks
         public override void Run(BuildContext context)
         {
             context.Log.Information(context.RepoDir);
-            DirectoryPath binDir = context.RepoDir + context.Directory($"/bin/{context.BuildConfiguration}");
+            DirectoryPath binDir = context.RepoDir + context.Directory($"bin/{context.BuildConfiguration}");
             context.CleanDirectory(binDir);
         }
     }
