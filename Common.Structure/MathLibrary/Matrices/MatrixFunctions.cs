@@ -17,6 +17,7 @@
             {
                 Id[index, index] = 1.0;
             }
+
             return Id;
         }
 
@@ -29,6 +30,7 @@
             {
                 return new double[0, 0];
             }
+
             double[,] transpose = new double[matrix.GetLength(1), matrix.GetLength(0)];
             for (int inputRowIndex = 0; inputRowIndex < matrix.GetLength(0); inputRowIndex++)
             {
@@ -39,6 +41,30 @@
             }
 
             return transpose;
+        }
+
+        /// <summary>
+        /// Adds the matrices together.
+        /// </summary>
+        /// <param name="firstMatrix">The first matrix A</param>
+        /// <param name="secondMatrix">The second matrix B.</param>
+        public static double[,] Add(this double[,] firstMatrix, double[,] secondMatrix)
+        {
+            if (!firstMatrix.GetLength(1).Equals(secondMatrix.GetLength(0)))
+            {
+                return new double[0, 0];
+            }
+
+            double[,] multiply = new double[firstMatrix.GetLength(0), secondMatrix.GetLength(0)];
+            for (int firstMatrixRowIndex = 0; firstMatrixRowIndex < firstMatrix.GetLength(0); firstMatrixRowIndex++)
+            {
+                for (int firstMatrixColumnIndex = 0; firstMatrixColumnIndex < secondMatrix.GetLength(1); firstMatrixColumnIndex++)
+                {
+                    multiply[firstMatrixRowIndex, firstMatrixColumnIndex] = firstMatrix[firstMatrixRowIndex, firstMatrixColumnIndex] + secondMatrix[firstMatrixRowIndex, firstMatrixColumnIndex];
+                }
+            }
+
+            return multiply;
         }
 
         /// <summary>

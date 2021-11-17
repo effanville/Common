@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Common.Structure.MathLibrary
+﻿namespace Common.Structure.MathLibrary
 {
     public static class Residuals
     {
@@ -14,8 +12,10 @@ namespace Common.Structure.MathLibrary
             double sum = 0;
             for (int vectorIndex = 0; vectorIndex < A.Length; vectorIndex++)
             {
-                sum += Math.Pow(A[vectorIndex] - B[vectorIndex], 2);
+                double residual = (A[vectorIndex] - B[vectorIndex]);
+                sum += residual * residual;
             }
+
             return sum;
         }
     }

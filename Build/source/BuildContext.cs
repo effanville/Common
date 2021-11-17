@@ -60,8 +60,8 @@ namespace Build
             RemoteDir = context.Arguments.GetArgument("remote") ?? string.Empty;
 
             RepoDir = context.MakeAbsolute(context.Directory("../../"));
-            PublishLocation = RepoDir + context.Directory($"/{publishDir}");
-            NugetPublishLocation = RepoDir + context.Directory($"/{nugetPublishDir}");
+            PublishLocation = RepoDir + context.Directory($"{publishDir}");
+            NugetPublishLocation = RepoDir + context.Directory($"{nugetPublishDir}");
         }
 
         public FilePath SolutionFilePath()
@@ -79,7 +79,7 @@ namespace Build
             var filePaths = new List<FilePath>();
             foreach (var (folderName, projectName) in Configurations.ExecutablePublishProjects)
             {
-                filePaths.Add(((DirectoryPath)(RepoDir + this.Directory($"/{folderName}"))).CombineWithFilePath($"{projectName}.csproj"));
+                filePaths.Add(((DirectoryPath)(RepoDir + this.Directory($"{folderName}"))).CombineWithFilePath($"{projectName}.csproj"));
             }
 
             return filePaths.ToArray();
@@ -90,7 +90,7 @@ namespace Build
             var filePaths = new List<(string, FilePath)>();
             foreach (var (folderName, projectName) in Configurations.NugetPackageProjects)
             {
-                filePaths.Add((projectName, ((DirectoryPath)(RepoDir + this.Directory($"/{folderName}"))).CombineWithFilePath($"{projectName}.csproj")));
+                filePaths.Add((projectName, ((DirectoryPath)(RepoDir + this.Directory($"{folderName}"))).CombineWithFilePath($"{projectName}.csproj")));
             }
 
             return filePaths.ToArray();

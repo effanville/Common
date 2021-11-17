@@ -2,6 +2,10 @@
 
 namespace Common.UI.ViewModelBases
 {
+    /// <summary>
+    /// View model base to be used for Tabs within a TabControl.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class TabViewModelBase<T> : ViewModelBase<T> where T : class
     {
         /// <summary>
@@ -40,6 +44,9 @@ namespace Common.UI.ViewModelBases
         {
         }
 
+        /// <summary>
+        /// Construct an instance.
+        /// </summary>
         public TabViewModelBase(string header, Action<object> loadTab)
             : base(header)
         {

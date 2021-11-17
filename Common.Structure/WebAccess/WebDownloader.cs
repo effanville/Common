@@ -45,15 +45,14 @@ namespace Common.Structure.WebAccess
                 return string.Empty;
             }
 
-            string newUrl = Uri.EscapeDataString(url);
             string output = string.Empty;
-            if (WebDownloader.IsValidWebAddress(newUrl))
+            if (IsValidWebAddress(url))
             {
                 try
                 {
                     HttpRequestMessage requestMessage = new HttpRequestMessage
                     {
-                        RequestUri = new Uri(newUrl)
+                        RequestUri = new Uri(url)
                     };
                     requestMessage.Headers.Add("Cookie", "A1S=d=AQABBBqjZl4CELBdwrYAVcmgp1PaEGx2xoQFEgABAQGPgF5eX_bPb2UB_iMAAAcIGqNmXmx2xoQ&S=AQAAAii_Jnul1r-aKGkxwIrap9c&j=GDPR");
                     requestMessage.Headers.Add("Cookie", "A1=d=AQABBBqjZl4CELBdwrYAVcmgp1PaEGx2xoQFEgABAQGPgF5eX_bPb2UB_iMAAAcIGqNmXmx2xoQ&S=AQAAAii_Jnul1r-aKGkxwIrap9c");

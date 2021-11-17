@@ -1,5 +1,3 @@
-using System;
-
 using Cake.Frosting;
 
 namespace Build
@@ -9,9 +7,6 @@ namespace Build
         public static int Main(string[] args)
         {
             return new CakeHost()
-                .InstallTool(new Uri("nuget:?package=NuGet.CommandLine&version=5.9.1"))
-                .InstallTool(new Uri("nuget:?package=Cake.VersionReader&version=5.1.0"))
-                .InstallTool(new Uri("nuget:?package=Cake.Git&version=1.1.0"))
                 .UseContext<BuildContext>()
                 .Run(args);
         }
