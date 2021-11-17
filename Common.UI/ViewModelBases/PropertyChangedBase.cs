@@ -28,6 +28,7 @@ namespace Common.UI.ViewModelBases
         /// <typeparam name="T">The type of the values.</typeparam>
         /// <param name="existingValue">The existing value.</param>
         /// <param name="newValue">The new value to update with.</param>
+        /// <param name="propertyName">The name of the property being changed.</param>
         public void SetAndNotify<T>(ref T existingValue, T newValue, [CallerMemberName] string propertyName = null)
         {
             if (!Equals(existingValue, newValue))
