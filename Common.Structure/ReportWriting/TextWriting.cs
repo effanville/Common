@@ -80,22 +80,22 @@ namespace Common.Structure.ReportWriting
         public static void CreateHTMLHeader(StringBuilder sb, string title, bool useColours)
         {
             _ = sb.AppendLine("<!DOCTYPE html>");
-            _ = sb.AppendLine("<html lang=\"en\">>");
+            _ = sb.AppendLine("<html lang=\"en\">");
             using (new WriteHtmlTag(sb, "head"))
             {
                 _ = sb.AppendLine("<meta charset=\"utf-8\" http-equiv=\"x-ua-compatible\" content=\"IE=11\"/>");
                 _ = sb.AppendLine($"<title>{title}</title>");
                 using (new WriteHtmlTag(sb, "style"))
                 {
-                    _ = sb.AppendLine("html, h1, h2, h3, h4, h5, h6 {font-family: \"Arial\", cursive, sans-serif; }");
+                    _ = sb.AppendLine("html, h1, h2, h3, h4, h5, h6 { font-family: \"Arial\", cursive, sans-serif; }");
                     _ = sb.AppendLine("h1 { font-family: \"Arial\", cursive, sans-serif; margin-top: 1.5em; }");
                     _ = sb.AppendLine("h2 { font-family: \"Arial\", cursive, sans-serif; margin-top: 1.5em; }");
-                    _ = sb.AppendLine("body{ font-family: \"Arial\", cursive, sans-serif; font-size: 10px }");
-                    _ = sb.AppendLine("table { border-collapse: collapse;}");
+                    _ = sb.AppendLine("body{ font-family: \"Arial\", cursive, sans-serif; font-size: 10px; }");
+                    _ = sb.AppendLine("table { border-collapse: collapse; }");
                     _ = sb.AppendLine("table, th, td { border: 1px solid black; }");
                     _ = sb.AppendLine("caption { margin-bottom: 1.2em; font-family: \"Arial\", cursive, sans-serif; font-size:medium; }");
-                    _ = sb.AppendLine("tr {text-align: center;}");
-                    _ = sb.AppendLine("div { max-width: 1000px; max-height: 600px; margin: left; margin-bottom: 1.5em;");
+                    _ = sb.AppendLine("tr { text-align: center; }");
+                    _ = sb.AppendLine("div { max-width: 1000px; max-height: 600px; margin: left; margin-bottom: 1.5em; }");
 
                     if (useColours)
                     {
