@@ -241,49 +241,58 @@ namespace Common.Structure.ReportWriting
                 {
                     _ = sb.AppendLine("<tr>");
                     int i = 0;
-                    foreach (string property in valuesToWrite)
+
+                    if (valuesToWrite.Any())
                     {
-                        bool isDouble = double.TryParse(property, out double value);
-                        if (headerFirstColumn)
+                        foreach (string property in valuesToWrite)
                         {
-                            if (i != 0)
+                            bool isDouble = double.TryParse(property, out double value);
+                            if (headerFirstColumn)
                             {
-                                if (value < 0)
+                                if (i != 0)
                                 {
-                                    _ = sb.Append("<td data-negative>");
+                                    if (value < 0)
+                                    {
+                                        _ = sb.Append("<td data-negative>");
+                                    }
+                                    else
+                                    {
+                                        _ = sb.Append("<td>");
+                                    }
                                 }
                                 else
                                 {
-                                    _ = sb.Append("<td>");
+                                    _ = sb.Append("<th scope=\"row\">");
                                 }
                             }
                             else
                             {
-                                _ = sb.Append("<th scope=\"row\">");
+                                _ = sb.Append("<td>");
                             }
-                        }
-                        else
-                        {
-                            _ = sb.Append("<td>");
-                        }
 
-                        _ = sb.Append(property);
-                        if (headerFirstColumn)
-                        {
-                            if (i != 0)
+                            _ = sb.Append(property);
+                            if (headerFirstColumn)
                             {
-                                _ = sb.Append("</td>");
+                                if (i != 0)
+                                {
+                                    _ = sb.Append("</td>");
+                                }
+                                else
+                                {
+                                    _ = sb.Append("</th>");
+                                }
                             }
                             else
                             {
-                                _ = sb.Append("</th>");
+                                _ = sb.Append("</td>");
                             }
+                            i++;
                         }
-                        else
-                        {
-                            _ = sb.Append("</td>");
-                        }
-                        i++;
+                    }
+                    else
+                    {
+                        // row is empty, so write an empty row.
+                        _ = sb.Append("<th scope=\"row\"></th>");
                     }
 
                     _ = sb.AppendLine();
