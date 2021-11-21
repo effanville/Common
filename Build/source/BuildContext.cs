@@ -30,6 +30,11 @@ namespace Build
             get;
         }
 
+        public (string FolderName, string ProjectName)[] NugetPublishProjects
+        {
+            get;
+        }
+
         #endregion
 
         public DirectoryPath RepoDir
@@ -62,6 +67,21 @@ namespace Build
             RepoDir = context.MakeAbsolute(context.Directory("../../"));
             PublishLocation = RepoDir + context.Directory($"{publishDir}");
             NugetPublishLocation = RepoDir + context.Directory($"{nugetPublishDir}");
+
+            string nugetPackages = context.Arguments.GetArgument("nuget");
+            if (!string.IsNullOrWhiteSpace(nugetPackages))
+            {
+                string[] projects = nugetPackages.Split(',');
+                NugetPublishProjects = new (string FolderName, string ProjectName)[projects.Length];
+                for (int i = 0; i < projects.Length; i++)
+                {
+                    NugetPublishProjects[i] = (projects[i], projects[i]);
+                }
+            }
+            else
+            {
+                NugetPublishProjects = Configurations.NugetPackageProjects;
+            }
         }
 
         public FilePath SolutionFilePath()
@@ -88,7 +108,7 @@ namespace Build
         public (string ProjectName, FilePath FilePath)[] NugetPackageProjectFilePaths()
         {
             var filePaths = new List<(string, FilePath)>();
-            foreach (var (folderName, projectName) in Configurations.NugetPackageProjects)
+            foreach (var (folderName, projectName) in NugetPublishProjects)
             {
                 filePaths.Add((projectName, ((DirectoryPath)(RepoDir + this.Directory($"{folderName}"))).CombineWithFilePath($"{projectName}.csproj")));
             }

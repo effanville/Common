@@ -200,7 +200,7 @@ namespace Common.Structure.DataStructures
 
                 // go back in time until find a valuation that is after the date we want
                 // Then the value we want is the previous in the vector.
-                for (int i = values.Count - 1; i > 0; i--)
+                for (int i = values.Count - 1; i >= 0; i--)
                 {
                     if (date == values[i].Day)
                     {

@@ -12,6 +12,7 @@ namespace Common.Structure.Tests.DataStructures.Money
         public const string SingleEntryKey = "SingleEntry";
         public const string SingleEntryZeroValueKey = "SingleEntryZeroValue";
         public const string TwoEntryKey = "TwoEntry";
+        public const string TwoEntryKey2 = "TwoEntry2";
         public const string TwoEntryZeroValuesKey = "TwoEntryZeroValues";
         public const string ThreeEntryKey1 = "ThreeEntry1";
         public const string ThreeEntryKey2 = "ThreeEntry2";
@@ -29,6 +30,7 @@ namespace Common.Structure.Tests.DataStructures.Money
             EmptyListKey,
             SingleEntryKey,
             TwoEntryKey,
+            TwoEntryKey2,
             TwoEntryZeroValuesKey,
             ThreeEntryKey1,
             ThreeEntryKey2,
@@ -68,6 +70,11 @@ namespace Common.Structure.Tests.DataStructures.Money
             tl2.SetData(new DateTime(2018, 1, 1), 1000);
             tl2.SetData(new DateTime(2018, 6, 1), 1000);
             fExampleData.Add(TwoEntryKey, tl2);
+
+            var timelist = new TimeList();
+            timelist.SetData(new DateTime(2012, 8, 31), 824.59m);
+            timelist.SetData(new DateTime(2019, 12, 1), 824.594m);
+            fExampleData.Add(TwoEntryKey2, timelist);
 
             TimeList tl9 = new TimeList();
             tl9.SetData(new DateTime(2018, 1, 1), 0.0m);
