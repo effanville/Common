@@ -12,6 +12,15 @@ namespace Common.Structure.Tests
         /// </summary>
         public static void AreEqual(double[,] expected, double[,] actual, double tol = 1e-8, string message = null)
         {
+            if (expected == null && actual == null)
+            {
+                return;
+            }
+            if ((expected == null && actual != null) || (actual == null && expected != null))
+            {
+                throw new AssertionException("One was null but other wasnt");
+            }
+
             if (!expected.GetLength(0).Equals(actual.GetLength(0)))
             {
                 throw new AssertionException($"Number of rows not the same. Expected {expected.GetLength(0)} but actually {actual.GetLength(0)}");
@@ -21,13 +30,17 @@ namespace Common.Structure.Tests
             {
                 throw new AssertionException($"Number of columns not the same. Expected {expected.GetLength(1)} but actually {actual.GetLength(1)}");
             }
-            for (int rowIndex = 0; rowIndex < expected.GetLength(0); rowIndex++)
+
+            Assert.Multiple(() =>
             {
-                for (int columnIndex = 0; columnIndex < expected.GetLength(1); columnIndex++)
+                for (int rowIndex = 0; rowIndex < expected.GetLength(0); rowIndex++)
                 {
-                    Assert.AreEqual(expected[rowIndex, columnIndex], actual[rowIndex, columnIndex], tol, message);
+                    for (int columnIndex = 0; columnIndex < expected.GetLength(1); columnIndex++)
+                    {
+                        Assert.AreEqual(expected[rowIndex, columnIndex], actual[rowIndex, columnIndex], tol, $"{message}-row{rowIndex}-column{columnIndex}");
+                    }
                 }
-            }
+            });
         }
 
         /// <summary>
@@ -35,15 +48,22 @@ namespace Common.Structure.Tests
         /// </summary>
         public static void AreEqual(double[] expected, double[] actual, double tol = 1e-8, string message = null)
         {
+            if (expected == null && actual == null)
+            {
+                return;
+            }
             if (!expected.GetLength(0).Equals(actual.GetLength(0)))
             {
                 throw new AssertionException($"Number of rows not the same. Expected {expected.GetLength(0)} but actually {actual.GetLength(0)}");
             }
 
-            for (int rowIndex = 0; rowIndex < expected.GetLength(0); rowIndex++)
+            Assert.Multiple(() =>
             {
-                Assert.AreEqual(expected[rowIndex], actual[rowIndex], tol, message);
-            }
+                for (int rowIndex = 0; rowIndex < expected.GetLength(0); rowIndex++)
+                {
+                    Assert.AreEqual(expected[rowIndex], actual[rowIndex], tol, $"{message}-row{rowIndex}");
+                }
+            });
         }
 
         public static void NamesEqual(Name expected, Name actual)

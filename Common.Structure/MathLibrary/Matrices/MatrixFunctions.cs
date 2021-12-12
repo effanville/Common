@@ -242,5 +242,29 @@
             LUDecomposition decomp = new LUDecomposition(matrix);
             return decomp.Inverse();
         }
+
+        /// <summary>
+        /// Routine to check whether the input is symmetric.
+        /// </summary>
+        public static bool IsSymmetric(double[,] matrix)
+        {
+            if (!matrix.GetLength(0).Equals(matrix.GetLength(1)))
+            {
+                return false;
+            }
+
+            for (int i = 0; i < matrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < i; j++)
+                {
+                    if (matrix[i, j] != matrix[j, i])
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
     }
 }
