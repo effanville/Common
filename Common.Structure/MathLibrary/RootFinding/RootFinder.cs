@@ -6,7 +6,8 @@ namespace Common.Structure.MathLibrary.RootFinding
     {
         public enum Type
         {
-            Bisection
+            Bisection,
+            NewtonRaphson,
         }
 
         public static Result<double> FindRoot(
@@ -22,6 +23,10 @@ namespace Common.Structure.MathLibrary.RootFinding
                 case Type.Bisection:
                 {
                     return Bisection.FindRoot(func, lowerBound, upperBound, maxIterations, tolerance);
+                }
+                case Type.NewtonRaphson:
+                {
+                    return Result.ErrorResult<double>($"{Type.NewtonRaphson} requires a derivative function to work. Use method {nameof(NewtonRaphson)} directly.");
                 }
                 default:
                     return null;
