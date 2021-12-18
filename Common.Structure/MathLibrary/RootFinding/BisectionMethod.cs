@@ -8,8 +8,8 @@ namespace Common.Structure.MathLibrary.RootFinding
             Func<double, double> func,
             double lowerBound,
             double upperBound,
-            int maxIterations,
-            double tolerance)
+            int maxIterations = 100,
+            double tolerance = 1e-8)
         {
             double f = func(lowerBound);
             double fMid = func(upperBound);
