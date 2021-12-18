@@ -8,8 +8,6 @@ namespace Common.Structure.MathLibrary.Matrices
     /// </summary>
     public sealed class CholeskyDecomposition
     {
-
-
         /// <summary>
         /// The lower triangular matrix in the decomposition. 
         /// </summary>
@@ -50,7 +48,7 @@ namespace Common.Structure.MathLibrary.Matrices
         /// <summary>
         /// Routine that generates the Cholesky decomposition.
         /// </summary>
-        public static Result<CholeskyDecomposition> GenerateCholeskyBanachiewiczDecomp(double[,] matrix)
+        private static Result<CholeskyDecomposition> GenerateCholeskyBanachiewiczDecomp(double[,] matrix)
         {
             if (!matrix.GetLength(0).Equals(matrix.GetLength(1)))
             {
