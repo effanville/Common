@@ -2,6 +2,9 @@
 
 namespace Common.Structure.MathLibrary.RootFinding
 {
+    /// <summary>
+    /// Routine to calculate a 1D root via the Bisection method.
+    /// </summary>
     public static class BisectionMethod
     {
         public static Result<double> Root(
