@@ -244,8 +244,28 @@ namespace Common.Structure.MathLibrary.Matrices
         /// <returns></returns>
         public static double[,] Inverse(this double[,] matrix)
         {
-            LUDecomposition decomp = new LUDecomposition(matrix);
-            return decomp.Inverse();
+            var decomp = LUDecomposition.Generate(matrix);
+            if (decomp.IsError())
+            {
+                return null;
+            }
+
+            return decomp.Value.Inverse();
+        }
+
+        /// <summary>
+        /// Checks whether input matrix is square.
+        /// </summary>
+        /// <param name="matrix"></param>
+        /// <returns></returns>
+        public static bool IsSquare(double[,] matrix)
+        {
+            if (!matrix.GetLength(0).Equals(matrix.GetLength(1)))
+            {
+                return false;
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -253,7 +273,7 @@ namespace Common.Structure.MathLibrary.Matrices
         /// </summary>
         public static bool IsSymmetric(double[,] matrix)
         {
-            if (!matrix.GetLength(0).Equals(matrix.GetLength(1)))
+            if (!IsSquare(matrix))
             {
                 return false;
             }

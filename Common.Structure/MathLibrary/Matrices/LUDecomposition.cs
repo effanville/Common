@@ -3,23 +3,50 @@
     /// <summary>
     /// Contains the lower-upper decomposition of a given matrix.
     /// </summary>
-    public class LUDecomposition
+    public sealed class LUDecomposition
     {
-        private int Size;
-        public double[,] UpperDecomp;
+        private int Size => Lower.GetLength(0);
 
-        public double[,] LowerDecomp;
-        private int[] PivotValues;
+        /// <summary>
+        /// The upper diagonal matrix in this decomposition.
+        /// </summary>
+        public double[,] Upper
+        {
+            get;
+        }
 
-        public bool Invertible = true;
-        public bool Square = true;
+        /// <summary>
+        /// The lower diagonal matrix in this decomposition.
+        /// </summary>
+        public double[,] Lower
+        {
+            get;
+        }
+
+        /// <summary>
+        /// The pivot values for this decomposition.
+        /// </summary>
+        public int[] PivotValues
+        {
+            get;
+        }
 
         /// <summary>
         /// Constructor given a matrix. This calculates the lower-upper decomposition.
         /// </summary>
-        public LUDecomposition(double[,] matrix)
+        private LUDecomposition(double[,] lower, double[,] upper, int[] pivots)
         {
-            GenerateLUDecomp(matrix);
+            Lower = lower;
+            Upper = upper;
+            PivotValues = pivots;
+        }
+
+        /// <summary>
+        /// Generate the LU Decomposition of a matrix.
+        /// </summary>
+        public static Result<LUDecomposition> Generate(double[,] matrix)
+        {
+            return GenerateLUDecomp(matrix);
         }
 
         /// <summary>
@@ -43,7 +70,7 @@
                 {
                     for (matrixColumnIndex = firstNonZeroIndex; matrixColumnIndex < vectorRowIndex; matrixColumnIndex++)
                     {
-                        sum -= LowerDecomp[vectorRowIndex, matrixColumnIndex] * y[matrixColumnIndex];
+                        sum -= Lower[vectorRowIndex, matrixColumnIndex] * y[matrixColumnIndex];
                     }
                 }
                 else if (sum > 0)
@@ -59,10 +86,10 @@
                 sum = y[vectorRowIndex];
                 for (matrixColumnIndex = vectorRowIndex + 1; matrixColumnIndex < Size; matrixColumnIndex++)
                 {
-                    sum -= UpperDecomp[vectorRowIndex, matrixColumnIndex] * x[matrixColumnIndex];
+                    sum -= Upper[vectorRowIndex, matrixColumnIndex] * x[matrixColumnIndex];
                 }
 
-                x[vectorRowIndex] = sum / UpperDecomp[vectorRowIndex, vectorRowIndex];
+                x[vectorRowIndex] = sum / Upper[vectorRowIndex, vectorRowIndex];
             }
 
             return x;
@@ -97,59 +124,58 @@
         /// Routine that generates the LU decomposition.
         /// Can only be called in the constructor.
         /// </summary>
-        private void GenerateLUDecomp(double[,] matrix)
+        private static Result<LUDecomposition> GenerateLUDecomp(double[,] matrix)
         {
-            if (!matrix.GetLength(0).Equals(matrix.GetLength(1)))
+            if (!MatrixFunctions.IsSquare(matrix))
             {
-                Invertible = false;
-                Square = false;
-                return;
+                return Result.ErrorResult<LUDecomposition>("Matrix is not square.");
             }
 
-            Size = matrix.GetLength(0);
-            PivotValues = new int[Size];
-            UpperDecomp = new double[Size, Size];
-            LowerDecomp = new double[Size, Size];
+            int size = matrix.GetLength(0);
+            int[] pivotValues = new int[size];
+            double[,] upper = new double[size, size];
+            double[,] lower = new double[size, size];
 
             // Initialising the pivot values to the identity permutation
-            for (int n = 0; n < Size; n++)
+            for (int n = 0; n < size; n++)
             {
-                LowerDecomp[n, n] = 1;
-                PivotValues[n] = n;
+                lower[n, n] = 1;
+                pivotValues[n] = n;
             }
 
-            double sum = 0.0;
+            double sum;
 
-            for (int columnIndex = 0; columnIndex < Size; columnIndex++)
+            for (int columnIndex = 0; columnIndex < size; columnIndex++)
             {
                 for (int upperRowIndex = 0; upperRowIndex < columnIndex + 1; upperRowIndex++)
                 {
                     sum = matrix[upperRowIndex, columnIndex];
                     for (int k = 0; k < upperRowIndex; k++)
                     {
-                        sum -= LowerDecomp[upperRowIndex, k] * UpperDecomp[k, columnIndex];
+                        sum -= lower[upperRowIndex, k] * upper[k, columnIndex];
                     }
 
-                    UpperDecomp[upperRowIndex, columnIndex] = sum;
+                    upper[upperRowIndex, columnIndex] = sum;
                 }
 
-                if (UpperDecomp[columnIndex, columnIndex].Equals(0.0))
+                if (upper[columnIndex, columnIndex].Equals(0.0))
                 {
-                    Invertible = false;
-                    return;
+                    return Result.ErrorResult<LUDecomposition>("Matrix is not invertible.");
                 }
 
-                for (int lowerRowIndex = columnIndex + 1; lowerRowIndex < Size; lowerRowIndex++)
+                for (int lowerRowIndex = columnIndex + 1; lowerRowIndex < size; lowerRowIndex++)
                 {
                     sum = matrix[lowerRowIndex, columnIndex];
                     for (int k = 0; k < columnIndex; k++)
                     {
-                        sum -= LowerDecomp[lowerRowIndex, k] * UpperDecomp[k, columnIndex];
+                        sum -= lower[lowerRowIndex, k] * upper[k, columnIndex];
                     }
 
-                    LowerDecomp[lowerRowIndex, columnIndex] = sum / UpperDecomp[columnIndex, columnIndex];
+                    lower[lowerRowIndex, columnIndex] = sum / upper[columnIndex, columnIndex];
                 }
             }
+
+            return new LUDecomposition(lower, upper, pivotValues);
         }
     }
 }
