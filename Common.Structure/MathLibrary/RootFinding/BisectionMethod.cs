@@ -7,7 +7,7 @@ namespace Common.Structure.MathLibrary.RootFinding
     /// </summary>
     public static class BisectionMethod
     {
-        public static Result<double> Root(
+        public static Result<double> FindRoot(
             Func<double, double> func,
             double lowerBound,
             double upperBound,
@@ -18,7 +18,7 @@ namespace Common.Structure.MathLibrary.RootFinding
             double fMid = func(upperBound);
             double dx;
             double xMid;
-            if (f * fMid > 0)
+            if (f * fMid >= 0)
             {
                 return Result.ErrorResult<double>("Root must be bracketed for bisection to work.");
             }
@@ -35,8 +35,10 @@ namespace Common.Structure.MathLibrary.RootFinding
             }
             for (int j = 0; j < maxIterations; j++)
             {
-                fMid = func(xMid = rtb + (dx *= 0.5));
-                if (fMid < 0)
+                dx *= 0.5;
+                xMid = rtb + dx;
+                fMid = func(xMid);
+                if (fMid <= 0)
                 {
                     rtb = xMid;
                 }

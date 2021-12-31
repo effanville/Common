@@ -12,7 +12,7 @@ namespace Common.Structure.MathLibrary.RootFinding
         /// This may or may not converge based upon the shape of the function and 
         /// the initial bracket.
         /// </summary>
-        public static Result<double> RootUnsafe(
+        public static Result<double> FindRootUnsafe(
             Func<double, double> func,
             Func<double, double> derivativeFunc,
             double lowerBound,
@@ -48,7 +48,7 @@ namespace Common.Structure.MathLibrary.RootFinding
         /// Calculates a root via the Newton Raphson method in a safe manner.
         /// If the Newton step is out of bounds, this then performs a bisection.
         /// </summary>
-        public static Result<double> RootSafe(
+        public static Result<double> FindRootSafe(
             Func<double, double> func,
             Func<double, double> derivativeFunc,
             double lowerBound,
@@ -63,12 +63,12 @@ namespace Common.Structure.MathLibrary.RootFinding
                 return Result.ErrorResult<double>("Root was not bracketed by initial guess.");
             }
 
-            if (fl < tolerance)
+            if (Math.Abs(fl) < tolerance)
             {
                 return lowerBound;
             }
 
-            if (fh < tolerance)
+            if (Math.Abs(fh) < tolerance)
             {
                 return upperBound;
             }

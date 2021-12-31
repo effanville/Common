@@ -7,7 +7,7 @@ namespace Common.Structure.MathLibrary.RootFinding
     /// </summary>
     public static class RiddersMethod
     {
-        public static Result<double> Root(
+        public static Result<double> FindRoot(
            Func<double, double> func,
            double lowerBound,
            double upperBound,
