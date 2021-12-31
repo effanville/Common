@@ -7,7 +7,7 @@ namespace Common.Structure.MathLibrary.RootFinding
     /// </summary>
     public static class FalsePositionMethod
     {
-        public static Result<double> Root(
+        public static Result<double> FindRoot(
            Func<double, double> func,
            double lowerBound,
            double upperBound,
@@ -44,7 +44,7 @@ namespace Common.Structure.MathLibrary.RootFinding
             double del;
             for (int j = 0; j < maxIterations; j++)
             {
-                rootCandidate = xLower + dx + fLower / (fLower - fUpper);
+                rootCandidate = xLower + dx * fLower / (fLower - fUpper);
                 fRootCandidate = func(rootCandidate);
                 if (fRootCandidate < 0.0)
                 {
