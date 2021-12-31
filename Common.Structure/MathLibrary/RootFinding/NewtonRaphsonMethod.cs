@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Common.Structure.MathLibrary.Matrices;
+
 namespace Common.Structure.MathLibrary.RootFinding
 {
     /// <summary>
@@ -135,6 +137,61 @@ namespace Common.Structure.MathLibrary.RootFinding
             }
 
             return Result.ErrorResult<double>("Exceeded max iterations.");
+        }
+
+        public static Result<double[]> FindMultiDimRoot(
+            Func<double[], double[]> func,
+            Func<double[], double[,]> derivativeFunc,
+            double[] initialGuess,
+            int maxIterations = 100,
+            double tolerance = 1e-8,
+            double toleranceFunction = 1e-8
+            )
+        {
+            int n = initialGuess.Length;
+            double[] x = initialGuess;
+            for (int k = 0; k < maxIterations; k++)
+            {
+                double[] f = func(x);
+                double[,] df = derivativeFunc(x);
+                double errf = 0.0;
+                for (int i = 0; i < n; i++)
+                {
+                    errf += Math.Abs(f[i]);
+                }
+
+                if (errf <= toleranceFunction)
+                {
+                    return x;
+                }
+
+                double[] p = new double[n];
+                for (int i = 0; i < n; i++)
+                {
+                    p[i] = -f[i];
+                }
+
+                Result<LUDecomposition> luDecomp = LUDecomposition.Generate(df);
+                if (luDecomp.IsError())
+                {
+                    return Result.ErrorResult<double[]>("Could not decompose");
+                }
+
+                double[] output = luDecomp.Value.LinearSolve(p);
+                double errx = 0.0;
+                for (int i = 0; i < n; i++)
+                {
+                    errx += Math.Abs(output[i]);
+                    x[i] += output[i];
+                }
+
+                if (errx < tolerance)
+                {
+                    return x;
+                }
+            }
+
+            return Result.ErrorResult<double[]>("Exceeded max number of iterations.");
         }
     }
 }
