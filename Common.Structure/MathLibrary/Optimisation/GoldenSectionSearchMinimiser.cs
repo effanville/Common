@@ -11,10 +11,10 @@ namespace Common.Structure.MathLibrary.Optimisation
            double tolerance,
            int maxIterations)
         {
-            var result = BracketMethod.BracketFromBounds(lowerBound, upperBound, func, 1000, 2, 2);
+            var result = BracketMethod.BracketFromBounds(lowerBound, upperBound, func, maxIterations);
             if (result.IsError())
             {
-                result = BracketMethod.Bracket(lowerBound, upperBound, func);
+                result = BracketMethod.Bracket(lowerBound, upperBound, func, maxIterations);
             }
             if (result.IsError())
             {
@@ -32,10 +32,10 @@ namespace Common.Structure.MathLibrary.Optimisation
            double tolerance,
            int maxIterations)
         {
-            var result = BracketMethod.BracketFromBounds(lowerBound, upperBound, func, 1000, 2, 2);
+            var result = BracketMethod.BracketFromBounds(lowerBound, upperBound, func, maxIterations);
             if (result.IsError())
             {
-                result = BracketMethod.Bracket(lowerBound, upperBound, func);
+                result = BracketMethod.Bracket(lowerBound, upperBound, func, maxIterations);
             }
             if (result.IsError())
             {
