@@ -79,8 +79,8 @@ namespace Common.Structure.MathLibrary.Optimisation
             double upperBound,
             Func<double, double> func,
             int maxIterations,
-            double lowerExpansionFactor,
-            double upperExpansionFactor)
+            double lowerExpansionFactor = 2,
+            double upperExpansionFactor = 2)
         {
             double middlePoint = lowerBound + (upperBound - lowerBound) / (1 + MathConstants.GoldenRatio);
             int iteration = 0;
