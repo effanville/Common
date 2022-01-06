@@ -12,8 +12,16 @@ namespace Common.Structure.Tests.DataStructures.Money
     {
         private static IEnumerable<TestCaseData> ValueBeforeTestData()
         {
-            yield return new TestCaseData(TimeListTestData.GetTestTimeList(TimeListTestData.TwoEntryKey2), new DateTime(2016, 6, 27), new DateTime(2012, 8, 31), 824.59m);
-            yield return new TestCaseData(TimeListTestData.GetTestTimeList(TimeListTestData.TwoEntryKey2), new DateTime(2022, 6, 27), new DateTime(2019, 12, 01), 824.594m);
+            yield return new TestCaseData(
+                TimeListTestData.GetTestTimeList(TimeListTestData.TwoEntryKey2),
+                new DateTime(2016, 6, 27),
+                new DateTime(2012, 8, 31),
+                824.59m).SetName($"{nameof(ValueBeforeTests)}-Entry1");
+            yield return new TestCaseData(
+                TimeListTestData.GetTestTimeList(TimeListTestData.TwoEntryKey2),
+                new DateTime(2022, 6, 27),
+                new DateTime(2019, 12, 01),
+                824.594m).SetName($"{nameof(ValueBeforeTests)}-Entry1");
         }
 
         [TestCaseSource(nameof(ValueBeforeTestData))]

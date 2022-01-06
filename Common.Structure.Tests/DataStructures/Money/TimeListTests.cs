@@ -79,19 +79,19 @@ namespace Common.Structure.Tests.DataStructures.Money
 
         private static IEnumerable<TestCaseData> CleanValuesTestSource()
         {
-            yield return new TestCaseData(new TimeList(), new TimeList());
+            yield return new TestCaseData(new TimeList(), new TimeList()).SetName($"{nameof(CleanValuesTests)}-EmptyTimelist");
             yield return new TestCaseData(
                 TimeListTestData.GetTestTimeList(TimeListTestData.SingleEntryZeroValueKey),
-                TimeListTestData.GetTestTimeList(TimeListTestData.TwoEntryZeroValuesKey));
+                TimeListTestData.GetTestTimeList(TimeListTestData.TwoEntryZeroValuesKey)).SetName($"{nameof(CleanValuesTests)}-TwoEntryTimelist");
             yield return new TestCaseData(
                 TimeListTestData.GetTestTimeList(TimeListTestData.SingleEntryZeroValueKey),
-                TimeListTestData.GetTestTimeList(TimeListTestData.FourEntryZeroValuesKey));
+                TimeListTestData.GetTestTimeList(TimeListTestData.FourEntryZeroValuesKey)).SetName($"{nameof(CleanValuesTests)}-FourEntrylist");
             yield return new TestCaseData(
                 new TimeList(new List<DailyValuation>() { new DailyValuation(new DateTime(2018, 1, 1), 0.0m), new DailyValuation(new DateTime(2019, 5, 1), 2.0m) }),
-                new TimeList(new List<DailyValuation>() { new DailyValuation(new DateTime(2018, 1, 1), 0.0m), new DailyValuation(new DateTime(2019, 1, 1), 0.0m), new DailyValuation(new DateTime(2019, 5, 1), 2.0m), new DailyValuation(new DateTime(2019, 5, 5), 2.0m) }));
+                new TimeList(new List<DailyValuation>() { new DailyValuation(new DateTime(2018, 1, 1), 0.0m), new DailyValuation(new DateTime(2019, 1, 1), 0.0m), new DailyValuation(new DateTime(2019, 5, 1), 2.0m), new DailyValuation(new DateTime(2019, 5, 5), 2.0m) })).SetName($"{nameof(CleanValuesTests)}-MultipleTimelist");
             yield return new TestCaseData(
                 new TimeList(new List<DailyValuation>() { new DailyValuation(new DateTime(2018, 1, 1), 0.0m), new DailyValuation(new DateTime(2019, 1, 1), 1.0m), new DailyValuation(new DateTime(2019, 5, 1), 2.0m), new DailyValuation(new DateTime(2019, 5, 5), 0.0m) }),
-                new TimeList(new List<DailyValuation>() { new DailyValuation(new DateTime(2018, 1, 1), 0.0m), new DailyValuation(new DateTime(2019, 1, 1), 1.0m), new DailyValuation(new DateTime(2019, 5, 1), 2.0m), new DailyValuation(new DateTime(2019, 5, 5), 0.0m) }));
+                new TimeList(new List<DailyValuation>() { new DailyValuation(new DateTime(2018, 1, 1), 0.0m), new DailyValuation(new DateTime(2019, 1, 1), 1.0m), new DailyValuation(new DateTime(2019, 5, 1), 2.0m), new DailyValuation(new DateTime(2019, 5, 5), 0.0m) })).SetName($"{nameof(CleanValuesTests)}-MultipleTimelist2");
         }
 
         [TestCaseSource(nameof(CleanValuesTestSource))]
@@ -118,7 +118,15 @@ namespace Common.Structure.Tests.DataStructures.Money
             }
         }
 
-        [TestCaseSource(nameof(ValuesTestSource))]
+        private static IEnumerable<TestCaseData> ValuesTestSource()
+        {
+            foreach (var value in ValuesTestSourceData())
+            {
+                yield return new TestCaseData(value.Item2, value.Item3, value.Item4, value.Item5).SetName($"{nameof(ValuesTests)}-{value.Name}");
+            }
+        }
+
+        [TestCaseSource(nameof(ValuesSpecialFuncTestSource))]
         public void ValuesSpecialFuncTests(decimal? expectedResult, DateTime expectedDate, DateTime date, TimeList timelist)
         {
             decimal interpolator(DailyValuation earlier, DailyValuation later, DateTime chosenDate) => earlier.Value + (later.Value - earlier.Value) / (later.Day - earlier.Day).Days * (chosenDate - earlier.Day).Days;
@@ -134,17 +142,61 @@ namespace Common.Structure.Tests.DataStructures.Money
             }
         }
 
-        private static IEnumerable<TestCaseData> ValuesTestSource()
+        private static IEnumerable<TestCaseData> ValuesSpecialFuncTestSource()
         {
-            yield return new TestCaseData(null, new DateTime(2018, 1, 1), new DateTime(2018, 1, 1), TimeListTestData.GetTestTimeList(TimeListTestData.EmptyListKey));
-            yield return new TestCaseData(0.0m, new DateTime(2018, 1, 1), new DateTime(2018, 1, 1), TimeListTestData.GetTestTimeList(TimeListTestData.TwoEntryZeroValuesKey));
-            yield return new TestCaseData(0.0m, new DateTime(2018, 1, 1), new DateTime(2017, 1, 1), TimeListTestData.GetTestTimeList(TimeListTestData.FourEntryZeroValuesKey));
-            yield return new TestCaseData(0.0m, new DateTime(2018, 1, 1), new DateTime(2018, 1, 1), TimeListTestData.GetTestTimeList(TimeListTestData.FourEntryZeroValuesKey));
-            yield return new TestCaseData(0.0m, new DateTime(2019, 5, 5), new DateTime(2020, 1, 1), TimeListTestData.GetTestTimeList(TimeListTestData.FourEntryZeroValuesKey));
-            yield return new TestCaseData(0.0m, new DateTime(2018, 1, 1), new DateTime(2018, 1, 1), TimeListTestData.GetTestTimeList(TimeListTestData.FourEntryKey));
-            yield return new TestCaseData(1.0500000000000000000000000021m, new DateTime(2019, 3, 5), new DateTime(2019, 3, 5), TimeListTestData.GetTestTimeList(TimeListTestData.FourEntryKey));
-            yield return new TestCaseData(2.0m, new DateTime(2019, 5, 1), new DateTime(2019, 5, 1), TimeListTestData.GetTestTimeList(TimeListTestData.FourEntryKey));
-            yield return new TestCaseData(0.0m, new DateTime(2018, 1, 1), new DateTime(2018, 1, 1), TimeListTestData.GetTestTimeList(TimeListTestData.FourEntryKey2));
+            foreach (var value in ValuesTestSourceData())
+            {
+                yield return new TestCaseData(value.Item2, value.Item3, value.Item4, value.Item5).SetName($"{nameof(ValuesSpecialFuncTests)}-{value.Name}");
+            }
+        }
+
+        private static IEnumerable<(string Name, decimal?, DateTime, DateTime, TimeList)> ValuesTestSourceData()
+        {
+            yield return ("EmptyTimeList",
+                null,
+                new DateTime(2018, 1, 1),
+                new DateTime(2018, 1, 1),
+                TimeListTestData.GetTestTimeList(TimeListTestData.EmptyListKey));
+            yield return ("TwoEntryZeroValues",
+                0.0m,
+                new DateTime(2018, 1, 1),
+                new DateTime(2018, 1, 1),
+                TimeListTestData.GetTestTimeList(TimeListTestData.TwoEntryZeroValuesKey));
+            yield return ("FourEntryZeroValuesDifferentDate",
+                0.0m,
+                new DateTime(2018, 1, 1),
+                new DateTime(2017, 1, 1),
+                TimeListTestData.GetTestTimeList(TimeListTestData.FourEntryZeroValuesKey));
+            yield return ("FourEntryZeroValuesSameDate",
+                0.0m,
+                new DateTime(2018, 1, 1),
+                new DateTime(2018, 1, 1),
+                TimeListTestData.GetTestTimeList(TimeListTestData.FourEntryZeroValuesKey));
+            yield return ("FourEntryZeroValuesTest3",
+                0.0m,
+                new DateTime(2019, 5, 5),
+                new DateTime(2020, 1, 1),
+                TimeListTestData.GetTestTimeList(TimeListTestData.FourEntryZeroValuesKey));
+            yield return ("FourEntryValues",
+                0.0m,
+                new DateTime(2018, 1, 1),
+                new DateTime(2018, 1, 1),
+                TimeListTestData.GetTestTimeList(TimeListTestData.FourEntryKey));
+            yield return ("FourEntryValuesSecondTest",
+                1.0500000000000000000000000021m,
+                new DateTime(2019, 3, 5),
+                new DateTime(2019, 3, 5),
+                TimeListTestData.GetTestTimeList(TimeListTestData.FourEntryKey));
+            yield return ("FourEntryValues2",
+                2.0m,
+                new DateTime(2019, 5, 1),
+                new DateTime(2019, 5, 1),
+                TimeListTestData.GetTestTimeList(TimeListTestData.FourEntryKey));
+            yield return ("FourEntryValues2SecondTest",
+                0.0m,
+                new DateTime(2018, 1, 1),
+                new DateTime(2018, 1, 1),
+                TimeListTestData.GetTestTimeList(TimeListTestData.FourEntryKey2));
         }
 
         private static IEnumerable<TestCaseData> WriteSerializationData(string testName)
