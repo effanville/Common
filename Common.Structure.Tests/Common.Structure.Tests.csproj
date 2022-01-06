@@ -17,4 +17,8 @@
     <ProjectReference Include="..\Common.Structure\Common.Structure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DisplayClasses\" />
+  </ItemGroup>
+
 </Project>

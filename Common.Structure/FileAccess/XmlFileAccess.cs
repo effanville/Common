@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.IO.Abstractions;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace Common.Structure.FileAccess
@@ -42,8 +43,12 @@ namespace Common.Structure.FileAccess
             error = null;
             try
             {
+                var xmlWriterSettings = new XmlWriterSettings()
+                {
+                    Indent = true
+                };
                 using (Stream stream = fileSystem.FileStream.Create(filePath, append ? FileMode.Append : FileMode.Create))
-                using (TextWriter writer = new StreamWriter(stream))
+                using (XmlWriter writer = XmlWriter.Create(new StreamWriter(stream), xmlWriterSettings))
                 {
                     XmlSerializer serializer = new XmlSerializer(typeof(T));
                     serializer.Serialize(writer, objectToWrite);

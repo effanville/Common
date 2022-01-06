@@ -39,9 +39,9 @@ namespace Common.Structure.Tests.DataStructures.Numeric
         private static IEnumerable<TestCaseData> AnyTestSource()
         {
             var tests = TestLists();
-            foreach (var test in tests)
+            foreach (var (name, testList, _, any, _) in tests)
             {
-                yield return new TestCaseData(test.any, test.testList).SetName($"Any-{test.name}");
+                yield return new TestCaseData(any, testList).SetName($"Any-{name}");
             }
         }
 
@@ -53,19 +53,42 @@ namespace Common.Structure.Tests.DataStructures.Numeric
 
         private static IEnumerable<TestCaseData> CleanValuesTestSource()
         {
-            yield return new TestCaseData(new TimeNumberList(), new TimeNumberList()).SetName($"{nameof(CleanValuesTests)}-EmptyTimelist");
+            yield return new TestCaseData(new TimeNumberList(), new TimeNumberList())
+                .SetName($"{nameof(CleanValuesTests)}-EmptyTimelist");
             yield return new TestCaseData(
                 new TimeNumberList(new List<DailyNumeric>() { new DailyNumeric(new DateTime(2018, 1, 1), 0.0) }),
-                new TimeNumberList(new List<DailyNumeric>() { new DailyNumeric(new DateTime(2018, 1, 1), 0.0), new DailyNumeric(new DateTime(2019, 1, 1), 0.0) }));
+                new TimeNumberList(new List<DailyNumeric>()
+                {
+                    new DailyNumeric(new DateTime(2018, 1, 1), 0.0),
+                    new DailyNumeric(new DateTime(2019, 1, 1), 0.0)
+                })).SetName($"{nameof(CleanValuesTests)}-TwoIdenticalEntryList");
             yield return new TestCaseData(
                 new TimeNumberList(new List<DailyNumeric>() { new DailyNumeric(new DateTime(2018, 1, 1), 0.0) }),
-                new TimeNumberList(new List<DailyNumeric>() { new DailyNumeric(new DateTime(2018, 1, 1), 0.0), new DailyNumeric(new DateTime(2019, 1, 1), 0.0), new DailyNumeric(new DateTime(2019, 5, 1), 0.0), new DailyNumeric(new DateTime(2019, 5, 5), 0.0) }));
+                new TimeNumberList(new List<DailyNumeric>()
+                {
+                    new DailyNumeric(new DateTime(2018, 1, 1), 0.0),
+                    new DailyNumeric(new DateTime(2019, 1, 1), 0.0),
+                    new DailyNumeric(new DateTime(2019, 5, 1), 0.0),
+                    new DailyNumeric(new DateTime(2019, 5, 5), 0.0)
+                })).SetName($"{nameof(CleanValuesTests)}-ManyEntrylist");
             yield return new TestCaseData(
                 new TimeNumberList(new List<DailyNumeric>() { new DailyNumeric(new DateTime(2018, 1, 1), 0.0), new DailyNumeric(new DateTime(2019, 5, 1), 2.0) }),
-                new TimeNumberList(new List<DailyNumeric>() { new DailyNumeric(new DateTime(2018, 1, 1), 0.0), new DailyNumeric(new DateTime(2019, 1, 1), 0.0), new DailyNumeric(new DateTime(2019, 5, 1), 2.0), new DailyNumeric(new DateTime(2019, 5, 5), 2.0) }));
+                new TimeNumberList(new List<DailyNumeric>()
+                {
+                    new DailyNumeric(new DateTime(2018, 1, 1), 0.0),
+                    new DailyNumeric(new DateTime(2019, 1, 1), 0.0),
+                    new DailyNumeric(new DateTime(2019, 5, 1), 2.0),
+                    new DailyNumeric(new DateTime(2019, 5, 5), 2.0)
+                })).SetName($"{nameof(CleanValuesTests)}-ManyEntryList2");
             yield return new TestCaseData(
                 new TimeNumberList(new List<DailyNumeric>() { new DailyNumeric(new DateTime(2018, 1, 1), 0.0), new DailyNumeric(new DateTime(2019, 1, 1), 1.0), new DailyNumeric(new DateTime(2019, 5, 1), 2.0), new DailyNumeric(new DateTime(2019, 5, 5), 0.0) }),
-                new TimeNumberList(new List<DailyNumeric>() { new DailyNumeric(new DateTime(2018, 1, 1), 0.0), new DailyNumeric(new DateTime(2019, 1, 1), 1.0), new DailyNumeric(new DateTime(2019, 5, 1), 2.0), new DailyNumeric(new DateTime(2019, 5, 5), 0.0) }));
+                new TimeNumberList(new List<DailyNumeric>()
+                {
+                    new DailyNumeric(new DateTime(2018, 1, 1), 0.0),
+                    new DailyNumeric(new DateTime(2019, 1, 1), 1.0),
+                    new DailyNumeric(new DateTime(2019, 5, 1), 2.0),
+                    new DailyNumeric(new DateTime(2019, 5, 5), 0.0)
+                })).SetName($"{nameof(CleanValuesTests)}-ManyEntryList3");
         }
 
         [TestCaseSource(nameof(CleanValuesTestSource))]
@@ -75,6 +98,13 @@ namespace Common.Structure.Tests.DataStructures.Numeric
             int count = expectedCleaned.Count();
             Assert.AreEqual(count, timelist.Count());
             Assert.AreEqual(timelist, expectedCleaned);
+        }
+        private static IEnumerable<TestCaseData> ValuesTestSource()
+        {
+            foreach (var value in ValuesTestSourceData())
+            {
+                yield return new TestCaseData(value.Item2, value.Item3, value.Item4, value.Item5).SetName($"{nameof(ValuesTests)}-{value.Name}");
+            }
         }
 
         [TestCaseSource(nameof(ValuesTestSource))]
@@ -98,7 +128,7 @@ namespace Common.Structure.Tests.DataStructures.Numeric
             }
         }
 
-        [TestCaseSource(nameof(ValuesTestSource))]
+        [TestCaseSource(nameof(ValuesSpecialFuncTestSource))]
         public void ValuesSpecialFuncTests(double? expectedResult, DateTime expectedDate, DateTime date, (DateTime date, double value)[] first)
         {
             var timelist = new TimeNumberList();
@@ -119,18 +149,61 @@ namespace Common.Structure.Tests.DataStructures.Numeric
                 Assert.AreEqual(expectedResult, actualValue.Value, $" value not correct");
             }
         }
-
-        private static IEnumerable<TestCaseData> ValuesTestSource()
+        private static IEnumerable<TestCaseData> ValuesSpecialFuncTestSource()
         {
-            yield return new TestCaseData(null, new DateTime(2018, 1, 1), new DateTime(2018, 1, 1), Array.Empty<(DateTime, double)>());
-            yield return new TestCaseData(0.0, new DateTime(2018, 1, 1), new DateTime(2018, 1, 1), new[] { (new DateTime(2018, 1, 1), 0.0), (new DateTime(2019, 1, 1), 0.0) });
-            yield return new TestCaseData(0.0, new DateTime(2018, 1, 1), new DateTime(2017, 1, 1), new[] { (new DateTime(2018, 1, 1), 0.0), (new DateTime(2019, 1, 1), 0.0), (new DateTime(2019, 5, 1), 0.0), (new DateTime(2019, 5, 5), 0.0) });
-            yield return new TestCaseData(0.0, new DateTime(2018, 1, 1), new DateTime(2018, 1, 1), new[] { (new DateTime(2018, 1, 1), 0.0), (new DateTime(2019, 1, 1), 0.0), (new DateTime(2019, 5, 1), 0.0), (new DateTime(2019, 5, 5), 0.0) });
-            yield return new TestCaseData(0.0, new DateTime(2019, 5, 5), new DateTime(2020, 1, 1), new[] { (new DateTime(2018, 1, 1), 0.0), (new DateTime(2019, 1, 1), 0.0), (new DateTime(2019, 5, 1), 0.0), (new DateTime(2019, 5, 5), 0.0) });
-            yield return new TestCaseData(0.0, new DateTime(2018, 1, 1), new DateTime(2018, 1, 1), new[] { (new DateTime(2018, 1, 1), 0.0), (new DateTime(2019, 1, 1), 0.0), (new DateTime(2019, 5, 1), 2.0), (new DateTime(2019, 5, 5), 2.0) });
-            yield return new TestCaseData(1.05, new DateTime(2019, 3, 5), new DateTime(2019, 3, 5), new[] { (new DateTime(2018, 1, 1), 0.0), (new DateTime(2019, 1, 1), 0.0), (new DateTime(2019, 5, 1), 2.0), (new DateTime(2019, 5, 5), 2.0) });
-            yield return new TestCaseData(2.0, new DateTime(2019, 5, 1), new DateTime(2019, 5, 1), new[] { (new DateTime(2018, 1, 1), 0.0), (new DateTime(2019, 1, 1), 0.0), (new DateTime(2019, 5, 1), 2.0), (new DateTime(2019, 5, 5), 2.0) });
-            yield return new TestCaseData(0.0, new DateTime(2018, 1, 1), new DateTime(2018, 1, 1), new[] { (new DateTime(2018, 1, 1), 0.0), (new DateTime(2019, 1, 1), 1.0), (new DateTime(2019, 5, 1), 2.0), (new DateTime(2019, 5, 5), 0.0) });
+            foreach (var value in ValuesTestSourceData())
+            {
+                yield return new TestCaseData(value.Item2, value.Item3, value.Item4, value.Item5).SetName($"{nameof(ValuesSpecialFuncTests)}-{value.Name}");
+            }
+        }
+
+        private static IEnumerable<(string Name, double?, DateTime, DateTime, (DateTime, double)[])> ValuesTestSourceData()
+        {
+            yield return ("EmptyTimeList",
+                null,
+                new DateTime(2018, 1, 1),
+                new DateTime(2018, 1, 1),
+                Array.Empty<(DateTime, double)>());
+            yield return ("TwoEntryZeroValues",
+                0.0,
+                new DateTime(2018, 1, 1),
+                new DateTime(2018, 1, 1),
+                new[] { (new DateTime(2018, 1, 1), 0.0), (new DateTime(2019, 1, 1), 0.0) });
+            yield return ("FourEntryZeroValuesDifferentDate",
+                0.0,
+                new DateTime(2018, 1, 1),
+                new DateTime(2017, 1, 1),
+                new[] { (new DateTime(2018, 1, 1), 0.0), (new DateTime(2019, 1, 1), 0.0), (new DateTime(2019, 5, 1), 0.0), (new DateTime(2019, 5, 5), 0.0) });
+            yield return ("FourEntryZeroValuesSameDate",
+                0.0,
+                new DateTime(2018, 1, 1),
+                new DateTime(2018, 1, 1),
+                new[] { (new DateTime(2018, 1, 1), 0.0), (new DateTime(2019, 1, 1), 0.0), (new DateTime(2019, 5, 1), 0.0), (new DateTime(2019, 5, 5), 0.0) });
+            yield return ("FourEntryZeroValuesTest3",
+                0.0,
+                new DateTime(2019, 5, 5),
+                new DateTime(2020, 1, 1),
+                new[] { (new DateTime(2018, 1, 1), 0.0), (new DateTime(2019, 1, 1), 0.0), (new DateTime(2019, 5, 1), 0.0), (new DateTime(2019, 5, 5), 0.0) });
+            yield return ("FourEntryValues",
+                0.0,
+                new DateTime(2018, 1, 1),
+                new DateTime(2018, 1, 1),
+                new[] { (new DateTime(2018, 1, 1), 0.0), (new DateTime(2019, 1, 1), 0.0), (new DateTime(2019, 5, 1), 2.0), (new DateTime(2019, 5, 5), 2.0) });
+            yield return ("FourEntryValuesSecondTest",
+                1.05,
+                new DateTime(2019, 3, 5),
+                new DateTime(2019, 3, 5),
+                new[] { (new DateTime(2018, 1, 1), 0.0), (new DateTime(2019, 1, 1), 0.0), (new DateTime(2019, 5, 1), 2.0), (new DateTime(2019, 5, 5), 2.0) });
+            yield return ("FourEntryValues2",
+                2.0,
+                new DateTime(2019, 5, 1),
+                new DateTime(2019, 5, 1),
+                new[] { (new DateTime(2018, 1, 1), 0.0), (new DateTime(2019, 1, 1), 0.0), (new DateTime(2019, 5, 1), 2.0), (new DateTime(2019, 5, 5), 2.0) });
+            yield return ("FourEntryValues2SecondTest",
+                0.0,
+                new DateTime(2018, 1, 1),
+                new DateTime(2018, 1, 1),
+                new[] { (new DateTime(2018, 1, 1), 0.0), (new DateTime(2019, 1, 1), 1.0), (new DateTime(2019, 5, 1), 2.0), (new DateTime(2019, 5, 5), 0.0) });
         }
 
         private static IEnumerable<TestCaseData> WriteSerializationData(string testName)

@@ -12,7 +12,7 @@ namespace Common.Structure.NamingStructures
     /// Contains naming information, allowing for a primary and secondary name.
     /// If the properties desire to be serialised, one must create wrapping properties for these.
     /// </summary>
-    public class Name : IValidity, IComparable, IEquatable<Name>
+    public class Name : IValidity, IComparable, IComparable<Name>, IEquatable<Name>
     {
         /// <summary>
         /// The primary name (the company name)
@@ -105,28 +105,35 @@ namespace Common.Structure.NamingStructures
         /// </summary>
         public int CompareTo(object obj)
         {
-            if (obj is Name value)
+            if (obj is Name otherName)
             {
-                if (PrimaryName == value.PrimaryName)
-                {
-                    if (SecondaryName == null)
-                    {
-                        if (value.SecondaryName == null)
-                        {
-                            return 0;
-                        }
-                        return 1;
-                    }
-                    return SecondaryName.CompareTo(value.SecondaryName);
-                }
-                if (PrimaryName == null && value.PrimaryName != null)
-                {
-                    return -1;
-                }
-                return PrimaryName.CompareTo(value.PrimaryName);
+                return CompareTo(otherName);
             }
 
             return 0;
+        }
+
+        public int CompareTo(Name other)
+        {
+            if (PrimaryName == other.PrimaryName)
+            {
+                if (SecondaryName == null)
+                {
+                    if (other.SecondaryName == null)
+                    {
+                        return 0;
+                    }
+                    return 1;
+                }
+                return SecondaryName.CompareTo(other.SecondaryName);
+            }
+
+            if (PrimaryName == null && other.PrimaryName != null)
+            {
+                return -1;
+            }
+
+            return PrimaryName.CompareTo(other.PrimaryName);
         }
 
         /// <inheritdoc/>
