@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using Common.Structure.MathLibrary.Finance;
 
@@ -46,20 +47,17 @@ namespace Common.Structure.DataStructures
             return Sum(Values());
         }
 
-        private static decimal Sum(List<DailyValuation> values)
+        /// <summary>
+        /// Adds all values in the list that satisfy the predicate.
+        /// </summary>
+        public decimal Sum(Func<DailyValuation, bool> predicate)
         {
-            if (values.Count > 0)
-            {
-                decimal sum = 0;
-                foreach (DailyValuation val in values)
-                {
-                    sum += val.Value;
-                }
+            return Sum(Values().Where(val => predicate(val)));
+        }
 
-                return sum;
-            }
-
-            return 0.0m;
+        private static decimal Sum(IEnumerable<DailyValuation> values)
+        {
+            return values.Sum(val => val.Value);
         }
 
         /// <summary>
