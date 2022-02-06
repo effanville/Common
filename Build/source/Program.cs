@@ -8,6 +8,7 @@ namespace Build
         {
             return new CakeHost()
                 .UseContext<BuildContext>()
+                .InstallTool(new System.Uri("nuget:?package=NuGet.CommandLine&version=5.8.1"))
                 .Run(args);
         }
     }

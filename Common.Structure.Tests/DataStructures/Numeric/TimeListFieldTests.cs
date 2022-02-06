@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml.Serialization;
 using NUnit.Framework;
 using Common.Structure.DataStructures.Numeric;
+using System.Xml;
 
 namespace Common.Structure.Tests.DataStructures.Numeric
 {
@@ -61,8 +62,12 @@ namespace Common.Structure.Tests.DataStructures.Numeric
         [TestCaseSource(nameof(WriteSerializationData), new object[] { nameof(WriteXmlTests) })]
         public void WriteXmlTests(string expectedXml, TestClass times)
         {
-            using (var stream = new MemoryStream())
-            using (TextWriter writer = new StreamWriter(stream))
+            var xmlWriterSettings = new XmlWriterSettings()
+            {
+                Indent = true
+            };
+            using (MemoryStream stream = new MemoryStream())
+            using (XmlWriter writer = XmlWriter.Create(new StreamWriter(stream), xmlWriterSettings))
             {
                 XmlSerializer serializer = new XmlSerializer(typeof(TestClass));
                 serializer.Serialize(writer, times);
@@ -106,8 +111,12 @@ namespace Common.Structure.Tests.DataStructures.Numeric
         public void XmlRoundTripTests(string expectedXml, TestClass timelist)
         {
             string output;
+            var xmlWriterSettings = new XmlWriterSettings()
+            {
+                Indent = true
+            };
             using (var stream = new MemoryStream())
-            using (TextWriter writer = new StreamWriter(stream))
+            using (XmlWriter writer = XmlWriter.Create(new StreamWriter(stream), xmlWriterSettings))
             {
                 XmlSerializer serializer = new XmlSerializer(typeof(TestClass));
                 serializer.Serialize(writer, timelist);
