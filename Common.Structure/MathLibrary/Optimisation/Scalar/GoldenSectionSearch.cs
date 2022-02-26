@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Common.Structure.MathLibrary.Optimisation
+namespace Common.Structure.MathLibrary.Optimisation.Scalar
 {
-    public static class GoldenSectionSearchMinimiser
+    public static class GoldenSectionSearch
     {
-        public static ScalarMinimisationResult Minimum(
+        public static ScalarMinResult Minimise(
            double lowerBound,
            double upperBound,
            Func<double, double> func,
@@ -18,14 +18,14 @@ namespace Common.Structure.MathLibrary.Optimisation
             }
             if (result.IsError())
             {
-                return new ScalarMinimisationResult(double.NaN, double.NaN, ExitCondition.Error);
+                return new ScalarMinResult(double.NaN, double.NaN, ExitCondition.Error);
             }
 
             var value = result.Value;
             return MinimumCPPBook(value.LowerPoint, value.MiddlePoint, value.UpperPoint, func, tolerance, maxIterations);
         }
 
-        public static ScalarMinimisationResult MinimumFromMathNet(
+        public static ScalarMinResult MinimumFromMathNet(
            double lowerBound,
            double upperBound,
            Func<double, double> func,
@@ -39,14 +39,14 @@ namespace Common.Structure.MathLibrary.Optimisation
             }
             if (result.IsError())
             {
-                return new ScalarMinimisationResult(double.NaN, double.NaN, ExitCondition.Error);
+                return new ScalarMinResult(double.NaN, double.NaN, ExitCondition.Error);
             }
 
             var value = result.Value;
             return MinimumMathNet(value.LowerPoint, value.UpperPoint, func, tolerance, maxIterations);
         }
 
-        public static ScalarMinimisationResult MinimumMathNet(
+        public static ScalarMinResult MinimumMathNet(
             double lowerBound,
             double upperBound,
             Func<double, double> func,
@@ -91,13 +91,13 @@ namespace Common.Structure.MathLibrary.Optimisation
 
             if (iterations == maxIterations)
             {
-                return ScalarMinimisationResult.ExceedIterations();
+                return ScalarMinResult.ExceedIterations();
             }
 
-            return new ScalarMinimisationResult(middlePoint, func(middlePoint), ExitCondition.BoundTolerance);
+            return new ScalarMinResult(middlePoint, func(middlePoint), ExitCondition.BoundTolerance);
         }
 
-        public static ScalarMinimisationResult MinimumCPPBook(
+        private static ScalarMinResult MinimumCPPBook(
             double lowerBound,
             double middlePoint,
             double upperBound,
@@ -149,16 +149,16 @@ namespace Common.Structure.MathLibrary.Optimisation
 
             if (iterations == maxIterations)
             {
-                return ScalarMinimisationResult.ExceedIterations();
+                return ScalarMinResult.ExceedIterations();
             }
 
             if (f1 < f2)
             {
-                return new ScalarMinimisationResult(x1, f1, ExitCondition.BoundTolerance);
+                return new ScalarMinResult(x1, f1, ExitCondition.BoundTolerance);
             }
             else
             {
-                return new ScalarMinimisationResult(x2, f2, ExitCondition.BoundTolerance);
+                return new ScalarMinResult(x2, f2, ExitCondition.BoundTolerance);
             }
         }
     }

@@ -10,5 +10,9 @@ namespace Common.Structure.MathLibrary
         public const double C = 1 - InverseGoldenRatio;
         public const double Tiny = 1e-20;
         public const double Eps = 3e-8;
+        public const double TolX = 4 * Eps;
+        public const double STPMX = 100.0;
+        public const double ZEps = 1e-10;
+        public const double CGold = 0.3819660;
     }
 }
