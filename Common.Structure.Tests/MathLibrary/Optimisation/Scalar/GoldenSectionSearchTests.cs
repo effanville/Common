@@ -23,6 +23,7 @@ namespace Common.Structure.Tests.MathLibrary.Optimisation.Scalar
                 get;
                 set;
             }
+
             public Func<double, double> Func
             {
                 get;
@@ -77,7 +78,6 @@ namespace Common.Structure.Tests.MathLibrary.Optimisation.Scalar
                 Func = x => (x - 3) * (x - 3) * (x + 1),
                 ExpectedResult = new OptimisationResult<ScalarFuncEval>(new ScalarFuncEval(3, 0), ExitCondition.BoundTolerance, 1)
             }).SetName("CubicCenteredAtThree");
-
         }
 
         [TestCaseSource(nameof(MinimumTestData))]
