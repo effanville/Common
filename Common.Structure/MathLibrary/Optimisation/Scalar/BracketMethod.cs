@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Common.Structure.MathLibrary.Optimisation
+namespace Common.Structure.MathLibrary.Optimisation.Scalar
 {
     public static class BracketMethod
     {
