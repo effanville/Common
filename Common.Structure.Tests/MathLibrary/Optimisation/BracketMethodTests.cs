@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using Common.Structure.MathLibrary.Optimisation;
+using Common.Structure.MathLibrary.Optimisation.Scalar;
 
 using NUnit.Framework;
 
