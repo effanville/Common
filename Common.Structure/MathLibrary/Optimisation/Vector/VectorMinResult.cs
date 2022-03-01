@@ -12,7 +12,7 @@
             get;
         }
 
-        public double[] MinimisingValue
+        public double MinimisingValue
         {
             get;
         }
@@ -22,7 +22,7 @@
             get;
         }
 
-        public VectorMinResult(double[] minimisingPoint, double[] minimisingValue, ExitCondition reasonForExit, int numIterations)
+        public VectorMinResult(double[] minimisingPoint, double minimisingValue, ExitCondition reasonForExit, int numIterations)
         {
             MinimisingPoint = minimisingPoint;
             MinimisingValue = minimisingValue;

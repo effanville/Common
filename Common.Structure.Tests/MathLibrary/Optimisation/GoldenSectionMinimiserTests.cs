@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using Common.Structure.MathLibrary.Optimisation;
+using Common.Structure.MathLibrary.Optimisation.Scalar;
 
 using NUnit.Framework;
 
@@ -82,7 +83,7 @@ namespace Common.Structure.Tests.MathLibrary.Optimisation
         [TestCaseSource(nameof(MinimumTestData))]
         public void CalculateMinimumMathNet(TestData data)
         {
-            ScalarMinResult min = GoldenSectionSearchMinimiser.MinimumFromMathNet(data.Lower, data.Upper, data.Func, 1e-8, 100);
+            ScalarMinResult min = GoldenSectionSearch.MinimumFromMathNet(data.Lower, data.Upper, data.Func, 1e-8, 100);
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(data.ExpectedResult.MinimisingPoint, min.MinimisingPoint, 1e-8);
@@ -94,7 +95,7 @@ namespace Common.Structure.Tests.MathLibrary.Optimisation
         [TestCaseSource(nameof(MinimumTestData))]
         public void CalculateMinimum(TestData data)
         {
-            ScalarMinResult min = GoldenSectionSearchMinimiser.Minimum(data.Lower, data.Upper, data.Func, 1e-8, 100);
+            ScalarMinResult min = GoldenSectionSearch.Minimise(data.Lower, data.Upper, data.Func, 1e-8, 100);
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(data.ExpectedResult.MinimisingPoint, min.MinimisingPoint, 1e-8);
