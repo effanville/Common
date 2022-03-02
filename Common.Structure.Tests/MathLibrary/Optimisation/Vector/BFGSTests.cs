@@ -46,5 +46,22 @@ namespace Common.Structure.Tests.MathLibrary.Optimisation.Vector
             Assert.That(Math.Abs(min.MinimisingPoint[0] - function.GlobalMinimum[0]), Is.LessThan(1e-4));
             Assert.That(Math.Abs(min.MinimisingPoint[1] - function.GlobalMinimum[1]), Is.LessThan(1e-4));
         }
+
+        [TestCase(new double[] { 1, 1 })]
+        [TestCase(new double[] { 3, 2 })]
+        public void CalcMin_Beale(double[] startingPoint)
+        {
+            var function = new BealeFunction();
+            var min = BFGS.Minimise(
+                startingPoint,
+                gradientTolerance: 1e-5,
+                point => function.Value(point),
+                point => function.Gradient(point),
+                tolerance: 1e-5,
+                maxIterations: 1000);
+
+            Assert.That(Math.Abs(min.MinimisingPoint[0] - function.GlobalMinimum[0]), Is.LessThan(1e-4));
+            Assert.That(Math.Abs(min.MinimisingPoint[1] - function.GlobalMinimum[1]), Is.LessThan(1e-4));
+        }
     }
 }
