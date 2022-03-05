@@ -13,47 +13,47 @@ namespace Common.Structure.MathLibrary.Optimisation.Vector
             int maxIterations = 200)
         {
             int n = startingPoint.Length;
-            int i, its, j;
-            double den, fac, fad, fae, fp, stpmax, sum = 0.0, sumdg, sumxi, temp, test;
-            double[] dg, g;
+            int dimensionIndex, iteration, j;
+            double den, fac, fad, fae, functionValue, stpmax, sum = 0.0, sumdg, sumxi, temp, test;
+            double[] dg, gradientValue;
             double[] hdg = new double[n];
-            double[,] hessin;
-            double[] pnew, xi;
+            double[,] hessian;
+            double[] pnew, lineSearchDirection;
 
             dg = new double[n];
-            hessin = new double[n, n];
-            xi = new double[n];
-            fp = func(startingPoint);
-            g = gFunc(startingPoint);
-            for (i = 0; i < n; i++)
+            hessian = new double[n, n];
+            lineSearchDirection = new double[n];
+            functionValue = func(startingPoint);
+            gradientValue = gFunc(startingPoint);
+            for (dimensionIndex = 0; dimensionIndex < n; dimensionIndex++)
             {
                 for (j = 0; j < n; j++)
                 {
-                    hessin[i, j] = 0.0;
+                    hessian[dimensionIndex, j] = 0.0;
                 }
-                hessin[i, i] = 1.0;
-                xi[i] = -g[i];
-                sum += startingPoint[i] * startingPoint[i];
+                hessian[dimensionIndex, dimensionIndex] = 1.0;
+                lineSearchDirection[dimensionIndex] = -gradientValue[dimensionIndex];
+                sum += startingPoint[dimensionIndex] * startingPoint[dimensionIndex];
             }
 
             stpmax = MathConstants.STPMX * Math.Max(Math.Sqrt(sum), (double)n);
             var lineSearcher = new DefaultLineSearcher(stpmax);
 
-            for (its = 0; its < maxIterations; its++)
+            for (iteration = 0; iteration < maxIterations; iteration++)
             {
-                var point = lineSearcher.FindConformingStep(startingPoint, fp, g, xi, func);
+                var point = lineSearcher.FindConformingStep(startingPoint, functionValue, gradientValue, lineSearchDirection, func);
                 pnew = point.Value.Point;
-                fp = point.Value.Value;
-                for (i = 0; i < n; i++)
+                functionValue = point.Value.Value;
+                for (dimensionIndex = 0; dimensionIndex < n; dimensionIndex++)
                 {
-                    xi[i] = pnew[i] - startingPoint[i];
-                    startingPoint[i] = pnew[i];
+                    lineSearchDirection[dimensionIndex] = pnew[dimensionIndex] - startingPoint[dimensionIndex];
+                    startingPoint[dimensionIndex] = pnew[dimensionIndex];
                 }
 
                 test = 0.0;
-                for (i = 0; i < n; i++)
+                for (dimensionIndex = 0; dimensionIndex < n; dimensionIndex++)
                 {
-                    temp = Math.Abs(xi[i]) / Math.Max(Math.Abs(startingPoint[i]), 1.0);
+                    temp = Math.Abs(lineSearchDirection[dimensionIndex]) / Math.Max(Math.Abs(startingPoint[dimensionIndex]), 1.0);
                     if (temp > test)
                     {
                         test = temp;
@@ -62,19 +62,19 @@ namespace Common.Structure.MathLibrary.Optimisation.Vector
 
                 if (test < tolerance)
                 {
-                    return new VectorMinResult(startingPoint, fp, ExitCondition.BoundTolerance, its);
+                    return new VectorMinResult(startingPoint, functionValue, ExitCondition.BoundTolerance, iteration);
                 }
 
-                for (i = 0; i < n; i++)
+                for (dimensionIndex = 0; dimensionIndex < n; dimensionIndex++)
                 {
-                    dg[i] = g[i];
+                    dg[dimensionIndex] = gradientValue[dimensionIndex];
                 }
 
-                g = gFunc(startingPoint);
-                den = Math.Max(fp, 1.0);
-                for (i = 0; i < n; i++)
+                gradientValue = gFunc(startingPoint);
+                den = Math.Max(functionValue, 1.0);
+                for (dimensionIndex = 0; dimensionIndex < n; dimensionIndex++)
                 {
-                    temp = Math.Abs(g[i]) * Math.Max(Math.Abs(startingPoint[i]), 1.0) / den;
+                    temp = Math.Abs(gradientValue[dimensionIndex]) * Math.Max(Math.Abs(startingPoint[dimensionIndex]), 1.0) / den;
                     if (temp > test)
                     {
                         test = temp;
@@ -83,59 +83,59 @@ namespace Common.Structure.MathLibrary.Optimisation.Vector
 
                 if (test < gradientTolerance)
                 {
-                    return new VectorMinResult(startingPoint, fp, ExitCondition.BoundTolerance, its);
+                    return new VectorMinResult(startingPoint, functionValue, ExitCondition.BoundTolerance, iteration);
                 }
 
-                for (i = 0; i < n; i++)
+                for (dimensionIndex = 0; dimensionIndex < n; dimensionIndex++)
                 {
 
-                    dg[i] = g[i] - dg[i];
+                    dg[dimensionIndex] = gradientValue[dimensionIndex] - dg[dimensionIndex];
                 }
 
-                for (i = 0; i < n; i++)
+                for (dimensionIndex = 0; dimensionIndex < n; dimensionIndex++)
                 {
-                    hdg[i] = 0.0;
+                    hdg[dimensionIndex] = 0.0;
                     for (j = 0; j < n; j++)
                     {
-                        hdg[i] += hessin[i, j] * dg[j];
+                        hdg[dimensionIndex] += hessian[dimensionIndex, j] * dg[j];
                     }
                 }
 
                 fac = fae = sumdg = sumxi = 0.0;
-                for (i = 0; i < n; i++)
+                for (dimensionIndex = 0; dimensionIndex < n; dimensionIndex++)
                 {
-                    fac += dg[i] * xi[i];
-                    fae += dg[i] * hdg[i];
-                    sumdg += dg[i] * dg[i];
-                    sumxi += xi[i] * xi[i];
+                    fac += dg[dimensionIndex] * lineSearchDirection[dimensionIndex];
+                    fae += dg[dimensionIndex] * hdg[dimensionIndex];
+                    sumdg += dg[dimensionIndex] * dg[dimensionIndex];
+                    sumxi += lineSearchDirection[dimensionIndex] * lineSearchDirection[dimensionIndex];
                 }
 
                 if (fac > Math.Sqrt(MathConstants.Eps * sumdg * sumxi))
                 {
                     fac = 1.0 / fac;
                     fad = 1.0 / fae;
-                    for (i = 0; i < n; i++)
+                    for (dimensionIndex = 0; dimensionIndex < n; dimensionIndex++)
                     {
-                        dg[i] = fac * xi[i] - fad * hdg[i];
+                        dg[dimensionIndex] = fac * lineSearchDirection[dimensionIndex] - fad * hdg[dimensionIndex];
                     }
 
-                    for (i = 0; i < n; i++)
+                    for (dimensionIndex = 0; dimensionIndex < n; dimensionIndex++)
                     {
-                        for (j = i; j < n; j++)
+                        for (j = dimensionIndex; j < n; j++)
                         {
-                            hessin[i, j] += fac * xi[i] * xi[j]
-                            - fad * hdg[i] * hdg[j] + fae * dg[i] * dg[j];
-                            hessin[j, i] = hessin[i, j];
+                            hessian[dimensionIndex, j] += fac * lineSearchDirection[dimensionIndex] * lineSearchDirection[j]
+                            - fad * hdg[dimensionIndex] * hdg[j] + fae * dg[dimensionIndex] * dg[j];
+                            hessian[j, dimensionIndex] = hessian[dimensionIndex, j];
                         }
                     }
                 }
 
-                for (i = 0; i < n; i++)
+                for (dimensionIndex = 0; dimensionIndex < n; dimensionIndex++)
                 {
-                    xi[i] = 0.0;
+                    lineSearchDirection[dimensionIndex] = 0.0;
                     for (j = 0; j < n; j++)
                     {
-                        xi[i] -= hessin[i, j] * g[j];
+                        lineSearchDirection[dimensionIndex] -= hessian[dimensionIndex, j] * gradientValue[j];
                     }
                 }
             }

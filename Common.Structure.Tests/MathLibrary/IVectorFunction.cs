@@ -1,13 +1,15 @@
-﻿namespace Common.Structure.Tests.MathLibrary
+﻿using Common.Structure.MathLibrary.Optimisation.Vector;
+
+namespace Common.Structure.Tests.MathLibrary
 {
     public interface IVectorFunction
     {
-        double[] GlobalMinimum
+        VectorEvaluationPoint GlobalMinimum
         {
             get;
         }
 
-        double[] GlobalMaximum
+        VectorEvaluationPoint GlobalMaximum
         {
             get;
         }
