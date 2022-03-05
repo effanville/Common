@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Linq;
 
+using Common.Structure.MathLibrary.Optimisation.Vector;
+
 namespace Common.Structure.Tests.MathLibrary.Optimisation.Vector
 {
     public sealed class BigRosenbrockFunction : IVectorFunction
     {
         private RosenbrockFunction fRosenbrockFunction = new RosenbrockFunction();
 
-        public double[] GlobalMinimum => new double[] { 100, 100 };
+        public VectorEvaluationPoint GlobalMinimum => new VectorEvaluationPoint(new[] { 100.0, 100.0 }, 1000.0);
 
-        public double[] GlobalMaximum => throw new NotImplementedException();
+        public VectorEvaluationPoint GlobalMaximum => throw new NotImplementedException();
 
         public double Value(double[] value)
         {
