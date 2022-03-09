@@ -1,9 +1,18 @@
 ﻿using System;
 
+using Common.Structure.MathLibrary.Matrices;
+using Common.Structure.MathLibrary.Vectors;
+
 namespace Common.Structure.MathLibrary.Optimisation.Vector
 {
+    /// <summary>
+    /// Contains methods for solving non linear equations with a BFGS solver
+    /// </summary>
     public static partial class BFGS
     {
+        /// <summary>
+        /// Minimise the function.
+        /// </summary>
         public static VectorMinResult Minimise(
             double[] startingPoint,
             double gradientTolerance,
@@ -12,48 +21,33 @@ namespace Common.Structure.MathLibrary.Optimisation.Vector
             double tolerance = MathConstants.TolX,
             int maxIterations = 200)
         {
-            int n = startingPoint.Length;
-            int dimensionIndex, iteration, j;
-            double den, fac, fad, fae, functionValue, stpmax, sum = 0.0, sumdg, sumxi, temp, test;
-            double[] dg, gradientValue;
-            double[] hdg = new double[n];
-            double[,] hessian;
-            double[] pnew, lineSearchDirection;
+            int numDimensions = startingPoint.Length;
+            int dimensionIndex;
+            double den, temp, test;
+            double[] pnew;
 
-            dg = new double[n];
-            hessian = new double[n, n];
-            lineSearchDirection = new double[n];
-            functionValue = func(startingPoint);
-            gradientValue = gFunc(startingPoint);
-            for (dimensionIndex = 0; dimensionIndex < n; dimensionIndex++)
+            double[] candidateMinimum = startingPoint;
+            double functionValue = func(candidateMinimum);
+            double[] gradientValue = gFunc(candidateMinimum);
+
+            double[,] hessian = CalculateHessian(numDimensions, null, gradientValue, null, null);
+
+            double[] lineSearchDirection = CalculateSearchDirection(numDimensions, gradientValue, hessian);
+
+            var lineSearcher = CreateLineSearcher(numDimensions, candidateMinimum);
+
+            for (int iteration = 0; iteration < maxIterations; iteration++)
             {
-                for (j = 0; j < n; j++)
-                {
-                    hessian[dimensionIndex, j] = 0.0;
-                }
-                hessian[dimensionIndex, dimensionIndex] = 1.0;
-                lineSearchDirection[dimensionIndex] = -gradientValue[dimensionIndex];
-                sum += startingPoint[dimensionIndex] * startingPoint[dimensionIndex];
-            }
-
-            stpmax = MathConstants.STPMX * Math.Max(Math.Sqrt(sum), (double)n);
-            var lineSearcher = new DefaultLineSearcher(stpmax);
-
-            for (iteration = 0; iteration < maxIterations; iteration++)
-            {
-                var point = lineSearcher.FindConformingStep(startingPoint, functionValue, gradientValue, lineSearchDirection, func);
+                var point = lineSearcher.FindConformingStep(candidateMinimum, functionValue, gradientValue, lineSearchDirection, func);
                 pnew = point.Value.Point;
                 functionValue = point.Value.Value;
-                for (dimensionIndex = 0; dimensionIndex < n; dimensionIndex++)
-                {
-                    lineSearchDirection[dimensionIndex] = pnew[dimensionIndex] - startingPoint[dimensionIndex];
-                    startingPoint[dimensionIndex] = pnew[dimensionIndex];
-                }
+                lineSearchDirection = pnew.Subtract(candidateMinimum);
+                candidateMinimum = pnew;
 
                 test = 0.0;
-                for (dimensionIndex = 0; dimensionIndex < n; dimensionIndex++)
+                for (dimensionIndex = 0; dimensionIndex < numDimensions; dimensionIndex++)
                 {
-                    temp = Math.Abs(lineSearchDirection[dimensionIndex]) / Math.Max(Math.Abs(startingPoint[dimensionIndex]), 1.0);
+                    temp = Math.Abs(lineSearchDirection[dimensionIndex]) / Math.Max(Math.Abs(candidateMinimum[dimensionIndex]), 1.0);
                     if (temp > test)
                     {
                         test = temp;
@@ -62,19 +56,16 @@ namespace Common.Structure.MathLibrary.Optimisation.Vector
 
                 if (test < tolerance)
                 {
-                    return new VectorMinResult(startingPoint, functionValue, ExitCondition.BoundTolerance, iteration);
+                    return new VectorMinResult(candidateMinimum, functionValue, ExitCondition.BoundTolerance, iteration);
                 }
 
-                for (dimensionIndex = 0; dimensionIndex < n; dimensionIndex++)
-                {
-                    dg[dimensionIndex] = gradientValue[dimensionIndex];
-                }
+                double[] previousGradientValue = gradientValue;
 
-                gradientValue = gFunc(startingPoint);
+                gradientValue = gFunc(candidateMinimum);
                 den = Math.Max(functionValue, 1.0);
-                for (dimensionIndex = 0; dimensionIndex < n; dimensionIndex++)
+                for (dimensionIndex = 0; dimensionIndex < numDimensions; dimensionIndex++)
                 {
-                    temp = Math.Abs(gradientValue[dimensionIndex]) * Math.Max(Math.Abs(startingPoint[dimensionIndex]), 1.0) / den;
+                    temp = Math.Abs(gradientValue[dimensionIndex]) * Math.Max(Math.Abs(candidateMinimum[dimensionIndex]), 1.0) / den;
                     if (temp > test)
                     {
                         test = temp;
@@ -83,64 +74,79 @@ namespace Common.Structure.MathLibrary.Optimisation.Vector
 
                 if (test < gradientTolerance)
                 {
-                    return new VectorMinResult(startingPoint, functionValue, ExitCondition.BoundTolerance, iteration);
+                    return new VectorMinResult(candidateMinimum, functionValue, ExitCondition.BoundTolerance, iteration);
                 }
 
-                for (dimensionIndex = 0; dimensionIndex < n; dimensionIndex++)
-                {
+                hessian = CalculateHessian(numDimensions, previousGradientValue, gradientValue, hessian, lineSearchDirection);
+                lineSearchDirection = CalculateSearchDirection(numDimensions, gradientValue, hessian);
+            }
 
-                    dg[dimensionIndex] = gradientValue[dimensionIndex] - dg[dimensionIndex];
+            return new VectorMinResult(ExitCondition.ExceedIterations);
+        }
+
+        private static double[] CalculateSearchDirection(int numDimensions, double[] gradientValue, double[,] hessian)
+        {
+            double[] lineSearchDirection = new double[numDimensions];
+
+            for (int dimensionIndex = 0; dimensionIndex < numDimensions; dimensionIndex++)
+            {
+                lineSearchDirection[dimensionIndex] = 0.0;
+                for (int j = 0; j < numDimensions; j++)
+                {
+                    lineSearchDirection[dimensionIndex] -= hessian[dimensionIndex, j] * gradientValue[j];
+                }
+            }
+
+            if (VectorFunctions.DotProduct(lineSearchDirection, gradientValue) >= 0)
+            {
+                lineSearchDirection = gradientValue.Negative();
+            }
+
+            return lineSearchDirection;
+        }
+
+        private static double[,] CalculateHessian(int numDimensions, double[] previousGradientValue, double[] gradientValue, double[,] previousHessian, double[] lineSearchDirection)
+        {
+            if (previousHessian == null)
+            {
+                return MatrixFunctions.Identity(numDimensions);
+            }
+
+            double[,] hessian = previousHessian;
+            double[] gradientDifference = gradientValue.Subtract(previousGradientValue);
+            double[] hdg = MatrixFunctions.PostMultiplyVector(previousHessian, gradientDifference);
+
+            double fac = VectorFunctions.DotProduct(gradientDifference, lineSearchDirection);
+            double fae = VectorFunctions.DotProduct(gradientDifference, hdg);
+            double sumdg = VectorFunctions.DotProduct(gradientDifference, gradientDifference);
+            double sumxi = VectorFunctions.DotProduct(lineSearchDirection, lineSearchDirection);
+
+            if (fac > Math.Sqrt(MathConstants.Eps * sumdg * sumxi))
+            {
+                fac = 1.0 / fac;
+                double fad = 1.0 / fae;
+                for (int dimensionIndex = 0; dimensionIndex < numDimensions; dimensionIndex++)
+                {
+                    gradientDifference[dimensionIndex] = fac * lineSearchDirection[dimensionIndex] - fad * hdg[dimensionIndex];
                 }
 
-                for (dimensionIndex = 0; dimensionIndex < n; dimensionIndex++)
+                for (int dimensionIndex = 0; dimensionIndex < numDimensions; dimensionIndex++)
                 {
-                    hdg[dimensionIndex] = 0.0;
-                    for (j = 0; j < n; j++)
+                    for (int j = dimensionIndex; j < numDimensions; j++)
                     {
-                        hdg[dimensionIndex] += hessian[dimensionIndex, j] * dg[j];
-                    }
-                }
-
-                fac = fae = sumdg = sumxi = 0.0;
-                for (dimensionIndex = 0; dimensionIndex < n; dimensionIndex++)
-                {
-                    fac += dg[dimensionIndex] * lineSearchDirection[dimensionIndex];
-                    fae += dg[dimensionIndex] * hdg[dimensionIndex];
-                    sumdg += dg[dimensionIndex] * dg[dimensionIndex];
-                    sumxi += lineSearchDirection[dimensionIndex] * lineSearchDirection[dimensionIndex];
-                }
-
-                if (fac > Math.Sqrt(MathConstants.Eps * sumdg * sumxi))
-                {
-                    fac = 1.0 / fac;
-                    fad = 1.0 / fae;
-                    for (dimensionIndex = 0; dimensionIndex < n; dimensionIndex++)
-                    {
-                        dg[dimensionIndex] = fac * lineSearchDirection[dimensionIndex] - fad * hdg[dimensionIndex];
-                    }
-
-                    for (dimensionIndex = 0; dimensionIndex < n; dimensionIndex++)
-                    {
-                        for (j = dimensionIndex; j < n; j++)
-                        {
-                            hessian[dimensionIndex, j] += fac * lineSearchDirection[dimensionIndex] * lineSearchDirection[j]
-                            - fad * hdg[dimensionIndex] * hdg[j] + fae * dg[dimensionIndex] * dg[j];
-                            hessian[j, dimensionIndex] = hessian[dimensionIndex, j];
-                        }
-                    }
-                }
-
-                for (dimensionIndex = 0; dimensionIndex < n; dimensionIndex++)
-                {
-                    lineSearchDirection[dimensionIndex] = 0.0;
-                    for (j = 0; j < n; j++)
-                    {
-                        lineSearchDirection[dimensionIndex] -= hessian[dimensionIndex, j] * gradientValue[j];
+                        hessian[dimensionIndex, j] += fac * lineSearchDirection[dimensionIndex] * lineSearchDirection[j]
+                        - fad * hdg[dimensionIndex] * hdg[j] + fae * gradientDifference[dimensionIndex] * gradientDifference[j];
+                        hessian[j, dimensionIndex] = hessian[dimensionIndex, j];
                     }
                 }
             }
 
-            return new VectorMinResult(ExitCondition.ExceedIterations);
+            return hessian;
+        }
+        private static ILineSearcher CreateLineSearcher(int numDimensions, double[] startingPoint)
+        {
+            double startingDotProduct = VectorFunctions.DotProduct(startingPoint, startingPoint);
+            return new DefaultLineSearcher(MathConstants.STPMX * Math.Max(Math.Sqrt(startingDotProduct), (double)numDimensions));
         }
     }
 }
