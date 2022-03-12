@@ -1,65 +1,49 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Exporters.Csv;
 using BenchmarkDotNet.Reports;
 using BenchmarkDotNet.Running;
 
-using Common.Structure.DataStructures;
+using Common.Structure.MathLibrary.Optimisation.Vector;
+using Common.Structure.Tests.MathLibrary.Optimisation.Vector;
 
 namespace Common.Benchmarks
 {
 
     public sealed class Program
     {
-        [CsvExporter]
+        [MemoryDiagnoser]
+        [JsonExporter]
         [SimpleJob(launchCount: 1, warmupCount: 10, targetCount: 50)]
         public class TimeListBenchmarkTests
         {
 
             [ParamsSource(nameof(ValuesForA))]
-            public TimeList Data
+            public double[] Data
             {
                 get;
                 set;
             }
 
-            public IEnumerable<TimeList> ValuesForA()
+            public IEnumerable<double[]> ValuesForA()
             {
-                yield return TimeListTestData.GetTestTimeList("TenEntry");
-                yield return TimeListTestData.GetTestTimeList("HundredEntry");
-                yield return TimeListTestData.GetTestTimeList("ThousandEntry");
-                yield return TimeListTestData.GetTestTimeList("TenThousandEntry");
-            }
-
-            public IEnumerable<DateTime> ValuesForB()
-            {
-                yield return new DateTime(2021, 9, 28);
-            }
-
-            [ParamsSource(nameof(ValuesForB))]
-            public DateTime date
-            {
-                get; set;
+                yield return new double[] { 2, 4 };
+                yield return new double[] { -5, -5 };
+                yield return new double[] { 3.12, 2.44 };
+                yield return new double[] { -3.0, -3.0 };
             }
 
             [Benchmark]
-            public DailyValuation TotalValueStart()
+            public void CalcMin_Himmelblau()
             {
-                return Data.Value(Data[1].Day);
-            }
-
-            [Benchmark]
-            public DailyValuation TotalValueMiddleDate()
-            {
-                return Data.Value(Data[(int)Math.Floor((double)(Data.Count() / 2))].Day);
-            }
-
-            [Benchmark]
-            public DailyValuation TotalValueEnd()
-            {
-                return Data.Value(Data[Data.Count() - 2].Day);
+                var function = new HimmelblauFunction();
+                var min = BFGS.Minimise(
+                    Data,
+                    gradientTolerance: 1e-5,
+                    point => function.Value(point),
+                    point => function.Gradient(point),
+                    tolerance: 1e-5,
+                    maxIterations: 1000);
             }
         }
 
