@@ -4,7 +4,7 @@ namespace Common.Structure.MathLibrary.Optimisation.Scalar
 {
     public static class Brent
     {
-        public static ScalarMinResult Minimise(
+        public static OptimisationResult<ScalarFuncEvaluation> Minimise(
            double lowerBound,
            double upperBound,
            Func<double, double> func,
@@ -18,14 +18,14 @@ namespace Common.Structure.MathLibrary.Optimisation.Scalar
             }
             if (result.IsError())
             {
-                return new ScalarMinResult(double.NaN, double.NaN, ExitCondition.Error);
+                return OptimisationResult<ScalarFuncEvaluation>.Error();
             }
 
             var value = result.Value;
             return MinimumCPPBook(value.LowerPoint, value.MiddlePoint, value.UpperPoint, func, tolerance, maxIterations);
         }
 
-        public static ScalarMinResult MinimumCPPBook(
+        public static OptimisationResult<ScalarFuncEvaluation> MinimumCPPBook(
             double lowerBound,
             double middlePoint,
             double upperBound,
@@ -46,7 +46,7 @@ namespace Common.Structure.MathLibrary.Optimisation.Scalar
                 tol2 = 2.0 * (tol1 = tolerance * Math.Abs(x) + MathConstants.ZEps);
                 if (Math.Abs(x - xm) <= (tol2 - 0.5 * (b - a)))
                 {
-                    return new ScalarMinResult(x, fx, ExitCondition.Converged);
+                    return new OptimisationResult<ScalarFuncEvaluation>(new ScalarFuncEvaluation(x, fx), ExitCondition.Converged, iter);
                 }
 
                 if (Math.Abs(e) > tol1)
@@ -131,7 +131,7 @@ namespace Common.Structure.MathLibrary.Optimisation.Scalar
                 }
             }
 
-            return new ScalarMinResult(ExitCondition.ExceedIterations);
+            return OptimisationResult<ScalarFuncEvaluation>.ExceedIterations();
         }
     }
 }

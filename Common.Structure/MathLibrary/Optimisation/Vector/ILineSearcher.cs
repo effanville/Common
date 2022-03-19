@@ -2,6 +2,9 @@
 
 namespace Common.Structure.MathLibrary.Optimisation.Vector
 {
+    /// <summary>
+    /// Routine for searching along a line.
+    /// </summary>
     public interface ILineSearcher
     {
         /// <summary>
@@ -15,7 +18,7 @@ namespace Common.Structure.MathLibrary.Optimisation.Vector
         /// <param name="func">The function.</param>
         /// <param name="maxIterations">The maximum iterations.</param>
         /// <returns>The point at value </returns>
-        Result<VectorEvaluationPoint> FindConformingStep(
+        Result<VectorFuncEvaluation> FindConformingStep(
             double[] startingPoint,
             double startingValue,
             double[] startingDerivative,

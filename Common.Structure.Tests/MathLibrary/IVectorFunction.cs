@@ -4,12 +4,12 @@ namespace Common.Structure.Tests.MathLibrary
 {
     public interface IVectorFunction
     {
-        VectorEvaluationPoint GlobalMinimum
+        VectorFuncEvaluation GlobalMinimum
         {
             get;
         }
 
-        VectorEvaluationPoint GlobalMaximum
+        VectorFuncEvaluation GlobalMaximum
         {
             get;
         }

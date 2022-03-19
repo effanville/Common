@@ -9,9 +9,9 @@ namespace Common.Structure.Tests.MathLibrary.Optimisation.Vector
     {
         private RosenbrockFunction fRosenbrockFunction = new RosenbrockFunction();
 
-        public VectorEvaluationPoint GlobalMinimum => new VectorEvaluationPoint(new[] { 100.0, 100.0 }, 1000.0);
+        public VectorFuncEvaluation GlobalMinimum => new VectorFuncEvaluation(new[] { 100.0, 100.0 }, 1000.0);
 
-        public VectorEvaluationPoint GlobalMaximum => throw new NotImplementedException();
+        public VectorFuncEvaluation GlobalMaximum => throw new NotImplementedException();
 
         public double Value(double[] value)
         {

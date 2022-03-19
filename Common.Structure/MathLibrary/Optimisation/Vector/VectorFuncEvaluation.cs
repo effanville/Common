@@ -5,7 +5,7 @@ namespace Common.Structure.MathLibrary.Optimisation.Vector
     /// <summary>
     /// Contains function data for a function from R^n to R.
     /// </summary>
-    public sealed class VectorEvaluationPoint
+    public struct VectorFuncEvaluation
     {
         /// <summary>
         /// The point of the evaluation.
@@ -26,7 +26,7 @@ namespace Common.Structure.MathLibrary.Optimisation.Vector
         /// <summary>
         /// Construct an instance.
         /// </summary>
-        public VectorEvaluationPoint(double[] point, double value)
+        public VectorFuncEvaluation(double[] point, double value)
         {
             Point = point;
             Value = value;
@@ -35,7 +35,7 @@ namespace Common.Structure.MathLibrary.Optimisation.Vector
         /// <summary>
         /// Construct an instance from a point and a function.
         /// </summary>
-        public VectorEvaluationPoint(double[] point, Func<double[], double> function)
+        public VectorFuncEvaluation(double[] point, Func<double[], double> function)
         {
             Point = point;
             Value = function(point);
