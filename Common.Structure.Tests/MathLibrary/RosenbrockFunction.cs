@@ -7,10 +7,10 @@ namespace Common.Structure.Tests.MathLibrary.Optimisation.Vector
     public sealed class RosenbrockFunction : IVectorFunction
     {
         /// <inheritdoc/>
-        public VectorEvaluationPoint GlobalMinimum => new VectorEvaluationPoint(new[] { 1.0, 1.0 }, 0.0);
+        public VectorFuncEvaluation GlobalMinimum => new VectorFuncEvaluation(new[] { 1.0, 1.0 }, 0.0);
 
         /// <inheritdoc/>
-        public VectorEvaluationPoint GlobalMaximum => throw new NotImplementedException();
+        public VectorFuncEvaluation GlobalMaximum => throw new NotImplementedException();
 
         /// <inheritdoc/>
         public double Value(double[] value)

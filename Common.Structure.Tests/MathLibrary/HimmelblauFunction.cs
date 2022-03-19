@@ -14,19 +14,19 @@ namespace Common.Structure.Tests.MathLibrary.Optimisation.Vector
     public sealed class HimmelblauFunction : IVectorFunction
     {
         /// <inheritdoc/>
-        public VectorEvaluationPoint GlobalMinimum => new VectorEvaluationPoint(new[] { 3.0, 2.0 }, 0.0);
+        public VectorFuncEvaluation GlobalMinimum => new VectorFuncEvaluation(new[] { 3.0, 2.0 }, 0.0);
 
-        public VectorEvaluationPoint[] LocalMinima =>
+        public VectorFuncEvaluation[] LocalMinima =>
             new[]
             {
-                new VectorEvaluationPoint(new[] { 3.0, 2.0 }, 0.0),
-                new VectorEvaluationPoint(new[] { -2.805118,3.131312 }, 0.0),
-                new VectorEvaluationPoint(new[] { -3.779310,-3.283186 }, 0.0),
-                new VectorEvaluationPoint(new[] { 3.584428,-1.848126 }, 0.0),
+                new VectorFuncEvaluation(new[] { 3.0, 2.0 }, 0.0),
+                new VectorFuncEvaluation(new[] { -2.805118,3.131312 }, 0.0),
+                new VectorFuncEvaluation(new[] { -3.779310,-3.283186 }, 0.0),
+                new VectorFuncEvaluation(new[] { 3.584428,-1.848126 }, 0.0),
             };
 
         /// <inheritdoc/>
-        public VectorEvaluationPoint GlobalMaximum => throw new NotImplementedException();
+        public VectorFuncEvaluation GlobalMaximum => throw new NotImplementedException();
 
         /// <inheritdoc/>
         public double Value(double[] value)

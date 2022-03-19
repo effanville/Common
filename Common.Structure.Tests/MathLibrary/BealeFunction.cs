@@ -7,10 +7,10 @@ namespace Common.Structure.Tests.MathLibrary.Optimisation.Vector
     public sealed class BealeFunction : IVectorFunction
     {
         /// <inheritdoc/>
-        public VectorEvaluationPoint GlobalMinimum => new VectorEvaluationPoint(new[] { 3, 0.5 }, 0.0);
+        public VectorFuncEvaluation GlobalMinimum => new VectorFuncEvaluation(new[] { 3, 0.5 }, 0.0);
 
         /// <inheritdoc/>
-        public VectorEvaluationPoint GlobalMaximum => throw new NotImplementedException();
+        public VectorFuncEvaluation GlobalMaximum => throw new NotImplementedException();
 
         /// <inheritdoc/>
         public double Value(double[] value)

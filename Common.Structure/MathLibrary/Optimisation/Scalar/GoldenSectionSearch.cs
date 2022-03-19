@@ -2,9 +2,15 @@
 
 namespace Common.Structure.MathLibrary.Optimisation.Scalar
 {
+    /// <summary>
+    /// Contains routines for Golden section searching.
+    /// </summary>
     public static class GoldenSectionSearch
     {
-        public static ScalarMinResult Minimise(
+        /// <summary>
+        /// Find a minimum of a function.
+        /// </summary>
+        public static OptimisationResult<ScalarFuncEvaluation> Minimise(
            double lowerBound,
            double upperBound,
            Func<double, double> func,
@@ -18,86 +24,14 @@ namespace Common.Structure.MathLibrary.Optimisation.Scalar
             }
             if (result.IsError())
             {
-                return new ScalarMinResult(double.NaN, double.NaN, ExitCondition.Error);
+                return OptimisationResult<ScalarFuncEvaluation>.Error();
             }
 
             var value = result.Value;
-            return MinimumCPPBook(value.LowerPoint, value.MiddlePoint, value.UpperPoint, func, tolerance, maxIterations);
+            return Minimum(value.LowerPoint, value.MiddlePoint, value.UpperPoint, func, tolerance, maxIterations);
         }
 
-        public static ScalarMinResult MinimumFromMathNet(
-           double lowerBound,
-           double upperBound,
-           Func<double, double> func,
-           double tolerance,
-           int maxIterations)
-        {
-            var result = BracketMethod.BracketFromBounds(lowerBound, upperBound, func, maxIterations);
-            if (result.IsError())
-            {
-                result = BracketMethod.Bracket(lowerBound, upperBound, func, maxIterations);
-            }
-            if (result.IsError())
-            {
-                return new ScalarMinResult(double.NaN, double.NaN, ExitCondition.Error);
-            }
-
-            var value = result.Value;
-            return MinimumMathNet(value.LowerPoint, value.UpperPoint, func, tolerance, maxIterations);
-        }
-
-        public static ScalarMinResult MinimumMathNet(
-            double lowerBound,
-            double upperBound,
-            Func<double, double> func,
-            double tolerance,
-            int maxIterations)
-        {
-            double middlePoint = lowerBound + (upperBound - lowerBound) / (1 + MathConstants.GoldenRatio);
-            int iterations = 0;
-            while (Math.Abs(upperBound - lowerBound) > tolerance
-                && iterations < maxIterations)
-            {
-                middlePoint = lowerBound + (upperBound - lowerBound) / (1 + MathConstants.GoldenRatio);
-                double middleValue = func(middlePoint);
-
-                double testPoint = lowerBound + (upperBound - middlePoint);
-                double testValue = func(testPoint);
-                if (testPoint < middlePoint)
-                {
-                    if (testValue > middleValue)
-                    {
-                        lowerBound = testPoint;
-                    }
-                    else
-                    {
-                        upperBound = middlePoint;
-                    }
-                }
-                else
-                {
-                    if (testValue > middleValue)
-                    {
-                        upperBound = testPoint;
-                    }
-                    else
-                    {
-                        lowerBound = middlePoint;
-                    }
-                }
-
-                iterations++;
-            }
-
-            if (iterations == maxIterations)
-            {
-                return ScalarMinResult.ExceedIterations();
-            }
-
-            return new ScalarMinResult(middlePoint, func(middlePoint), ExitCondition.BoundTolerance);
-        }
-
-        private static ScalarMinResult MinimumCPPBook(
+        private static OptimisationResult<ScalarFuncEvaluation> Minimum(
             double lowerBound,
             double middlePoint,
             double upperBound,
@@ -149,16 +83,16 @@ namespace Common.Structure.MathLibrary.Optimisation.Scalar
 
             if (iterations == maxIterations)
             {
-                return ScalarMinResult.ExceedIterations();
+                return OptimisationResult<ScalarFuncEvaluation>.ExceedIterations();
             }
 
             if (f1 < f2)
             {
-                return new ScalarMinResult(x1, f1, ExitCondition.BoundTolerance);
+                return new OptimisationResult<ScalarFuncEvaluation>(new ScalarFuncEvaluation(x1, f1), ExitCondition.BoundTolerance, iterations);
             }
             else
             {
-                return new ScalarMinResult(x2, f2, ExitCondition.BoundTolerance);
+                return new OptimisationResult<ScalarFuncEvaluation>(new ScalarFuncEvaluation(x2, f2), ExitCondition.BoundTolerance, iterations);
             }
         }
     }
