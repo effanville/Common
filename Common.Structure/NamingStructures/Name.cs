@@ -17,7 +17,7 @@ namespace Common.Structure.NamingStructures
         /// <summary>
         /// The primary name (the company name)
         /// </summary>
-        [XmlIgnoreAttribute]
+        [XmlIgnore]
         public string PrimaryName
         {
             get;
@@ -27,7 +27,7 @@ namespace Common.Structure.NamingStructures
         /// <summary>
         /// The secondary name.
         /// </summary>
-        [XmlIgnoreAttribute]
+        [XmlIgnore]
         public string SecondaryName
         {
             get;
@@ -82,9 +82,7 @@ namespace Common.Structure.NamingStructures
             return true;
         }
 
-        /// <summary>
-        /// Display of names, and allows for null name values.
-        /// </summary>
+        /// <inheritdoc/>
         public override string ToString()
         {
             //both name and company cannot be null so this is all cases.
@@ -100,9 +98,7 @@ namespace Common.Structure.NamingStructures
             return $"{PrimaryName}-{SecondaryName}";
         }
 
-        /// <summary>
-        /// Compares both names.
-        /// </summary>
+        /// <inheritdoc/>
         public int CompareTo(object obj)
         {
             if (obj is Name otherName)
@@ -113,19 +109,12 @@ namespace Common.Structure.NamingStructures
             return 0;
         }
 
+        /// <inheritdoc/>
         public int CompareTo(Name other)
         {
             if (PrimaryName == other.PrimaryName)
             {
-                if (SecondaryName == null)
-                {
-                    if (other.SecondaryName == null)
-                    {
-                        return 0;
-                    }
-                    return 1;
-                }
-                return SecondaryName.CompareTo(other.SecondaryName);
+                return SecondaryName?.CompareTo(other.SecondaryName) ?? (other.SecondaryName == null ? 0 : 1);
             }
 
             if (PrimaryName == null && other.PrimaryName != null)
@@ -140,13 +129,12 @@ namespace Common.Structure.NamingStructures
         public override int GetHashCode()
         {
             int hashCode = 17;
-            hashCode = 23 * hashCode + PrimaryName.GetHashCode();
-            hashCode = 23 * hashCode + SecondaryName.GetHashCode();
+            hashCode = 23 * hashCode + PrimaryName?.GetHashCode() ?? 0;
+            hashCode = 23 * hashCode + SecondaryName?.GetHashCode() ?? 0;
             return hashCode;
         }
-        /// <summary>
-        /// Returns whether another object is the same as this one.
-        /// </summary>
+
+        /// <inheritdoc/>
         public override bool Equals(object obj)
         {
             if (obj is Name otherName)
