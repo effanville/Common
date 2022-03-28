@@ -7,6 +7,9 @@ namespace Common.Structure.Reporting
     /// </summary>
     public interface IReportLogger
     {
+        /// <summary>
+        /// The store of reports logged by the report logger.
+        /// </summary>
         ErrorReports Reports
         {
             get;

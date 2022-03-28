@@ -166,6 +166,9 @@ namespace Common.Structure.Reporting
             }
         }
 
+        /// <summary>
+        /// Return the error report at the index specified.
+        /// </summary>
         public ErrorReport this[int index]
         {
             get
@@ -177,6 +180,7 @@ namespace Common.Structure.Reporting
             }
         }
 
+        /// <inheritdoc/>
         public IEnumerator<ErrorReport> GetEnumerator()
         {
             return fReports.GetEnumerator();

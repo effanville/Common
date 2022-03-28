@@ -2,6 +2,9 @@
 
 namespace Common.Structure.Extensions
 {
+    /// <summary>
+    /// Extension methods for a <see cref="decimal"/>.
+    /// </summary>
     public static class DecimalExtensions
     {
         /// <summary>

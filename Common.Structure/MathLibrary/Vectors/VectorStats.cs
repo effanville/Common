@@ -151,11 +151,19 @@ namespace Common.Structure.MathLibrary.Vectors
             return Math.Sqrt(Variance(values, number));
         }
 
+        /// <summary>
+        /// Calculates the Sharpe ratio for a list of values.
+        /// </summary>
+        /// <exception cref="NotImplementedException"></exception>
         public static double Sharpe(List<double> values, int number)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Calculates the Maximum draw down of a list of values.
+        /// </summary>
+        /// <exception cref="NotImplementedException"></exception>
         public static double MDD(List<double> values, int number)
         {
             throw new NotImplementedException();

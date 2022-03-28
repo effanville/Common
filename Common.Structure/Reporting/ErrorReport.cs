@@ -102,6 +102,11 @@ namespace Common.Structure.Reporting
             return 0;
         }
 
+        /// <summary>
+        /// Compare this error report to another error report.
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public int CompareTo(ErrorReport other)
         {
             if (other.ErrorType.Equals(ErrorType))

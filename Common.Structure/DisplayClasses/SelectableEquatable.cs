@@ -16,10 +16,7 @@ namespace Common.Structure.DisplayClasses
         /// </summary>
         public bool Selected
         {
-            get
-            {
-                return fSelected;
-            }
+            get => fSelected;
             set
             {
                 if (fSelected != value)
@@ -39,6 +36,9 @@ namespace Common.Structure.DisplayClasses
             set;
         }
 
+        /// <summary>
+        /// Construct an instance.
+        /// </summary>
         public SelectableEquatable(T instance, bool selected)
         {
             Selected = selected;
@@ -64,10 +64,7 @@ namespace Common.Structure.DisplayClasses
         /// </summary>
         private void OnSelectedChanged()
         {
-            if (SelectedChanged != null)
-            {
-                SelectedChanged(this, new EventArgs());
-            }
+            SelectedChanged?.Invoke(this, new EventArgs());
         }
 
         /// <summary>
@@ -97,7 +94,7 @@ namespace Common.Structure.DisplayClasses
         public override int GetHashCode()
         {
             int hashCode = 17;
-            hashCode = hashCode + 23 * Instance.GetHashCode();
+            hashCode += 23 * Instance.GetHashCode();
             return hashCode;
         }
 

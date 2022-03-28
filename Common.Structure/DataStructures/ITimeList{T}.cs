@@ -86,8 +86,8 @@ namespace Common.Structure.DataStructures
         /// </summary>
         /// <param name="date">The date to calculate the value on.</param>
         /// <param name="interpolationFunction">The function to interpolate between values. This is a function
-        /// of the <see cref="DailyValuation"/> before the date to calculate,
-        /// the date, and the <see cref="DailyValuation"/> after the calculation date, and returns the value on that date. For example, this could
+        /// of the <see cref="Daily{T}"/> before the date to calculate,
+        /// the date, and the <see cref="Daily{T}"/> after the calculation date, and returns the value on that date. For example, this could
         /// linearly interpolate between values.</param>
         /// <returns>
         /// A valuation with the date and the value on that date. The date is not necessarily the date requested. For example
@@ -101,8 +101,8 @@ namespace Common.Structure.DataStructures
         /// <param name="priorEstimator">The Function to estimate the value prior to the first value. This is a function of the first valuation and the date to evaluate on.</param>
         /// <param name="postEstimator">The Function to estimate the value after the final value. This is a function of the Last valuation and the date to evaluate on.</param>
         /// <param name="interpolationFunction">The function to interpolate between values. This is a function
-        /// of the <see cref="IDaily{T}"/> before the date to calculate,
-        /// the date, and the <see cref="IDaily{T}"/> after the calculation date, and returns the value on that date. For example, this could
+        /// of the <see cref="Daily{T}"/> before the date to calculate,
+        /// the date, and the <see cref="Daily{T}"/> after the calculation date, and returns the value on that date. For example, this could
         /// linearly interpolate between values.</param>
         /// <returns>
         /// A valuation with the date and the value on that date. The date is not necessarily the date requested. For example
