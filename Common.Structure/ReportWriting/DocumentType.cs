@@ -1,9 +1,9 @@
-﻿namespace Common.Structure.FileAccess
+﻿namespace Common.Structure.ReportWriting
 {
     /// <summary>
     /// The type of file that is being exported.
     /// </summary>
-    public enum ExportType
+    public enum DocumentType
     {
         /// <summary>
         /// An Html file type
@@ -23,6 +23,11 @@
         /// <summary>
         /// Portable document format.
         /// </summary>
-        Pdf
+        Pdf,
+
+        /// <summary>
+        /// A Markdown file.
+        /// </summary>
+        Md
     }
 }

@@ -1,11 +1,9 @@
 ﻿using System.Text;
 
-using Common.Structure.FileAccess;
-
 namespace Common.Structure.ReportWriting
 {
     /// <summary>
-    /// Class containing default routines to write to any file type in <see cref="ReportType"/>.
+    /// Class containing default routines to write to any file type in <see cref="DocumentType"/>.
     /// </summary>
     public static class TextWriting
     {
@@ -13,120 +11,50 @@ namespace Common.Structure.ReportWriting
         /// Writes a paragraph to the file.
         /// </summary>
         /// <param name="sb">The writer to use</param>
-        /// <param name="reportType">The type of file to export to.</param>
+        /// <param name="documentType">The type of file to export to.</param>
         /// <param name="sentence">The sentence to export.</param>
-        /// <param name="tag">The <see cref="HtmlTag"/> to use.</param>
-        public static void WriteParagraph(StringBuilder sb, ExportType reportType, string[] sentence, HtmlTag tag = HtmlTag.p)
+        /// <param name="tag">The <see cref="DocumentElement"/> to use.</param>
+        public static void WriteParagraph(StringBuilder sb, DocumentType documentType, string[] sentence, DocumentElement tag = DocumentElement.p)
         {
-            switch (reportType)
-            {
-                case ExportType.Csv:
-                {
-                    _ = sb.AppendLine(string.Join(",", sentence));
-                    return;
-                }
-                case ExportType.Html:
-                {
-                    using (new WriteInlineHtmlTag(sb, tag.ToString()))
-                    {
-                        _ = sb.Append(string.Join(" ", sentence));
-                    }
-
-                    return;
-                }
-                default:
-                    return;
-            }
+            var textWriter = TextWriterFactory.Create(documentType);
+            textWriter.WriteParagraph(sb, sentence, tag);
         }
 
         /// <summary>
         /// Writes a title line to the file.
         /// </summary>
         /// <param name="sb">The writer to use.</param>
-        /// <param name="reportType">The type of file to export to.</param>
+        /// <param name="documentType">The type of file to export to.</param>
         /// <param name="title">The title string to write.</param>
-        /// <param name="tag">The specific <see cref="HtmlTag"/> to use in this title.</param>
-        public static void WriteTitle(StringBuilder sb, ExportType reportType, string title, HtmlTag tag = HtmlTag.h1)
+        /// <param name="tag">The specific <see cref="DocumentElement"/> to use in this title.</param>
+        public static void WriteTitle(StringBuilder sb, DocumentType documentType, string title, DocumentElement tag = DocumentElement.h1)
         {
-            switch (reportType)
-            {
-                case ExportType.Csv:
-                {
-                    _ = sb.AppendLine("");
-                    _ = sb.AppendLine(title);
-                    _ = sb.AppendLine("");
-                    return;
-                }
-                case ExportType.Html:
-                {
-                    using (new WriteInlineHtmlTag(sb, tag.ToString()))
-                    {
-                        _ = sb.Append(title);
-                    }
-
-                    return;
-                }
-                default:
-                    return;
-            }
+            var textWriter = TextWriterFactory.Create(documentType);
+            textWriter.WriteTitle(sb, title, tag);
         }
 
         /// <summary>
         /// Creates a generic header with default styles for a html page.
         /// </summary>
         /// <param name="sb">The stringbuilder to write the page with</param>
-        /// <param name="title">A title to give the page</param>
+        /// <param name="documentType">The type of document to write</param>
+        /// <param name="pageTitle">A title to give the page</param>
         /// <param name="useColours">Whether to use colour styling or not.</param>
-        public static void CreateHTMLHeader(StringBuilder sb, string title, bool useColours)
+        public static void WriteHeader(StringBuilder sb, DocumentType documentType, string pageTitle, bool useColours)
         {
-            _ = sb.AppendLine("<!DOCTYPE html>");
-            _ = sb.AppendLine("<html lang=\"en\">");
-            using (new WriteHtmlTag(sb, "head"))
-            {
-                _ = sb.AppendLine("<meta charset=\"utf-8\" http-equiv=\"x-ua-compatible\" content=\"IE=11\"/>");
-                _ = sb.AppendLine($"<title>{title}</title>");
-                using (new WriteHtmlTag(sb, "style"))
-                {
-                    _ = sb.AppendLine("html, h1, h2, h3, h4, h5, h6 { font-family: \"Arial\", cursive, sans-serif; }");
-                    _ = sb.AppendLine("h1 { font-family: \"Arial\", cursive, sans-serif; margin-top: 1.5em; }");
-                    _ = sb.AppendLine("h2 { font-family: \"Arial\", cursive, sans-serif; margin-top: 1.5em; }");
-                    _ = sb.AppendLine("body{ font-family: \"Arial\", cursive, sans-serif; font-size: 10px; }");
-                    _ = sb.AppendLine("table { border-collapse: collapse; }");
-                    _ = sb.AppendLine("table { border: 1px solid black; }");
-                    _ = sb.AppendLine("th, td { border: 1px solid black; max-width: 175px; min-width: 25px;}");
-                    _ = sb.AppendLine("caption { margin-bottom: 1.2em; font-family: \"Arial\", cursive, sans-serif; font-size:medium; }");
-                    _ = sb.AppendLine("tr { text-align: center; }");
-                    _ = sb.AppendLine("div { max-width: 1000px; max-height: 600px; margin: left; margin-bottom: 1.5em; }");
-
-                    if (useColours)
-                    {
-                        _ = sb.AppendLine("tr:nth-child(even) {background-color: #f0f8ff;}");
-                        _ = sb.AppendLine("th{ background-color: #ADD8E6; height: 1.5em; }");
-                        _ = sb.AppendLine("[data-negative] { background-color: red;}");
-                    }
-                    else
-                    {
-                        _ = sb.AppendLine("th{ height: 1.5em; }");
-                    }
-
-                    _ = sb.AppendLine("p { line-height: 1.5em; margin-bottom: 1.5em;}");
-                }
-
-                // include namespace for rendering charts.
-                _ = sb.AppendLine("<script src=\"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js\"></script>");
-                _ = sb.AppendLine("<script src=\"https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js\"></script>");
-                _ = sb.AppendLine("<script src=\"https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js\"></script>");
-            }
-            _ = sb.AppendLine("<body>");
+            var textWriter = TextWriterFactory.Create(documentType);
+            textWriter.WriteHeader(sb, pageTitle, useColours);
         }
 
         /// <summary>
         /// Creates a generic footer for a html page.
         /// </summary>
-        public static void CreateHTMLFooter(StringBuilder sb)
+        /// <param name="sb">The stringbuilder to write the page with</param>
+        /// <param name="documentType">The type of document to write</param>
+        public static void WriteFooter(StringBuilder sb, DocumentType documentType)
         {
-            _ = sb.AppendLine("</body>");
-            _ = sb.AppendLine("</html>");
+            var textWriter = TextWriterFactory.Create(documentType);
+            textWriter.WriteFooter(sb);
         }
     }
 }
