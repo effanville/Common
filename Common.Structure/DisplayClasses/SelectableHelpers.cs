@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace Common.Structure.DisplayClasses
 {
+    /// <summary>
+    /// Helper methods for lists of <see cref="Selectable{T}"/> objects.
+    /// </summary>
     public static class SelectableHelpers
     {
         /// <summary>

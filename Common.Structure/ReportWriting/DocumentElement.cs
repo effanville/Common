@@ -1,9 +1,9 @@
 ﻿namespace Common.Structure.ReportWriting
 {
     /// <summary>
-    /// Container for all used Html tags
+    /// Container for all used document tags
     /// </summary>
-    public enum HtmlTag
+    public enum DocumentElement
     {
         /// <summary>
         /// The first header tag.

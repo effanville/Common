@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Text;
 
-namespace Common.Structure.ReportWriting
+namespace Common.Structure.ReportWriting.Html
 {
     /// <summary>
     /// Class used to write html tags with corresponding closing tag.
     /// </summary>
-    public sealed class WriteInlineHtmlTag : IDisposable
+    public sealed class WriteHtmlTag : IDisposable
     {
         private readonly string fTag;
         private readonly StringBuilder fSb;
@@ -14,11 +14,11 @@ namespace Common.Structure.ReportWriting
         /// <summary>
         /// Construct an instance and write the open tag.
         /// </summary>
-        public WriteInlineHtmlTag(StringBuilder sb, string tag)
+        public WriteHtmlTag(StringBuilder sb, string tag)
         {
             fTag = tag;
             fSb = sb;
-            _ = fSb.Append($"<{fTag}>");
+            _ = fSb.AppendLine($"<{fTag}>");
         }
 
         /// <summary>

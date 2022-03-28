@@ -15,10 +15,7 @@ namespace Common.Structure.DisplayClasses
         /// </summary>
         public bool Selected
         {
-            get
-            {
-                return fSelected;
-            }
+            get => fSelected;
             set
             {
                 if (fSelected != value)
@@ -38,6 +35,9 @@ namespace Common.Structure.DisplayClasses
             set;
         }
 
+        /// <summary>
+        /// Construct an instance.
+        /// </summary>
         public Selectable(T instance, bool selected)
         {
             Selected = selected;
@@ -63,10 +63,7 @@ namespace Common.Structure.DisplayClasses
         /// </summary>
         private void OnSelectedChanged()
         {
-            if (SelectedChanged != null)
-            {
-                SelectedChanged(this, new EventArgs());
-            }
+            SelectedChanged?.Invoke(this, new EventArgs());
         }
     }
 }

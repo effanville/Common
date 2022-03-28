@@ -190,5 +190,14 @@ namespace Common.Structure.NamingStructures
             PrimaryName = primaryName;
             SecondaryName = secondaryName;
         }
+
+        /// <summary>
+        /// Returns the length of the name in its string representation.
+        /// </summary>
+        /// <returns></returns>
+        public int Length()
+        {
+            return ToString().Length;
+        }
     }
 }
