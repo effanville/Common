@@ -6,7 +6,7 @@ using Common.Structure.ReportWriting.Markdown;
 
 using NUnit.Framework;
 
-namespace Common.Structure.Tests.ReportWriting.Markdown
+namespace Common.Structure.Tests.ReportWriting.Html
 {
     [TestFixture]
     public sealed class HtmlTableWriterTests
@@ -49,7 +49,6 @@ namespace Common.Structure.Tests.ReportWriting.Markdown
                 new List<string>() { "Row1", "Info", "More Stuff" },
                 new List<List<string>> { new List<string>() { "Row1", "Info", "More Stuff" } },
                 "<table>\r\n<thead><tr>\r\n<th scope=\"col\">Row1</th><th>Info</th><th>More Stuff</th>\r\n</tr></thead>\r\n<tbody>\r\n<tr>\r\n<td>Row1</td><td>Info</td><td>More Stuff</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n");
-
         }
 
         [TestCaseSource(nameof(TableData))]
