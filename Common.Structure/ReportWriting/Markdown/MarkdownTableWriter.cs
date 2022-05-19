@@ -109,7 +109,7 @@ namespace Common.Structure.ReportWriting.Markdown
             if (headerFirstColumn)
             {
                 startIndex++;
-                string boldValue = $"__{valuesToWrite}__";
+                string boldValue = $"__{valuesToWrite[0]}__";
                 _ = sb.Append($" {boldValue.PadRight(columnWidths[0])} ")
                     .Append('|');
             }

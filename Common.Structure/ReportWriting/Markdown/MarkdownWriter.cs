@@ -10,7 +10,11 @@ namespace Common.Structure.ReportWriting.Markdown
         /// <inheritdoc/>
         public void WriteParagraph(StringBuilder sb, string[] sentence, DocumentElement tag = DocumentElement.p)
         {
-            _ = sb.AppendLine($"{HtmlTagToMdTitle(tag)} title");
+            if (tag != DocumentElement.p)
+            {
+                _ = sb.AppendLine($"{HtmlTagToMdTitle(tag)} title");
+            }
+
             foreach (string line in sentence)
             {
                 _ = sb.Append(line);
