@@ -15,22 +15,22 @@ namespace Common.Structure.MathLibrary.Vectors
         /// <param name="values">The list to calculate the max for.</param>
         /// <param name="number">The final number of values to consider.</param>
         /// <returns>The maximum value.</returns>
-        public static double Max(List<double> values, int number)
+        public static decimal Max(List<decimal> values, int number)
         {
             if (values == null)
             {
-                return double.NaN;
+                return decimal.MinValue;
             }
 
             if (values.Count < number)
             {
-                return double.NaN;
+                return decimal.MinValue;
             }
 
-            double maximum = double.MinValue;
+            decimal maximum = decimal.MinValue;
             for (int index = 0; index < number; index++)
             {
-                double latestVal = values[values.Count - 1 - index];
+                decimal latestVal = values[values.Count - 1 - index];
                 if (maximum < latestVal)
                 {
                     maximum = latestVal;
@@ -47,22 +47,22 @@ namespace Common.Structure.MathLibrary.Vectors
         /// <param name="values">The list to calculate the min for.</param>
         /// <param name="number">The final number of values to consider.</param>
         /// <returns>The minimum value.</returns>
-        public static double Min(List<double> values, int number)
+        public static decimal Min(List<decimal> values, int number)
         {
             if (values == null)
             {
-                return double.NaN;
+                return decimal.MaxValue;
             }
 
             if (values.Count < number)
             {
-                return double.NaN;
+                return decimal.MaxValue;
             }
 
-            double minimum = double.MaxValue;
+            decimal minimum = decimal.MaxValue;
             for (int index = 0; index < number; index++)
             {
-                double latestVal = values[values.Count - 1 - index];
+                decimal latestVal = values[values.Count - 1 - index];
                 if (latestVal < minimum)
                 {
                     minimum = latestVal;
@@ -79,24 +79,24 @@ namespace Common.Structure.MathLibrary.Vectors
         /// <param name="values">The list to calculate the mean for.</param>
         /// <param name="number">The final number of values to consider.</param>
         /// <returns>The mean value.</returns>
-        public static double Mean(List<double> values, int number)
+        public static decimal Mean(List<decimal> values, int number)
         {
             if (values == null)
             {
-                return double.NaN;
+                return decimal.MinValue;
             }
 
             if (values.Count < number)
             {
-                return double.NaN;
+                return decimal.MinValue;
             }
 
             if (number.Equals(0))
             {
-                return double.NaN;
+                return decimal.MinValue;
             }
 
-            double sum = 0.0;
+            decimal sum = 0.0m;
             for (int index = 0; index < number; index++)
             {
                 sum += values[values.Count - 1 - index];
@@ -112,28 +112,28 @@ namespace Common.Structure.MathLibrary.Vectors
         /// <param name="values">The list to calculate the variance for.</param>
         /// <param name="number">The final number of values to consider.</param>
         /// <returns>The variance.</returns>
-        public static double Variance(List<double> values, int number)
+        public static decimal Variance(List<decimal> values, int number)
         {
             if (values == null)
             {
-                return double.NaN;
+                return decimal.MinValue;
             }
 
             if (values.Count < number)
             {
-                return double.NaN;
+                return decimal.MinValue;
             }
 
             if (number <= 1)
             {
-                return double.NaN;
+                return decimal.MinValue;
             }
 
-            double mean = Mean(values, number);
-            double sum = 0.0;
+            decimal mean = Mean(values, number);
+            decimal sum = 0.0m;
             for (int index = 0; index < number; index++)
             {
-                sum += Math.Pow(values[values.Count - 1 - index] - mean, 2.0);
+                sum += (values[values.Count - 1 - index] - mean) * (values[values.Count - 1 - index] - mean);
             }
 
             return sum / (number - 1);
@@ -146,16 +146,16 @@ namespace Common.Structure.MathLibrary.Vectors
         /// <param name="values">The list to calculate the standard deviation for.</param>
         /// <param name="number">The final number of values to consider.</param>
         /// <returns>The standard deviation.</returns>
-        public static double StandardDev(List<double> values, int number)
+        public static decimal StandardDev(List<decimal> values, int number)
         {
-            return Math.Sqrt(Variance(values, number));
+            return Convert.ToDecimal(Math.Sqrt(Convert.ToDouble(Variance(values, number))));
         }
 
         /// <summary>
         /// Calculates the Sharpe ratio for a list of values.
         /// </summary>
         /// <exception cref="NotImplementedException"></exception>
-        public static double Sharpe(List<double> values, int number)
+        public static decimal Sharpe(List<decimal> values, int number)
         {
             throw new NotImplementedException();
         }
@@ -164,7 +164,7 @@ namespace Common.Structure.MathLibrary.Vectors
         /// Calculates the Maximum draw down of a list of values.
         /// </summary>
         /// <exception cref="NotImplementedException"></exception>
-        public static double MDD(List<double> values, int number)
+        public static decimal MDD(List<decimal> values, int number)
         {
             throw new NotImplementedException();
         }

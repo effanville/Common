@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Common.Structure.ReportWriting.Markdown
+namespace Common.Structure.ReportWriting
 {
     /// <summary>
     /// Contains extension methods for an <see cref="ITableWriter"/>.
@@ -190,14 +190,14 @@ namespace Common.Structure.ReportWriting.Markdown
             int numberHeaders = headerValues.Count;
             for (int i = 0; i < numberHeaders; i++)
             {
-                columnWidths.Add(headerValues[i].Length);
+                columnWidths.Add(headerValues[i]?.Length ?? 0);
             }
 
             for (int j = 0; j < rowValues.Count; j++)
             {
                 for (int i = 0; i < Math.Min(rowValues[j].Count, numberHeaders); i++)
                 {
-                    int rowColumnLength = rowValues[j][i].Length;
+                    int rowColumnLength = rowValues[j][i]?.Length ?? 0;
                     if (rowColumnLength > columnWidths[i])
                     {
                         columnWidths[i] = rowColumnLength;

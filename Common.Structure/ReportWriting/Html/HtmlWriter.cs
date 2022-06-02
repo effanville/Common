@@ -53,7 +53,7 @@ namespace Common.Structure.ReportWriting.Html
         {
             using (new WriteInlineHtmlTag(sb, tag.ToString()))
             {
-                _ = sb.AppendLine(string.Join(" ", sentence));
+                _ = sb.Append(string.Join(" ", sentence));
             }
         }
 
@@ -62,7 +62,7 @@ namespace Common.Structure.ReportWriting.Html
         {
             using (new WriteInlineHtmlTag(sb, tag.ToString()))
             {
-                _ = sb.AppendLine(title);
+                _ = sb.Append(title);
             }
         }
 

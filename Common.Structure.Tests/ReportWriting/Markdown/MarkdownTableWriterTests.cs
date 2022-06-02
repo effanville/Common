@@ -48,16 +48,32 @@ namespace Common.Structure.Tests.ReportWriting.Markdown
             yield return new TestCaseData(
                 new List<string>() { "Row1", "Info", "More Stuff" },
                 new List<List<string>> { new List<string>() { "Row1", "Info", "More Stuff" } },
+                false,
                 "| Row1 | Info | More Stuff |\r\n| ---- | ---- | ---------- |\r\n| Row1 | Info | More Stuff |\r\n");
+            yield return new TestCaseData(
+                 new List<string>() { "", "" },
+                 new List<List<string>> { new List<string>() { "Byes", "4" }, new List<string>() { "Leg Byes", "3" } },
+                 true,
+                "|          |   |\r\n| -------- | - |\r\n| __Byes__ | 4 |\r\n| __Leg Byes__ | 3 |\r\n");
 
         }
 
         [TestCaseSource(nameof(TableData))]
-        public void CanWriteTable(List<string> headerValues, List<List<string>> rowValues, string expectedMarkdown)
+        public void CanWriteTable(List<string> headerValues, List<List<string>> rowValues, bool header,  string expectedMarkdown)
         {
             StringBuilder sb = new StringBuilder();
             var tableWriter = TableWriterFactory.Create(DocumentType.Md);
-            tableWriter.WriteTable(sb, headerValues, rowValues, headerFirstColumn: false);
+            tableWriter.WriteTable(sb, headerValues, rowValues, headerFirstColumn: header);
+
+            string markdownSnippet = sb.ToString();
+            Assert.AreEqual(expectedMarkdown, markdownSnippet);
+        }
+
+        [TestCaseSource(nameof(TableData))]
+        public void CanWriteTableWriting(List<string> headerValues, List<List<string>> rowValues, bool header, string expectedMarkdown)
+        {
+            StringBuilder sb = new StringBuilder();
+            TableWriting.WriteTableFromEnumerable(sb, DocumentType.Md, headerValues, rowValues, headerFirstColumn: header);
 
             string markdownSnippet = sb.ToString();
             Assert.AreEqual(expectedMarkdown, markdownSnippet);
