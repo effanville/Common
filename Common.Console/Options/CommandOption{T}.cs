@@ -1,4 +1,5 @@
 ﻿using System;
+
 using Common.Structure.Extensions;
 
 namespace Common.Console.Options
@@ -56,6 +57,12 @@ namespace Common.Console.Options
         {
         }
 
+        public CommandOption(string name, string description, T defaultValue, Func<T, bool> validator = null)
+            : this(name, description, false, validator)
+        {
+            InputValue = defaultValue.ToString();
+        }
+
         public CommandOption(string name, string description, bool required, Func<T, bool> validator = null)
             : base(name, description, required, null)
         {
@@ -68,6 +75,12 @@ namespace Common.Console.Options
             {
                 Validator = input => true;
             }
+        }
+
+        public CommandOption(string name, string description, bool required, T defaultValue, Func<T, bool> validator = null)
+            : this(name, description, required, validator)
+        {
+            Value = defaultValue;
         }
 
         /// <inheritdoc/>

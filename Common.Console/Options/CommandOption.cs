@@ -72,6 +72,12 @@ namespace Common.Console.Options
         {
         }
 
+        public CommandOption(string name, string description, string defaultValue, Func<object, bool> validator = null)
+            : this(name, description, false, validator)
+        {
+            InputValue = defaultValue;
+        }
+
         public CommandOption(string name, string description, bool required, Func<object, bool> validator)
         {
             Name = name;
