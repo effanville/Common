@@ -103,7 +103,7 @@ namespace Common.Structure.Tests.NamingStructures
                 expectedList.Add(expected);
             }
 
-            Assertions.ValidationListsEqual(expectedList, valid);
+            CollectionAssert.AreEqual(expectedList, valid);
         }
 
         [Test]
@@ -126,7 +126,7 @@ namespace Common.Structure.Tests.NamingStructures
             expectedForenameError.Messages.AddRange(new string[] { "SecondaryName cannot be empty or null." });
             expectedList.Add(expectedForenameError);
 
-            Assertions.ValidationListsEqual(expectedList, valid);
+            CollectionAssert.AreEqual(expectedList, valid);
         }
     }
 }
