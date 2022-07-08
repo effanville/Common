@@ -101,5 +101,31 @@ namespace Common.Structure.FileAccess
                 return default(T);
             }
         }
+
+        /// <summary>
+        /// Reads an object instance from an XML file.
+        /// <para>Object type must have a parameterless constructor.</para>
+        /// </summary>
+        /// <typeparam name="T">The type of object to read from the file.</typeparam>
+        /// <param name="stream">The stream to read the object instance from.</param>
+        /// <param name="error">Any error message reporting any issues.</param>
+        /// <returns>Returns a new instance of the object read from the XML file.</returns>
+        public static T ReadFromStream<T>(Stream stream, out string error) where T : new()
+        {
+            error = null;
+            try
+            {
+                using (TextReader reader = new StreamReader(stream))
+                {
+                    XmlSerializer serializer = new XmlSerializer(typeof(T));
+                    return (T)serializer.Deserialize(reader);
+                }
+            }
+            catch (Exception ex)
+            {
+                error = $"{ex.Message}-InnerException {ex.InnerException}";
+                return default(T);
+            }
+        }
     }
 }
