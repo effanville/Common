@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>net6.0;net5.0;netcoreapp3.1;net48</TargetFrameworks>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+	  <Platforms>x64</Platforms>
   </PropertyGroup>
   <ItemGroup>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">

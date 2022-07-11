@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 
-using Common.Structure.ReportWriting.Markdown;
-
 namespace Common.Structure.ReportWriting
 {
     /// <summary>
