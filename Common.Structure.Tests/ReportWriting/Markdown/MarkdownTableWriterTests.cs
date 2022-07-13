@@ -59,7 +59,7 @@ namespace Common.Structure.Tests.ReportWriting.Markdown
         }
 
         [TestCaseSource(nameof(TableData))]
-        public void CanWriteTable(List<string> headerValues, List<List<string>> rowValues, bool header,  string expectedMarkdown)
+        public void CanWriteTable(List<string> headerValues, List<List<string>> rowValues, bool header, string expectedMarkdown)
         {
             StringBuilder sb = new StringBuilder();
             var tableWriter = TableWriterFactory.Create(DocumentType.Md);
@@ -73,7 +73,8 @@ namespace Common.Structure.Tests.ReportWriting.Markdown
         public void CanWriteTableWriting(List<string> headerValues, List<List<string>> rowValues, bool header, string expectedMarkdown)
         {
             StringBuilder sb = new StringBuilder();
-            TableWriting.WriteTableFromEnumerable(sb, DocumentType.Md, headerValues, rowValues, headerFirstColumn: header);
+            var tableWriter = TableWriterFactory.Create(DocumentType.Md);
+            tableWriter.WriteTable(sb, headerValues, rowValues, headerFirstColumn: header);
 
             string markdownSnippet = sb.ToString();
             Assert.AreEqual(expectedMarkdown, markdownSnippet);
