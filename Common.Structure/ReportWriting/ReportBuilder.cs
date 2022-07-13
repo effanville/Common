@@ -14,13 +14,30 @@ namespace Common.Structure.ReportWriting
             set;
         }
 
+        /// <summary>
+        /// Whether default styling should be applied.
+        /// </summary>
+        public bool UseDefaultStyle
+        {
+            get;
+            set;
+        } = false;
+
+        public bool UseScripts
+        {
+            get;
+            set;
+        } = true;
+
         public ReportSettings()
         {
         }
 
-        public ReportSettings(bool useColours)
+        public ReportSettings(bool useColours, bool useDefaultStyle, bool useScripts)
         {
             UseColours = useColours;
+            UseDefaultStyle = useDefaultStyle;
+            UseScripts = useScripts;
         }
     }
 
@@ -38,10 +55,10 @@ namespace Common.Structure.ReportWriting
         public ReportBuilder(DocumentType docType, ReportSettings settings)
         {
             fTableWriter = TableWriterFactory.Create(docType);
-            fTextWriter = TextWriterFactory.Create(docType);
+            fTextWriter = TextWriterFactory.Create(docType, settings);
             fChartWriter = ChartWriterFactory.Create(docType);
             fSettings = settings;
-			fReport = new StringBuilder();
+            fReport = new StringBuilder();
         }
 
         /// <summary>
@@ -177,6 +194,24 @@ namespace Common.Structure.ReportWriting
             IReadOnlyList<string> yValues)
         {
             fChartWriter.WritePieChart(fReport, name, title, dataLabel, labels, yValues);
+            return this;
+        }
+
+        public ReportBuilder Append(ReportBuilder other)
+        {
+            _ = fReport.Append(other.GetReport());
+            return this;
+        }
+
+        public ReportBuilder Append(StringBuilder other)
+        {
+            _ = fReport.Append(other);
+            return this;
+        }
+
+        public ReportBuilder AppendLine()
+        {
+            _ = fReport.AppendLine();
             return this;
         }
 
