@@ -1,8 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net5.0;netcoreapp3.1;net48</TargetFrameworks>
+    <TargetFrameworks>net6.0;net5.0;netcoreapp3.1</TargetFrameworks>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+	  <Platforms>x64</Platforms>
   </PropertyGroup>
   <ItemGroup>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
@@ -12,7 +13,7 @@
   <Import Project="../Build/CommonProperties.build.props" />
 
   <PropertyGroup>
-    <VersionPrefix>1.0.26.0</VersionPrefix>
+    <VersionPrefix>1.0.27.0</VersionPrefix>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">

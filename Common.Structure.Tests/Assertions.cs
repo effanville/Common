@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using NUnit.Framework;
-using Common.Structure.NamingStructures;
-using Common.Structure.Validation;
+﻿using NUnit.Framework;
 
 namespace Common.Structure.Tests
 {
@@ -43,53 +40,6 @@ namespace Common.Structure.Tests
             for (int rowIndex = 0; rowIndex < expected.GetLength(0); rowIndex++)
             {
                 Assert.AreEqual(expected[rowIndex], actual[rowIndex], tol, message);
-            }
-        }
-
-        public static void NamesEqual(Name expected, Name actual)
-        {
-            if (expected == null)
-            {
-                Assert.IsNull(actual);
-            }
-
-            if (actual == null)
-            {
-                Assert.IsNull(expected);
-            }
-
-            if (expected != null && actual != null)
-            {
-                Assert.AreEqual(expected.PrimaryName, actual.PrimaryName, "Both Primary Names should be the same.");
-                Assert.AreEqual(expected.SecondaryName, actual.SecondaryName);
-            }
-        }
-
-        public static void ValidationListsEqual(List<ValidationResult> expected, List<ValidationResult> actual)
-        {
-            Assert.AreEqual(expected.Count, actual.Count);
-            for (int i = 0; i < expected.Count; i++)
-            {
-                ValidationEqual(expected[i], actual[i]);
-            }
-        }
-
-        public static void ValidationEqual(ValidationResult expected, ValidationResult actual)
-        {
-            if (expected == null)
-            {
-                Assert.IsNull(actual);
-            }
-
-            if (actual == null)
-            {
-                Assert.IsNull(expected);
-            }
-
-            if (expected != null && actual != null)
-            {
-                Assert.AreEqual(expected.IsValid, actual.IsValid, "Both results should be valid or not valid.");
-                Assert.AreEqual(expected.Messages, actual.Messages);
             }
         }
     }

@@ -12,13 +12,13 @@ namespace Common.Structure.ReportWriting
         /// <summary>
         /// Create an instance of a <see cref="ITextWriter"/>.
         /// </summary>
-        public static ITextWriter Create(DocumentType exportType)
+        public static ITextWriter Create(DocumentType exportType, ReportSettings settings)
         {
             switch (exportType)
             {
                 case DocumentType.Html:
                 {
-                    return new HtmlWriter();
+                    return new HtmlWriter(!settings.UseDefaultStyle, settings.UseScripts);
                 }
                 case DocumentType.Csv:
                 {

@@ -24,7 +24,7 @@ namespace Common.Structure.Tests.Validation
 
             ValidationResult valid = Validating.NotNegative(value, property, null);
 
-            Assertions.ValidationEqual(expected, valid);
+            Assert.That(expected, Is.EqualTo(valid));
         }
 
         [TestCase(1, 0, "property", true, new string[] { })]
@@ -48,7 +48,7 @@ namespace Common.Structure.Tests.Validation
 
             ValidationResult valid = Validating.NotLessThan(value, limit, property, null);
 
-            Assertions.ValidationEqual(expected, valid);
+            Assert.That(expected, Is.EqualTo(valid));
         }
 
         [TestCase(-1, 0, "property", true, new string[] { })]
@@ -72,7 +72,7 @@ namespace Common.Structure.Tests.Validation
 
             ValidationResult valid = Validating.NotGreaterThan(value, limit, property, null);
 
-            Assertions.ValidationEqual(expected, valid);
+            Assert.That(expected, Is.EqualTo(valid));
         }
 
         [TestCase(-1, 0, "property", false, new string[] { "property was expected to be equal to 0." })]
@@ -96,7 +96,7 @@ namespace Common.Structure.Tests.Validation
 
             ValidationResult valid = Validating.NotEqualTo(value, equality, property, null);
 
-            Assertions.ValidationEqual(expected, valid);
+            Assert.That(expected, Is.EqualTo(valid));
         }
 
         [TestCase("hello", "property", true, new string[] { })]
@@ -116,7 +116,7 @@ namespace Common.Structure.Tests.Validation
 
             ValidationResult valid = Validating.IsNotNullOrEmpty(value, property, null);
 
-            Assertions.ValidationEqual(expected, valid);
+            Assert.That(expected, Is.EqualTo(valid));
         }
     }
 }

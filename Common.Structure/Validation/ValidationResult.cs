@@ -1,11 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Common.Structure.Validation
 {
     /// <summary>
     /// A class detailing the validity of a property or field.
     /// </summary>
-    public class ValidationResult
+    public sealed class ValidationResult : IEquatable<ValidationResult>
     {
         /// <summary>
         /// whether the result is valid or not.
@@ -64,6 +66,19 @@ namespace Common.Structure.Validation
         public List<string> Messages { get; set; } = new List<string>();
 
         /// <summary>
+        /// Constructs an instance.
+        /// </summary>
+        /// <param name="isValid"></param>
+        /// <param name="propertyName"></param>
+        /// <param name="location"></param>
+        public ValidationResult(bool isValid = false, string propertyName = null, string location = null)
+        {
+            IsValid = isValid;
+            PropertyName = propertyName;
+            Location = location;
+        }
+
+        /// <summary>
         /// Adds a message to the list of messages.
         /// </summary>
         /// <param name="message">The message to add.</param>
@@ -80,17 +95,35 @@ namespace Common.Structure.Validation
             Location = amending + "." + Location;
         }
 
-        /// <summary>
-        /// Constructs an instance.
-        /// </summary>
-        /// <param name="isValid"></param>
-        /// <param name="propertyName"></param>
-        /// <param name="location"></param>
-        public ValidationResult(bool isValid = false, string propertyName = null, string location = null)
+        /// <inheritdoc/>
+        public bool Equals(ValidationResult other)
         {
-            IsValid = isValid;
-            PropertyName = propertyName;
-            Location = location;
+            if (other == null)
+            {
+                return false;
+            }
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            var thisNotOther = Messages.Except(other.Messages).ToList();
+            var otherNotThis = other.Messages.Except(Messages).ToList();
+            return IsValid.Equals(other.IsValid)
+                && !thisNotOther.Any()
+                && !otherNotThis.Any();
+        }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as ValidationResult);
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(IsValid.GetHashCode(), Messages.GetHashCode());
         }
     }
 }
