@@ -4,7 +4,6 @@ namespace Common.Structure.NamingStructures
 {
     public static class NamedRecordComparers
     {
-
         public static Comparison<NamedRecord<T>> ValueCompare<T>() where T : IComparable<T>
         {
             return (a, b) => b.Value.CompareTo(a.Value);

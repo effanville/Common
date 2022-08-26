@@ -2,6 +2,14 @@
 
 namespace Common.Structure.NamingStructures
 {
+    public static class NameDurationComparers
+    {
+        public static Comparison<NameDurationRecord<T>> ValueCompare<T>() where T : IComparable<T>
+        {
+            return (a, b) => b.Value.CompareTo(a.Value);
+        }
+    }
+
     public sealed class NameDurationRecord<T>
     {
         private readonly string fRecordName;
@@ -50,6 +58,17 @@ namespace Common.Structure.NamingStructures
         public override string ToString()
         {
             return $"{fRecordName}-{Name}-{Start}-{End}-{Value}";
+        }
+
+        public string[] ArrayOfValues()
+        {
+            return new string[]
+            {
+                Name.ToString(),
+                Start.ToShortDateString(),
+                End.ToShortDateString(),
+                Value.ToString()
+            };
         }
     }
 }
