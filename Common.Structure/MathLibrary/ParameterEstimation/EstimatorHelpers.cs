@@ -2,7 +2,10 @@
 {
     internal static class EstimatorHelpers
     {
-        public static double Evaluate(double[] weights, double[] point)
+        /// <summary>
+        /// Standard Evaluation mechanism for a vector of weights at a point.
+        /// </summary>
+        internal static double Evaluate(double[] weights, double[] point)
         {
             if (weights.Length != point.Length)
             {

@@ -19,6 +19,7 @@ namespace Common.Structure.MathLibrary.ParameterEstimation
                 {
                     get;
                 }
+
                 public SimpleLinearResult(
                     double[,] fitData,
                     double[] fitValues,
@@ -79,6 +80,7 @@ namespace Common.Structure.MathLibrary.ParameterEstimation
                 {
                     chi2 += Math.Pow(fitValues[i] - a - b * fitData[i, 0], 2.0);
                 }
+
                 double sigdat = 1.0;
                 if (fitValues.Length > 2)
                 {
