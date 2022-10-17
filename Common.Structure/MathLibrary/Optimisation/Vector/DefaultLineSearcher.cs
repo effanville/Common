@@ -26,6 +26,25 @@ namespace Common.Structure.MathLibrary.Optimisation.Vector
             Func<double[], double> func,
             int maxIterations = 100)
         {
+            return FindConformingStep(
+                startingPoint,
+                startingValue, startingDerivative,
+                searchDirection,
+                double.PositiveInfinity,
+                func,
+                maxIterations);
+        }
+
+        /// <inheritdoc/>
+        public Result<VectorFuncEvaluation> FindConformingStep(
+            double[] startingPoint,
+            double startingValue,
+            double[] startingDerivative,
+            double[] searchDirection,
+            double upperBound,
+            Func<double[], double> func,
+            int maxIterations = 100)
+        {
             int numDimensions = startingPoint.Length;
             double[] candidateOutputPoint = new double[numDimensions];
             int index;

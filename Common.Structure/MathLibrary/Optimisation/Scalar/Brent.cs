@@ -18,7 +18,7 @@ namespace Common.Structure.MathLibrary.Optimisation.Scalar
             }
             if (result.IsError())
             {
-                return OptimisationResult<ScalarFuncEvaluation>.Error();
+                return OptimisationResult<ScalarFuncEvaluation>.ErrorResult();
             }
 
             var value = result.Value;

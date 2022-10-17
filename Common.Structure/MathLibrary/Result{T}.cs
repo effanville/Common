@@ -1,6 +1,6 @@
 ﻿namespace Common.Structure.MathLibrary
 {
-    public sealed class Result<T>
+    public class Result<T>
     {
         public T Value
         {

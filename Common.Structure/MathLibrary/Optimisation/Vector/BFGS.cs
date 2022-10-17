@@ -55,7 +55,7 @@ namespace Common.Structure.MathLibrary.Optimisation.Vector
                 var point = lineSearcher.FindConformingStep(candidateMinimum, functionValue, gradientValue, lineSearchDirection, func);
                 if (point.IsError())
                 {
-                    return OptimisationResult<VectorFuncEvaluation>.Error();
+                    return OptimisationResult<VectorFuncEvaluation>.ErrorResult();
                 }
 
                 pnew = point.Value.Point;

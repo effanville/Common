@@ -86,8 +86,8 @@ namespace Common.Structure.Tests.MathLibrary.Optimisation
             var min = GoldenSectionSearch.Minimise(data.Lower, data.Upper, data.Func, 1e-8, 100);
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(data.ExpectedResult.ResultValue.Point, min.ResultValue.Point, 1e-8);
-                Assert.AreEqual(data.ExpectedResult.ResultValue.Value, min.ResultValue.Value, 1e-8);
+                Assert.AreEqual(data.ExpectedResult.Value.Point, min.Value.Point, 1e-8);
+                Assert.AreEqual(data.ExpectedResult.Value.Value, min.Value.Value, 1e-8);
                 Assert.That(min.ReasonForExit, Is.EqualTo(data.ExpectedResult.ReasonForExit));
             });
         }
