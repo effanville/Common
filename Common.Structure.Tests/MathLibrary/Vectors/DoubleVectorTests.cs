@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace Common.Structure.Tests.MathLibrary.Vectors
 {
     [TestFixture]
-    public sealed class VectorStatsTests
+    public sealed class DoubleVectorTests
     {
         private static IEnumerable<TestCaseData> MaxTestCases()
         {
@@ -26,7 +26,8 @@ namespace Common.Structure.Tests.MathLibrary.Vectors
         [TestCaseSource(nameof(MaxTestCases))]
         public void MaxTests(List<double> values, int number, double expected)
         {
-            double max = DoubleVector.Max(values, number, double.NaN);
+            var vector = new DoubleVector(values?.ToArray());
+            double max = vector.Max(number);
             Assert.AreEqual(expected, max);
         }
 
@@ -46,7 +47,8 @@ namespace Common.Structure.Tests.MathLibrary.Vectors
         [TestCaseSource(nameof(MinTestCases))]
         public void MinTests(List<double> values, int number, double expected)
         {
-            double min = DoubleVector.Min(values, number, double.NaN);
+            var vector = new DoubleVector(values?.ToArray());
+            double min = vector.Min(number);
             Assert.AreEqual(expected, min);
         }
 
@@ -66,7 +68,8 @@ namespace Common.Structure.Tests.MathLibrary.Vectors
         [TestCaseSource(nameof(MeanTestCases))]
         public void MeanTests(List<double> values, int number, double expected)
         {
-            double mean = VectorStats.Mean(values, number);
+            var vector = new DoubleVector(values?.ToArray());
+            double mean = vector.Mean(number);
             Assert.AreEqual(expected, mean);
         }
 
@@ -86,7 +89,8 @@ namespace Common.Structure.Tests.MathLibrary.Vectors
         [TestCaseSource(nameof(VarianceTestCases))]
         public void VarianceTests(List<double> values, int number, double expected)
         {
-            double variance = VectorStats.Variance(values, number);
+            var vector = new DoubleVector(values?.ToArray());
+            double variance = vector.Variance(number);
             Assert.AreEqual(expected, variance);
         }
 
@@ -106,7 +110,8 @@ namespace Common.Structure.Tests.MathLibrary.Vectors
         [TestCaseSource(nameof(StdDevTestCases))]
         public void StdDevTests(List<double> values, int number, double expected)
         {
-            double stdDev = VectorStats.StandardDev(values, number);
+            var vector = new DoubleVector(values?.ToArray());
+            double stdDev = vector.StandardDev(number);
             Assert.AreEqual(expected, stdDev);
         }
 
@@ -126,8 +131,9 @@ namespace Common.Structure.Tests.MathLibrary.Vectors
         [TestCaseSource(nameof(VarianceStdDevTestCases))]
         public void VarianceAndStdDevAgreeTests(List<double> values, int number)
         {
-            double stdDev = VectorStats.StandardDev(values, number);
-            double variance = VectorStats.Variance(values, number);
+            var vector = new DoubleVector(values?.ToArray());
+            double stdDev = vector.StandardDev(number);
+            double variance = vector.Variance(number);
             Assert.AreEqual(Math.Sqrt(variance), stdDev);
         }
     }
