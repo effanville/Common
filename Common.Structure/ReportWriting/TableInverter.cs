@@ -1,41 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
+using Common.Structure.ReportWriting.Document;
+
 using HtmlAgilityPack;
 
 namespace Common.Structure.ReportWriting
 {
-    /// <summary>
-    /// The inverted table data.
-    /// </summary>
-    public sealed class TableInput
-    {
-        /// <summary>
-        /// The headers of the table.
-        /// </summary>
-        public List<string> TableHeaders
-        {
-            get;
-        }
-
-        /// <summary>
-        /// The rows of the table.
-        /// </summary>
-        public List<List<string>> TableRows
-        {
-            get;
-        }
-
-        /// <summary>
-        /// Construct an instance of a <see cref="TableInput"/>
-        /// </summary>
-        public TableInput(List<string> tableHeaders, List<List<string>> tableRows)
-        {
-            TableHeaders = tableHeaders;
-            TableRows = tableRows;
-        }
-    }
-
     /// <summary>
     /// Class to invert a Table.
     /// </summary>
@@ -44,7 +15,7 @@ namespace Common.Structure.ReportWriting
         /// <summary>
         /// Invert the table.
         /// </summary>
-        public static TableInput InvertTable(DocumentType reportType, string tableString)
+        public static TableDocumentPart InvertTable(DocumentType reportType, string tableString)
         {
             switch (reportType)
             {
@@ -60,7 +31,7 @@ namespace Common.Structure.ReportWriting
             }
         }
 
-        private static TableInput InvertTableMd(string tableString)
+        private static TableDocumentPart InvertTableMd(string tableString)
         {
             string[] tableRows = tableString.Split('\n');
             string headerString = tableRows[0];
@@ -68,7 +39,7 @@ namespace Common.Structure.ReportWriting
 
             string[] rowStrings = tableRows.Skip(2).Where(match => match != "").ToArray();
             List<List<string>> rowFields = rowStrings.Select(row => ConvertRowFromString(row)).ToList();
-            return new TableInput(headerFields, rowFields);
+            return new TableDocumentPart(DocumentType.Md, headerFields, rowFields, tableString);
 
             List<string> ConvertRowFromString(string row)
             {
@@ -81,7 +52,7 @@ namespace Common.Structure.ReportWriting
             }
         }
 
-        private static TableInput InvertTableHtml(string tableString)
+        private static TableDocumentPart InvertTableHtml(string tableString)
         {
             HtmlDocument htmlDocument = new HtmlDocument();
             htmlDocument.LoadHtml(tableString);
@@ -97,7 +68,7 @@ namespace Common.Structure.ReportWriting
             List<List<string>> tableRowFields = tableRows
                 .Select(node => ConvertRow(node, new[] { "td", "th" }))
                 .ToList();
-            return new TableInput(tableHeaderFields, tableRowFields);
+            return new TableDocumentPart(DocumentType.Html, tableHeaderFields, tableRowFields, tableString);
 
             List<string> ConvertRow(HtmlNode rowNode, string[] rowTag)
             {

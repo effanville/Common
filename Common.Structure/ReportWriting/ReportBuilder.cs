@@ -53,6 +53,11 @@ namespace Common.Structure.ReportWriting
             UseDefaultStyle = useDefaultStyle;
             UseScripts = useScripts;
         }
+
+        public static ReportSettings Default()
+        {
+            return new ReportSettings(useColours: true, useDefaultStyle: true, useScripts: true);
+        }
     }
 
     /// <summary>
@@ -218,6 +223,15 @@ namespace Common.Structure.ReportWriting
         }
 
         /// <summary>
+        /// Add the contents of a <see cref="string"/> to the end of the report.
+        /// </summary>
+        public ReportBuilder Append(string value)
+        {
+            _ = fReport.Append(value);
+            return this;
+        }
+
+        /// <summary>
         /// Add the contents of the other <see cref="ReportBuilder"/> to the end of the report.
         /// </summary>
         public ReportBuilder Append(ReportBuilder other)
@@ -259,6 +273,15 @@ namespace Common.Structure.ReportWriting
         public override string ToString()
         {
             return fReport.ToString();
+        }
+
+        /// <summary>
+        /// Clears the report in the <see cref="ReportBuilder"/>.
+        /// </summary>
+        public ReportBuilder Clear()
+        {
+            _ = fReport.Clear();
+            return this;
         }
     }
 }

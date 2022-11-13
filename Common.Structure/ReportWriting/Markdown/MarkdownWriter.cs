@@ -15,9 +15,14 @@ namespace Common.Structure.ReportWriting.Markdown
                 _ = sb.AppendLine($"{HtmlTagToMdTitle(tag)} title");
             }
 
-            foreach (string line in sentence)
+            for (int index = 0; index < sentence.Length; index++)
             {
+                string line = sentence[index];
                 _ = sb.Append(line);
+                if (index != sentence.Length - 1)
+                {
+                    _ = sb.Append(' ');
+                }
             }
 
             _ = sb.AppendLine();
@@ -29,7 +34,7 @@ namespace Common.Structure.ReportWriting.Markdown
             _ = sb.AppendLine($"{HtmlTagToMdTitle(tag)} {title}");
         }
 
-        private static string HtmlTagToMdTitle(DocumentElement tag)
+        public static string HtmlTagToMdTitle(DocumentElement tag)
         {
             switch (tag)
             {

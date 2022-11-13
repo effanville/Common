@@ -4,8 +4,8 @@ namespace Common.Structure.ReportWriting.Html
 {
     internal sealed class HtmlWriter : ITextWriter
     {
-        private bool fIncludeStyling;
-        private bool fIncludeScripts;
+        private readonly bool fIncludeStyling;
+        private readonly bool fIncludeScripts;
 
         public HtmlWriter(bool includeStyling, bool includeScripts)
         {
