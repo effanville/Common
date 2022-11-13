@@ -34,7 +34,7 @@ namespace Common.UI.DisplayObjects
             source.Series.Clear();
             if (newValue != null)
             {
-                foreach (LineSeries item in newValue)
+                foreach (ISeries item in newValue)
                 {
                     source.Series.Add(item);
                 }
