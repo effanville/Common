@@ -7,6 +7,9 @@ using Common.Structure.ReportWriting;
 
 namespace Common.Statistics
 {
+    /// <summary>
+    /// Extensions for the <see cref="IGenericStatCollection{S, T}"/> interface.
+    /// </summary>
     public static class StatCollectionExtensions
     {
         /// <summary>

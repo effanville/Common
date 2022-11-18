@@ -5,18 +5,30 @@ using HtmlAgilityPack;
 
 namespace Common.Structure.ReportWriting
 {
+    /// <summary>
+    /// The inverted table data.
+    /// </summary>
     public sealed class TableInput
     {
+        /// <summary>
+        /// The headers of the table.
+        /// </summary>
         public List<string> TableHeaders
         {
             get;
         }
 
+        /// <summary>
+        /// The rows of the table.
+        /// </summary>
         public List<List<string>> TableRows
         {
             get;
         }
 
+        /// <summary>
+        /// Construct an instance of a <see cref="TableInput"/>
+        /// </summary>
         public TableInput(List<string> tableHeaders, List<List<string>> tableRows)
         {
             TableHeaders = tableHeaders;
@@ -24,8 +36,14 @@ namespace Common.Structure.ReportWriting
         }
     }
 
+    /// <summary>
+    /// Class to invert a Table.
+    /// </summary>
     public static class TableInverter
     {
+        /// <summary>
+        /// Invert the table.
+        /// </summary>
         public static TableInput InvertTable(DocumentType reportType, string tableString)
         {
             switch (reportType)

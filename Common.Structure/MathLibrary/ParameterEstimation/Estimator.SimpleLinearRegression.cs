@@ -13,13 +13,22 @@ namespace Common.Structure.MathLibrary.ParameterEstimation
         /// </summary>
         public static class SimpleLinearRegression
         {
+            /// <summary>
+            /// The result of a simple linear regression.
+            /// </summary>
             public sealed class SimpleLinearResult : Result
             {
+                /// <summary>
+                /// The Chi Squared statistic for the result.
+                /// </summary>
                 public double ChiSquared
                 {
                     get;
                 }
 
+                /// <summary>
+                /// Construct an instance of a <see cref="SimpleLinearResult"/>
+                /// </summary>
                 public SimpleLinearResult(
                     double[,] fitData,
                     double[] fitValues,
@@ -38,6 +47,7 @@ namespace Common.Structure.MathLibrary.ParameterEstimation
                     ChiSquared = chiSquared;
                 }
 
+                /// <inheritdoc/>
                 public override double Evaluate(double[] point)
                 {
                     if (point.Length != 1)
@@ -49,6 +59,9 @@ namespace Common.Structure.MathLibrary.ParameterEstimation
                 }
             }
 
+            /// <summary>
+            /// Perform the Fit of the regression.
+            /// </summary>
             public static SimpleLinearResult Fit(double[,] fitData, double[] fitValues)
             {
                 double ss, sx = 0.0, sy = 0.0;

@@ -10,9 +10,24 @@
         /// </summary>
         public enum Type
         {
+            /// <summary>
+            /// The Estimation is Simple Linear Regression.
+            /// </summary>
             SimpleLinearRegression,
+
+            /// <summary>
+            /// The Estimation is Least Squares Regression.
+            /// </summary>
             LeastSquares,
+
+            /// <summary>
+            /// The Estimation is Lasso Regression.
+            /// </summary>
             LassoRegression,
+
+            /// <summary>
+            /// The Estimation is Ridge Regression.
+            /// </summary>
             RidgeRegression
         }
 

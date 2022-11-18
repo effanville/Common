@@ -135,9 +135,6 @@ namespace Common.Structure.MathLibrary.ParameterEstimation
             /// <summary>
             /// Calculates the Lasso weights from a given value of lambda. 
             /// </summary>
-            /// <param name="data"></param>
-            /// <param name="lambda"></param>
-            /// <returns></returns>
             private static double[] CalculateLassoWeights(double[,] data, double[] values, double lambda, double tolerance = 1e-12, bool addIntercept = false)
             {
                 int numberParameters = data.GetLength(1);

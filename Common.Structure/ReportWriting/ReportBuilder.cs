@@ -3,6 +3,9 @@ using System.Text;
 
 namespace Common.Structure.ReportWriting
 {
+    /// <summary>
+    /// The settings for the report.
+    /// </summary>
     public sealed class ReportSettings
     {
         /// <summary>
@@ -23,16 +26,27 @@ namespace Common.Structure.ReportWriting
             set;
         } = false;
 
+        /// <summary>
+        /// Should the report include scripts.
+        /// Note this is only relevant for html reports that may need to execute javascript
+        /// scripts.
+        /// </summary>
         public bool UseScripts
         {
             get;
             set;
         } = true;
 
+        /// <summary>
+        /// Construct an instance
+        /// </summary>
         public ReportSettings()
         {
         }
 
+        /// <summary>
+        /// Construct an instance
+        /// </summary>
         public ReportSettings(bool useColours, bool useDefaultStyle, bool useScripts)
         {
             UseColours = useColours;
@@ -46,12 +60,18 @@ namespace Common.Structure.ReportWriting
     /// </summary>
     public sealed class ReportBuilder
     {
-        private ITextWriter fTextWriter;
-        private ITableWriter fTableWriter;
-        private IChartWriter fChartWriter;
-        private ReportSettings fSettings;
+        private readonly ITextWriter fTextWriter;
+        private readonly ITableWriter fTableWriter;
+        private readonly IChartWriter fChartWriter;
+        private readonly ReportSettings fSettings;
 
-        private StringBuilder fReport;
+        private readonly StringBuilder fReport;
+
+        /// <summary>
+        /// Construct an instance of a <see cref="ReportBuilder"/>.
+        /// </summary>
+        /// <param name="docType"></param>
+        /// <param name="settings"></param>
         public ReportBuilder(DocumentType docType, ReportSettings settings)
         {
             fTableWriter = TableWriterFactory.Create(docType);
@@ -197,18 +217,27 @@ namespace Common.Structure.ReportWriting
             return this;
         }
 
+        /// <summary>
+        /// Add the contents of the other <see cref="ReportBuilder"/> to the end of the report.
+        /// </summary>
         public ReportBuilder Append(ReportBuilder other)
         {
             _ = fReport.Append(other.GetReport());
             return this;
         }
 
+        /// <summary>
+        /// Add the contents of the other <see cref="StringBuilder"/> to the end of the report.
+        /// </summary>
         public ReportBuilder Append(StringBuilder other)
         {
             _ = fReport.Append(other);
             return this;
         }
 
+        /// <summary>
+        /// Add a line into the report.
+        /// </summary>
         public ReportBuilder AppendLine()
         {
             _ = fReport.AppendLine();

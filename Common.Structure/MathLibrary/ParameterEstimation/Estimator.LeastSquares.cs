@@ -2,12 +2,24 @@
 
 namespace Common.Structure.MathLibrary.ParameterEstimation
 {
+    /// <summary>
+    /// Contains Estimator methods.
+    /// </summary>
     public static partial class Estimator
     {
+        /// <summary>
+        /// Contains LeastSquares estimation methods.
+        /// </summary>
         public static class LeastSquares
         {
+            /// <summary>
+            /// The result of a Least Squares estimator.
+            /// </summary>
             public sealed class LeastSquaresResult : Result
             {
+                /// <summary>
+                /// Construct an instance.
+                /// </summary>
                 public LeastSquaresResult(double[,] fitData,
                     double[] fitValues,
                     double[] sigma,
@@ -18,12 +30,16 @@ namespace Common.Structure.MathLibrary.ParameterEstimation
                 {
                 }
 
+                /// <inheritdoc/>
                 public override double Evaluate(double[] point)
                 {
                     return EstimatorHelpers.Evaluate(Estimator, point);
                 }
             }
 
+            /// <summary>
+            /// Perform the Least Squares fit of the data.
+            /// </summary>
             public static LeastSquaresResult Fit(double[,] fitData, double[] fitValues)
             {
                 double[] XTY = fitData.Transpose().PostMultiplyVector(fitValues);

@@ -1,4 +1,6 @@
-﻿namespace Common.Structure.MathLibrary.Matrices
+﻿using System;
+
+namespace Common.Structure.MathLibrary.Matrices
 {
     /// <summary>
     /// Implementations of matrix manipulations.
@@ -107,7 +109,7 @@
         {
             if (!firstMatrix.GetLength(1).Equals(vector.GetLength(0)))
             {
-                return new double[0];
+                return Array.Empty<double>();
             }
 
             double[] multiply = new double[firstMatrix.GetLength(0)];
@@ -125,6 +127,9 @@
             return multiply;
         }
 
+        /// <summary>
+        /// Multiplies a matrix by a scalar value.
+        /// </summary>
         public static double[,] ScalarMult(this double[,] matrix, double scalar)
         {
             double[,] multiply = new double[matrix.GetLength(0), matrix.GetLength(1)];

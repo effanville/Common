@@ -1,5 +1,8 @@
 ﻿namespace Common.Structure.MathLibrary.Functions
 {
+    /// <summary>
+    /// Basic Mathematical functions.
+    /// </summary>
     public static partial class BasicFunctions
     {
         /// <summary>

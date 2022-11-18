@@ -41,8 +41,14 @@
         p
     }
 
+    /// <summary>
+    /// Extensions for the <see cref="DocumentElement"/> enum.
+    /// </summary>
     public static class DocumentElementExtensions
     {
+        /// <summary>
+        /// Get the next lower level enum value.
+        /// </summary>
         public static DocumentElement GetNext(this DocumentElement docElement)
         {
             switch (docElement)
