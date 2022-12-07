@@ -1,23 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>net6.0</TargetFrameworks>
-    <RuntimeIdentifier>win-x64</RuntimeIdentifier>	  
-	<Platforms>x64</Platforms>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>net6.0;net6.0-windows</TargetFrameworks>
+		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+		<Platforms>x64</Platforms>
+	</PropertyGroup>
 
-    <PropertyGroup>
-      <VersionPrefix>1.1.0.0</VersionPrefix>
-  </PropertyGroup>
+	<Import Project="../Build/CommonProperties.build.props" />
+	<PropertyGroup>
+		<VersionPrefix>1.1.0.0</VersionPrefix>
+	</PropertyGroup>
 
-  <Import Project="../Build/CommonProperties.build.props" />
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp3.1|AnyCPU'">
-    <DocumentationFile>..\bin\Release\Common.Console.xml</DocumentationFile>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)'=='Release'">
+		<DocumentationFile>..\bin\Release\Common.Console.xml</DocumentationFile>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Common.Structure\Common.Structure.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Common.Structure\Common.Structure.csproj" />
+	</ItemGroup>
 
 </Project>
