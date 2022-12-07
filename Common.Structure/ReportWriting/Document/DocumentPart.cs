@@ -2,46 +2,6 @@ using System;
 
 namespace Common.Structure.ReportWriting.Document
 {
-    public sealed class TextDocumentPart : DocumentPart
-    {
-        public string Text
-        {
-            get;
-            set;
-        }
-
-        public TextDocumentPart(DocumentType docType, DocumentElement element, string constituentString)
-            : base(docType, element, constituentString)
-        {
-            Text = GetTextFromTotalString(docType, element, constituentString);
-        }
-
-        private static string GetTextFromTotalString(DocumentType docType, DocumentElement element, string constituentString)
-        {
-            switch (docType)
-            {
-                case DocumentType.Html:
-                {
-                    return null;
-                }
-                case DocumentType.Md:
-                {
-                    if (element.IsHeader())
-                    {
-                        string elementString = docType.StringForm(element);
-                        return constituentString.Substring(elementString.Length);
-                    }
-
-                    return constituentString;
-                }
-                default:
-                {
-                    return null;
-                }
-            }
-        }
-    }
-
     public class DocumentPart : IEquatable<DocumentPart>
     {
         public DocumentType DocType
