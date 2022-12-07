@@ -112,7 +112,7 @@ namespace Common.Structure.Tests.MathLibrary.ParameterEstimation
         public void LSECorrect([Values(1, 2, 3, 4, 5, 6)] int valuesIndex)
         {
             EstimatorValues estimatorValues = EstimatorValues.GetValues(valuesIndex);
-            LSEstimator estimator = new LSEstimator(estimatorValues.data, estimatorValues.rhs);
+            var estimator = Estimator.LeastSquares.Fit(estimatorValues.data, estimatorValues.rhs);
             Assertions.AreEqual(estimatorValues.expectedEstimator, estimator.Estimator, 1e-6, "Expected Estimator not correct");
         }
     }

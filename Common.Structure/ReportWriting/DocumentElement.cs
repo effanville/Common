@@ -6,6 +6,11 @@
     public enum DocumentElement
     {
         /// <summary>
+        /// Default element type that is no element.
+        /// </summary>
+        None,
+
+        /// <summary>
         /// The first header tag.
         /// </summary>
         h1,
@@ -38,11 +43,27 @@
         /// <summary>
         /// Paragraph tag.
         /// </summary>
-        p
+        p,
+
+        /// <summary>
+        /// The table tag.
+        /// </summary>
+        table,
+
+        /// <summary>
+        /// The chart element part
+        /// </summary>
+        chart
     }
 
+    /// <summary>
+    /// Extensions for the <see cref="DocumentElement"/> enum.
+    /// </summary>
     public static class DocumentElementExtensions
     {
+        /// <summary>
+        /// Get the next lower level enum value.
+        /// </summary>
         public static DocumentElement GetNext(this DocumentElement docElement)
         {
             switch (docElement)

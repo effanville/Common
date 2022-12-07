@@ -3,23 +3,23 @@ using System.Collections.Generic;
 
 namespace Common.Structure.NamingStructures
 {
-    public sealed class NameDatedRecordComparisons
+    public sealed class DatedRecordComparisons
     {
-        public static Comparison<NameDatedRecord<T>> ValueCompare<T>() where T : IComparable<T>
+        public static Comparison<DatedRecord<T>> ValueCompare<T>() where T : IComparable<T>
         {
             return (a, b) => b.Value.CompareTo(a.Value);
         }
+
+        public static Comparison<DatedRecord<T>> DateCompare<T>()
+        {
+            return (a, b) => b.Date.CompareTo(a.Date);
+        }
     }
 
-    public sealed class NameDatedRecord<T>
+    public sealed class DatedRecord<T>
     {
         private readonly string fRecordName;
         private readonly Func<T, T, T> fAggregation;
-        public Name Name
-        {
-            get;
-            private set;
-        }
 
         public DateTime Date
         {
@@ -33,11 +33,10 @@ namespace Common.Structure.NamingStructures
             private set;
         }
 
-        public NameDatedRecord(string recordName, Name name, DateTime start, T firstValue, Func<T, T, T> aggregation)
+        public DatedRecord(string recordName, DateTime start, T firstValue, Func<T, T, T> aggregation)
         {
             fRecordName = recordName;
             fAggregation = aggregation;
-            Name = name;
             Date = start;
             Value = firstValue;
         }
@@ -49,14 +48,13 @@ namespace Common.Structure.NamingStructures
 
         public override string ToString()
         {
-            return $"{fRecordName}-{Name}-{Date}-{Value}";
+            return $"{fRecordName}-{Date}-{Value}";
         }
 
         public IReadOnlyList<string> Values()
         {
             return new List<string>
                     {
-                            Name.ToString(),
                             Date.ToShortDateString(),
                             Value.ToString()
                     };

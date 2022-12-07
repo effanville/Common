@@ -9,6 +9,8 @@ namespace Common.Structure.ReportWriting.Html
     /// </summary>
     public sealed class HtmlTableWriter : ITableWriter
     {
+        public static readonly string StartTag = $"<{DocumentElement.table}>";
+        public static readonly string EndTag = $"</{DocumentElement.table}>";
 
         /// <inheritdoc/>
         public void WriteEmptyRow(StringBuilder sb, int numberColumns)
@@ -20,7 +22,7 @@ namespace Common.Structure.ReportWriting.Html
         public void WriteTableEnd(StringBuilder sb)
         {
             _ = sb.AppendLine("</tbody>");
-            _ = sb.AppendLine("</table>");
+            _ = sb.AppendLine(EndTag);
         }
 
         /// <summary>
@@ -132,7 +134,7 @@ namespace Common.Structure.ReportWriting.Html
         /// <inheritdoc/>
         public void WriteTableStart(StringBuilder sb)
         {
-            _ = sb.AppendLine("<table>");
+            _ = sb.AppendLine(StartTag);
         }
     }
 }

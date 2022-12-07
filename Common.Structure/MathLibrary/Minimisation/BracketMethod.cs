@@ -2,10 +2,16 @@
 
 namespace Common.Structure.Minimisation
 {
+    /// <summary>
+    /// Contains methods for finding a lower and upper bound for a root of a function.
+    /// </summary>
     public class BracketMethod
     {
         private double ax, bx, cx, fa, fb, fc;
 
+        /// <summary>
+        /// Find a bracket for a root in the region specified.
+        /// </summary>
         public void Bracket(double a, double b, Func<double, double> func)
         {
             double Gold = 1.618034;

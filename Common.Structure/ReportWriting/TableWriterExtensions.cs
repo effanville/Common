@@ -105,6 +105,11 @@ namespace Common.Structure.ReportWriting
 
             IReadOnlyList<string> selectValues(IEnumerable<T> row)
             {
+                if (row == null)
+                {
+                    return null;
+                }
+
                 return row.Select(val => val.ToString()).ToList();
             }
         }
@@ -134,6 +139,10 @@ namespace Common.Structure.ReportWriting
 
             IReadOnlyList<string> selectValues(T row)
             {
+                if (row == null)
+                {
+                    return null;
+                }
                 return row.GetType().GetProperties().Where(info => headerValues.Contains(info.Name)).Select(ro => ro.GetValue(row)?.ToString()).ToList();
             }
         }
@@ -195,6 +204,10 @@ namespace Common.Structure.ReportWriting
 
             for (int j = 0; j < rowValues.Count; j++)
             {
+                if (rowValues[j] == null)
+                {
+                    continue;
+                }
                 for (int i = 0; i < Math.Min(rowValues[j].Count, numberHeaders); i++)
                 {
                     int rowColumnLength = rowValues[j][i]?.Length ?? 0;

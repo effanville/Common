@@ -145,7 +145,7 @@ namespace Common.Structure.Tests.ReportWriting
         [TestCaseSource(nameof(TestCases))]
         public void InvertTableTests(DocumentType docType, string table, List<string> expectedHeaders, List<List<string>> expectedRows)
         {
-            TableInput actualTable = TableInverter.InvertTable(docType, table);
+            var actualTable = TableInverter.InvertTable(docType, table);
             CollectionAssert.AreEqual(expectedHeaders, actualTable.TableHeaders);
             CollectionAssert.AreEqual(expectedRows, actualTable.TableRows);
         }
