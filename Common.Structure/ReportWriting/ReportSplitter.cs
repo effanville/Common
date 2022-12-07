@@ -46,7 +46,7 @@ namespace Common.Structure.ReportWriting
         private static DocumentPart GetPart(DocumentType docType, DocumentElement docElement, string remainingReportString)
         {
             StringBuilder sb = new StringBuilder();
-            int index = DocumentElementString(docType, docElement).Length;
+            int index = docType.StringForm(docElement).Length;
             _ = sb.Append(remainingReportString.AsSpan(0, index - 1));
             DocumentElement nextElement = DocumentElement.None;
 
@@ -60,7 +60,7 @@ namespace Common.Structure.ReportWriting
                 index++;
             }
 
-            if (DocumentElementString(docType, nextElement) == "\r\n")
+            if (docType.StringForm(nextElement) == "\r\n")
             {
                 _ = sb.AppendLine();
             }
@@ -71,39 +71,39 @@ namespace Common.Structure.ReportWriting
 
         private static DocumentElement MatchDocumentStartElement(DocumentType docType, string reportString, bool newElement = false)
         {
-            if (reportString.StartsWith(DocumentElementString(docType, DocumentElement.table)))
+            if (reportString.StartsWith(docType.StringForm(DocumentElement.table)))
             {
                 return DocumentElement.table;
             }
-            else if (reportString.StartsWith(DocumentElementString(docType, DocumentElement.p)))
+            else if (reportString.StartsWith(docType.StringForm(DocumentElement.p)))
             {
                 return DocumentElement.p;
             }
-            else if (reportString.StartsWith(DocumentElementString(docType, DocumentElement.h6)))
+            else if (reportString.StartsWith(docType.StringForm(DocumentElement.h6)))
             {
                 return DocumentElement.h6;
             }
-            else if (reportString.StartsWith(DocumentElementString(docType, DocumentElement.h5)))
+            else if (reportString.StartsWith(docType.StringForm(DocumentElement.h5)))
             {
                 return DocumentElement.h5;
             }
-            else if (reportString.StartsWith(DocumentElementString(docType, DocumentElement.h4)))
+            else if (reportString.StartsWith(docType.StringForm(DocumentElement.h4)))
             {
                 return DocumentElement.h4;
             }
-            else if (reportString.StartsWith(DocumentElementString(docType, DocumentElement.h3)))
+            else if (reportString.StartsWith(docType.StringForm(DocumentElement.h3)))
             {
                 return DocumentElement.h3;
             }
-            else if (reportString.StartsWith(DocumentElementString(docType, DocumentElement.h2)))
+            else if (reportString.StartsWith(docType.StringForm(DocumentElement.h2)))
             {
                 return DocumentElement.h2;
             }
-            else if (reportString.StartsWith(DocumentElementString(docType, DocumentElement.h1)))
+            else if (reportString.StartsWith(docType.StringForm(DocumentElement.h1)))
             {
                 return DocumentElement.h1;
             }
-            else if (reportString.StartsWith(DocumentElementString(docType, DocumentElement.chart)))
+            else if (reportString.StartsWith(docType.StringForm(DocumentElement.chart)))
             {
                 return DocumentElement.chart;
             }
@@ -115,66 +115,6 @@ namespace Common.Structure.ReportWriting
                 }
 
                 return DocumentElement.None;
-            }
-        }
-
-        public static string StringForm(this DocumentType docType, DocumentElement docElement)
-        {
-            return DocumentElementString(docType, docElement);
-        }
-
-        private static string DocumentElementString(DocumentType docType, DocumentElement docElement)
-        {
-            switch (docType)
-            {
-                case DocumentType.Html:
-                {
-                    if (docElement == DocumentElement.chart)
-                    {
-                        return "<div>";
-                    }
-                    return $"<{docElement.ToString()}>";
-                }
-                case DocumentType.Md:
-                {
-                    switch (docElement)
-                    {
-                        case DocumentElement.h1:
-                        {
-                            return "#";
-                        }
-                        case DocumentElement.h2:
-                        {
-                            return "##";
-                        }
-                        case DocumentElement.h3:
-                        case DocumentElement.h4:
-                        case DocumentElement.h5:
-                        case DocumentElement.h6:
-                        {
-                            return "###";
-                        }
-                        case DocumentElement.table:
-                        {
-                            return "|";
-                        }
-                        case DocumentElement.chart:
-                        {
-                            return "ChartChart";
-                        }
-                        case DocumentElement.None:
-                        case DocumentElement.p:
-                        default:
-                        {
-                            return "\r\n";
-                        }
-                    }
-                }
-                case DocumentType.Doc:
-                case DocumentType.Pdf:
-                case DocumentType.Csv:
-                default:
-                    return null;
             }
         }
 
