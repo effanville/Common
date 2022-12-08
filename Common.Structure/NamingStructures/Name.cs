@@ -162,6 +162,10 @@ namespace Common.Structure.NamingStructures
         /// <inheritdoc/>
         public bool Equals(Name other)
         {
+            if (other == null)
+            {
+                return false;
+            }
             bool primaryEqual = PrimaryName?.Equals(other.PrimaryName) ?? string.IsNullOrEmpty(other.PrimaryName);
             bool secondaryEqual = SecondaryName?.Equals(other.SecondaryName) ?? string.IsNullOrEmpty(other.SecondaryName);
             return primaryEqual && secondaryEqual;
