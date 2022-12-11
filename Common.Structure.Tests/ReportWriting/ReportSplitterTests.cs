@@ -29,7 +29,7 @@ namespace Common.Structure.Tests.ReportWriting
                     headerFirstColumn: true);
             yield return new TestCaseData(
                 DocumentType.Md,
-                "# Some Title\r\n| Header 1   | Header 2  |\r\n| ---------- | --------- |\r\n| __Value-1-1__ | Value-1-2 |\r\n| __Values-2-1__ | Value-2-2 |\r\n",
+                "# Some Title\r\n| Header 1       | Header 2  |\r\n| -------------- | --------- |\r\n| __Value-1-1__  | Value-1-2 |\r\n| __Values-2-1__ | Value-2-2 |\r\n",
                 tableMdDocument.GetDocument())
                 .SetName("Title and Header Md");
             var twotableMdDocument = new DocumentBuilder(DocumentType.Md)
@@ -42,7 +42,7 @@ namespace Common.Structure.Tests.ReportWriting
                             headerFirstColumn: true);
             yield return new TestCaseData(
                 DocumentType.Md,
-                "# Some Title\r\n| Header 1   | Header 2  |\r\n| ---------- | --------- |\r\n| __Value-1-1__ | Value-1-2 |\r\n| __Values-2-1__ | Value-2-2 |\r\n| Header A   | Header B  | Header C  |\r\n| ---------- | --------- | --------- |\r\n| __Value-1-A__ | Value-1-B | Value-1-C |\r\n| __Values-2-A__ | Value-2-B | Value-2-C |\r\n",
+                "# Some Title\r\n| Header 1       | Header 2  |\r\n| -------------- | --------- |\r\n| __Value-1-1__  | Value-1-2 |\r\n| __Values-2-1__ | Value-2-2 |\r\n| Header A       | Header B  | Header C  |\r\n| -------------- | --------- | --------- |\r\n| __Value-1-A__  | Value-1-B | Value-1-C |\r\n| __Values-2-A__ | Value-2-B | Value-2-C |\r\n",
                 twotableMdDocument.GetDocument())
                 .SetName("Title and Two Table Md");
 
@@ -57,7 +57,7 @@ namespace Common.Structure.Tests.ReportWriting
                  .WriteParagraph(new[] { "Then I went to the shops.", "And I did some stuff(sic)." });
             yield return new TestCaseData(
                 DocumentType.Md,
-                "# Some Title\r\n| Header 1   | Header 2  |\r\n| ---------- | --------- |\r\n| __Value-1-1__ | Value-1-2 |\r\n| __Values-2-1__ | Value-2-2 |\r\n| Header A   | Header B  | Header C  |\r\n| ---------- | --------- | --------- |\r\n| __Value-1-A__ | Value-1-B | Value-1-C |\r\n| __Values-2-A__ | Value-2-B | Value-2-C |\r\nThen I went to the shops. And I did some stuff(sic).\r\n",
+                "# Some Title\r\n| Header 1       | Header 2  |\r\n| -------------- | --------- |\r\n| __Value-1-1__  | Value-1-2 |\r\n| __Values-2-1__ | Value-2-2 |\r\n| Header A       | Header B  | Header C  |\r\n| -------------- | --------- | --------- |\r\n| __Value-1-A__  | Value-1-B | Value-1-C |\r\n| __Values-2-A__ | Value-2-B | Value-2-C |\r\nThen I went to the shops. And I did some stuff(sic).\r\n",
                 twotableSentenceMdDocument.GetDocument())
                 .SetName("Title and Two Table and sentence Md");
 
