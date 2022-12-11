@@ -54,7 +54,7 @@ namespace Common.Structure.Tests.ReportWriting.Markdown
                  new List<string>() { "", "" },
                  new List<List<string>> { new List<string>() { "Byes", "4" }, new List<string>() { "Leg Byes", "3" } },
                  true,
-                "|          |   |\r\n| -------- | - |\r\n| __Byes__ | 4 |\r\n| __Leg Byes__ | 3 |\r\n");
+                "|              |   |\r\n| ------------ | - |\r\n| __Byes__     | 4 |\r\n| __Leg Byes__ | 3 |\r\n");
 
         }
 
