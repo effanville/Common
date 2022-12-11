@@ -143,6 +143,40 @@ namespace Common.Structure.ReportWriting.Document
         }
 
         /// <summary>
+        /// Find the index of the first part matching the predicate.
+        /// </summary>
+        public int FindIndex(Predicate<DocumentPart> predicate)
+        {
+            return fParts.FindIndex(predicate);
+        }
+
+        /// <summary>
+        /// Find the index of the first part matching the predicate.
+        /// </summary>
+        public int FindIndex(int index, Predicate<DocumentPart> predicate)
+        {
+            return fParts.FindIndex(index, predicate);
+        }
+
+        public TableDocumentPart FirstTablePart()
+        {
+            return fParts.First(part => part.Element == DocumentElement.table) as TableDocumentPart;
+        }
+
+        public TextDocumentPart FirstTextPart(DocumentElement element)
+        {
+            return fParts.First(part => part.Element == element) as TextDocumentPart;
+        }
+        public Document GetSubDocumentFrom(int index, Predicate<DocumentPart> predicate)
+        {
+            return GetSubDocument(FindIndex(index, predicate));
+        }
+        public Document GetSubDocumentFrom(Predicate<DocumentPart> predicate)
+        {
+            return GetSubDocument(FindIndex(predicate));
+        }
+
+        /// <summary>
         /// Return all elements in the document under the value specified at the index.
         /// </summary>
         public Document GetSubDocument(int startIndex)

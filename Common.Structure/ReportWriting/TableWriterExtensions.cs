@@ -210,7 +210,8 @@ namespace Common.Structure.ReportWriting
                 }
                 for (int i = 0; i < Math.Min(rowValues[j].Count, numberHeaders); i++)
                 {
-                    int rowColumnLength = rowValues[j][i]?.Length ?? 0;
+                    int headerFirstColumnAddition = i == 0 && headerFirstColumn ? 4 : 0;
+                    int rowColumnLength = rowValues[j][i]?.Length + headerFirstColumnAddition ?? 0;
                     if (rowColumnLength > columnWidths[i])
                     {
                         columnWidths[i] = rowColumnLength;

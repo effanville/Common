@@ -17,7 +17,6 @@ namespace Common.Structure.ReportWriting.Document
         public string ConstituentString
         {
             get;
-            set;
         }
 
         public DocumentPart(DocumentType docType, DocumentElement element, string constituentString)
