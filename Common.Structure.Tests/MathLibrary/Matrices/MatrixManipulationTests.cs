@@ -65,6 +65,13 @@ namespace Common.Structure.Tests.MathLibrary.Matrices
                 { -4.1, 8, 1, 45 }
                 });
             yield return new TestCaseData(
+                MatrixTestHelper.ExampleMatrices.FourDSymmetricNotPosDef,
+                new double[,]
+                { { 1, 4, 6.7, 4.1 },
+                { 4, 3, 5, -1 },
+                { 6.7, 5, 7, 0 },
+                { 4.1, -1, 0, 9 } });
+            yield return new TestCaseData(
                 MatrixTestHelper.ExampleMatrices.SevenDIdentity,
                 new double[,]
                 { { 1, 0, 0, 0, 0, 0, 0 },
@@ -81,18 +88,6 @@ namespace Common.Structure.Tests.MathLibrary.Matrices
         {
             double[,] matrix = MatrixTestHelper.ExampleMatrices.Matrix(expectedMatrixIndex);
             Assert.AreEqual(expectedMatrix, matrix.Transpose());
-        }
-
-        [Test]
-        public void LUDecompCorrect([Values(1, 2, 3, 4, 5, 6, 7, 8)] int expectedMatrixIndex)
-        {
-            TestMatrixValues matrix = MatrixTestHelper.GetMatrix(expectedMatrixIndex);
-            LUDecomposition lUDecomposition = new LUDecomposition(matrix.Matrix);
-            double[,] product = lUDecomposition.LowerDecomp.Multiply(lUDecomposition.UpperDecomp);
-            Assertions.AreEqual(matrix.Matrix, product, 1e-3, "products wrong");
-            Assert.AreEqual(lUDecomposition.Invertible, true);
-            Assertions.AreEqual(matrix.Upper, lUDecomposition.UpperDecomp, 1e-3, "Upper wrong");
-            Assertions.AreEqual(matrix.Lower, lUDecomposition.LowerDecomp, 1e-3, "Lower wrong");
         }
 
         [Test]
@@ -222,6 +217,13 @@ namespace Common.Structure.Tests.MathLibrary.Matrices
         {
             TestMatrixValues matrix = MatrixTestHelper.GetMatrix(expectedMatrixIndex);
             Assert.AreEqual(matrix.XTX, matrix.Matrix.XTX());
+        }
+
+        [Test]
+        public void ComputeIsSymmetric([Values(1, 2, 3, 4, 5, 6, 7, 8, 9)] int expectedMatrixIndex)
+        {
+            TestMatrixValues matrix = MatrixTestHelper.GetMatrix(expectedMatrixIndex);
+            Assert.AreEqual(matrix.IsSymmetric, MatrixFunctions.IsSymmetric(matrix.Matrix));
         }
     }
 }
