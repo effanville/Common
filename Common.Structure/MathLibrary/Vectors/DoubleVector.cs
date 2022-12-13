@@ -181,17 +181,24 @@ namespace Common.Structure.MathLibrary.Vectors
         /// <summary>
         /// Calculates the Sharpe ratio for a list of values.
         /// </summary>
-        /// <exception cref="NotImplementedException"></exception>
-        public static double Sharpe(List<double> values, int number)
+        public double Sharpe(int number, double riskFreeRate = 0.0)
         {
-            throw new NotImplementedException();
+            return Sharpe(_values, number, riskFreeRate);
+        }
+
+        /// <summary>
+        /// Calculates the Sharpe ratio for a list of values.
+        /// </summary>
+        public static double Sharpe(IReadOnlyList<double> values, int number, double riskFreeRate = 0.0)
+        {
+            return (Mean(values, number) - riskFreeRate) / StandardDev(values, number);
         }
 
         /// <summary>
         /// Calculates the Maximum draw down of a list of values.
         /// </summary>
         /// <exception cref="NotImplementedException"></exception>
-        public static double MDD(List<double> values, int number)
+        public static double MDD(IReadOnlyList<double> values, int number)
         {
             throw new NotImplementedException();
         }
