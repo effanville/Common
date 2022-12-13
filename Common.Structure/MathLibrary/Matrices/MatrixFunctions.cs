@@ -12,37 +12,19 @@ namespace Common.Structure.MathLibrary.Matrices
         /// <summary>
         /// Returns the Identity matrix of size <paramref name="n"/>.
         /// </summary>
+        [Obsolete("Should use other method in DoubleMatrix instead")]
         public static double[,] Identity(int n)
         {
-            double[,] Id = new double[n, n];
-            for (int index = 0; index < n; index++)
-            {
-                Id[index, index] = 1.0;
-            }
-
-            return Id;
+            return DoubleMatrix.Identity(n);
         }
 
         /// <summary>
         /// Returns the transpose of the provided matrix.
         /// </summary>
+        [Obsolete("Should use other method in DoubleMatrix instead")]
         public static double[,] Transpose(this double[,] matrix)
         {
-            if (matrix.GetLength(1).Equals(0) || matrix.GetLength(0).Equals(0))
-            {
-                return new double[0, 0];
-            }
-
-            double[,] transpose = new double[matrix.GetLength(1), matrix.GetLength(0)];
-            for (int inputRowIndex = 0; inputRowIndex < matrix.GetLength(0); inputRowIndex++)
-            {
-                for (int inputColumnIndex = 0; inputColumnIndex < matrix.GetLength(1); inputColumnIndex++)
-                {
-                    transpose[inputColumnIndex, inputRowIndex] = matrix[inputRowIndex, inputColumnIndex];
-                }
-            }
-
-            return transpose;
+            return Matrix<double>.Transpose(matrix);
         }
 
         /// <summary>
