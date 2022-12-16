@@ -81,7 +81,7 @@ namespace Common.Structure.MathLibrary.Optimisation.Scalar
                         u = x + d;
                         if (u - a < tol2 || b - u < tol2)
                         {
-                            d = Helpers.Sign(tol1, xm - x);
+                            d = MathLibrary.Helpers.Sign(tol1, xm - x);
                         }
                     }
                 }
@@ -90,7 +90,7 @@ namespace Common.Structure.MathLibrary.Optimisation.Scalar
                     d = MathConstants.CGold * (e = (x >= xm ? a - x : b - x));
                 }
 
-                u = Math.Abs(d) >= tol1 ? x + d : x + Helpers.Sign(tol1, d);
+                u = Math.Abs(d) >= tol1 ? x + d : x + MathLibrary.Helpers.Sign(tol1, d);
                 fu = func(u);
 
                 if (fu <= fx)
