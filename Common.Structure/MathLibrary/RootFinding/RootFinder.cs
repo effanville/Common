@@ -11,6 +11,7 @@ namespace Common.Structure.MathLibrary.RootFinding
             NewtonRaphson,
             Ridders,
             Secant,
+            VWDB
         }
 
         public static Result<double> FindRoot(
@@ -42,6 +43,10 @@ namespace Common.Structure.MathLibrary.RootFinding
                 case Type.Secant:
                 {
                     return Secant.FindRoot(func, lowerBound, upperBound, maxIterations, tolerance);
+                }
+                case Type.VWDB:
+                {
+                    return VWDB.FindRoot(func, lowerBound, upperBound, maxIterations, tolerance);
                 }
                 default:
                     return null;
