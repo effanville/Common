@@ -29,7 +29,7 @@ namespace Common.Structure.MathLibrary.Matrices
         /// </summary>
         public static Result<CholeskyDecomposition> Generate(double[,] matrix)
         {
-            if (!MatrixFunctions.IsSymmetric(matrix))
+            if (!Matrix<double>.IsSymmetric(matrix))
             {
                 return Result.ErrorResult<CholeskyDecomposition>("Matrix is not symmetric");
             }
@@ -42,7 +42,7 @@ namespace Common.Structure.MathLibrary.Matrices
         /// </summary>
         public double[,] LowerTranspose()
         {
-            return MatrixFunctions.Transpose(LowerDecomp);
+            return Matrix<double>.Transpose(LowerDecomp);
         }
 
         /// <summary>

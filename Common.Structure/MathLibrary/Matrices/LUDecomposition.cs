@@ -126,7 +126,7 @@
         /// </summary>
         private static Result<LUDecomposition> GenerateLUDecomp(double[,] matrix)
         {
-            if (!MatrixFunctions.IsSquare(matrix))
+            if (!Matrix<double>.IsSquare(matrix))
             {
                 return Result.ErrorResult<LUDecomposition>("Matrix is not square.");
             }

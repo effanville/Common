@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 
-using NUnit.Framework;
-
 using Common.Structure.MathLibrary.Matrices;
+
+using NUnit.Framework;
 
 namespace Common.Structure.Tests.MathLibrary.Matrices
 {
-    public class MatrixManipulationTests
+    [TestFixture]
+    internal sealed class DoubleMatrixTests
     {
         private static IEnumerable<TestCaseData> IdentityData()
         {
@@ -19,75 +20,104 @@ namespace Common.Structure.Tests.MathLibrary.Matrices
         [TestCaseSource(nameof(IdentityData))]
         public void IdentityCorrect(int n, string expectedMatrixIndex)
         {
-            Assert.AreEqual(MatrixTestHelper.ExampleMatrices.Matrix(expectedMatrixIndex), MatrixFunctions.Identity(n));
+            Assert.AreEqual(MatrixTestHelper.ExampleMatrices.Matrix(expectedMatrixIndex), DoubleMatrix.Identity(n));
         }
 
         private static IEnumerable<TestCaseData> TransposeData()
         {
             yield return new TestCaseData(
                 MatrixTestHelper.ExampleMatrices.OneDIdentity,
-                new double[,] { { 1 } });
+                new DoubleMatrix(new double[,] { { 1 } }));
             yield return new TestCaseData(
                 MatrixTestHelper.ExampleMatrices.TwoDIdentity,
-                new double[,]
+                new DoubleMatrix(new double[,]
                 { { 1, 0 },
-                { 0, 1 } });
+                { 0, 1 } }));
             yield return new TestCaseData(
                 MatrixTestHelper.ExampleMatrices.ThreeDIdentity,
-                new double[,]
+                new DoubleMatrix(new double[,]
                 { { 1, 0, 0 },
                 { 0, 1, 0 },
-                { 0, 0, 1 } });
+                { 0, 0, 1 } }));
             yield return new TestCaseData(
                 MatrixTestHelper.ExampleMatrices.ThreeDSingleOffDiagonal,
-                new double[,]
+                new DoubleMatrix(new double[,]
                 { { 1, 0, 0 },
                 { 0, 1, 0 },
-                { 1, 0, 1 } });
+                { 1, 0, 1 } }));
             yield return new TestCaseData(
                 MatrixTestHelper.ExampleMatrices.ThreeDIntegerEntries,
-                new double[,]
+                new DoubleMatrix(new double[,]
                 { { 1, 4, 7 },
                 { 2, 5, 7 },
-                { 3, 6, 9 } });
+                { 3, 6, 9 } }));
             yield return new TestCaseData(
                 MatrixTestHelper.ExampleMatrices.ThreeDMixedEntries,
-                new double[,]
+                new DoubleMatrix(new double[,]
                 { { 7, 9, 4 },
                 { 4.3, 2.2, 88 },
-                { 3, -7.2, -2.3 } });
+                { 3, -7.2, -2.3 } }));
             yield return new TestCaseData(
                 MatrixTestHelper.ExampleMatrices.FourDMixed,
-                new double[,]
+                new DoubleMatrix(new double[,]
                 { { 1, 4, 6.7, 1 },
                 { 2.2, 3, 5, -1 },
                 { 3, 6, -2.2, 0.2 },
                 { -4.1, 8, 1, 45 }
-                });
+                }));
             yield return new TestCaseData(
                 MatrixTestHelper.ExampleMatrices.FourDSymmetricNotPosDef,
-                new double[,]
+                new DoubleMatrix(new double[,]
                 { { 1, 4, 6.7, 4.1 },
                 { 4, 3, 5, -1 },
                 { 6.7, 5, 7, 0 },
-                { 4.1, -1, 0, 9 } });
+                { 4.1, -1, 0, 9 } }));
             yield return new TestCaseData(
                 MatrixTestHelper.ExampleMatrices.SevenDIdentity,
-                new double[,]
+                new DoubleMatrix(new double[,]
                 { { 1, 0, 0, 0, 0, 0, 0 },
                 { 0, 1, 0, 0, 0, 0, 0 },
                 { 0, 0, 1, 0, 0, 0, 0 },
                 { 0, 0, 0, 1, 0, 0, 0 },
                 { 0, 0, 0, 0, 1, 0, 0 },
                 { 0, 0, 0, 0, 0, 1, 0 },
-                { 0, 0, 0, 0, 0, 0, 1 } });
+                { 0, 0, 0, 0, 0, 0, 1 } }));
         }
 
         [TestCaseSource(nameof(TransposeData))]
-        public void TransposeCorrect(string expectedMatrixIndex, double[,] expectedMatrix)
+        public void TransposeCorrect(string expectedMatrixIndex, DoubleMatrix expectedMatrix)
         {
             double[,] matrix = MatrixTestHelper.ExampleMatrices.Matrix(expectedMatrixIndex);
-            Assert.AreEqual(expectedMatrix, matrix.Transpose());
+            DoubleMatrix mat = new DoubleMatrix(matrix);
+            Assert.AreEqual(expectedMatrix, mat.Transpose());
+        }
+
+        public static IEnumerable<TestCaseData> AddTestCases()
+        {
+            yield return new TestCaseData(
+                new double[,] { { 1, 0 }, { 0, 1 } },
+                new double[,] { { 0, 0 }, { 0, 0 } },
+                new double[,] { { 1, 0 }, { 0, 1 } })
+                .SetName("MatrixAdd-IdentityAddNothing");
+
+            yield return new TestCaseData(
+                new double[,] { { 1, 0, 0 }, { 0, 1, 0 } },
+                new double[,] { { 0, 0, 0 }, { 0, 0, 0 } },
+                new double[,] { { 1, 0, 0 }, { 0, 1, 0 } })
+                .SetName("MatrixAdd-NonSquareAdd");
+
+            yield return new TestCaseData(
+                new double[,] { { 1, 0 }, { 0, 1 } },
+                new double[,] { { 0, 2 }, { 0, 2 } },
+                new double[,] { { 1, 2 }, { 0, 3 } })
+                .SetName("MatrixAdd-IdentityAddValues");
+        }
+
+        [TestCaseSource(nameof(AddTestCases))]
+        public void AddTests(double[,] firstMatrix, double[,] secondMatrix, double[,] expectedOutput)
+        {
+            double[,] add = DoubleMatrix.Add(firstMatrix, secondMatrix);
+            Assert.AreEqual(expectedOutput, add);
         }
 
         [Test]
@@ -156,74 +186,6 @@ namespace Common.Structure.Tests.MathLibrary.Matrices
         {
             double[,] matrix = MatrixTestHelper.ExampleMatrices.Matrix(expectedMatrixIndex);
             Assertions.AreEqual(expectedInverse, matrix.Inverse(), 1e-6);
-        }
-
-        [TestCase(1, 1)]
-        [TestCase(2, 2)]
-        [TestCase(3, 3)]
-        [TestCase(3, 4)]
-        [TestCase(3, 5)]
-        [TestCase(3, 6)]
-        [TestCase(4, 3)]
-        [TestCase(4, 4)]
-        [TestCase(4, 5)]
-        [TestCase(4, 6)]
-        [TestCase(5, 3)]
-        [TestCase(5, 4)]
-        [TestCase(5, 5)]
-        [TestCase(5, 6)]
-        [TestCase(6, 3)]
-        [TestCase(6, 4)]
-        [TestCase(6, 5)]
-        [TestCase(6, 6)]
-        [TestCase(7, 7)]
-        public void MultiplyOK(int matrixIndex, int matrix2Index)
-        {
-            TestMatrixValues matrix = MatrixTestHelper.GetMatrix(matrixIndex);
-            TestMatrixValues vector = MatrixTestHelper.GetMatrix(matrix2Index);
-            double[,] expected = MatrixTestHelper.GetExpectedMatrixProduct(matrixIndex, matrix2Index);
-            Assert.AreEqual(expected, matrix.Matrix.Multiply(vector.Matrix));
-        }
-
-        [TestCase(1, 1)]
-        [TestCase(2, 2)]
-        [TestCase(2, 3)]
-        [TestCase(3, 4)]
-        [TestCase(3, 5)]
-        [TestCase(3, 6)]
-        [TestCase(3, 7)]
-        [TestCase(4, 4)]
-        [TestCase(4, 5)]
-        [TestCase(4, 6)]
-        [TestCase(4, 7)]
-        [TestCase(5, 4)]
-        [TestCase(5, 5)]
-        [TestCase(5, 6)]
-        [TestCase(5, 7)]
-        [TestCase(6, 4)]
-        [TestCase(6, 5)]
-        [TestCase(6, 6)]
-        [TestCase(6, 7)]
-        public void VectorMatrixMultiplyOK(int matrixIndex, int vectorIndex)
-        {
-            TestMatrixValues matrix = MatrixTestHelper.GetMatrix(matrixIndex);
-            double[] vector = MatrixTestHelper.GetVector(vectorIndex);
-            double[] expected = MatrixTestHelper.GetExpectedProduct(matrixIndex, vectorIndex);
-            Assert.AreEqual(expected, matrix.Matrix.PostMultiplyVector(vector));
-        }
-
-        [Test]
-        public void ComputeXTXOK([Values(1, 2, 3, 4, 5, 6, 7)] int expectedMatrixIndex)
-        {
-            TestMatrixValues matrix = MatrixTestHelper.GetMatrix(expectedMatrixIndex);
-            Assert.AreEqual(matrix.XTX, matrix.Matrix.XTX());
-        }
-
-        [Test]
-        public void ComputeIsSymmetric([Values(1, 2, 3, 4, 5, 6, 7, 8, 9)] int expectedMatrixIndex)
-        {
-            TestMatrixValues matrix = MatrixTestHelper.GetMatrix(expectedMatrixIndex);
-            Assert.AreEqual(matrix.IsSymmetric, MatrixFunctions.IsSymmetric(matrix.Matrix));
         }
     }
 }

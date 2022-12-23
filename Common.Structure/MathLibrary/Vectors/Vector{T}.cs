@@ -24,11 +24,19 @@ namespace Common.Structure.MathLibrary.Vectors
             set => _values[index] = value;
         }
 
+        public T[] Values => _values;
+
         public int Count => _values.Length;
 
-        public Vector(T[] values)
+        public Vector(T[] values, T defaultValue)
         {
             _values = values;
+            DefaultValue = defaultValue;
+        }
+
+        public Vector(T[] values)
+            : this(values, default(T))
+        {
         }
 
         public Vector(int size, T defaultValue)
