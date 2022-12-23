@@ -10,6 +10,7 @@ namespace Common.Structure.Tests.MathLibrary.Matrices
         public double[,] Lower;
         public double[,] Upper;
         public double[] Pivot;
+        public bool IsSymmetric;
     }
     public static class MatrixTestHelper
     {
@@ -253,9 +254,12 @@ namespace Common.Structure.Tests.MathLibrary.Matrices
             public const string TwoDIdentity = "TwoDIdentity";
             public const string ThreeDIdentity = "ThreeDIdentity";
             public const string ThreeDSingleOffDiagonal = "ThreeDSingleOffDiagonal";
+            public const string ThreeDSymmetric = "ThreeDSymmetric";
             public const string ThreeDIntegerEntries = "ThreeDIntegerEntries";
             public const string ThreeDMixedEntries = "ThreeDMixedEntries";
             public const string FourDMixed = "FourDMixed";
+            public const string FourDSymmetric = "FourDSymmetric";
+            public const string FourDSymmetricNotPosDef = "FourDSymmetricNotPosDef";
             public const string SevenDIdentity = "SevenDIdentity";
 
             private static Dictionary<string, double[,]> fExamples;
@@ -289,6 +293,13 @@ namespace Common.Structure.Tests.MathLibrary.Matrices
                         { 0, 0, 1 } }
                     },
                     {
+                        ThreeDSymmetric,
+                        new double[,]
+                        { { 6, 15, 55 },
+                        { 15, 55, 225 },
+                        { 55, 225, 979 } }
+                    },
+                    {
                          ThreeDIntegerEntries,
                          new double[,]
                          { { 1, 2, 3 },
@@ -310,6 +321,21 @@ namespace Common.Structure.Tests.MathLibrary.Matrices
                         { 6.7, 5, -2.2, 1 },
                         { 1, -1, 0.2, 45 } }
                     },
+                    {
+                        FourDSymmetric,
+                        new double[,]
+                        { { 4, 6, 10, 2 },
+                        { 6, 18, 27, 21 },
+                        { 10, 27, 50, 44 },
+                        { 2, 21, 44, 111 } }
+                    },
+                    {
+                        FourDSymmetricNotPosDef,
+                        new double[,]
+                        { { 1, 4, 6.7, 4.1 },
+                        { 4, 3, 5, -1 },
+                        { 6.7, 5, 7, 0 },
+                        { 4.1, -1, 0, 9 } }},
                     {
                         SevenDIdentity,
                         new double[,]
@@ -347,7 +373,8 @@ namespace Common.Structure.Tests.MathLibrary.Matrices
                         XTX = new double[,] { { 1 } },
                         XTXPlusI = new double[,] { { 2 } },
                         Lower = new double[,] { { 1 } },
-                        Upper = new double[,] { { 1 } }
+                        Upper = new double[,] { { 1 } },
+                        IsSymmetric = true
                     };
                 }
                 case (2):
@@ -368,7 +395,8 @@ namespace Common.Structure.Tests.MathLibrary.Matrices
                         { 0, 1 } },
                         Upper = new double[,]
                         { { 1, 0 },
-                        { 0, 1 } }
+                        { 0, 1 } },
+                        IsSymmetric = true
                     };
                 }
                 case (3):
@@ -394,7 +422,8 @@ namespace Common.Structure.Tests.MathLibrary.Matrices
                         Upper = new double[,]
                         { { 1, 0, 0 },
                         { 0, 1, 0 },
-                        { 0, 0, 1 } }
+                        { 0, 0, 1 } },
+                        IsSymmetric = true
                     };
                 }
                 case (4):
@@ -420,7 +449,8 @@ namespace Common.Structure.Tests.MathLibrary.Matrices
                         Upper = new double[,]
                         { { 1, 0, 1 },
                         { 0, 1, 0 },
-                        { 0, 0, 1 } }
+                        { 0, 0, 1 } },
+                        IsSymmetric = false
                     };
                 }
                 case (5):
@@ -431,7 +461,8 @@ namespace Common.Structure.Tests.MathLibrary.Matrices
                         XTX = new double[,] { { 66, 71, 90 }, { 71, 78, 99 }, { 90, 99, 126 } },
                         XTXPlusI = new double[,] { { 67, 71, 90 }, { 71, 79, 99 }, { 90, 99, 127 } },
                         Lower = new double[,] { { 1, 0, 0 }, { 4, 1, 0 }, { 7, 2.333333333333333333333333333, 1 } },
-                        Upper = new double[,] { { 1, 2, 3 }, { 0, -3, -6 }, { 0, 0, 2 } }
+                        Upper = new double[,] { { 1, 2, 3 }, { 0, -3, -6 }, { 0, 0, 2 } },
+                        IsSymmetric = false
                     };
                 }
                 case (6):
@@ -443,7 +474,8 @@ namespace Common.Structure.Tests.MathLibrary.Matrices
                         XTXPlusI = new double[,] { { 147, 401.9, -53 }, { 401.9, 7768.33, -205.33999999999997 }, { -53, -205.33999999999997, 67.13 } },
                         Lower = new double[,] { { 1, 0, 0 }, { 1.2857142857142858, 1, 0 }, { 0.5714285714285714, -25.699570815450645, 1 } },
                         Upper = new double[,] { { 7, 4.3, 3 }, { 0, -3.3285714285714283, -11.057142857142857 }, { 0, 0, -288.17811158798287 } },
-                        Pivot = new double[] { 2, 3, 1 }
+                        Pivot = new double[] { 2, 3, 1 },
+                        IsSymmetric = false
                     };
                 }
                 case (7):
@@ -484,7 +516,8 @@ namespace Common.Structure.Tests.MathLibrary.Matrices
                                                      { 0, 0, 0, 1, 0, 0, 0 },
                                                      { 0, 0, 0, 0, 1, 0, 0 },
                                                      { 0, 0, 0, 0, 0, 1, 0 },
-                                                     { 0, 0, 0, 0, 0, 0, 1 } }
+                                                     { 0, 0, 0, 0, 0, 0, 1 } },
+                        IsSymmetric = true
                     };
                 }
                 case (8):
@@ -506,7 +539,20 @@ namespace Common.Structure.Tests.MathLibrary.Matrices
                         { 0, -5.8000000000000007, -6, 24.4 },
                         { 0, 0, -12.224137931034482, -12.505172413793105 },
                         { 0, 0, 0, 35.115853314527506 } },
-                        Pivot = new double[] { 3, 4, 2, 1 }
+                        Pivot = new double[] { 3, 4, 2, 1 },
+                        IsSymmetric = false
+                    };
+                }
+                case 9:
+                {
+                    return new TestMatrixValues()
+                    {
+                        Matrix = new double[,]
+                        { { 1, 4, 6.7, 4.1 },
+                        { 4, 3, 5, -1 },
+                        { 6.7, 5, 7, 0 },
+                        { 4.1, -1, 0, 9 } },
+                        IsSymmetric = true
                     };
                 }
                 default:

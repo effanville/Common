@@ -13,7 +13,7 @@ namespace Common.Structure.Tests.MathLibrary.Vectors
         private static IEnumerable<TestCaseData> MaxTestCases()
         {
             yield return new TestCaseData(null, 0, double.NaN);
-            yield return new TestCaseData(new List<double>(), 0, double.MinValue);
+            yield return new TestCaseData(new List<double>(), 0, double.NaN);
             yield return new TestCaseData(new List<double>(), 1, double.NaN);
             yield return new TestCaseData(new List<double>() { 1.0 }, 1, 1.0);
             yield return new TestCaseData(new List<double>() { 1.0, 4.0 }, 1, 4.0);
@@ -26,14 +26,14 @@ namespace Common.Structure.Tests.MathLibrary.Vectors
         [TestCaseSource(nameof(MaxTestCases))]
         public void MaxTests(List<double> values, int number, double expected)
         {
-            double max = VectorStats.Max(values, number);
+            double max = DoubleVector.Max(values, number, double.NaN);
             Assert.AreEqual(expected, max);
         }
 
         private static IEnumerable<TestCaseData> MinTestCases()
         {
             yield return new TestCaseData(null, 0, double.NaN);
-            yield return new TestCaseData(new List<double>(), 0, double.MaxValue);
+            yield return new TestCaseData(new List<double>(), 0, double.NaN);
             yield return new TestCaseData(new List<double>(), 1, double.NaN);
             yield return new TestCaseData(new List<double>() { 1.0 }, 1, 1.0);
             yield return new TestCaseData(new List<double>() { 1.0, 4.0 }, 1, 4.0);
@@ -46,7 +46,7 @@ namespace Common.Structure.Tests.MathLibrary.Vectors
         [TestCaseSource(nameof(MinTestCases))]
         public void MinTests(List<double> values, int number, double expected)
         {
-            double min = VectorStats.Min(values, number);
+            double min = DoubleVector.Min(values, number, double.NaN);
             Assert.AreEqual(expected, min);
         }
 
