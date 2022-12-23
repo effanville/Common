@@ -36,7 +36,7 @@ namespace Common.Structure.MathLibrary.Optimisation.Vector
             double[] candidateMinimum = startingPoint;
 
             // various function values and derivatives.
-            double[,] hessian = MatrixFunctions.Identity(numDimensions);
+            double[,] hessian = DoubleMatrix.Identity(numDimensions);
             double[] lineSearchDirection = new double[numDimensions];
             double functionValue = func(candidateMinimum);
             double[] gradientValue = gFunc(candidateMinimum);

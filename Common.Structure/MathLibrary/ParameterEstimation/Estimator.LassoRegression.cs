@@ -289,7 +289,7 @@ namespace Common.Structure.MathLibrary.ParameterEstimation
                 for (int i = 0; i < partitionIndices.GetLength(1); i++)
                 {
                     expectedValues[i] = data[partitionIndices[partitionIndex, i], data.GetLength(1) - 1];
-                    actualValues[i] = MatrixFunctions.VectorMatrixRowMult(data, weightsThisTime, partitionIndices[partitionIndex, i]);
+                    actualValues[i] = DoubleMatrix.VectorMatrixRowMult(data, weightsThisTime, partitionIndices[partitionIndex, i]);
                 }
 
                 return Residuals.MeanSquareError(actualValues, expectedValues);

@@ -19,9 +19,15 @@ namespace Common.Structure.MathLibrary.Matrices
             set => _values[index, index2] = value;
         }
 
-        public Matrix(T[,] values)
+        public Matrix(T[,] values, T defaultValue)
         {
             _values = values;
+            DefaultValue = defaultValue;
+        }
+
+        public Matrix(T[,] values)
+            : this(values, default(T))
+        {
         }
 
         public Matrix(int size1, int size2, T defaultValue)
@@ -51,7 +57,7 @@ namespace Common.Structure.MathLibrary.Matrices
             _values[index1, index2] = default(T);
         }
 
-        public Matrix<T> Transpose()
+        public virtual Matrix<T> Transpose()
         {
             T[,] transpose = Transpose(_values);
             return new Matrix<T>(transpose);
@@ -74,6 +80,90 @@ namespace Common.Structure.MathLibrary.Matrices
             }
 
             return transpose;
+        }
+
+        public bool IsSquare()
+        {
+            return IsSquare();
+        }
+
+        /// <summary>
+        /// Checks whether input matrix is square.
+        /// </summary>
+        /// <param name="matrix"></param>
+        /// <returns></returns>
+        public static bool IsSquare(T[,] matrix)
+        {
+            if (!matrix.GetLength(0).Equals(matrix.GetLength(1)))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public bool IsSymmetric()
+        {
+            return IsSymmetric();
+        }
+
+        /// <summary>
+        /// Routine to check whether the input is symmetric.
+        /// </summary>
+        public static bool IsSymmetric(T[,] matrix)
+        {
+            if (!IsSquare(matrix))
+            {
+                return false;
+            }
+
+            for (int i = 0; i < matrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < i; j++)
+                {
+                    if (!matrix[i, j].Equals(matrix[j, i]))
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        public override bool Equals(object obj)
+        {
+            var mat = obj as Matrix<T>;
+            if (!DefaultValue.Equals(mat.DefaultValue))
+            {
+                return false;
+            }
+
+            int rowNum = Count(0);
+            int colNum = Count(1);
+            int matRowNum = mat.Count(0);
+            int matColNum = mat.Count(1);
+            if (rowNum != matRowNum || colNum != matColNum)
+            {
+                return false;
+            }
+            for (int rowIndex = 0; rowIndex < rowNum; rowIndex++)
+            {
+                for (int colIndex = 0; colIndex < colNum; colIndex++)
+                {
+                    if (!_values[rowIndex, colIndex].Equals(mat._values[rowIndex, colIndex]))
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(_values, DefaultValue);
         }
     }
 }
