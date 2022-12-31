@@ -133,9 +133,9 @@ namespace Common.Structure.ReportWriting
         /// <typeparam name="T">The type of object to write out.</typeparam>
         /// <param name="values">The values to write into the table. The property names for <typeparamref name="T"/> give the header values.</param>
         /// <param name="headerFirstColumn">Whether first column should be header style or not.</param>
-        public ReportBuilder WriteTableFromEnumerable<T>(IEnumerable<IEnumerable<T>> values, bool headerFirstColumn)
+        public ReportBuilder WriteTableFromEnumerable<T>(IEnumerable<IEnumerable<T>> values, TableSettings tableSettings)
         {
-            fTableWriter.WriteTable(fReport, values, headerFirstColumn);
+            fTableWriter.WriteTable(fReport, values, tableSettings);
             return this;
         }
 
@@ -145,9 +145,9 @@ namespace Common.Structure.ReportWriting
         /// <typeparam name="T">The type of object to write out.</typeparam>
         /// <param name="values">The values to write into the table. The property names for <typeparamref name="T"/> give the header values.</param>
         /// <param name="headerFirstColumn">Whether first column should be header style or not.</param>
-        public ReportBuilder WriteTable<T>(IEnumerable<T> values, bool headerFirstColumn)
+        public ReportBuilder WriteTable<T>(IEnumerable<T> values, TableSettings tableSettings)
         {
-            fTableWriter.WriteTable(fReport, values, headerFirstColumn);
+            fTableWriter.WriteTable(fReport, values, tableSettings);
             return this;
         }
 
@@ -158,9 +158,9 @@ namespace Common.Structure.ReportWriting
         /// <param name="headerValues">The values to write into the table header.</param>
         /// <param name="rowValues">The values to write for the table data. Each item is a row, and each row is a list of values. The values use the ToString() method to output the value.</param>
         /// <param name="headerFirstColumn">Whether first column should be header style or not.</param>
-        public ReportBuilder WriteTableFromEnumerable<T>(IEnumerable<string> headerValues, IEnumerable<IEnumerable<T>> rowValues, bool headerFirstColumn)
+        public ReportBuilder WriteTableFromEnumerable<T>(IEnumerable<string> headerValues, IEnumerable<IEnumerable<T>> rowValues, TableSettings tableSettings)
         {
-            fTableWriter.WriteTable(fReport, headerValues, rowValues, headerFirstColumn);
+            fTableWriter.WriteTable(fReport, headerValues, rowValues, tableSettings);
             return this;
         }
 
@@ -172,9 +172,9 @@ namespace Common.Structure.ReportWriting
         /// <param name="headerValues">The values to write out.</param>
         /// <param name="rowValues">The values to place in successive rows.</param>
         /// <param name="headerFirstColumn">Whether first column should be header style or not.</param>
-        public ReportBuilder WriteTable<T>(IEnumerable<string> headerValues, IEnumerable<T> rowValues, bool headerFirstColumn)
+        public ReportBuilder WriteTable<T>(IEnumerable<string> headerValues, IEnumerable<T> rowValues, TableSettings tableSettings)
         {
-            fTableWriter.WriteTable(fReport, headerValues, rowValues, headerFirstColumn);
+            fTableWriter.WriteTable(fReport, headerValues, rowValues, tableSettings);
             return this;
         }
 

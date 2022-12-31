@@ -10,7 +10,7 @@ namespace Common.Structure.ReportWriting.Markdown
     public sealed class MarkdownTableWriter : ITableWriter
     {
         /// <inheritdoc/>
-        public void WriteEmptyRow(StringBuilder sb, int numberColumns)
+        public void WriteEmptyRow(StringBuilder sb, int numberColumns, TableSettings settings)
         {
             _ = sb.Append('|');
             for (int columnIndex = 0; columnIndex < numberColumns; columnIndex++)
@@ -33,35 +33,28 @@ namespace Common.Structure.ReportWriting.Markdown
         }
 
         /// <inheritdoc/>
-        public int WriteTableHeader(StringBuilder sb, IReadOnlyList<string> valuesToWrite)
-        {
-            _ = sb.Append('|');
-            StringBuilder headerRowBuilder = new StringBuilder();
-            _ = headerRowBuilder.Append('|');
-            foreach (string property in valuesToWrite)
+        public int WriteTableHeader(StringBuilder sb, IReadOnlyList<string> valuesToWrite, TableSettings settings)
+        {            
+            if (valuesToWrite == null || valuesToWrite.Count == 0)
             {
-                _ = sb.Append($" {property} ")
-                    .Append('|');
-                _ = headerRowBuilder.Append(" - ")
-                    .Append('|');
+                return -1;
+            }
+            
+            var columnWidths = settings.ColumnWidths;
+            if (columnWidths != null && valuesToWrite.Count != columnWidths.Count)
+            {
+                return -1;
             }
 
-            _ = sb.AppendLine()
-                .AppendLine(headerRowBuilder.ToString());
-            return valuesToWrite.Count;
-        }
-
-        /// <inheritdoc/>
-        public int WriteTableHeader(StringBuilder sb, IReadOnlyList<string> valuesToWrite, IReadOnlyList<int> columnWidths)
-        {
             _ = sb.Append('|');
             StringBuilder headerRowBuilder = new StringBuilder();
             _ = headerRowBuilder.Append('|');
             for (int columnIndex = 0; columnIndex < valuesToWrite.Count; columnIndex++)
             {
-                _ = sb.Append($" {valuesToWrite[columnIndex].PadRight(columnWidths[columnIndex])} ")
+                int paddingValue = columnWidths?[columnIndex] ?? 0;
+                _ = sb.Append($" {valuesToWrite[columnIndex].PadRight(paddingValue)} ")
                     .Append('|');
-                _ = headerRowBuilder.Append($" {"-".PadRight(columnWidths[columnIndex], '-')} ")
+                _ = headerRowBuilder.Append($" {"-".PadRight(paddingValue, '-')} ")
                     .Append('|');
             }
 
@@ -71,53 +64,35 @@ namespace Common.Structure.ReportWriting.Markdown
         }
 
         /// <inheritdoc/>
-        public void WriteTableRow(StringBuilder sb, IReadOnlyList<string> valuesToWrite, bool headerFirstColumn)
-        {
-            _ = sb.Append('|');
-            int i = 0;
-            foreach (string property in valuesToWrite)
-            {
-                if (i == 0 && headerFirstColumn)
-                {
-                    _ = sb.Append($" __{property}__ ")
-                        .Append('|');
-                    continue;
-                }
-                _ = sb.Append($" {property} ")
-                    .Append('|');
-                i++;
-            }
-
-            _ = sb.AppendLine();
-        }
-
-        /// <inheritdoc/>
-        public void WriteTableRow(StringBuilder sb, IReadOnlyList<string> valuesToWrite, bool headerFirstColumn, IReadOnlyList<int> columnWidths)
+        public void WriteTableRow(StringBuilder sb, IReadOnlyList<string> valuesToWrite, TableSettings settings)
         {
             if (valuesToWrite == null || valuesToWrite.Count == 0)
             {
                 return;
             }
-
-            if (valuesToWrite.Count != columnWidths.Count)
+            
+            var columnWidths = settings.ColumnWidths;
+            if (columnWidths != null && valuesToWrite.Count != columnWidths.Count)
             {
                 return;
             }
 
             _ = sb.Append('|');
             int startIndex = 0;
-            if (headerFirstColumn)
+            if (settings.FirstColumnAsHeader)
             {
                 startIndex++;
                 string boldValue = $"__{valuesToWrite[0]}__";
-                _ = sb.Append($" {boldValue.PadRight(columnWidths[0])} ")
+                int paddingValue = columnWidths?[0] ?? 0;
+                _ = sb.Append($" {boldValue.PadRight(paddingValue)} ")
                     .Append('|');
             }
-
+                        
             for (int columnIndex = startIndex; columnIndex < valuesToWrite.Count; columnIndex++)
             {
+                int paddingValue = columnWidths?[columnIndex] ?? 0;
                 var value = valuesToWrite[columnIndex] ?? " ";
-                _ = sb.Append($" {value.PadRight(columnWidths[columnIndex])} ")
+                _ = sb.Append($" {value.PadRight(paddingValue)} ")
                     .Append('|');
             }
 

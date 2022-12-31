@@ -39,37 +39,37 @@ namespace Common.Structure.ReportWriting.Document
             return this;
         }
 
-        public DocumentBuilder WriteTable<T>(IEnumerable<IEnumerable<T>> values, bool headerFirstColumn)
+        public DocumentBuilder WriteTable<T>(IEnumerable<IEnumerable<T>> values, TableSettings settings)
         {
             var sb = new StringBuilder();
-            fTableWriter.WriteTable(sb, values, headerFirstColumn);
+            fTableWriter.WriteTable(sb, values, settings);
             var part = DocumentPartFactory.Generate(fDocument.DocType, DocumentElement.table, sb.ToString());
             fDocument.Add(part);
             return this;
         }
 
-        public DocumentBuilder WriteTable<T>(IEnumerable<T> values, bool headerFirstColumn)
+        public DocumentBuilder WriteTable<T>(IEnumerable<T> values, TableSettings settings)
         {
             var sb = new StringBuilder();
-            fTableWriter.WriteTable(sb, values, headerFirstColumn);
+            fTableWriter.WriteTable(sb, values, settings);
             var part = DocumentPartFactory.Generate(fDocument.DocType, DocumentElement.table, sb.ToString());
             fDocument.Add(part);
             return this;
         }
 
-        public DocumentBuilder WriteTable<T>(IEnumerable<string> headerValues, IEnumerable<IEnumerable<T>> rowValues, bool headerFirstColumn)
+        public DocumentBuilder WriteTable<T>(IEnumerable<string> headerValues, IEnumerable<IEnumerable<T>> rowValues, TableSettings settings)
         {
             var sb = new StringBuilder();
-            fTableWriter.WriteTable(sb, headerValues, rowValues, headerFirstColumn);
+            fTableWriter.WriteTable(sb, headerValues, rowValues, settings);
             var part = DocumentPartFactory.Generate(fDocument.DocType, DocumentElement.table, sb.ToString());
             fDocument.Add(part);
             return this;
         }
 
-        public DocumentBuilder WriteTable<T>(IEnumerable<string> headerValues, IEnumerable<T> rowValues, bool headerFirstColumn)
+        public DocumentBuilder WriteTable<T>(IEnumerable<string> headerValues, IEnumerable<T> rowValues, TableSettings settings)
         {
             var sb = new StringBuilder();
-            fTableWriter.WriteTable(sb, headerValues, rowValues, headerFirstColumn);
+            fTableWriter.WriteTable(sb, headerValues, rowValues, settings);
             var part = DocumentPartFactory.Generate(fDocument.DocType, DocumentElement.table, sb.ToString());
             fDocument.Add(part);
             return this;

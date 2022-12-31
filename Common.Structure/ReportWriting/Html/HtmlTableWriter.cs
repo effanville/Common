@@ -13,7 +13,7 @@ namespace Common.Structure.ReportWriting.Html
         public static readonly string EndTag = $"</{DocumentElement.table}>";
 
         /// <inheritdoc/>
-        public void WriteEmptyRow(StringBuilder sb, int numberColumns)
+        public void WriteEmptyRow(StringBuilder sb, int numberColumns, TableSettings settings)
         {
             _ = sb.AppendLine("<tr><td><br/></td></tr>");
         }
@@ -30,7 +30,7 @@ namespace Common.Structure.ReportWriting.Html
         /// </summary>
         /// <param name="sb">The StreamWriter to use</param>
         /// <param name="valuesToWrite">The values to use for the header names.</param>
-        public int WriteTableHeader(StringBuilder sb, IReadOnlyList<string> valuesToWrite)
+        public int WriteTableHeader(StringBuilder sb, IReadOnlyList<string> valuesToWrite, TableSettings settings)
         {
             _ = sb.AppendLine("<thead><tr>");
             int i = 0;
@@ -57,13 +57,7 @@ namespace Common.Structure.ReportWriting.Html
         }
 
         /// <inheritdoc/>
-        public int WriteTableHeader(StringBuilder sb, IReadOnlyList<string> valuesToWrite, IReadOnlyList<int> columnWidths)
-        {
-            return WriteTableHeader(sb, valuesToWrite);
-        }
-
-        /// <inheritdoc/>
-        public void WriteTableRow(StringBuilder sb, IReadOnlyList<string> valuesToWrite, bool headerFirstColumn)
+        public void WriteTableRow(StringBuilder sb, IReadOnlyList<string> valuesToWrite, TableSettings settings)
         {
             _ = sb.AppendLine("<tr>");
             int i = 0;
@@ -73,7 +67,7 @@ namespace Common.Structure.ReportWriting.Html
                 foreach (string property in valuesToWrite)
                 {
                     bool isDouble = double.TryParse(property, out double value);
-                    if (headerFirstColumn)
+                    if (settings.FirstColumnAsHeader)
                     {
                         if (i != 0)
                         {
@@ -97,7 +91,7 @@ namespace Common.Structure.ReportWriting.Html
                     }
 
                     _ = sb.Append(property);
-                    if (headerFirstColumn)
+                    if (settings.FirstColumnAsHeader)
                     {
                         if (i != 0)
                         {
@@ -123,12 +117,6 @@ namespace Common.Structure.ReportWriting.Html
 
             _ = sb.AppendLine();
             _ = sb.AppendLine("</tr>");
-        }
-
-        /// <inheritdoc/>
-        public void WriteTableRow(StringBuilder sb, IReadOnlyList<string> valuesToWrite, bool headerFirstColumn, IReadOnlyList<int> columnWidths)
-        {
-            WriteTableRow(sb, valuesToWrite, headerFirstColumn);
         }
 
         /// <inheritdoc/>

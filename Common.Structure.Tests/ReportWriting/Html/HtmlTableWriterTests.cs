@@ -19,9 +19,10 @@ namespace Common.Structure.Tests.ReportWriting.Html
         [TestCaseSource(nameof(TableHeaderData))]
         public void CanWriteTableHeader(List<string> headerValues, string expectedMarkdown)
         {
+            TableSettings settings = TableSettings.Default();
             StringBuilder sb = new StringBuilder();
             var tableWriter = TableWriterFactory.Create(DocumentType.Html);
-            _ = tableWriter.WriteTableHeader(sb, headerValues);
+            _ = tableWriter.WriteTableHeader(sb, headerValues, settings);
 
             string markdownSnippet = sb.ToString();
             Assert.AreEqual(expectedMarkdown, markdownSnippet);
@@ -35,9 +36,10 @@ namespace Common.Structure.Tests.ReportWriting.Html
         [TestCaseSource(nameof(TableRowData))]
         public void CanWriteTableRow(List<string> headerValues, string expectedMarkdown)
         {
+            TableSettings settings = TableSettings.Default();
             StringBuilder sb = new StringBuilder();
             var tableWriter = TableWriterFactory.Create(DocumentType.Html);
-            tableWriter.WriteTableRow(sb, headerValues, headerFirstColumn: false);
+            tableWriter.WriteTableRow(sb, headerValues, settings);
 
             string markdownSnippet = sb.ToString();
             Assert.AreEqual(expectedMarkdown, markdownSnippet);
@@ -54,9 +56,10 @@ namespace Common.Structure.Tests.ReportWriting.Html
         [TestCaseSource(nameof(TableData))]
         public void CanWriteTable(List<string> headerValues, List<List<string>> rowValues, string expectedMarkdown)
         {
+            TableSettings settings = TableSettings.Default();
             StringBuilder sb = new StringBuilder();
             var tableWriter = TableWriterFactory.Create(DocumentType.Html);
-            tableWriter.WriteTable(sb, headerValues, rowValues, headerFirstColumn: false);
+            tableWriter.WriteTable(sb, headerValues, rowValues, settings);
 
             string markdownSnippet = sb.ToString();
             Assert.AreEqual(expectedMarkdown, markdownSnippet);

@@ -19,9 +19,10 @@ namespace Common.Structure.Tests.ReportWriting.Markdown
         [TestCaseSource(nameof(TableHeaderData))]
         public void CanWriteTableHeader(List<string> headerValues, string expectedMarkdown)
         {
+            TableSettings settings = TableSettings.Default();
             StringBuilder sb = new StringBuilder();
             var tableWriter = TableWriterFactory.Create(DocumentType.Md);
-            _ = tableWriter.WriteTableHeader(sb, headerValues);
+            _ = tableWriter.WriteTableHeader(sb, headerValues, settings);
 
             string markdownSnippet = sb.ToString();
             Assert.AreEqual(expectedMarkdown, markdownSnippet);
@@ -35,9 +36,10 @@ namespace Common.Structure.Tests.ReportWriting.Markdown
         [TestCaseSource(nameof(TableRowData))]
         public void CanWriteTableRow(List<string> headerValues, string expectedMarkdown)
         {
+            TableSettings settings = TableSettings.Default();
             StringBuilder sb = new StringBuilder();
             var tableWriter = TableWriterFactory.Create(DocumentType.Md);
-            tableWriter.WriteTableRow(sb, headerValues, headerFirstColumn: false);
+            tableWriter.WriteTableRow(sb, headerValues, settings);
 
             string markdownSnippet = sb.ToString();
             Assert.AreEqual(expectedMarkdown, markdownSnippet);
@@ -61,9 +63,13 @@ namespace Common.Structure.Tests.ReportWriting.Markdown
         [TestCaseSource(nameof(TableData))]
         public void CanWriteTable(List<string> headerValues, List<List<string>> rowValues, bool header, string expectedMarkdown)
         {
+            TableSettings settings = new TableSettings()
+            {
+                FirstColumnAsHeader = header
+            };
             StringBuilder sb = new StringBuilder();
             var tableWriter = TableWriterFactory.Create(DocumentType.Md);
-            tableWriter.WriteTable(sb, headerValues, rowValues, headerFirstColumn: header);
+            tableWriter.WriteTable(sb, headerValues, rowValues, settings);
 
             string markdownSnippet = sb.ToString();
             Assert.AreEqual(expectedMarkdown, markdownSnippet);
@@ -71,10 +77,14 @@ namespace Common.Structure.Tests.ReportWriting.Markdown
 
         [TestCaseSource(nameof(TableData))]
         public void CanWriteTableWriting(List<string> headerValues, List<List<string>> rowValues, bool header, string expectedMarkdown)
-        {
+        {            
+            TableSettings settings = new TableSettings()
+            {
+                FirstColumnAsHeader = header
+            };
             StringBuilder sb = new StringBuilder();
             var tableWriter = TableWriterFactory.Create(DocumentType.Md);
-            tableWriter.WriteTable(sb, headerValues, rowValues, headerFirstColumn: header);
+            tableWriter.WriteTable(sb, headerValues, rowValues, settings);
 
             string markdownSnippet = sb.ToString();
             Assert.AreEqual(expectedMarkdown, markdownSnippet);

@@ -9,7 +9,7 @@ namespace Common.Structure.ReportWriting.Csv
     public sealed class CsvTableWriter : ITableWriter
     {
         /// <inheritdoc/>
-        public void WriteEmptyRow(StringBuilder sb, int numberColumns)
+        public void WriteEmptyRow(StringBuilder sb, int numberColumns, TableSettings settings)
         {
         }
 
@@ -19,28 +19,16 @@ namespace Common.Structure.ReportWriting.Csv
         }
 
         /// <inheritdoc/>
-        public int WriteTableHeader(StringBuilder sb, IReadOnlyList<string> headerValues)
+        public int WriteTableHeader(StringBuilder sb, IReadOnlyList<string> headerValues, TableSettings settings)
         {
             _ = sb.AppendLine(string.Join(",", headerValues));
             return headerValues.Count;
         }
 
         /// <inheritdoc/>
-        public int WriteTableHeader(StringBuilder sb, IReadOnlyList<string> headerValues, IReadOnlyList<int> columnWidths)
-        {
-            return WriteTableHeader(sb, headerValues);
-        }
-
-        /// <inheritdoc/>
-        public void WriteTableRow(StringBuilder sb, IReadOnlyList<string> rowValues, bool headerFirstColumn)
+        public void WriteTableRow(StringBuilder sb, IReadOnlyList<string> rowValues, TableSettings settings)
         {
             _ = sb.AppendLine(string.Join(",", rowValues));
-        }
-
-        /// <inheritdoc/>
-        public void WriteTableRow(StringBuilder sb, IReadOnlyList<string> rowValues, bool headerFirstColumn, IReadOnlyList<int> columnWidths)
-        {
-            WriteTableRow(sb, rowValues, headerFirstColumn);
         }
 
         /// <inheritdoc/>

@@ -17,12 +17,12 @@ namespace Common.Structure.ReportWriting
         /// <param name="tableWriter">The table writer for writing the table</param>
         /// <param name="sb">The writer to write with.</param>
         /// <param name="values">The values to write into the table. The property names for <typeparamref name="T"/> give the header values.</param>
-        /// <param name="headerFirstColumn">Whether first column should be header style or not.</param>
+        /// <param name="settings">The settings for how the table should be written.</param>
         public static void WriteTable<T>(
             this ITableWriter tableWriter,
             StringBuilder sb,
             IEnumerable<IEnumerable<T>> values,
-            bool headerFirstColumn)
+            TableSettings settings)
         {
             T instanceForHeaderValues = default(T);
             foreach (T value in values)
@@ -43,7 +43,7 @@ namespace Common.Structure.ReportWriting
                 sb,
                 instanceForHeaderValues.GetType().GetProperties().Select(type => type.Name),
                 values,
-                headerFirstColumn);
+                settings);
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace Common.Structure.ReportWriting
             this ITableWriter tableWriter,
             StringBuilder sb,
             IEnumerable<T> values,
-            bool headerFirstColumn)
+            TableSettings settings)
         {
             T instanceForHeaderValues = default(T);
             foreach (T value in values)
@@ -79,7 +79,7 @@ namespace Common.Structure.ReportWriting
                 sb,
                 instanceForHeaderValues.GetType().GetProperties().Select(type => type.Name),
                 values,
-                headerFirstColumn);
+                settings);
         }
 
         /// <summary>
@@ -96,12 +96,12 @@ namespace Common.Structure.ReportWriting
             StringBuilder sb,
             IEnumerable<string> headerValues,
             IEnumerable<IEnumerable<T>> rowValues,
-            bool headerFirstColumn)
+            TableSettings settings)
         {
             tableWriter.WriteTable(
                 sb, headerValues.ToList(),
                 rowValues.Select(row => selectValues(row)).ToList(),
-                headerFirstColumn);
+                settings);
 
             IReadOnlyList<string> selectValues(IEnumerable<T> row)
             {
@@ -129,13 +129,13 @@ namespace Common.Structure.ReportWriting
             StringBuilder sb,
             IEnumerable<string> headerValues,
             IEnumerable<T> rowValues,
-            bool headerFirstColumn)
+            TableSettings settings)
         {
             tableWriter.WriteTable(
                 sb,
                 headerValues.ToList(),
                 rowValues.Select(row => selectValues(row)).ToList(),
-                headerFirstColumn);
+                settings);
 
             IReadOnlyList<string> selectValues(T row)
             {
@@ -160,19 +160,19 @@ namespace Common.Structure.ReportWriting
             StringBuilder sb,
             IEnumerable<string> headerValues,
             IEnumerable<IEnumerable<string>> rowValues,
-            bool headerFirstColumn)
+            TableSettings settings)
         {
             tableWriter.WriteTableStart(sb);
-            int numberColumns = tableWriter.WriteTableHeader(sb, headerValues.ToList());
+            int numberColumns = tableWriter.WriteTableHeader(sb, headerValues.ToList(), settings);
             foreach (var row in rowValues)
             {
                 if (row != null)
                 {
-                    tableWriter.WriteTableRow(sb, row.ToList(), headerFirstColumn);
+                    tableWriter.WriteTableRow(sb, row.ToList(), settings);
                 }
                 if (row == null)
                 {
-                    tableWriter.WriteEmptyRow(sb, numberColumns);
+                    tableWriter.WriteEmptyRow(sb, numberColumns, settings);
                 }
             }
 
@@ -192,8 +192,10 @@ namespace Common.Structure.ReportWriting
             StringBuilder sb,
             IReadOnlyList<string> headerValues,
             IReadOnlyList<IReadOnlyList<string>> rowValues,
-            bool headerFirstColumn)
+            TableSettings settings)
         {
+            TableSettings actualSettings = TableSettings.FromSettings(settings);
+
             // First calculate max lengths of all the values in the table.
             List<int> columnWidths = new List<int>();
             int numberHeaders = headerValues.Count;
@@ -210,7 +212,7 @@ namespace Common.Structure.ReportWriting
                 }
                 for (int i = 0; i < Math.Min(rowValues[j].Count, numberHeaders); i++)
                 {
-                    int headerFirstColumnAddition = i == 0 && headerFirstColumn ? 4 : 0;
+                    int headerFirstColumnAddition = i == 0 && settings.FirstColumnAsHeader ? 4 : 0;
                     int rowColumnLength = rowValues[j][i]?.Length + headerFirstColumnAddition ?? 0;
                     if (rowColumnLength > columnWidths[i])
                     {
@@ -219,17 +221,18 @@ namespace Common.Structure.ReportWriting
                 }
             }
 
+            actualSettings.ColumnWidths = columnWidths;
             tableWriter.WriteTableStart(sb);
-            int numberColumns = tableWriter.WriteTableHeader(sb, headerValues, columnWidths);
+            int numberColumns = tableWriter.WriteTableHeader(sb, headerValues, actualSettings);
             foreach (var row in rowValues)
             {
                 if (row != null)
                 {
-                    tableWriter.WriteTableRow(sb, row, headerFirstColumn, columnWidths);
+                    tableWriter.WriteTableRow(sb, row, actualSettings);
                 }
                 if (row == null)
                 {
-                    tableWriter.WriteEmptyRow(sb, numberColumns);
+                    tableWriter.WriteEmptyRow(sb, numberColumns, actualSettings);
                 }
             }
 

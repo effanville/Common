@@ -15,7 +15,11 @@ namespace Common.Structure.Tests.ReportWriting
             yield return new TestCaseData(DocumentType.Md, "", null).SetName("Empty Md String");
             yield return new TestCaseData(DocumentType.Md, (string)null, null).SetName("Null Md String");
             yield return new TestCaseData(DocumentType.Html, "", null).SetName("Empty Html String");
-
+            TableSettings defaultTableSettings = TableSettings.Default();
+            TableSettings settingsFirstColumnHeader = new TableSettings()
+            {
+                FirstColumnAsHeader = true
+            };
             var mdDdocument = new DocumentBuilder(DocumentType.Md)
                 .WriteTitle("Some Title", DocumentElement.h1)
                 .WriteParagraph(new[] { "Some sentence here" }, DocumentElement.p)
@@ -26,7 +30,7 @@ namespace Common.Structure.Tests.ReportWriting
                 .WriteTitle("Some Title", DocumentElement.h1)
                 .WriteTable<string>(new List<string> { "Header 1", "Header 2" },
                     new List<List<string>> { new List<string> { "Value-1-1", "Value-1-2" }, new List<string> { "Values-2-1", "Value-2-2" } },
-                    headerFirstColumn: true);
+                    settingsFirstColumnHeader);
             yield return new TestCaseData(
                 DocumentType.Md,
                 "# Some Title\r\n| Header 1       | Header 2  |\r\n| -------------- | --------- |\r\n| __Value-1-1__  | Value-1-2 |\r\n| __Values-2-1__ | Value-2-2 |\r\n",
@@ -36,10 +40,10 @@ namespace Common.Structure.Tests.ReportWriting
              .WriteTitle("Some Title", DocumentElement.h1)
              .WriteTable<string>(new List<string> { "Header 1", "Header 2" },
                  new List<List<string>> { new List<string> { "Value-1-1", "Value-1-2" }, new List<string> { "Values-2-1", "Value-2-2" } },
-                 headerFirstColumn: true)
+                 settingsFirstColumnHeader)
              .WriteTable<string>(new List<string> { "Header A", "Header B", "Header C" },
                             new List<List<string>> { new List<string> { "Value-1-A", "Value-1-B", "Value-1-C" }, new List<string> { "Values-2-A", "Value-2-B", "Value-2-C" } },
-                            headerFirstColumn: true);
+                            settingsFirstColumnHeader);
             yield return new TestCaseData(
                 DocumentType.Md,
                 "# Some Title\r\n| Header 1       | Header 2  |\r\n| -------------- | --------- |\r\n| __Value-1-1__  | Value-1-2 |\r\n| __Values-2-1__ | Value-2-2 |\r\n| Header A       | Header B  | Header C  |\r\n| -------------- | --------- | --------- |\r\n| __Value-1-A__  | Value-1-B | Value-1-C |\r\n| __Values-2-A__ | Value-2-B | Value-2-C |\r\n",
@@ -50,10 +54,10 @@ namespace Common.Structure.Tests.ReportWriting
                  .WriteTitle("Some Title", DocumentElement.h1)
                  .WriteTable<string>(new List<string> { "Header 1", "Header 2" },
                      new List<List<string>> { new List<string> { "Value-1-1", "Value-1-2" }, new List<string> { "Values-2-1", "Value-2-2" } },
-                     headerFirstColumn: true)
+                     settingsFirstColumnHeader)
                  .WriteTable<string>(new List<string> { "Header A", "Header B", "Header C" },
                                 new List<List<string>> { new List<string> { "Value-1-A", "Value-1-B", "Value-1-C" }, new List<string> { "Values-2-A", "Value-2-B", "Value-2-C" } },
-                                headerFirstColumn: true)
+                                settingsFirstColumnHeader)
                  .WriteParagraph(new[] { "Then I went to the shops.", "And I did some stuff(sic)." });
             yield return new TestCaseData(
                 DocumentType.Md,
@@ -77,7 +81,7 @@ namespace Common.Structure.Tests.ReportWriting
                 .WriteTitle("Some Title", DocumentElement.h1)
                 .WriteTable<string>(new List<string> { "Header 1", "Header 2" },
                     new List<List<string>> { new List<string> { "Value-1-1", "Value-1-2" }, new List<string> { "Values-2-1", "Value-2-2" } },
-                    headerFirstColumn: true)
+                    settingsFirstColumnHeader)
                 .GetDocument();
             yield return new TestCaseData(
                 DocumentType.Html,
@@ -89,10 +93,10 @@ namespace Common.Structure.Tests.ReportWriting
              .WriteTitle("Some Title", DocumentElement.h1)
              .WriteTable<string>(new List<string> { "Header 1", "Header 2" },
                  new List<List<string>> { new List<string> { "Value-1-1", "Value-1-2" }, new List<string> { "Values-2-1", "Value-2-2" } },
-                 headerFirstColumn: true)
+                 settingsFirstColumnHeader)
              .WriteTable<string>(new List<string> { "Header A", "Header B", "header C" },
                             new List<List<string>> { new List<string> { "Value-1-A", "Value-1-B", "Value-1-C" }, new List<string> { "Values-2-A", "Value-2-B", "Value-2-C" } },
-                            headerFirstColumn: true)
+                            settingsFirstColumnHeader)
              .GetDocument();
             yield return new TestCaseData(
                 DocumentType.Html,
