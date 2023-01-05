@@ -16,6 +16,12 @@ namespace Common.Structure.ReportWriting
             set;
         }
 
+        public int MinColumnWidth
+        {
+            get;
+            set;
+        }
+
         public IList<int> ColumnWidths
         {
             get;
