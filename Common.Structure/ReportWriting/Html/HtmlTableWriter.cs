@@ -32,26 +32,45 @@ namespace Common.Structure.ReportWriting.Html
         /// <param name="valuesToWrite">The values to use for the header names.</param>
         public int WriteTableHeader(StringBuilder sb, IReadOnlyList<string> valuesToWrite, TableSettings settings)
         {
-            _ = sb.AppendLine("<thead><tr>");
-            int i = 0;
-            foreach (string property in valuesToWrite)
+            bool extremumWidthsSet = settings.MaxColumnWidth.HasValue || settings.MinColumnWidth.HasValue;
+            string classNameString = null;
+            if (extremumWidthsSet)
             {
-                if (i != 0)
+                string styleName = settings.WidthStyleName();
+                using (new WriteHtmlTag(sb, "style"))
                 {
-                    _ = sb.Append("<th>");
+                    _ = sb.AppendLine($".{styleName}{{ max-width: {settings.MaxColumnWidth}px; min-width: {settings.MinColumnWidth}px;}}");
                 }
-                else
-                {
-                    _ = sb.Append("<th scope=\"col\">");
-                }
-
-                _ = sb.Append(property);
-                _ = sb.Append("</th>");
-                i++;
+                classNameString = $" class=\"{styleName}\"";
             }
 
-            _ = sb.AppendLine();
-            _ = sb.AppendLine("</tr></thead>");
+            using (new WriteHtmlTag(sb, "thead"))
+            using (new WriteHtmlTag(sb, "tr"))
+            {
+                if (valuesToWrite == null || valuesToWrite.Count == 0)
+                {
+                    return 0;
+                }
+
+                using (new WriteHtmlTag(sb, "th", $"scope=\"col\"{classNameString}", false))
+                {
+                    _ = sb.Append(valuesToWrite[0]);
+                }
+
+                for (int index = 1; index < valuesToWrite.Count; index++)
+                {
+                    string headerTag = $"th{classNameString}";
+                    int columnWidth = settings.GetColumnWidth(index);
+                    string extraString = columnWidth != 0 ? $" style=\"width:{columnWidth}px\"" : "";
+                    using (new WriteHtmlTag(sb, headerTag, extraString, false))
+                    {
+                        _ = sb.Append(valuesToWrite[index]);
+                    }
+                }
+
+                _ = sb.AppendLine();
+            }
+
             _ = sb.AppendLine("<tbody>");
             return valuesToWrite.Count;
         }
@@ -59,6 +78,14 @@ namespace Common.Structure.ReportWriting.Html
         /// <inheritdoc/>
         public void WriteTableRow(StringBuilder sb, IReadOnlyList<string> valuesToWrite, TableSettings settings)
         {
+            bool extremumWidthsSet = settings.MaxColumnWidth.HasValue || settings.MinColumnWidth.HasValue;
+            string classNameString = null;
+            if (extremumWidthsSet)
+            {
+                string styleName = settings.WidthStyleName();
+                classNameString = $" class=\"{styleName}\"";
+            }
+
             _ = sb.AppendLine("<tr>");
             int i = 0;
 
@@ -73,21 +100,21 @@ namespace Common.Structure.ReportWriting.Html
                         {
                             if (value < 0)
                             {
-                                _ = sb.Append("<td data-negative>");
+                                _ = sb.Append($"<td data-negative{classNameString}>");
                             }
                             else
                             {
-                                _ = sb.Append("<td>");
+                                _ = sb.Append($"<td>{classNameString}");
                             }
                         }
                         else
                         {
-                            _ = sb.Append("<th scope=\"row\">");
+                            _ = sb.Append($"<th scope=\"row\"{classNameString}>");
                         }
                     }
                     else
                     {
-                        _ = sb.Append("<td>");
+                        _ = sb.Append($"<td{classNameString}>");
                     }
 
                     _ = sb.Append(property);

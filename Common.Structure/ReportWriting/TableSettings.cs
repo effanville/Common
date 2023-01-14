@@ -1,7 +1,7 @@
-    using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace Common.Structure.ReportWriting
-{   
+{
     public sealed class TableSettings
     {
         public bool FirstColumnAsHeader
@@ -10,13 +10,13 @@ namespace Common.Structure.ReportWriting
             set;
         }
 
-        public int MaxColumnWidth
+        public int? MaxColumnWidth
         {
             get;
             set;
         }
 
-        public int MinColumnWidth
+        public int? MinColumnWidth
         {
             get;
             set;
@@ -37,7 +37,9 @@ namespace Common.Structure.ReportWriting
             return new TableSettings()
             {
                 FirstColumnAsHeader = other.FirstColumnAsHeader,
-                ColumnWidths = other.ColumnWidths
+                ColumnWidths = other.ColumnWidths,
+                MaxColumnWidth = other.MaxColumnWidth,
+                MinColumnWidth = other.MinColumnWidth,
             };
         }
 
@@ -47,6 +49,42 @@ namespace Common.Structure.ReportWriting
             {
                 FirstColumnAsHeader = false
             };
+        }
+
+        public string WidthStyleName()
+        {
+            if (!MaxColumnWidth.HasValue && !MinColumnWidth.HasValue)
+            {
+                return null;
+            }
+
+            if (MaxColumnWidth.HasValue && !MinColumnWidth.HasValue)
+            {
+                return $"width-{MaxColumnWidth}";
+            }
+
+            return $"width-{MaxColumnWidth}-{MinColumnWidth}";
+        }
+
+        public int GetColumnWidth(int columnIndex)
+        {
+            if (ColumnWidths == null || columnIndex < 0 || columnIndex > ColumnWidths.Count - 1)
+            {
+                return 0;
+            }
+
+            int specifiedColumnWidth = ColumnWidths[columnIndex];
+            if (MinColumnWidth.HasValue && specifiedColumnWidth < MinColumnWidth)
+            {
+                return MinColumnWidth.Value;
+            }
+
+            if (MaxColumnWidth.HasValue && specifiedColumnWidth > MaxColumnWidth)
+            {
+                return MaxColumnWidth.Value;
+            }
+
+            return specifiedColumnWidth;
         }
     }
 }

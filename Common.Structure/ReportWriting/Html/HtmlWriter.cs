@@ -32,7 +32,7 @@ namespace Common.Structure.ReportWriting.Html
                         _ = sb.AppendLine("body{ font-family: \"Arial\", cursive, sans-serif; font-size: 10px; }");
                         _ = sb.AppendLine("table { border-collapse: collapse; }");
                         _ = sb.AppendLine("table { border: 1px solid black; }");
-                        _ = sb.AppendLine("th, td { border: 1px solid black; max-width: 175px; min-width: 25px;}");
+                        _ = sb.AppendLine("th, td { border: 1px solid black; }");
                         _ = sb.AppendLine("caption { margin-bottom: 1.2em; font-family: \"Arial\", cursive, sans-serif; font-size:medium; }");
                         _ = sb.AppendLine("tr { text-align: center; }");
                         _ = sb.AppendLine("div { max-width: 1000px; max-height: 600px; margin: left; margin-bottom: 1.5em; }");
@@ -54,7 +54,6 @@ namespace Common.Structure.ReportWriting.Html
 
                 if (fIncludeScripts)
                 {
-
                     // include namespace for rendering charts.
                     _ = sb.AppendLine("<script src=\"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js\"></script>");
                     _ = sb.AppendLine("<script src=\"https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js\"></script>");

@@ -77,7 +77,7 @@ namespace Common.Structure.Tests.ReportWriting.Markdown
 
         [TestCaseSource(nameof(TableData))]
         public void CanWriteTableWriting(List<string> headerValues, List<List<string>> rowValues, bool header, string expectedMarkdown)
-        {            
+        {
             TableSettings settings = new TableSettings()
             {
                 FirstColumnAsHeader = header

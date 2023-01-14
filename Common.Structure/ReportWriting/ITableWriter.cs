@@ -2,7 +2,7 @@
 using System.Text;
 
 namespace Common.Structure.ReportWriting
-{    
+{
     /// <summary>
     /// Contains methods for writing tables.
     /// </summary>

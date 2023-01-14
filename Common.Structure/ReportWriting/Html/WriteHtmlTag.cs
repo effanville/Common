@@ -9,16 +9,26 @@ namespace Common.Structure.ReportWriting.Html
     public sealed class WriteHtmlTag : IDisposable
     {
         private readonly string fTag;
+        private readonly bool fUseNewLines;
         private readonly StringBuilder fSb;
 
         /// <summary>
         /// Construct an instance and write the open tag.
         /// </summary>
-        public WriteHtmlTag(StringBuilder sb, string tag)
+        public WriteHtmlTag(StringBuilder sb, string tag, string extraHeader = null, bool useNewLines = true)
         {
             fTag = tag;
             fSb = sb;
-            _ = fSb.AppendLine($"<{fTag}>");
+            fUseNewLines = useNewLines;
+            string headerString = string.IsNullOrWhiteSpace(extraHeader) ? "" : $" {extraHeader}";
+            if (fUseNewLines)
+            {
+                _ = fSb.AppendLine($"<{fTag}{headerString}>");
+            }
+            else
+            {
+                _ = fSb.Append($"<{fTag}{headerString}>");
+            }
         }
 
         /// <summary>
@@ -26,7 +36,14 @@ namespace Common.Structure.ReportWriting.Html
         /// </summary>
         public void Dispose()
         {
-            _ = fSb.AppendLine($"</{fTag}>");
+            if (fUseNewLines)
+            {
+                _ = fSb.AppendLine($"</{fTag}>");
+            }
+            else
+            {
+                _ = fSb.Append($"</{fTag}>");
+            }
         }
     }
 }

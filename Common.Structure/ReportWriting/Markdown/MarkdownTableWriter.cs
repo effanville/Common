@@ -34,14 +34,8 @@ namespace Common.Structure.ReportWriting.Markdown
 
         /// <inheritdoc/>
         public int WriteTableHeader(StringBuilder sb, IReadOnlyList<string> valuesToWrite, TableSettings settings)
-        {            
+        {
             if (valuesToWrite == null || valuesToWrite.Count == 0)
-            {
-                return -1;
-            }
-            
-            var columnWidths = settings.ColumnWidths;
-            if (columnWidths != null && valuesToWrite.Count != columnWidths.Count)
             {
                 return -1;
             }
@@ -51,7 +45,7 @@ namespace Common.Structure.ReportWriting.Markdown
             _ = headerRowBuilder.Append('|');
             for (int columnIndex = 0; columnIndex < valuesToWrite.Count; columnIndex++)
             {
-                int paddingValue = columnWidths?[columnIndex] ?? 0;
+                int paddingValue = settings.GetColumnWidth(columnIndex);
                 _ = sb.Append($" {valuesToWrite[columnIndex].PadRight(paddingValue)} ")
                     .Append('|');
                 _ = headerRowBuilder.Append($" {"-".PadRight(paddingValue, '-')} ")
@@ -70,12 +64,6 @@ namespace Common.Structure.ReportWriting.Markdown
             {
                 return;
             }
-            
-            var columnWidths = settings.ColumnWidths;
-            if (columnWidths != null && valuesToWrite.Count != columnWidths.Count)
-            {
-                return;
-            }
 
             _ = sb.Append('|');
             int startIndex = 0;
@@ -83,14 +71,14 @@ namespace Common.Structure.ReportWriting.Markdown
             {
                 startIndex++;
                 string boldValue = $"__{valuesToWrite[0]}__";
-                int paddingValue = columnWidths?[0] ?? 0;
+                int paddingValue = settings.GetColumnWidth(0);
                 _ = sb.Append($" {boldValue.PadRight(paddingValue)} ")
                     .Append('|');
             }
-                        
+
             for (int columnIndex = startIndex; columnIndex < valuesToWrite.Count; columnIndex++)
             {
-                int paddingValue = columnWidths?[columnIndex] ?? 0;
+                int paddingValue = settings.GetColumnWidth(columnIndex);
                 var value = valuesToWrite[columnIndex] ?? " ";
                 _ = sb.Append($" {value.PadRight(paddingValue)} ")
                     .Append('|');
