@@ -89,7 +89,7 @@ namespace Common.Console.Options
             bool nullInput = string.IsNullOrEmpty(InputValue);
             if (nullInput && Required)
             {
-                ErrorMessage = "No value supplied for required option.";
+                ErrorMessage = "Is required and no value supplied.";
                 return false;
             }
             else if (nullInput)
@@ -123,7 +123,7 @@ namespace Common.Console.Options
                 }
                 else
                 {
-                    ErrorMessage = "Failed to validate option.";
+                    ErrorMessage = $"Argument '{parsedValue}' failed in validation.";
                 }
 
                 return valid;

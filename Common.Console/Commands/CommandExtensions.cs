@@ -60,7 +60,7 @@ namespace Common.Console.Commands
                         string optionName = args[index].TrimStart('-');
                         if (!options.Any(opt => opt.Name.Equals(optionName, StringComparison.OrdinalIgnoreCase)))
                         {
-                            console.WriteError($"Option {optionName} is not a valid option for the {cmd.Name} command.");
+                            console.WriteError($"[Command {cmd.Name}] - Option {optionName} is not a valid option.");
                             return false;
                         }
 

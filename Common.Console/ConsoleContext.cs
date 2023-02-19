@@ -186,6 +186,11 @@ namespace Common.Console
         /// <returns></returns>
         public bool Validate()
         {
+            if(Args.Length == 0)
+            {
+                Console.WriteError("Could not locate suitable command to execute.");
+                return false;
+            }
             fCommand = ValidCommands.FirstOrDefault(comd => comd.Name.Equals(Args[0], StringComparison.OrdinalIgnoreCase));
             if (fCommand == null)
             {
