@@ -8,6 +8,12 @@ using Common.Structure.Reporting;
 
 namespace Common.Console
 {
+    public enum ExitCode
+    {
+        Success = 0,
+        CommandError = 1,
+        OptionError = 2
+    }
     /// <summary>
     /// Contains the context for a console application, as well as the
     /// validation and execution routines.
@@ -84,9 +90,9 @@ namespace Common.Console
         /// <param name="Args">The command line arguments specified.</param>
         /// <param name="console">The console to write with.</param>
         /// <param name="validCommands">The valid commands for this context.</param>
-        public static void SetAndExecute(string[] Args, IConsole console, List<ICommand> validCommands)
+        public static int SetAndExecute(string[] Args, IConsole console, List<ICommand> validCommands)
         {
-            SetAndExecute(Args, new FileSystem(), console, null, validCommands);
+            return SetAndExecute(Args, new FileSystem(), console, null, validCommands);
         }
 
         /// <summary>
@@ -96,9 +102,9 @@ namespace Common.Console
         /// <param name="console">The console to write with.</param>
         /// <param name="logger">The logging routine.</param>
         /// <param name="validCommands">The valid commands for this context.</param>
-        public static void SetAndExecute(string[] Args, IConsole console, IReportLogger logger, List<ICommand> validCommands)
+        public static int SetAndExecute(string[] Args, IConsole console, IReportLogger logger, List<ICommand> validCommands)
         {
-            SetAndExecute(Args, new FileSystem(), console, logger, validCommands);
+            return SetAndExecute(Args, new FileSystem(), console, logger, validCommands);
         }
 
         /// <summary>
@@ -109,11 +115,11 @@ namespace Common.Console
         /// <param name="console">The console to write with.</param>
         /// <param name="logger">The logging routine.</param>
         /// <param name="validCommands">The valid commands for this context.</param>
-        public static void SetAndExecute(string[] Args, IFileSystem fileSystem, IConsole console, IReportLogger logger, List<ICommand> validCommands)
+        public static int SetAndExecute(string[] Args, IFileSystem fileSystem, IConsole console, IReportLogger logger, List<ICommand> validCommands)
         {
             var context = new ConsoleContext(Args, fileSystem, console, logger);
             context.SetValidCommands(validCommands);
-            context.ValidateAndExecute();
+            return context.ValidateAndExecute();
         }
 
         /// <summary>
@@ -122,11 +128,11 @@ namespace Common.Console
         /// <param name="Args">The command line arguments specified.</param>
         /// <param name="globals">The global scope objects for this context.</param>
         /// <param name="validCommands">The valid commands for this context.</param>
-        public static void SetAndExecute(string[] Args, ConsoleGlobals globals, List<ICommand> validCommands)
+        public static int SetAndExecute(string[] Args, ConsoleGlobals globals, List<ICommand> validCommands)
         {
             var context = new ConsoleContext(Args, globals);
             context.SetValidCommands(validCommands);
-            context.ValidateAndExecute();
+            return context.ValidateAndExecute();
         }
 
         /// <summary>
@@ -137,7 +143,7 @@ namespace Common.Console
             ValidCommands = commands;
         }
 
-        private void ValidateAndExecute()
+        private int ValidateAndExecute()
         {
             if (IsHelpRequired())
             {
@@ -148,7 +154,7 @@ namespace Common.Console
             {
                 _ = Logger.Log(ReportSeverity.Critical, ReportType.Error, ReportLocation.Parsing, "Options specified were not valid.");
                 Console.WriteError("Options specified were not valid.");
-                return;
+                return (int)ExitCode.OptionError;
             }
 
             int exitcode = Execute();
@@ -157,6 +163,8 @@ namespace Common.Console
                 _ = Logger.Log(ReportSeverity.Critical, ReportType.Error, ReportLocation.Unknown, "Error when Executing command line input.");
                 Console.WriteError("Exit code does not suggest success.");
             }
+
+            return exitcode;
         }
 
         /// <summary>
@@ -214,7 +222,7 @@ namespace Common.Console
                 if (fCommand == null)
                 {
                     Console.WriteError("Could not locate suitable command to execute.");
-                    return -1;
+                    return (int)ExitCode.CommandError;
                 }
             }
 
@@ -224,7 +232,7 @@ namespace Common.Console
                 if (HelpNames.Contains(commandArgs.FirstOrDefault()))
                 {
                     fCommand.WriteHelp(Console);
-                    return 0;
+                    return (int)ExitCode.Success;
                 }
             }
 
