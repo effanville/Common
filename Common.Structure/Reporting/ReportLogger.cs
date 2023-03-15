@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.IO.Abstractions;
-using System.Text;
 
 namespace Common.Structure.Reporting
 {
@@ -10,7 +9,7 @@ namespace Common.Structure.Reporting
     /// </summary>
     public class LogReporter : IReportLogger
     {
-        private readonly Action<ReportSeverity, ReportType, ReportLocation, string> fLoggingAction;
+        private readonly Action<ReportSeverity, ReportType, string, string> fLoggingAction;
 
         /// <inheritdoc/>
         public ErrorReports Reports
@@ -19,15 +18,49 @@ namespace Common.Structure.Reporting
             set;
         } = new ErrorReports();
 
+        /// <inheritdoc/>
+        public bool SaveInternally
+        {
+            get; set;
+        }
+
         /// <summary>
-        /// Log an arbitrary message.
+        /// Constructor for reporting mechanisms. Parameter addReport is the report callback mechanism.
         /// </summary>
+        public LogReporter(Action<ReportSeverity, ReportType, string, string> addReport)
+        {
+            fLoggingAction = addReport;
+        }
+
+        private void AddReport(ReportSeverity severity, ReportType type, string location, string message)
+        {
+            if (SaveInternally)
+            {
+                Reports.AddErrorReport(severity, type, location, message);
+            }
+        }
+
+        /// <inheritdoc />
+        public void Log(ReportType type, string location, string message)
+        {
+            fLoggingAction?.Invoke(ReportSeverity.Useful, type, location, message);
+            AddReport(ReportSeverity.Useful, type, location, message);
+        }
+
+        /// <inheritdoc />
+        public void Log(ReportSeverity severity, ReportType type, string location, string message)
+        {
+            fLoggingAction?.Invoke(severity, type, location, message);
+            AddReport(severity, type, location, message);
+        }
+
+        /// <inheritdoc />
         public bool Log(ReportSeverity severity, ReportType type, ReportLocation location, string message)
         {
             if (fLoggingAction != null)
             {
-                fLoggingAction(severity, type, location, message);
-                Reports.AddErrorReport(severity, type, location, message);
+                fLoggingAction(severity, type, location.ToString(), message);
+                AddReport(severity, type, location.ToString(), message);
                 return true;
             }
             else
@@ -43,8 +76,8 @@ namespace Common.Structure.Reporting
         {
             if (fLoggingAction != null)
             {
-                fLoggingAction(ReportSeverity.Useful, type, location, message);
-                Reports.AddErrorReport(ReportSeverity.Useful, type, location, message);
+                fLoggingAction(ReportSeverity.Useful, type, location.ToString(), message);
+                AddReport(ReportSeverity.Useful, type, location.ToString(), message);
                 return true;
             }
             else
@@ -60,8 +93,8 @@ namespace Common.Structure.Reporting
         {
             if (fLoggingAction != null)
             {
-                fLoggingAction(ReportSeverity.Useful, ReportType.Error, location, message);
-                Reports.AddErrorReport(ReportSeverity.Useful, ReportType.Error, location, message);
+                fLoggingAction(ReportSeverity.Useful, ReportType.Error, location.ToString(), message);
+                AddReport(ReportSeverity.Useful, ReportType.Error, location.ToString(), message);
                 return true;
             }
             else
@@ -70,34 +103,48 @@ namespace Common.Structure.Reporting
             }
         }
 
-        /// <summary>
-        /// Constructor for reporting mechanisms. Parameter addReport is the report callback mechanism.
-        /// </summary>
-        public LogReporter(Action<ReportSeverity, ReportType, ReportLocation, string> addReport)
+        /// <inheritdoc/>
+        public void Error(string location, string message)
         {
-            fLoggingAction = addReport;
+            fLoggingAction?.Invoke(ReportSeverity.Useful, ReportType.Error, location, message);
+            AddReport(ReportSeverity.Useful, ReportType.Error, location, message);
         }
 
-        /// <summary>
-        /// Write the reports to a suitable file.
-        /// </summary>
+        /// <inheritdoc/>
+        public void Warning(string location, string message)
+        {
+            fLoggingAction?.Invoke(ReportSeverity.Useful, ReportType.Warning, location, message);
+            AddReport(ReportSeverity.Useful, ReportType.Error, location, message);
+        }
+
+        /// <inheritdoc/>
         public void WriteReportsToFile(string filePath)
         {
             WriteReportsToFile(filePath, new FileSystem());
         }
 
-        /// <summary>
-        /// Write the reports to a suitable file.
-        /// </summary>
-		public void WriteReportsToFile(string filePath, IFileSystem fileSystem)
+        /// <inheritdoc/>
+        public void WriteReportsToFile(string filePath, out string message)
         {
+            WriteReportsToFile(filePath, new FileSystem(), out message);
+        }
+
+        /// <inheritdoc/>
+        public void WriteReportsToFile(string filePath, IFileSystem fileSystem)
+        {
+            WriteReportsToFile(filePath, fileSystem, out _);
+        }
+        /// <inheritdoc/>
+        public void WriteReportsToFile(string filePath, IFileSystem fileSystem, out string error)
+        {
+            error = null;
+            if (string.IsNullOrWhiteSpace(filePath))
+            {
+                error = $"Filepath was empty.";
+                return;
+            }
             try
             {
-                if (string.IsNullOrWhiteSpace(filePath))
-                {
-                    return;
-                }
-
                 using (Stream stream = fileSystem.FileStream.Create(filePath, FileMode.Create))
                 using (TextWriter writer = new StreamWriter(stream))
                 {
@@ -107,8 +154,9 @@ namespace Common.Structure.Reporting
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                error = ex.Message;
             }
         }
     }
