@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Abstractions;
+using System.Threading.Tasks;
+
+using Common.Structure.DataStructures;
 
 namespace Common.Structure.Reporting
 {
@@ -24,6 +28,8 @@ namespace Common.Structure.Reporting
             get; set;
         }
 
+        private TaskQueue LoggingQueue = new TaskQueue();
+
         /// <summary>
         /// Constructor for reporting mechanisms. Parameter addReport is the report callback mechanism.
         /// </summary>
@@ -43,14 +49,14 @@ namespace Common.Structure.Reporting
         /// <inheritdoc />
         public void Log(ReportType type, string location, string message)
         {
-            fLoggingAction?.Invoke(ReportSeverity.Useful, type, location, message);
+            LoggingQueue.Enqueue(() => fLoggingAction?.Invoke(ReportSeverity.Useful, type, location, message));
             AddReport(ReportSeverity.Useful, type, location, message);
         }
 
         /// <inheritdoc />
         public void Log(ReportSeverity severity, ReportType type, string location, string message)
         {
-            fLoggingAction?.Invoke(severity, type, location, message);
+            LoggingQueue.Enqueue(()=>fLoggingAction?.Invoke(severity, type, location, message));
             AddReport(severity, type, location, message);
         }
 
@@ -59,7 +65,7 @@ namespace Common.Structure.Reporting
         {
             if (fLoggingAction != null)
             {
-                fLoggingAction(severity, type, location.ToString(), message);
+                LoggingQueue.Enqueue(()=>fLoggingAction(severity, type, location.ToString(), message));
                 AddReport(severity, type, location.ToString(), message);
                 return true;
             }
@@ -76,7 +82,7 @@ namespace Common.Structure.Reporting
         {
             if (fLoggingAction != null)
             {
-                fLoggingAction(ReportSeverity.Useful, type, location.ToString(), message);
+                LoggingQueue.Enqueue(()=>fLoggingAction(ReportSeverity.Useful, type, location.ToString(), message));
                 AddReport(ReportSeverity.Useful, type, location.ToString(), message);
                 return true;
             }
@@ -93,7 +99,7 @@ namespace Common.Structure.Reporting
         {
             if (fLoggingAction != null)
             {
-                fLoggingAction(ReportSeverity.Useful, ReportType.Error, location.ToString(), message);
+                LoggingQueue.Enqueue(()=>fLoggingAction(ReportSeverity.Useful, ReportType.Error, location.ToString(), message));
                 AddReport(ReportSeverity.Useful, ReportType.Error, location.ToString(), message);
                 return true;
             }
@@ -106,14 +112,14 @@ namespace Common.Structure.Reporting
         /// <inheritdoc/>
         public void Error(string location, string message)
         {
-            fLoggingAction?.Invoke(ReportSeverity.Useful, ReportType.Error, location, message);
+            LoggingQueue.Enqueue(()=>fLoggingAction?.Invoke(ReportSeverity.Useful, ReportType.Error, location, message));
             AddReport(ReportSeverity.Useful, ReportType.Error, location, message);
         }
 
         /// <inheritdoc/>
         public void Warning(string location, string message)
         {
-            fLoggingAction?.Invoke(ReportSeverity.Useful, ReportType.Warning, location, message);
+            LoggingQueue.Enqueue(()=>fLoggingAction?.Invoke(ReportSeverity.Useful, ReportType.Warning, location, message));
             AddReport(ReportSeverity.Useful, ReportType.Error, location, message);
         }
 
