@@ -107,7 +107,7 @@ namespace Common.Structure.Reporting
         /// </summary>
         public override string ToString()
         {
-            return $"[{TimeStamp}]{ErrorType} - {ErrorLocation} - {Message}";
+            return $"[{TimeStamp}]-({ErrorType}) - [{ErrorLocation}] - {Message}";
 
         }
 
