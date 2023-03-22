@@ -208,7 +208,7 @@ namespace Common.Console
             }
 
             string[] commandArgs = Args.Skip(1).ToArray();
-            return fCommand.Validate(commandArgs, Console);
+            return fCommand.Validate(commandArgs, Console, Logger);
         }
 
         /// <summary>
@@ -238,7 +238,7 @@ namespace Common.Console
                 }
             }
 
-            return fCommand.Execute(Console, commandArgs);
+            return fCommand.Execute(Console, Logger, commandArgs);
         }
     }
 }
