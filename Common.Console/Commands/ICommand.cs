@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Common.Console.Options;
+using Common.Structure.Reporting;
 
 namespace Common.Console.Commands
 {
@@ -58,5 +59,19 @@ namespace Common.Console.Commands
         /// <param name="args">The command line arguments.</param>
         /// <returns>The exit code of the command.</returns>
         int Execute(IConsole console, string[] args = null);
+
+        /// <summary>
+        /// The mechanism for validating the input option values.
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        bool Validate(IConsole console, IReportLogger logger, string[] args);
+
+        /// <summary>
+        /// Execute the given command.
+        /// </summary>
+        /// <param name="args">The command line arguments.</param>
+        /// <returns>The exit code of the command.</returns>
+        int Execute(IConsole console, IReportLogger logger, string[] args = null);
     }
 }

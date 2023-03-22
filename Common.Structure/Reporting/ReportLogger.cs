@@ -56,6 +56,17 @@ namespace Common.Structure.Reporting
             }
         }
 
+        /// <inheritdoc/>
+        public IReport Critical()
+        {
+            return new ReportBuilder(this, ReportSeverity.Critical);
+        }
+
+        public IReport Useful()
+        {
+            return new ReportBuilder(this, ReportSeverity.Useful);
+        }
+
         /// <inheritdoc />
         public void Log(ReportType type, string location, string message)
         {

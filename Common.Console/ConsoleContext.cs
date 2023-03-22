@@ -152,7 +152,7 @@ namespace Common.Console
 
             if (!Validate())
             {
-                _ = Logger.Log(ReportSeverity.Critical, ReportType.Error, ReportLocation.Parsing, "Options specified were not valid.");
+                Logger.Log(ReportSeverity.Critical, ReportType.Error, $"{nameof(Validate)}", "Command line input failed validation.");
                 Console.WriteError("Options specified were not valid.");
                 return (int)ExitCode.OptionError;
             }
@@ -160,7 +160,7 @@ namespace Common.Console
             int exitcode = Execute();
             if (exitcode != 0)
             {
-                _ = Logger.Log(ReportSeverity.Critical, ReportType.Error, ReportLocation.Unknown, "Error when Executing command line input.");
+                Logger.Log(ReportSeverity.Critical, ReportType.Error, $"{nameof(Execute)}", "Error when Executing command line input.");
                 Console.WriteError("Exit code does not suggest success.");
             }
 
@@ -202,7 +202,8 @@ namespace Common.Console
             fCommand = ValidCommands.FirstOrDefault(comd => comd.Name.Equals(Args[0], StringComparison.OrdinalIgnoreCase));
             if (fCommand == null)
             {
-                Console.WriteError("Could not locate suitable command to execute.");
+                Logger.Log(ReportSeverity.Critical, ReportType.Error, $"{nameof(Validate)}", "Could not locate suitable command to validate.");
+                Console.WriteError("Could not locate suitable command to validate.");
                 return false;
             }
 
@@ -221,6 +222,7 @@ namespace Common.Console
                 fCommand = ValidCommands.FirstOrDefault(comd => comd.Name.Equals(Args[0], StringComparison.OrdinalIgnoreCase));
                 if (fCommand == null)
                 {
+                    Logger.Log(ReportSeverity.Critical, ReportType.Error, $"{nameof(Execute)}", "Could not locate suitable command to execute.");
                     Console.WriteError("Could not locate suitable command to execute.");
                     return (int)ExitCode.CommandError;
                 }

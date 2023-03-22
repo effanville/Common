@@ -19,6 +19,12 @@ namespace Common.Structure.Reporting
         }
 
         /// <inheritdoc/>
+        public IReport Critical()
+        {
+            return null;
+        }
+
+        /// <inheritdoc/>
         public bool Log(ReportSeverity severity, ReportType type, ReportLocation location, string message)
         {
             return true;
