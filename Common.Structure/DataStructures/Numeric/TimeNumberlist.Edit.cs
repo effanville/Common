@@ -97,7 +97,7 @@ namespace Common.Structure.DataStructures.Numeric
                             if (fValues[i].Value != value)
                             {
                                 edited = true;
-                                _ = reportLogger?.Log(ReportSeverity.Detailed, ReportType.Information, ReportLocation.EditingData, $"Editing Data: {date} value changed from {fValues[i].Value} to {value}");
+                                reportLogger?.Log(ReportSeverity.Detailed, ReportType.Information, $"{nameof(TimeNumberList)}.{nameof(SetData)}", $"Edit value {date} changed from {fValues[i].Value} to {value}");
                             }
 
                             fValues[i].Value = value;
@@ -110,7 +110,7 @@ namespace Common.Structure.DataStructures.Numeric
                 {
                     DailyNumeric valuation = new DailyNumeric(date, value);
                     fValues.Add(valuation);
-                    _ = reportLogger?.Log(ReportSeverity.Detailed, ReportType.Information, ReportLocation.AddingData, $"Adding value: {date} value {value}.");
+                    reportLogger?.Log(ReportSeverity.Detailed, ReportType.Information, $"{nameof(TimeNumberList)}.{nameof(SetData)}", $"Added {date} value {value}.");
                     Sort();
                     edited = true;
                 }
@@ -134,7 +134,7 @@ namespace Common.Structure.DataStructures.Numeric
                     {
                         if (fValues[i].Day == oldDate)
                         {
-                            _ = reportLogger?.Log(ReportSeverity.Detailed, ReportType.Information, ReportLocation.EditingData, $"Editing Data: {oldDate} value changed from {fValues[i].Value} to {newDate} - {value}");
+                            reportLogger?.Log(ReportSeverity.Detailed, ReportType.Information, $"{nameof(TimeNumberList)}.{nameof(TryEditData)}", $"{oldDate}- {fValues[i].Value} changed to {newDate} - {value}");
                             fValues[i].SetData(newDate, value);
                             edited = true;
                         }
@@ -162,7 +162,7 @@ namespace Common.Structure.DataStructures.Numeric
                     {
                         if (fValues[i].Day == date)
                         {
-                            _ = reportLogger?.Log(ReportSeverity.Detailed, ReportType.Information, ReportLocation.DeletingData, $"Deleted value: date - {date} and value - {fValues[i].Value}");
+                            reportLogger?.Log(ReportSeverity.Detailed, ReportType.Information, $"{nameof(TimeNumberList)}.{nameof(TryDeleteValue)}", $"Value {date} - {fValues[i].Value} deleted.");
                             fValues.RemoveAt(i);
                             deleted = true;
                         }

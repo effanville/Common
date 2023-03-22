@@ -19,10 +19,11 @@ namespace Common.Statistics
         /// <param name="fileSystem"></param>
         /// <param name="filePath"></param>
         /// <param name="exportType"></param>
-        public static void ExportStats<S, T>(this IGenericStatCollection<S, T> collection, IFileSystem fileSystem, string filePath, DocumentType exportType)
+        public static void ExportStats<S, T>(this IGenericStatCollection<S, T> collection, IFileSystem fileSystem, string filePath, DocumentType exportType, out string error)
             where S : Enum
             where T : class
         {
+            error = null;
             try
             {
                 StringBuilder sb = collection.ExportStats(exportType, DocumentElement.h1);
@@ -33,8 +34,9 @@ namespace Common.Statistics
                     fileWriter.WriteLine(sb.ToString());
                 }
             }
-            catch (IOException)
+            catch (IOException ex)
             {
+                error = $"Error in Exporting: {ex.Message}";
                 return;
             }
         }

@@ -1,12 +1,52 @@
-﻿using System.IO.Abstractions;
+﻿using System;
+using System.IO.Abstractions;
 
 namespace Common.Structure.Reporting
 {
+    public interface IReport
+    {
+        IReport Type(ReportType type);
+        IReport Location(string location);
+        void WithMessage(string message);
+    }
+
+    internal class ReportBuilder : IReport
+    {
+        IReportLogger _logger;
+        ReportSeverity _severity;
+        ReportType _type;
+        string _location;
+        public ReportBuilder(IReportLogger logger, ReportSeverity reportSeverity)
+        {
+            _logger = logger;
+            _severity = reportSeverity;
+        }
+
+        public IReport Type(ReportType type)
+        {
+            _type = type;
+            return this;
+        }
+
+        public IReport Location(string location)
+        {
+            _location = location;
+            return this;
+        }
+
+        public void WithMessage(string message)
+        {
+            _logger.Log(_severity, _type, _location, message);
+        }
+    }
+
     /// <summary>
     /// Report Logger contract. Allows for reporting using types or strings.
     /// </summary>
     public interface IReportLogger
     {
+        IReport Critical();
+
         /// <summary>
         /// The store of reports logged by the report logger.
         /// </summary>
@@ -14,6 +54,31 @@ namespace Common.Structure.Reporting
         {
             get;
         }
+
+        /// <summary>
+        /// Set whether the logger stores an internal record of the report.
+        /// </summary>
+        bool SaveInternally
+        {
+            get;set;
+        }
+
+        /// <summary>
+        /// Logs a <see cref="ReportSeverity.Useful"/> report using the type enums.
+        /// </summary>
+        /// <param name="type">The type of report being logged.</param>
+        /// <param name="location">The location the report pertains to.</param>
+        /// <param name="message">The message specifying more information about the report.</param>
+        void Log(ReportType type, string location, string message);
+
+        /// <summary>
+        /// Logs a report using the type enums.
+        /// </summary>
+        /// <param name="severity">The seriousness of the report being logged.</param>
+        /// <param name="type">The type of report being logged.</param>
+        /// <param name="location">The location the report pertains to.</param>
+        /// <param name="message">The message specifying more information about the report.</param>
+        void Log(ReportSeverity severity, ReportType type, string location, string message);
 
         /// <summary>
         /// Logs a report using the type enums.
@@ -30,6 +95,7 @@ namespace Common.Structure.Reporting
         /// <param name="type">The type of report being logged.</param>
         /// <param name="location">The location the report pertains to.</param>
         /// <param name="message">The message specifying more information about the report.</param>
+        [Obsolete("User should use the log method instead.")]
         bool LogUseful(ReportType type, ReportLocation location, string message);
 
         /// <summary>
@@ -38,16 +104,41 @@ namespace Common.Structure.Reporting
         /// </summary>
         /// <param name="location">The location the report pertains to.</param>
         /// <param name="message">The message specifying more information about the report.</param>
+        [Obsolete("User should use the Error method instead.")]
         bool LogUsefulError(ReportLocation location, string message);
+
+        /// <summary>
+        /// Logs an <see cref="ReportType.Error"/> report with severity <see cref="ReportSeverity.Useful"/>.
+        /// </summary>
+        /// <param name="location">The location the report pertains to.</param>
+        /// <param name="message">The message specifying more information about the report.</param>
+        void Error(string location, string message);
+
+        /// <summary>
+        /// Logs an <see cref="ReportType.Warning"/> report with severity <see cref="ReportSeverity.Useful"/>.
+        /// </summary>
+        /// <param name="location">The location the report pertains to.</param>
+        /// <param name="message">The message specifying more information about the report.</param>
+        void Warning(string location, string message);
 
         /// <summary>
         /// Write the reports to a suitable file.
         /// </summary>
 		void WriteReportsToFile(string filePath);
+               
+        /// <summary>
+        /// Write the reports to a suitable file.
+        /// </summary>
+		void WriteReportsToFile(string filePath, out string error);
 
         /// <summary>
         /// Write the reports to a suitable file.
         /// </summary>
 		void WriteReportsToFile(string filePath, IFileSystem fileSystem);
+        
+        /// <summary>
+        /// Write the reports to a suitable file.
+        /// </summary>
+		void WriteReportsToFile(string filePath, IFileSystem fileSystem, out string error);
     }
 }

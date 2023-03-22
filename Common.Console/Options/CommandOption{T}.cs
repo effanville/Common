@@ -19,15 +19,10 @@ namespace Common.Console.Options
         }
 
         /// <inheritdoc/>
-        public override object ValueAsObject
-        {
-            get
-            {
-                return Value;
-            }
-        }
+        public override object ValueAsObject => Value;
 
         private T fValue;
+
         /// <summary>
         /// The value after validation for this option.
         /// </summary>

@@ -98,6 +98,17 @@ namespace Common.Structure.Reporting
         }
 
         /// <summary>
+        /// Adds a report of any type to the existing list
+        /// </summary>
+        public void AddErrorReport(ReportSeverity severity, ReportType type, string location, string newReport)
+        {
+            lock (lockObject)
+            {
+                fReports.Add(new ErrorReport(severity, type, location, newReport));
+            }
+        }
+
+        /// <summary>
         /// Returns a copy of all reports held in the structure.
         /// </summary>
         public List<ErrorReport> GetReports()
@@ -129,6 +140,14 @@ namespace Common.Structure.Reporting
         /// Returns a list of reports with location the same as the specified location.
         /// </summary>
         public List<ErrorReport> GetReports(ReportLocation location)
+        {
+            return GetReports(location.ToString());
+        }
+
+        /// <summary>
+        /// Returns a list of reports with location the same as the specified location.
+        /// </summary>
+        public List<ErrorReport> GetReports(string location)
         {
             return GetReports().Where(report => report.ErrorLocation == location).ToList();
         }

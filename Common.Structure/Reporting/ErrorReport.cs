@@ -34,7 +34,7 @@ namespace Common.Structure.Reporting
         /// <summary>
         /// Where is this a report from.
         /// </summary>
-        public ReportLocation ErrorLocation
+        public string ErrorLocation
         {
             get;
             set;
@@ -64,7 +64,7 @@ namespace Common.Structure.Reporting
         {
             TimeStamp = DateTime.Now;
             ErrorType = type;
-            ErrorLocation = errorLocation;
+            ErrorLocation = errorLocation.ToString();
             Message = message;
         }
 
@@ -72,6 +72,28 @@ namespace Common.Structure.Reporting
         /// Constructs a full report, setting all properties.
         /// </summary>
         public ErrorReport(ReportSeverity severity, ReportType type, ReportLocation errorLocation, string message)
+        {
+            TimeStamp = DateTime.Now;
+            ErrorSeverity = severity;
+            ErrorType = type;
+            ErrorLocation = errorLocation.ToString();
+            Message = message;
+        }
+        /// <summary>
+        /// Constructs an error report with default <see cref="ReportSeverity"/>.
+        /// </summary>
+        public ErrorReport(ReportType type, string errorLocation, string message)
+        {
+            TimeStamp = DateTime.Now;
+            ErrorType = type;
+            ErrorLocation = errorLocation;
+            Message = message;
+        }
+
+        /// <summary>
+        /// Constructs a full report, setting all properties.
+        /// </summary>
+        public ErrorReport(ReportSeverity severity, ReportType type, string errorLocation, string message)
         {
             TimeStamp = DateTime.Now;
             ErrorSeverity = severity;
@@ -85,7 +107,7 @@ namespace Common.Structure.Reporting
         /// </summary>
         public override string ToString()
         {
-            return $"[{TimeStamp}]{ErrorType} - {ErrorLocation} - {Message}";
+            return $"[{TimeStamp}]-({ErrorType}) - [{ErrorLocation}] - {Message}";
 
         }
 
