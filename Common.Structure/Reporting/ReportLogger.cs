@@ -70,27 +70,29 @@ namespace Common.Structure.Reporting
         /// <inheritdoc />
         public void Log(ReportType type, string location, string message)
         {
-            _loggingQueue.Enqueue(() => _loggingAction?.Invoke(ReportSeverity.Useful, type, location, message));
-            AddReport(ReportSeverity.Useful, type, location, message);
+            Log(ReportSeverity.Useful, type, location, message);
         }
 
         /// <inheritdoc />
         public void Log(ReportSeverity severity, ReportType type, string location, string message)
-        {
-            _loggingQueue.Enqueue(() => _loggingAction?.Invoke(severity, type, location, message));
+        {          
             AddReport(severity, type, location, message);
+            if(_loggingAction != null)
+            {
+                _loggingQueue.Enqueue(() => _loggingAction?.Invoke(severity, type, location, message));
+            }
         }
 
         /// <inheritdoc />
         public bool Log(ReportSeverity severity, ReportType type, ReportLocation location, string message)
-        {
+        {            
+            AddReport(severity, type, location.ToString(), message);
             if (_loggingAction == null)
             {
                 return false;
             }
 
             _loggingQueue.Enqueue(() => _loggingAction(severity, type, location.ToString(), message));
-            AddReport(severity, type, location.ToString(), message);
             return true;
         }
 
@@ -99,13 +101,7 @@ namespace Common.Structure.Reporting
         /// </summary>
         public bool LogUseful(ReportType type, ReportLocation location, string message)
         {
-            if (_loggingAction == null)
-            {
-                return false;
-            }
-            _loggingQueue.Enqueue(() => _loggingAction(ReportSeverity.Useful, type, location.ToString(), message));
-            AddReport(ReportSeverity.Useful, type, location.ToString(), message);
-            return true;
+            return Log(ReportSeverity.Useful, type, location, message);
         }
 
         /// <summary>
@@ -113,27 +109,19 @@ namespace Common.Structure.Reporting
         /// </summary>
         public bool LogUsefulError(ReportLocation location, string message)
         {
-            if (_loggingAction == null)
-            {
-                return false;
-            }
-            _loggingQueue.Enqueue(() => _loggingAction(ReportSeverity.Useful, ReportType.Error, location.ToString(), message));
-            AddReport(ReportSeverity.Useful, ReportType.Error, location.ToString(), message);
-            return true;
+            return Log(ReportSeverity.Useful, ReportType.Error, location, message);
         }
 
         /// <inheritdoc/>
         public void Error(string location, string message)
         {
-            _loggingQueue.Enqueue(() => _loggingAction?.Invoke(ReportSeverity.Useful, ReportType.Error, location, message));
-            AddReport(ReportSeverity.Useful, ReportType.Error, location, message);
+            Log(ReportSeverity.Useful, ReportType.Error, location, message);
         }
 
         /// <inheritdoc/>
         public void Warning(string location, string message)
         {
-            _loggingQueue.Enqueue(() => _loggingAction?.Invoke(ReportSeverity.Useful, ReportType.Warning, location, message));
-            AddReport(ReportSeverity.Useful, ReportType.Error, location, message);
+            Log(ReportSeverity.Useful, ReportType.Warning, location, message);
         }
 
         /// <inheritdoc/>
