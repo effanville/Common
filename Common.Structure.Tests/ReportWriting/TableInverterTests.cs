@@ -9,31 +9,33 @@ namespace Common.Structure.Tests.ReportWriting
     [TestFixture]
     internal class TableInverterTests
     {
+        private static string enl = TestConstants.EnvNewLine;
+
         private static IEnumerable<TestCaseData> TestCases()
         {
             yield return new TestCaseData(
                 DocumentType.Md,
-                "| Row1 | Info | More Stuff |\r\n| ---- | ---- | ---------- |\r\n| Row1 | Info | More Stuff |\r\n",
+                $"| Row1 | Info | More Stuff |{enl}| ---- | ---- | ---------- |{enl}| Row1 | Info | More Stuff |{enl}",
                 new List<string>() { "Row1", "Info", "More Stuff" },
                 new List<List<string>> { new List<string>() { "Row1", "Info", "More Stuff" } });
             yield return new TestCaseData(
                 DocumentType.Md,
-                "| Row1        | Info | More Stuff |\r\n| ---- | ---- | ---------- |\r\n| Row1 | Info | More Stuff |\r\n| Row2 | thing   | More thing |\r\n",
+                $"| Row1        | Info | More Stuff |{enl}| ---- | ---- | ---------- |{enl}| Row1 | Info | More Stuff |{enl}| Row2 | thing   | More thing |{enl}",
                 new List<string>() { "Row1", "Info", "More Stuff" },
                 new List<List<string>> { new List<string>() { "Row1", "Info", "More Stuff" }, new List<string>() { "Row2", "thing", "More thing" } });
             yield return new TestCaseData(
                 DocumentType.Md,
-                "| Row1        | | More Stuff |\r\n| ---- | ---- | ---------- |\r\n| Row1 | Info | More Stuff |\r\n| Row2 | thing   | More thing |\r\n",
+                $"| Row1        | | More Stuff |{enl}| ---- | ---- | ---------- |{enl}| Row1 | Info | More Stuff |{enl}| Row2 | thing   | More thing |{enl}",
                 new List<string>() { "Row1", "", "More Stuff" },
                 new List<List<string>> { new List<string>() { "Row1", "Info", "More Stuff" }, new List<string>() { "Row2", "thing", "More thing" } });
             yield return new TestCaseData(
                 DocumentType.Md,
-                "| Row1        | Info | More Stuff |\r\n| ---- | ---- | ---------- |\r\n| Row1 | | More Stuff |\r\n| | thing   | More thing |\r\n",
+                $"| Row1        | Info | More Stuff |{enl}| ---- | ---- | ---------- |{enl}| Row1 | | More Stuff |{enl}| | thing   | More thing |{enl}",
                 new List<string>() { "Row1", "Info", "More Stuff" },
                 new List<List<string>> { new List<string>() { "Row1", "", "More Stuff" }, new List<string>() { "", "thing", "More thing" } });
             yield return new TestCaseData(
                 DocumentType.Html,
-                "<table>\r\n<thead><tr>\r\n<th scope=\"col\">Row1</th><th>Info</th><th>More Stuff</th>\r\n</tr></thead>\r\n<tbody>\r\n<tr>\r\n<td>Row1</td><td>Info</td><td>More Stuff</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n",
+                $"<table>{enl}<thead><tr>{enl}<th scope=\"col\">Row1</th><th>Info</th><th>More Stuff</th>{enl}</tr></thead>{enl}<tbody>{enl}<tr>{enl}<td>Row1</td><td>Info</td><td>More Stuff</td>{enl}</tr>{enl}</tbody>{enl}</table>{enl}",
                 new List<string>() { "Row1", "Info", "More Stuff" },
                 new List<List<string>> { new List<string>() { "Row1", "Info", "More Stuff" } });
             yield return new TestCaseData(
@@ -133,7 +135,7 @@ namespace Common.Structure.Tests.ReportWriting
                 });
             yield return new TestCaseData(
                 DocumentType.Md,
-                "|||\r\n | -- | -- | \r\n|Byes|0|\r\n|Leg Byes|4|\r\n",
+                $"|||{enl} | -- | -- | {enl}|Byes|0|{enl}|Leg Byes|4|{enl}",
                  new List<string>(),
                  new List<List<string>>
                  {

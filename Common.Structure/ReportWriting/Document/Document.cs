@@ -76,7 +76,7 @@ namespace Common.Structure.ReportWriting.Document
                     if (fParts[index].Element == DocumentElement.table)
                     {
                         string tableString = fParts[index].ConstituentString;
-                        string[] lines = tableString.Split("\r\n").Where(s => !string.IsNullOrWhiteSpace(s)).ToArray();
+                        string[] lines = tableString.Split(Constants.EnvNewLine).Where(s => !string.IsNullOrWhiteSpace(s)).ToArray();
                         bool[] headerValues = lines.Select(l => IsMdHeaderSpecifier(l)).ToArray();
                         var trues = headerValues.Where(val => val == true);
 

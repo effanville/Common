@@ -11,12 +11,30 @@ namespace Common.Structure.Tests.DataStructures.Numeric
     [TestFixture]
     public sealed class TimeListTests
     {
+        private static string enl = TestConstants.EnvNewLine;
+
         private static IEnumerable<(string name, TimeNumberList testList, int count, bool any, string XmlString)> TestLists()
         {
-            yield return ("empty", TimeListTestData.GetTestTimeList(TimeListTestData.EmptyListKey), 0, false, "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<Values />");
-            yield return ("single", TimeListTestData.GetTestTimeList(TimeListTestData.SingleEntryKey), 1, true, "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<Values>\r\n  <DV D=\"2018-01-01T00:00:00\" V=\"1000\" />\r\n</Values>");
-            yield return ("repeatedValue", new TimeNumberList(new List<DailyNumeric>() { new DailyNumeric(new DateTime(2018, 1, 1), 0.0), new DailyNumeric(new DateTime(2018, 1, 1), 0.0) }), 1, true, "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<Values>\r\n  <DV D=\"2018-01-01T00:00:00\" V=\"0\" />\r\n  <DV D=\"2018-01-01T00:00:00\" V=\"0\" />\r\n</Values>");
-            yield return ("standardList", new TimeNumberList(new List<DailyNumeric>() { new DailyNumeric(new DateTime(2018, 1, 1), 0.0), new DailyNumeric(new DateTime(2019, 1, 1), 1.0), new DailyNumeric(new DateTime(2019, 5, 1), 2.0), new DailyNumeric(new DateTime(2019, 5, 5), 0.0) }), 4, true, "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<Values>\r\n  <DV D=\"2018-01-01T00:00:00\" V=\"0\" />\r\n  <DV D=\"2019-01-01T00:00:00\" V=\"1\" />\r\n  <DV D=\"2019-05-01T00:00:00\" V=\"2\" />\r\n  <DV D=\"2019-05-05T00:00:00\" V=\"0\" />\r\n</Values>");
+            yield return ("empty", 
+            TimeListTestData.GetTestTimeList(TimeListTestData.EmptyListKey), 
+                0, 
+                false, 
+                $"<?xml version=\"1.0\" encoding=\"utf-16\"?>{enl}<Values />");
+            yield return ("single", 
+                TimeListTestData.GetTestTimeList(TimeListTestData.SingleEntryKey), 
+                1, 
+                true, 
+                $"<?xml version=\"1.0\" encoding=\"utf-16\"?>{enl}<Values>{enl}  <DV D=\"2018-01-01T00:00:00\" V=\"1000\" />{enl}</Values>");
+            yield return ("repeatedValue", 
+                new TimeNumberList(new List<DailyNumeric>() { new DailyNumeric(new DateTime(2018, 1, 1), 0.0), new DailyNumeric(new DateTime(2018, 1, 1), 0.0) }), 
+                1, 
+                true, 
+                $"<?xml version=\"1.0\" encoding=\"utf-16\"?>{enl}<Values>{enl}  <DV D=\"2018-01-01T00:00:00\" V=\"0\" />{enl}  <DV D=\"2018-01-01T00:00:00\" V=\"0\" />{enl}</Values>");
+            yield return ("standardList", 
+                new TimeNumberList(new List<DailyNumeric>() { new DailyNumeric(new DateTime(2018, 1, 1), 0.0), new DailyNumeric(new DateTime(2019, 1, 1), 1.0), new DailyNumeric(new DateTime(2019, 5, 1), 2.0), new DailyNumeric(new DateTime(2019, 5, 5), 0.0) }), 
+                4, 
+                true, 
+                $"<?xml version=\"1.0\" encoding=\"utf-16\"?>{enl}<Values>{enl}  <DV D=\"2018-01-01T00:00:00\" V=\"0\" />{enl}  <DV D=\"2019-01-01T00:00:00\" V=\"1\" />{enl}  <DV D=\"2019-05-01T00:00:00\" V=\"2\" />{enl}  <DV D=\"2019-05-05T00:00:00\" V=\"0\" />{enl}</Values>");
         }
 
         private static IEnumerable<TestCaseData> TryAddValueTestSource()

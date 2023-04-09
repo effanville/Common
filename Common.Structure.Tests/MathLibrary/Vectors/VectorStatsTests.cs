@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 using Common.Structure.MathLibrary.Vectors;
 
@@ -64,6 +65,7 @@ namespace Common.Structure.Tests.MathLibrary.Vectors
         }
 
         [TestCaseSource(nameof(MeanTestCases))]
+        [SuppressMessage("Usage", "CS0618", Justification = "Deliberate test of old method.")]
         public void MeanTests(List<double> values, int number, double expected)
         {
             double mean = VectorStats.Mean(values, number);

@@ -16,6 +16,8 @@ namespace Common.Structure.Tests.DataStructures.Numeric
     [TestFixture]
     public sealed class TimeListFieldTests
     {
+        private static string enl = TestConstants.EnvNewLine;
+
         public sealed class TestClass : IEquatable<TestClass>
         {
             public TimeNumberList Vals { get; set; } = new TimeNumberList();
@@ -43,10 +45,26 @@ namespace Common.Structure.Tests.DataStructures.Numeric
         {
             return new[]
             {
-                ("empty", new TestClass(new TimeNumberList(new List<DailyNumeric>())), 0, false, "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<TestClass xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <Vals>\r\n    <Values />\r\n  </Vals>\r\n</TestClass>"),
-                ("single", new TestClass(new TimeNumberList(new List<DailyNumeric>() { new DailyNumeric(new DateTime(2018, 1, 1), 0.0) })), 1, true, "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<TestClass xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <Vals>\r\n    <Values>\r\n      <DV D=\"2018-01-01T00:00:00\" V=\"0\" />\r\n    </Values>\r\n  </Vals>\r\n</TestClass>"),
-                ("repeatedValue", new TestClass(new TimeNumberList(new List<DailyNumeric>() { new DailyNumeric(new DateTime(2018, 1, 1), 0.0), new DailyNumeric(new DateTime(2018, 1, 1), 0.0) })), 1, true, "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<TestClass xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <Vals>\r\n    <Values>\r\n      <DV D=\"2018-01-01T00:00:00\" V=\"0\" />\r\n      <DV D=\"2018-01-01T00:00:00\" V=\"0\" />\r\n    </Values>\r\n  </Vals>\r\n</TestClass>"),
-                ("standardList", new TestClass(new TimeNumberList(new List<DailyNumeric>() { new DailyNumeric(new DateTime(2018, 1, 1), 0.0), new DailyNumeric(new DateTime(2019, 1, 1), 1.0), new DailyNumeric(new DateTime(2019, 5, 1), 2.0), new DailyNumeric(new DateTime(2019, 5, 5), 0.0) })), 4, true, "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<TestClass xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <Vals>\r\n    <Values>\r\n      <DV D=\"2018-01-01T00:00:00\" V=\"0\" />\r\n      <DV D=\"2019-01-01T00:00:00\" V=\"1\" />\r\n      <DV D=\"2019-05-01T00:00:00\" V=\"2\" />\r\n      <DV D=\"2019-05-05T00:00:00\" V=\"0\" />\r\n    </Values>\r\n  </Vals>\r\n</TestClass>"),
+                ("empty", 
+                    new TestClass(new TimeNumberList(new List<DailyNumeric>())), 
+                    0, 
+                    false, 
+                    $"<?xml version=\"1.0\" encoding=\"utf-8\"?>{enl}<TestClass xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">{enl}  <Vals>{enl}    <Values />{enl}  </Vals>{enl}</TestClass>"),
+                ("single", 
+                    new TestClass(new TimeNumberList(new List<DailyNumeric>() { new DailyNumeric(new DateTime(2018, 1, 1), 0.0) })), 
+                    1, 
+                    true, 
+                    $"<?xml version=\"1.0\" encoding=\"utf-8\"?>{enl}<TestClass xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">{enl}  <Vals>{enl}    <Values>{enl}      <DV D=\"2018-01-01T00:00:00\" V=\"0\" />{enl}    </Values>{enl}  </Vals>{enl}</TestClass>"),
+                ("repeatedValue", 
+                    new TestClass(new TimeNumberList(new List<DailyNumeric>() { new DailyNumeric(new DateTime(2018, 1, 1), 0.0), new DailyNumeric(new DateTime(2018, 1, 1), 0.0) })), 
+                    1, 
+                    true, 
+                    $"<?xml version=\"1.0\" encoding=\"utf-8\"?>{enl}<TestClass xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">{enl}  <Vals>{enl}    <Values>{enl}      <DV D=\"2018-01-01T00:00:00\" V=\"0\" />{enl}      <DV D=\"2018-01-01T00:00:00\" V=\"0\" />{enl}    </Values>{enl}  </Vals>{enl}</TestClass>"),
+                ("standardList", 
+                    new TestClass(new TimeNumberList(new List<DailyNumeric>() { new DailyNumeric(new DateTime(2018, 1, 1), 0.0), new DailyNumeric(new DateTime(2019, 1, 1), 1.0), new DailyNumeric(new DateTime(2019, 5, 1), 2.0), new DailyNumeric(new DateTime(2019, 5, 5), 0.0) })), 
+                    4, 
+                    true, 
+                    $"<?xml version=\"1.0\" encoding=\"utf-8\"?>{enl}<TestClass xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">{enl}  <Vals>{enl}    <Values>{enl}      <DV D=\"2018-01-01T00:00:00\" V=\"0\" />{enl}      <DV D=\"2019-01-01T00:00:00\" V=\"1\" />{enl}      <DV D=\"2019-05-01T00:00:00\" V=\"2\" />{enl}      <DV D=\"2019-05-05T00:00:00\" V=\"0\" />{enl}    </Values>{enl}  </Vals>{enl}</TestClass>"),
             };
         }
 
@@ -142,6 +160,5 @@ namespace Common.Structure.Tests.DataStructures.Numeric
                 Assert.AreEqual(timelist, valuation);
             }
         }
-
     }
 }

@@ -50,7 +50,7 @@
                         case DocumentElement.p:
                         default:
                         {
-                            return "\r\n";
+                            return Constants.EnvNewLine;
                         }
                     }
                 }

@@ -16,6 +16,8 @@ namespace Common.Structure.Tests.DataStructures.Money
     [TestFixture]
     public sealed class TimeListFieldTests
     {
+        private static string enl = TestConstants.EnvNewLine;
+
         public sealed class TestClass : IEquatable<TestClass>
         {
             public TimeList Vals { get; set; } = new TimeList();
@@ -42,23 +44,23 @@ namespace Common.Structure.Tests.DataStructures.Money
         private static (string name, TestClass testList, int count, bool any, string XmlString)[] TestLists()
         {
             return new[] {
-            ("empty",
-            new TestClass(
+                ("empty",
+                new TestClass(
                 new TimeList(new List<DailyValuation>())),
-            0,
-            false,
-            "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<TestClass xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <Vals>\r\n    <Values />\r\n  </Vals>\r\n</TestClass>"),
-            ("single",
-            new TestClass( new TimeList(
-                new List<DailyValuation>()
-                {
+                0,
+                false,
+                $"<?xml version=\"1.0\" encoding=\"utf-8\"?>{enl}<TestClass xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">{enl}  <Vals>{enl}    <Values />{enl}  </Vals>{enl}</TestClass>"),
+                ("single",
+                new TestClass(new TimeList(
+                    new List<DailyValuation>()
+                    {
                     new DailyValuation(new DateTime(2018, 1, 1), 0.0m)
-                })),
-            1,
-            true,
-            "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<TestClass xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <Vals>\r\n    <Values>\r\n      <DV D=\"2018-01-01T00:00:00\" V=\"0.0\" />\r\n    </Values>\r\n  </Vals>\r\n</TestClass>"),
-            ("repeatedValue",
-            new TestClass(new TimeList(
+                    })),
+                1,
+                true,
+                $"<?xml version=\"1.0\" encoding=\"utf-8\"?>{enl}<TestClass xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">{enl}  <Vals>{enl}    <Values>{enl}      <DV D=\"2018-01-01T00:00:00\" V=\"0.0\" />{enl}    </Values>{enl}  </Vals>{enl}</TestClass>"),
+                ("repeatedValue",
+                new TestClass(new TimeList(
                 new List<DailyValuation>()
                 {
                     new DailyValuation(new DateTime(2018, 1, 1), 0.0m),
@@ -66,7 +68,7 @@ namespace Common.Structure.Tests.DataStructures.Money
                 })),
             1,
             true,
-            "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<TestClass xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <Vals>\r\n    <Values>\r\n      <DV D=\"2018-01-01T00:00:00\" V=\"0.0\" />\r\n      <DV D=\"2018-01-01T00:00:00\" V=\"0.0\" />\r\n    </Values>\r\n  </Vals>\r\n</TestClass>"),
+            $"<?xml version=\"1.0\" encoding=\"utf-8\"?>{enl}<TestClass xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">{enl}  <Vals>{enl}    <Values>{enl}      <DV D=\"2018-01-01T00:00:00\" V=\"0.0\" />{enl}      <DV D=\"2018-01-01T00:00:00\" V=\"0.0\" />{enl}    </Values>{enl}  </Vals>{enl}</TestClass>"),
             (
             "standardList",
                 new TestClass(new TimeList(
@@ -79,7 +81,7 @@ namespace Common.Structure.Tests.DataStructures.Money
                     })),
                 4,
                 true,
-                "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<TestClass xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <Vals>\r\n    <Values>\r\n      <DV D=\"2018-01-01T00:00:00\" V=\"0.0\" />\r\n      <DV D=\"2019-01-01T00:00:00\" V=\"1.0\" />\r\n      <DV D=\"2019-05-01T00:00:00\" V=\"2.0\" />\r\n      <DV D=\"2019-05-05T00:00:00\" V=\"0.0\" />\r\n    </Values>\r\n  </Vals>\r\n</TestClass>")
+                $"<?xml version=\"1.0\" encoding=\"utf-8\"?>{enl}<TestClass xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">{enl}  <Vals>{enl}    <Values>{enl}      <DV D=\"2018-01-01T00:00:00\" V=\"0.0\" />{enl}      <DV D=\"2019-01-01T00:00:00\" V=\"1.0\" />{enl}      <DV D=\"2019-05-01T00:00:00\" V=\"2.0\" />{enl}      <DV D=\"2019-05-05T00:00:00\" V=\"0.0\" />{enl}    </Values>{enl}  </Vals>{enl}</TestClass>")
             };
         }
 
@@ -119,11 +121,13 @@ namespace Common.Structure.Tests.DataStructures.Money
                 yield return new TestCaseData(test.XmlString, test.testList).SetName($"{testName}-{test.name}");
             }
 
-            yield return new TestCaseData("<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<TestClass xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <Vals>\r\n    <Values>\r\n<DailyValuation>\r\n<Day>2018-01-01T00:00:00</Day>\r\n<Value>0</Value>\r\n</DailyValuation>\r\n<DailyValuation>\r\n<Day>2019-01-01T00:00:00</Day>\r\n<Value>1.0</Value>\r\n</DailyValuation>\r\n<DailyValuation>\r\n<Day>2019-05-01T00:00:00</Day>\r\n<Value>2.0</Value>\r\n</DailyValuation>\r\n<DailyValuation>\r\n<Day>2019-05-05T00:00:00</Day>\r\n<Value>0</Value>\r\n</DailyValuation>\r\n</Values>\r\n</Vals>\r\n</TestClass>", new TestClass(new TimeList(new List<DailyValuation>() { new DailyValuation(new DateTime(2018, 1, 1), 0.0m), new DailyValuation(new DateTime(2019, 1, 1), 1.0m), new DailyValuation(new DateTime(2019, 5, 1), 2.0m), new DailyValuation(new DateTime(2019, 5, 5), 0.0m) })))
+            yield return new TestCaseData(
+                $"<?xml version=\"1.0\" encoding=\"utf-8\"?>{enl}<TestClass xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">{enl}  <Vals>{enl}    <Values>{enl}<DailyValuation>{enl}<Day>2018-01-01T00:00:00</Day>{enl}<Value>0</Value>{enl}</DailyValuation>{enl}<DailyValuation>{enl}<Day>2019-01-01T00:00:00</Day>{enl}<Value>1.0</Value>{enl}</DailyValuation>{enl}<DailyValuation>{enl}<Day>2019-05-01T00:00:00</Day>{enl}<Value>2.0</Value>{enl}</DailyValuation>{enl}<DailyValuation>{enl}<Day>2019-05-05T00:00:00</Day>{enl}<Value>0</Value>{enl}</DailyValuation>{enl}</Values>{enl}</Vals>{enl}</TestClass>", 
+                new TestClass(new TimeList(new List<DailyValuation>() { new DailyValuation(new DateTime(2018, 1, 1), 0.0m), new DailyValuation(new DateTime(2019, 1, 1), 1.0m), new DailyValuation(new DateTime(2019, 5, 1), 2.0m), new DailyValuation(new DateTime(2019, 5, 5), 0.0m) })))
                 .SetName($"{testName}-old1");
-            yield return new TestCaseData("<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<TestClass xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <Vals>\r\n<Values>\r\n    <DailyValuation>\r\n<Day>2018-01-01T00:00:00</Day>\r\n<Value>0</Value>\r\n</DailyValuation>\r\n</Values>\r\n  </Vals>\r\n</TestClass>", new TestClass(new TimeList(new List<DailyValuation>() { new DailyValuation(new DateTime(2018, 1, 1), 0.0m) })))
+            yield return new TestCaseData($"<?xml version=\"1.0\" encoding=\"utf-8\"?>{enl}<TestClass xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">{enl}  <Vals>{enl}<Values>{enl}    <DailyValuation>{enl}<Day>2018-01-01T00:00:00</Day>{enl}<Value>0</Value>{enl}</DailyValuation>{enl}</Values>{enl}  </Vals>{enl}</TestClass>", new TestClass(new TimeList(new List<DailyValuation>() { new DailyValuation(new DateTime(2018, 1, 1), 0.0m) })))
                 .SetName($"{testName}-old2");
-            yield return new TestCaseData("<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<TestClass xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <Vals>\r\n<Values />\r\n  </Vals></TestClass>", new TestClass(new TimeList(new List<DailyValuation>())))
+            yield return new TestCaseData($"<?xml version=\"1.0\" encoding=\"utf-8\"?>{enl}<TestClass xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">{enl}  <Vals>{enl}<Values />{enl}  </Vals></TestClass>", new TestClass(new TimeList(new List<DailyValuation>())))
                 .SetName($"{testName}-old3");
         }
 
@@ -182,6 +186,5 @@ namespace Common.Structure.Tests.DataStructures.Money
                 Assert.AreEqual(timelist, valuation);
             }
         }
-
     }
 }

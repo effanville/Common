@@ -55,6 +55,7 @@ namespace Common.Structure.Reporting
         public ErrorReport()
         {
             TimeStamp = DateTime.Now;
+            ErrorLocation = ReportLocation.Unknown.ToString();
         }
 
         /// <summary>
@@ -133,12 +134,12 @@ namespace Common.Structure.Reporting
         {
             if (other.ErrorType.Equals(ErrorType))
             {
-                if (other.ErrorLocation.Equals(ErrorLocation))
+                if (string.Equals(other.ErrorLocation, ErrorLocation))
                 {
                     return string.Compare(Message, other.Message);
                 }
 
-                return other.ErrorLocation.CompareTo(ErrorLocation);
+                return string.Compare(other.ErrorLocation, ErrorLocation);
             }
 
             return ErrorType.CompareTo(other.ErrorType);

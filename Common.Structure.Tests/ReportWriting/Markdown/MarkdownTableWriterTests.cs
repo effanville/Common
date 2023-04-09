@@ -11,9 +11,13 @@ namespace Common.Structure.Tests.ReportWriting.Markdown
     [TestFixture]
     public sealed class MarkdownTableWriterTests
     {
+        private static string enl = TestConstants.EnvNewLine;
+
         private static IEnumerable<TestCaseData> TableHeaderData()
         {
-            yield return new TestCaseData(new List<string>() { "Row1", "Info", "More Stuff" }, "| Row1 | Info | More Stuff |\r\n| - | - | - |\r\n");
+            yield return new TestCaseData(
+                new List<string>() { "Row1", "Info", "More Stuff" }, 
+                $"| Row1 | Info | More Stuff |{enl}| - | - | - |{enl}");
         }
 
         [TestCaseSource(nameof(TableHeaderData))]
@@ -29,7 +33,9 @@ namespace Common.Structure.Tests.ReportWriting.Markdown
 
         private static IEnumerable<TestCaseData> TableRowData()
         {
-            yield return new TestCaseData(new List<string>() { "Row1", "Info", "More Stuff" }, "| Row1 | Info | More Stuff |\r\n");
+            yield return new TestCaseData(
+                new List<string>() { "Row1", "Info", "More Stuff" }, 
+                $"| Row1 | Info | More Stuff |{enl}");
         }
 
         [TestCaseSource(nameof(TableRowData))]
@@ -49,12 +55,12 @@ namespace Common.Structure.Tests.ReportWriting.Markdown
                 new List<string>() { "Row1", "Info", "More Stuff" },
                 new List<List<string>> { new List<string>() { "Row1", "Info", "More Stuff" } },
                 false,
-                "| Row1 | Info | More Stuff |\r\n| ---- | ---- | ---------- |\r\n| Row1 | Info | More Stuff |\r\n");
+                $"| Row1 | Info | More Stuff |{enl}| ---- | ---- | ---------- |{enl}| Row1 | Info | More Stuff |{enl}");
             yield return new TestCaseData(
                  new List<string>() { "", "" },
                  new List<List<string>> { new List<string>() { "Byes", "4" }, new List<string>() { "Leg Byes", "3" } },
                  true,
-                "|              |   |\r\n| ------------ | - |\r\n| __Byes__     | 4 |\r\n| __Leg Byes__ | 3 |\r\n");
+                $"|              |   |{enl}| ------------ | - |{enl}| __Byes__     | 4 |{enl}| __Leg Byes__ | 3 |{enl}");
 
         }
 
