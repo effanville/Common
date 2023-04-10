@@ -1,6 +1,18 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <Project>
+
+  <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('OSX'))">
+	<TargetFrameworks>net6.0</TargetFrameworks>	    
+    <Platforms>x64;AnyCPU</Platforms>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('Windows'))">
+    <TargetFrameworks>net6.0-windows</TargetFrameworks>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <Platforms>x64</Platforms>
+  </PropertyGroup>
+
   <PropertyGroup>
+	<EnableWindowsTargeting>true</EnableWindowsTargeting>
     <AppxAutoIncrementPackageRevision>false</AppxAutoIncrementPackageRevision>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Effanville</Authors>
@@ -19,7 +31,8 @@
     <OutputPath>..\bin\Release</OutputPath>
   </PropertyGroup>
 
-    <ItemGroup>
+  <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
   </ItemGroup>
+
 </Project>
