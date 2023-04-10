@@ -11,6 +11,8 @@ namespace Common.Structure.Tests.DataStructures.Money
     [TestFixture]
     public sealed class TimeListTests
     {
+        private static string enl = TestConstants.EnvNewLine;
+
         private static IEnumerable<(string name, TimeList testList, int count, bool any, string XmlString)> TestLists()
         {
             yield return (
@@ -18,19 +20,19 @@ namespace Common.Structure.Tests.DataStructures.Money
                 TimeListTestData.GetTestTimeList(TimeListTestData.EmptyListKey),
                 0,
                 false,
-                "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<Values />");
+                $"<?xml version=\"1.0\" encoding=\"utf-16\"?>{enl}<Values />");
             yield return (
                 "single",
                 TimeListTestData.GetTestTimeList(TimeListTestData.SingleEntryKey),
                 1,
                 true,
-                "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<Values>\r\n  <DV D=\"2018-01-01T00:00:00\" V=\"1000\" />\r\n</Values>");
+                $"<?xml version=\"1.0\" encoding=\"utf-16\"?>{enl}<Values>{enl}  <DV D=\"2018-01-01T00:00:00\" V=\"1000\" />{enl}</Values>");
             yield return (
                 "repeatedValue",
                 new TimeList(new List<DailyValuation>() { new DailyValuation(new DateTime(2018, 1, 1), 0.0m), new DailyValuation(new DateTime(2018, 1, 1), 0.0m) }),
                 1,
                 true,
-                "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<Values>\r\n  <DV D=\"2018-01-01T00:00:00\" V=\"0.0\" />\r\n  <DV D=\"2018-01-01T00:00:00\" V=\"0.0\" />\r\n</Values>");
+                $"<?xml version=\"1.0\" encoding=\"utf-16\"?>{enl}<Values>{enl}  <DV D=\"2018-01-01T00:00:00\" V=\"0.0\" />{enl}  <DV D=\"2018-01-01T00:00:00\" V=\"0.0\" />{enl}</Values>");
             yield return (
                 "standardList",
                 new TimeList(new List<DailyValuation>()
@@ -42,7 +44,7 @@ namespace Common.Structure.Tests.DataStructures.Money
                 }),
                 4,
                 true,
-                "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<Values>\r\n  <DV D=\"2018-01-01T00:00:00\" V=\"0.0\" />\r\n  <DV D=\"2019-01-01T00:00:00\" V=\"1.0\" />\r\n  <DV D=\"2019-05-01T00:00:00\" V=\"2.0\" />\r\n  <DV D=\"2019-05-05T00:00:00\" V=\"0.0\" />\r\n</Values>");
+                $"<?xml version=\"1.0\" encoding=\"utf-16\"?>{enl}<Values>{enl}  <DV D=\"2018-01-01T00:00:00\" V=\"0.0\" />{enl}  <DV D=\"2019-01-01T00:00:00\" V=\"1.0\" />{enl}  <DV D=\"2019-05-01T00:00:00\" V=\"2.0\" />{enl}  <DV D=\"2019-05-05T00:00:00\" V=\"0.0\" />{enl}</Values>");
         }
 
         private static IEnumerable<TestCaseData> TryAddValueTestSource()
@@ -239,7 +241,7 @@ namespace Common.Structure.Tests.DataStructures.Money
             }
 
             yield return new TestCaseData(
-                "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<Values>\r\n<DailyValuation>\r\n<Day>2018-01-01T00:00:00</Day>\r\n<Value>0</Value>\r\n</DailyValuation>\r\n<DailyValuation>\r\n<Day>2019-01-01T00:00:00</Day>\r\n<Value>1.0</Value>\r\n</DailyValuation>\r\n<DailyValuation>\r\n<Day>2019-05-01T00:00:00</Day>\r\n<Value>2.0</Value>\r\n</DailyValuation>\r\n<DailyValuation>\r\n<Day>2019-05-05T00:00:00</Day>\r\n<Value>0</Value>\r\n</DailyValuation>\r\n</Values>",
+                $"<?xml version=\"1.0\" encoding=\"utf-16\"?>{enl}<Values>{enl}<DailyValuation>{enl}<Day>2018-01-01T00:00:00</Day>{enl}<Value>0</Value>{enl}</DailyValuation>{enl}<DailyValuation>{enl}<Day>2019-01-01T00:00:00</Day>{enl}<Value>1.0</Value>{enl}</DailyValuation>{enl}<DailyValuation>{enl}<Day>2019-05-01T00:00:00</Day>{enl}<Value>2.0</Value>{enl}</DailyValuation>{enl}<DailyValuation>{enl}<Day>2019-05-05T00:00:00</Day>{enl}<Value>0</Value>{enl}</DailyValuation>{enl}</Values>",
                 new TimeList(
                     new List<DailyValuation>()
                     {
@@ -250,10 +252,10 @@ namespace Common.Structure.Tests.DataStructures.Money
                     }))
                 .SetName($"{testName}-old1");
             yield return new TestCaseData(
-                "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<Values>\r\n<DailyValuation>\r\n<Day>2018-01-01T00:00:00</Day>\r\n<Value>0</Value>\r\n</DailyValuation>\r\n</Values>",
+                $"<?xml version=\"1.0\" encoding=\"utf-16\"?>{enl}<Values>{enl}<DailyValuation>{enl}<Day>2018-01-01T00:00:00</Day>{enl}<Value>0</Value>{enl}</DailyValuation>{enl}</Values>",
                 new TimeList(new List<DailyValuation>() { new DailyValuation(new DateTime(2018, 1, 1), 0.0m) }))
                 .SetName($"{testName}-old2");
-            yield return new TestCaseData("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<Values />", new TimeList(new List<DailyValuation>()))
+            yield return new TestCaseData($"<?xml version=\"1.0\" encoding=\"utf-16\"?>{enl}<Values />", new TimeList(new List<DailyValuation>()))
 .SetName($"{testName}-old3");
         }
 

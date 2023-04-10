@@ -16,14 +16,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Structure.Tests", "C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.UI.Tests", "Common.UI.Tests\Common.UI.Tests.csproj", "{68892F98-75CB-4768-B888-5B85402B9E12}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{11B56BDD-4055-4B62-97BE-A49491287667}"
-	ProjectSection(SolutionItems) = preProject
-		Build\CommonProperties.build.props = Build\CommonProperties.build.props
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Console", "Common.Console\Common.Console.csproj", "{AD052EB4-CA7E-424B-B88D-8AFA3DBA3EBA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Console.Tests", "Common.Console.Tests\Common.Console.Tests.csproj", "{BDC91609-7E1A-4B53-9189-4059AD2393C3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{62E033EC-15B9-4318-9CC5-AF755560740A}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -60,7 +60,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{11B56BDD-4055-4B62-97BE-A49491287667} = {2A5FEEA6-F6DE-45DC-9800-3CFE3E36D3A2}
+		{62E033EC-15B9-4318-9CC5-AF755560740A} = {2A5FEEA6-F6DE-45DC-9800-3CFE3E36D3A2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4CD88413-B7F4-47D9-84EF-47C40192027E}

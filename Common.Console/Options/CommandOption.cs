@@ -52,10 +52,10 @@ namespace Common.Console.Options
         /// <summary>
         /// Any error gone wrong in validation.
         /// </summary>
-        public string ErrorMessage
+        protected string ErrorMessage
         {
             get;
-            protected set;
+            set;
         }
 
         /// <summary>
@@ -90,10 +90,10 @@ namespace Common.Console.Options
         {
             if (string.IsNullOrWhiteSpace(ErrorMessage))
             {
-                return $"Option {Name} has no error.";
+                return $"[Option {Name}] - No Error.";
             }
 
-            return $"Option {Name} - {ErrorMessage}";
+            return $"[Option {Name}] - {ErrorMessage}";
         }
 
         /// <summary>

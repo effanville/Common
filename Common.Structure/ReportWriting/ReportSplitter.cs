@@ -60,7 +60,7 @@ namespace Common.Structure.ReportWriting
                 index++;
             }
 
-            if (docType.StringForm(nextElement) == "\r\n")
+            if (docType.StringForm(nextElement) == Constants.EnvNewLine)
             {
                 _ = sb.AppendLine();
             }

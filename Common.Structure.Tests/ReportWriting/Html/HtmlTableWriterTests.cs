@@ -11,9 +11,13 @@ namespace Common.Structure.Tests.ReportWriting.Html
     [TestFixture]
     public sealed class HtmlTableWriterTests
     {
+        private static string enl = TestConstants.EnvNewLine;
+        
         private static IEnumerable<TestCaseData> TableHeaderData()
         {
-            yield return new TestCaseData(new List<string>() { "Row1", "Info", "More Stuff" }, "<thead><tr>\r\n<th scope=\"col\">Row1</th><th>Info</th><th>More Stuff</th>\r\n</tr></thead>\r\n<tbody>\r\n");
+            yield return new TestCaseData(
+                new List<string>() { "Row1", "Info", "More Stuff" }, 
+                $"<thead><tr>{enl}<th scope=\"col\">Row1</th><th>Info</th><th>More Stuff</th>{enl}</tr></thead>{enl}<tbody>{enl}");
         }
 
         [TestCaseSource(nameof(TableHeaderData))]
@@ -29,7 +33,9 @@ namespace Common.Structure.Tests.ReportWriting.Html
 
         private static IEnumerable<TestCaseData> TableRowData()
         {
-            yield return new TestCaseData(new List<string>() { "Row1", "Info", "More Stuff" }, "<tr>\r\n<td>Row1</td><td>Info</td><td>More Stuff</td>\r\n</tr>\r\n");
+            yield return new TestCaseData(
+                new List<string>() { "Row1", "Info", "More Stuff" }, 
+                $"<tr>{enl}<td>Row1</td><td>Info</td><td>More Stuff</td>{enl}</tr>{enl}");
         }
 
         [TestCaseSource(nameof(TableRowData))]
@@ -48,7 +54,7 @@ namespace Common.Structure.Tests.ReportWriting.Html
             yield return new TestCaseData(
                 new List<string>() { "Row1", "Info", "More Stuff" },
                 new List<List<string>> { new List<string>() { "Row1", "Info", "More Stuff" } },
-                "<table>\r\n<thead><tr>\r\n<th scope=\"col\">Row1</th><th>Info</th><th>More Stuff</th>\r\n</tr></thead>\r\n<tbody>\r\n<tr>\r\n<td>Row1</td><td>Info</td><td>More Stuff</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n");
+                $"<table>{enl}<thead><tr>{enl}<th scope=\"col\">Row1</th><th>Info</th><th>More Stuff</th>{enl}</tr></thead>{enl}<tbody>{enl}<tr>{enl}<td>Row1</td><td>Info</td><td>More Stuff</td>{enl}</tr>{enl}</tbody>{enl}</table>{enl}");
         }
 
         [TestCaseSource(nameof(TableData))]

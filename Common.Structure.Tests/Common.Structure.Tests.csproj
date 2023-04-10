@@ -1,12 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
     <IsPackable>false</IsPackable>
-    <Platforms>x64</Platforms>
   </PropertyGroup>
-
-  <Import Project="../Build/CommonProperties.build.props" />
 
   <ItemGroup>
     <PackageReference Include="NUnit" Version="3.13.3" />
@@ -16,10 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Common.Structure\Common.Structure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="DisplayClasses\" />
   </ItemGroup>
 
 </Project>

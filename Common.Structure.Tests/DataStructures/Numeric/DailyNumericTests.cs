@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml;
@@ -7,8 +8,10 @@ using Common.Structure.DataStructures.Numeric;
 
 namespace Common.Structure.Tests.DataStructures.Numeric
 {
-    public class DailyNumericTests
+    public sealed class DailyNumericTests
     {
+        private static string enl = TestConstants.EnvNewLine;
+
         [TestCase("1/1/2018", 1, "1/1/2019", 0.0, -1)]
         [TestCase("1/1/2020", 1, "1/1/2019", 0.0, 1)]
         [TestCase("1/1/2018", 1, "1/1/2018", 0.0, 0)]
@@ -45,12 +48,35 @@ namespace Common.Structure.Tests.DataStructures.Numeric
             Assert.AreNotEqual(data, newData);
         }
 
-        [TestCase("2018/1/31", 278.671, "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<DV D=\"2018-01-31T00:00:00\" V=\"278.671\" />")]
-        [TestCase("2018/1/31", 0.0, "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<DV D=\"2018-01-31T00:00:00\" V=\"0\" />")]
-        [TestCase("2018/1/31", double.NaN, "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<DV D=\"2018-01-31T00:00:00\" V=\"NaN\" />")]
-        [TestCase("2018/1/31", -2345.67865, "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<DV D=\"2018-01-31T00:00:00\" V=\"-2345.67865\" />")]
-        [TestCase("2018/1/31", double.NegativeInfinity, "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<DV D=\"2018-01-31T00:00:00\" V=\"-Infinity\" />")]
-        [TestCase(null, null, "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<DV D=\"0001-01-01T00:00:00\" V=\"0\" />")]
+        private static IEnumerable<TestCaseData> WriteXmlTestCases()
+        {
+            yield return new TestCaseData(
+                new DateTime(2018,1,31), 
+                278.671, 
+                $"<?xml version=\"1.0\" encoding=\"utf-16\"?>{enl}<DV D=\"2018-01-31T00:00:00\" V=\"278.671\" />");
+            yield return new TestCaseData(
+                new DateTime(2018,1,31), 
+                0.0, 
+                $"<?xml version=\"1.0\" encoding=\"utf-16\"?>{enl}<DV D=\"2018-01-31T00:00:00\" V=\"0\" />");
+            yield return new TestCaseData(
+                new DateTime(2018,1,31), 
+                double.NaN, 
+                $"<?xml version=\"1.0\" encoding=\"utf-16\"?>{enl}<DV D=\"2018-01-31T00:00:00\" V=\"NaN\" />");
+            yield return new TestCaseData(
+                new DateTime(2018,1,31), 
+                -2345.67865, 
+                $"<?xml version=\"1.0\" encoding=\"utf-16\"?>{enl}<DV D=\"2018-01-31T00:00:00\" V=\"-2345.67865\" />");
+            yield return new TestCaseData(
+                new DateTime(2018,1,31), 
+                double.NegativeInfinity, 
+                $"<?xml version=\"1.0\" encoding=\"utf-16\"?>{enl}<DV D=\"2018-01-31T00:00:00\" V=\"-Infinity\" />");
+            yield return new TestCaseData(
+                null, 
+                null, 
+                $"<?xml version=\"1.0\" encoding=\"utf-16\"?>{enl}<DV D=\"0001-01-01T00:00:00\" V=\"0\" />");
+        }
+        
+        [TestCaseSource(nameof(WriteXmlTestCases))]
         public void WriteXmlTests(DateTime day, double value, string expectedXml)
         {
             var val = new DailyNumeric(day, value);
@@ -71,12 +97,35 @@ namespace Common.Structure.Tests.DataStructures.Numeric
             }
         }
 
-        [TestCase("2018/1/31", 278.671, "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<DV D=\"2018-01-31T00:00:00\" V=\"278.671\" />")]
-        [TestCase("2018/1/31", 0.0, "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<DV D=\"2018-01-31T00:00:00\" V=\"0\" />")]
-        [TestCase(null, null, "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<DV D=\"0001-01-01T00:00:00\" V=\"0\" />")]
-        [TestCase("2018/1/31", double.NaN, "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<DV D=\"2018-01-31T00:00:00\" V=\"NaN\" />")]
-        [TestCase("2018/1/31", -2345.67865, "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<DV D=\"2018-01-31T00:00:00\" V=\"-2345.67865\" />")]
-        [TestCase("2018/1/31", double.NegativeInfinity, "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<DV D=\"2018-01-31T00:00:00\" V=\"-Infinity\" />")]
+        private static IEnumerable<TestCaseData> ReadXmlTestsCases()
+        {
+            yield return new TestCaseData(
+                new DateTime(2018,1,31), 
+                278.671, 
+                $"<?xml version=\"1.0\" encoding=\"utf-16\"?>{enl}<DV D=\"2018-01-31T00:00:00\" V=\"278.671\" />");
+            yield return new TestCaseData(
+                new DateTime(2018,1,31), 
+                0.0, 
+                $"<?xml version=\"1.0\" encoding=\"utf-16\"?>{enl}<DV D=\"2018-01-31T00:00:00\" V=\"0\" />");
+            yield return new TestCaseData(
+                null, 
+                null, 
+                $"<?xml version=\"1.0\" encoding=\"utf-16\"?>{enl}<DV D=\"0001-01-01T00:00:00\" V=\"0\" />");
+            yield return new TestCaseData(
+                new DateTime(2018,1,31), 
+                double.NaN, 
+                $"<?xml version=\"1.0\" encoding=\"utf-16\"?>{enl}<DV D=\"2018-01-31T00:00:00\" V=\"NaN\" />");
+            yield return new TestCaseData(
+                new DateTime(2018,1,31), 
+                -2345.67865, 
+                $"<?xml version=\"1.0\" encoding=\"utf-16\"?>{enl}<DV D=\"2018-01-31T00:00:00\" V=\"-2345.67865\" />");
+            yield return new TestCaseData(
+                new DateTime(2018,1,31), 
+                double.NegativeInfinity, 
+                $"<?xml version=\"1.0\" encoding=\"utf-16\"?>{enl}<DV D=\"2018-01-31T00:00:00\" V=\"-Infinity\" />");
+        }
+        
+        [TestCaseSource(nameof(ReadXmlTestsCases))]
         public void ReadXmlTests(DateTime day, double value, string actualXml)
         {
             var valuation = new DailyNumeric();

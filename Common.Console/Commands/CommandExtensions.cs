@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 
+using Common.Structure.Reporting;
+
 namespace Common.Console.Commands
 {
     public static class CommandExtensions
@@ -35,19 +37,29 @@ namespace Common.Console.Commands
         /// </summary>
         public static bool Validate(this ICommand cmd, string[] args, IConsole console)
         {
+            return Validate(cmd, args, console, null);
+        }
+
+        /// <summary>
+         /// Standard validation routine ensuring all options and sub commands are validated.
+         /// </summary>
+        public static bool Validate(this ICommand cmd, string[] args, IConsole console, IReportLogger logger)
+        {
             if (cmd.SubCommands != null && cmd.SubCommands.Count > 0)
             {
                 var subCommand = cmd.SubCommands.FirstOrDefault(command => command.Name == args[0]);
                 if (subCommand != null)
                 {
                     string[] commandArgs = args.Skip(1).ToArray();
-                    return subCommand.Validate(console, commandArgs);
+                    return subCommand.Validate(console, logger, commandArgs);
                 }
             }
 
+            bool isValid = true;
             var options = cmd.Options;
             if (options != null && options.Count > 0)
             {
+
                 // cycle through user given values filling in option values.
                 for (int index = 0; index < args.Length - 1; index++)
                 {
@@ -60,7 +72,9 @@ namespace Common.Console.Commands
                         string optionName = args[index].TrimStart('-');
                         if (!options.Any(opt => opt.Name.Equals(optionName, StringComparison.OrdinalIgnoreCase)))
                         {
-                            console.WriteError($"Option {optionName} is not a valid option for the {cmd.Name} command.");
+                            string error = $"Option {optionName} is not a valid option.";
+                            logger?.Log(ReportSeverity.Critical, ReportType.Error, $"{cmd.Name}.{nameof(Validate)}", error);
+                            console.WriteError($"[Command {cmd.Name}] - {error}");
                             return false;
                         }
 
@@ -74,13 +88,15 @@ namespace Common.Console.Commands
                     bool valid = option.Validate();
                     if (!valid)
                     {
-                        console.WriteError($"{option.GetPrettyErrorMessage()}");
-                        return false;
+                        string error = $"{option.GetPrettyErrorMessage()}";
+                        logger?.Log(ReportSeverity.Critical, ReportType.Error, $"{nameof(Validate)}", error);
+                        console.WriteError(error);
+                        isValid = false;
                     }
                 }
             }
 
-            return true;
+            return isValid;
         }
 
         /// <summary>
@@ -89,12 +105,21 @@ namespace Common.Console.Commands
         /// </summary>
         public static int Execute(this ICommand cmd, IConsole console, string[] args)
         {
+            return Execute(cmd, console, null, args);
+        }
+
+        /// <summary>
+        /// A default execute algorithm that attempts to execute a sub command.
+        /// Returns error if fails to execute a sub command.
+        /// </summary>
+        public static int Execute(this ICommand cmd, IConsole console, IReportLogger logger, string[] args)
+        {
             var subCommand = cmd.SubCommands.FirstOrDefault(command => command.Name.Equals(args[0], StringComparison.OrdinalIgnoreCase));
 
             if (subCommand != null)
             {
                 string[] commandArgs = args.Skip(1).ToArray();
-                return subCommand.Execute(console, commandArgs);
+                return subCommand.Execute(console, logger, commandArgs);
             }
 
             return 1;

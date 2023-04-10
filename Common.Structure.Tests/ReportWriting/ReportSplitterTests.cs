@@ -10,6 +10,8 @@ namespace Common.Structure.Tests.ReportWriting
     [TestFixture]
     internal sealed class ReportSplitterTests
     {
+        private static string enl = TestConstants.EnvNewLine;
+
         public static IEnumerable<TestCaseData> Tests()
         {
             yield return new TestCaseData(DocumentType.Md, "", null).SetName("Empty Md String");
@@ -20,7 +22,9 @@ namespace Common.Structure.Tests.ReportWriting
                 .WriteTitle("Some Title", DocumentElement.h1)
                 .WriteParagraph(new[] { "Some sentence here" }, DocumentElement.p)
                 .GetDocument();
-            yield return new TestCaseData(DocumentType.Md, "# Some Title\r\nSome sentence here\r\n", mdDdocument).SetName("Title and Paragraph Md");
+            yield return new TestCaseData(
+                DocumentType.Md, 
+                $"# Some Title{enl}Some sentence here{enl}", mdDdocument).SetName("Title and Paragraph Md");
 
             var tableMdDocument = new DocumentBuilder(DocumentType.Md)
                 .WriteTitle("Some Title", DocumentElement.h1)
@@ -29,7 +33,7 @@ namespace Common.Structure.Tests.ReportWriting
                     headerFirstColumn: true);
             yield return new TestCaseData(
                 DocumentType.Md,
-                "# Some Title\r\n| Header 1       | Header 2  |\r\n| -------------- | --------- |\r\n| __Value-1-1__  | Value-1-2 |\r\n| __Values-2-1__ | Value-2-2 |\r\n",
+                $"# Some Title{enl}| Header 1       | Header 2  |{enl}| -------------- | --------- |{enl}| __Value-1-1__  | Value-1-2 |{enl}| __Values-2-1__ | Value-2-2 |{enl}",
                 tableMdDocument.GetDocument())
                 .SetName("Title and Header Md");
             var twotableMdDocument = new DocumentBuilder(DocumentType.Md)
@@ -42,7 +46,7 @@ namespace Common.Structure.Tests.ReportWriting
                             headerFirstColumn: true);
             yield return new TestCaseData(
                 DocumentType.Md,
-                "# Some Title\r\n| Header 1       | Header 2  |\r\n| -------------- | --------- |\r\n| __Value-1-1__  | Value-1-2 |\r\n| __Values-2-1__ | Value-2-2 |\r\n| Header A       | Header B  | Header C  |\r\n| -------------- | --------- | --------- |\r\n| __Value-1-A__  | Value-1-B | Value-1-C |\r\n| __Values-2-A__ | Value-2-B | Value-2-C |\r\n",
+                $"# Some Title{enl}| Header 1       | Header 2  |{enl}| -------------- | --------- |{enl}| __Value-1-1__  | Value-1-2 |{enl}| __Values-2-1__ | Value-2-2 |{enl}| Header A       | Header B  | Header C  |{enl}| -------------- | --------- | --------- |{enl}| __Value-1-A__  | Value-1-B | Value-1-C |{enl}| __Values-2-A__ | Value-2-B | Value-2-C |{enl}",
                 twotableMdDocument.GetDocument())
                 .SetName("Title and Two Table Md");
 
@@ -57,7 +61,7 @@ namespace Common.Structure.Tests.ReportWriting
                  .WriteParagraph(new[] { "Then I went to the shops.", "And I did some stuff(sic)." });
             yield return new TestCaseData(
                 DocumentType.Md,
-                "# Some Title\r\n| Header 1       | Header 2  |\r\n| -------------- | --------- |\r\n| __Value-1-1__  | Value-1-2 |\r\n| __Values-2-1__ | Value-2-2 |\r\n| Header A       | Header B  | Header C  |\r\n| -------------- | --------- | --------- |\r\n| __Value-1-A__  | Value-1-B | Value-1-C |\r\n| __Values-2-A__ | Value-2-B | Value-2-C |\r\nThen I went to the shops. And I did some stuff(sic).\r\n",
+                $"# Some Title{enl}| Header 1       | Header 2  |{enl}| -------------- | --------- |{enl}| __Value-1-1__  | Value-1-2 |{enl}| __Values-2-1__ | Value-2-2 |{enl}| Header A       | Header B  | Header C  |{enl}| -------------- | --------- | --------- |{enl}| __Value-1-A__  | Value-1-B | Value-1-C |{enl}| __Values-2-A__ | Value-2-B | Value-2-C |{enl}Then I went to the shops. And I did some stuff(sic).{enl}",
                 twotableSentenceMdDocument.GetDocument())
                 .SetName("Title and Two Table and sentence Md");
 
@@ -65,13 +69,19 @@ namespace Common.Structure.Tests.ReportWriting
                 .WriteTitle("Some Title", DocumentElement.h1)
                 .WriteParagraph(new[] { "Some sentence here" }, DocumentElement.p)
                 .GetDocument();
-            yield return new TestCaseData(DocumentType.Html, "<h1>Some Title</h1>\r\n<p>Some sentence here</p>\r\n", htmldocument).SetName("Title and Paragraph html");
+            yield return new TestCaseData(
+                DocumentType.Html, 
+                $"<h1>Some Title</h1>{enl}<p>Some sentence here</p>{enl}", 
+                htmldocument).SetName("Title and Paragraph html");
 
             var otherHtmlDocument = new DocumentBuilder(DocumentType.Html)
                 .WriteTitle("Some Title", DocumentElement.h1)
                 .WriteTitle("Smaller Title", DocumentElement.h2)
                 .GetDocument();
-            yield return new TestCaseData(DocumentType.Html, "<h1>Some Title</h1>\r\n<h2>Smaller Title</h2>\r\n", otherHtmlDocument).SetName("Title and Smaller Title html");
+            yield return new TestCaseData(
+                DocumentType.Html, 
+                $"<h1>Some Title</h1>{enl}<h2>Smaller Title</h2>{enl}", 
+                otherHtmlDocument).SetName("Title and Smaller Title html");
 
             var tableHtmlDocument = new DocumentBuilder(DocumentType.Html)
                 .WriteTitle("Some Title", DocumentElement.h1)
@@ -81,7 +91,7 @@ namespace Common.Structure.Tests.ReportWriting
                 .GetDocument();
             yield return new TestCaseData(
                 DocumentType.Html,
-                "<h1>Some Title</h1>\r\n<table>\r\n<thead><tr>\r\n<th scope=\"col\">Header 1</th><th>Header 2</th>\r\n</tr></thead>\r\n<tbody>\r\n<tr>\r\n<th scope=\"row\">Value-1-1</th><td>Value-1-2</td>\r\n</tr>\r\n<tr>\r\n<th scope=\"row\">Values-2-1</th><td>Value-2-2</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n",
+                $"<h1>Some Title</h1>{enl}<table>{enl}<thead><tr>{enl}<th scope=\"col\">Header 1</th><th>Header 2</th>{enl}</tr></thead>{enl}<tbody>{enl}<tr>{enl}<th scope=\"row\">Value-1-1</th><td>Value-1-2</td>{enl}</tr>{enl}<tr>{enl}<th scope=\"row\">Values-2-1</th><td>Value-2-2</td>{enl}</tr>{enl}</tbody>{enl}</table>{enl}",
                 tableHtmlDocument)
                 .SetName("Title and Header Html");
 
@@ -96,7 +106,7 @@ namespace Common.Structure.Tests.ReportWriting
              .GetDocument();
             yield return new TestCaseData(
                 DocumentType.Html,
-                "<h1>Some Title</h1>\r\n<table>\r\n<thead><tr>\r\n<th scope=\"col\">Header 1</th><th>Header 2</th>\r\n</tr></thead>\r\n<tbody>\r\n<tr>\r\n<th scope=\"row\">Value-1-1</th><td>Value-1-2</td>\r\n</tr>\r\n<tr>\r\n<th scope=\"row\">Values-2-1</th><td>Value-2-2</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<table>\r\n<thead><tr>\r\n<th scope=\"col\">Header A</th><th>Header B</th><th>header C</th>\r\n</tr></thead>\r\n<tbody>\r\n<tr>\r\n<th scope=\"row\">Value-1-A</th><td>Value-1-B</td><td>Value-1-C</td>\r\n</tr>\r\n<tr>\r\n<th scope=\"row\">Values-2-A</th><td>Value-2-B</td><td>Value-2-C</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n",
+                $"<h1>Some Title</h1>{enl}<table>{enl}<thead><tr>{enl}<th scope=\"col\">Header 1</th><th>Header 2</th>{enl}</tr></thead>{enl}<tbody>{enl}<tr>{enl}<th scope=\"row\">Value-1-1</th><td>Value-1-2</td>{enl}</tr>{enl}<tr>{enl}<th scope=\"row\">Values-2-1</th><td>Value-2-2</td>{enl}</tr>{enl}</tbody>{enl}</table>{enl}<table>{enl}<thead><tr>{enl}<th scope=\"col\">Header A</th><th>Header B</th><th>header C</th>{enl}</tr></thead>{enl}<tbody>{enl}<tr>{enl}<th scope=\"row\">Value-1-A</th><td>Value-1-B</td><td>Value-1-C</td>{enl}</tr>{enl}<tr>{enl}<th scope=\"row\">Values-2-A</th><td>Value-2-B</td><td>Value-2-C</td>{enl}</tr>{enl}</tbody>{enl}</table>{enl}",
                 twoTableHtmlDocument)
                 .SetName("Title and Two table Html");
         }

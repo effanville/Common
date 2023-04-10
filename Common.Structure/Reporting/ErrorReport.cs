@@ -34,7 +34,7 @@ namespace Common.Structure.Reporting
         /// <summary>
         /// Where is this a report from.
         /// </summary>
-        public ReportLocation ErrorLocation
+        public string ErrorLocation
         {
             get;
             set;
@@ -55,12 +55,35 @@ namespace Common.Structure.Reporting
         public ErrorReport()
         {
             TimeStamp = DateTime.Now;
+            ErrorLocation = ReportLocation.Unknown.ToString();
         }
 
         /// <summary>
         /// Constructs an error report with default <see cref="ReportSeverity"/>.
         /// </summary>
         public ErrorReport(ReportType type, ReportLocation errorLocation, string message)
+        {
+            TimeStamp = DateTime.Now;
+            ErrorType = type;
+            ErrorLocation = errorLocation.ToString();
+            Message = message;
+        }
+
+        /// <summary>
+        /// Constructs a full report, setting all properties.
+        /// </summary>
+        public ErrorReport(ReportSeverity severity, ReportType type, ReportLocation errorLocation, string message)
+        {
+            TimeStamp = DateTime.Now;
+            ErrorSeverity = severity;
+            ErrorType = type;
+            ErrorLocation = errorLocation.ToString();
+            Message = message;
+        }
+        /// <summary>
+        /// Constructs an error report with default <see cref="ReportSeverity"/>.
+        /// </summary>
+        public ErrorReport(ReportType type, string errorLocation, string message)
         {
             TimeStamp = DateTime.Now;
             ErrorType = type;
@@ -71,7 +94,7 @@ namespace Common.Structure.Reporting
         /// <summary>
         /// Constructs a full report, setting all properties.
         /// </summary>
-        public ErrorReport(ReportSeverity severity, ReportType type, ReportLocation errorLocation, string message)
+        public ErrorReport(ReportSeverity severity, ReportType type, string errorLocation, string message)
         {
             TimeStamp = DateTime.Now;
             ErrorSeverity = severity;
@@ -85,7 +108,7 @@ namespace Common.Structure.Reporting
         /// </summary>
         public override string ToString()
         {
-            return $"[{TimeStamp}]{ErrorType} - {ErrorLocation} - {Message}";
+            return $"[{TimeStamp}]-({ErrorType}) - [{ErrorLocation}] - {Message}";
 
         }
 
@@ -111,12 +134,12 @@ namespace Common.Structure.Reporting
         {
             if (other.ErrorType.Equals(ErrorType))
             {
-                if (other.ErrorLocation.Equals(ErrorLocation))
+                if (string.Equals(other.ErrorLocation, ErrorLocation))
                 {
                     return string.Compare(Message, other.Message);
                 }
 
-                return other.ErrorLocation.CompareTo(ErrorLocation);
+                return string.Compare(other.ErrorLocation, ErrorLocation);
             }
 
             return ErrorType.CompareTo(other.ErrorType);

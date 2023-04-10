@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Abstractions;
-using System.Text;
+using System.Threading.Tasks;
+
+using Common.Structure.DataStructures;
 
 namespace Common.Structure.Reporting
 {
@@ -10,7 +13,9 @@ namespace Common.Structure.Reporting
     /// </summary>
     public class LogReporter : IReportLogger
     {
-        private readonly Action<ReportSeverity, ReportType, ReportLocation, string> fLoggingAction;
+        private readonly Action<ReportSeverity, ReportType, string, string> _loggingAction;
+
+        private TaskQueue _loggingQueue;
 
         /// <inheritdoc/>
         public ErrorReports Reports
@@ -19,21 +24,76 @@ namespace Common.Structure.Reporting
             set;
         } = new ErrorReports();
 
-        /// <summary>
-        /// Log an arbitrary message.
-        /// </summary>
-        public bool Log(ReportSeverity severity, ReportType type, ReportLocation location, string message)
+        /// <inheritdoc/>
+        public bool SaveInternally
         {
-            if (fLoggingAction != null)
+            get; set;
+        }
+
+        /// <summary>
+        /// Constructor for reporting mechanisms. Parameter addReport is the report callback mechanism.
+        /// </summary>
+        public LogReporter(Action<ReportSeverity, ReportType, string, string> addReport)
+        {
+            _loggingAction = addReport;
+            _loggingQueue = new TaskQueue();
+        }
+
+        /// <summary>
+        /// Constructor for reporting mechanisms. Parameter addReport is the report callback mechanism.
+        /// </summary>
+        public LogReporter(Action<ReportSeverity, ReportType, string, string> addReport, bool saveInternally)
+            : this(addReport)
+        {
+            SaveInternally = saveInternally;
+        }
+
+        private void AddReport(ReportSeverity severity, ReportType type, string location, string message)
+        {
+            if (SaveInternally)
             {
-                fLoggingAction(severity, type, location, message);
                 Reports.AddErrorReport(severity, type, location, message);
-                return true;
             }
-            else
+        }
+
+        /// <inheritdoc/>
+        public IReport Critical()
+        {
+            return new ReportBuilder(this, ReportSeverity.Critical);
+        }
+
+        public IReport Useful()
+        {
+            return new ReportBuilder(this, ReportSeverity.Useful);
+        }
+
+        /// <inheritdoc />
+        public void Log(ReportType type, string location, string message)
+        {
+            Log(ReportSeverity.Useful, type, location, message);
+        }
+
+        /// <inheritdoc />
+        public void Log(ReportSeverity severity, ReportType type, string location, string message)
+        {          
+            AddReport(severity, type, location, message);
+            if(_loggingAction != null)
+            {
+                _loggingQueue.Enqueue(() => _loggingAction?.Invoke(severity, type, location, message));
+            }
+        }
+
+        /// <inheritdoc />
+        public bool Log(ReportSeverity severity, ReportType type, ReportLocation location, string message)
+        {            
+            AddReport(severity, type, location.ToString(), message);
+            if (_loggingAction == null)
             {
                 return false;
             }
+
+            _loggingQueue.Enqueue(() => _loggingAction(severity, type, location.ToString(), message));
+            return true;
         }
 
         /// <summary>
@@ -41,16 +101,7 @@ namespace Common.Structure.Reporting
         /// </summary>
         public bool LogUseful(ReportType type, ReportLocation location, string message)
         {
-            if (fLoggingAction != null)
-            {
-                fLoggingAction(ReportSeverity.Useful, type, location, message);
-                Reports.AddErrorReport(ReportSeverity.Useful, type, location, message);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return Log(ReportSeverity.Useful, type, location, message);
         }
 
         /// <summary>
@@ -58,46 +109,50 @@ namespace Common.Structure.Reporting
         /// </summary>
         public bool LogUsefulError(ReportLocation location, string message)
         {
-            if (fLoggingAction != null)
-            {
-                fLoggingAction(ReportSeverity.Useful, ReportType.Error, location, message);
-                Reports.AddErrorReport(ReportSeverity.Useful, ReportType.Error, location, message);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return Log(ReportSeverity.Useful, ReportType.Error, location, message);
         }
 
-        /// <summary>
-        /// Constructor for reporting mechanisms. Parameter addReport is the report callback mechanism.
-        /// </summary>
-        public LogReporter(Action<ReportSeverity, ReportType, ReportLocation, string> addReport)
+        /// <inheritdoc/>
+        public void Error(string location, string message)
         {
-            fLoggingAction = addReport;
+            Log(ReportSeverity.Useful, ReportType.Error, location, message);
         }
 
-        /// <summary>
-        /// Write the reports to a suitable file.
-        /// </summary>
+        /// <inheritdoc/>
+        public void Warning(string location, string message)
+        {
+            Log(ReportSeverity.Useful, ReportType.Warning, location, message);
+        }
+
+        /// <inheritdoc/>
         public void WriteReportsToFile(string filePath)
         {
             WriteReportsToFile(filePath, new FileSystem());
         }
 
-        /// <summary>
-        /// Write the reports to a suitable file.
-        /// </summary>
-		public void WriteReportsToFile(string filePath, IFileSystem fileSystem)
+        /// <inheritdoc/>
+        public void WriteReportsToFile(string filePath, out string message)
         {
+            WriteReportsToFile(filePath, new FileSystem(), out message);
+        }
+
+        /// <inheritdoc/>
+        public void WriteReportsToFile(string filePath, IFileSystem fileSystem)
+        {
+            WriteReportsToFile(filePath, fileSystem, out _);
+        }
+
+        /// <inheritdoc/>
+        public void WriteReportsToFile(string filePath, IFileSystem fileSystem, out string error)
+        {
+            error = null;
+            if (string.IsNullOrWhiteSpace(filePath))
+            {
+                error = $"Filepath was empty.";
+                return;
+            }
             try
             {
-                if (string.IsNullOrWhiteSpace(filePath))
-                {
-                    return;
-                }
-
                 using (Stream stream = fileSystem.FileStream.Create(filePath, FileMode.Create))
                 using (TextWriter writer = new StreamWriter(stream))
                 {
@@ -107,8 +162,9 @@ namespace Common.Structure.Reporting
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                error = ex.Message;
             }
         }
     }

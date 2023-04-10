@@ -6,3 +6,4 @@ nuget
 **/obj
 **/tools
 Build/source/Properties/launchSettings.json
+**/.DS_Store

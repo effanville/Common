@@ -116,7 +116,8 @@ namespace Common.Structure.ReportWriting.Markdown
 
             for (int columnIndex = startIndex; columnIndex < valuesToWrite.Count; columnIndex++)
             {
-                _ = sb.Append($" {valuesToWrite[columnIndex].PadRight(columnWidths[columnIndex])} ")
+                var value = valuesToWrite[columnIndex] ?? " ";
+                _ = sb.Append($" {value.PadRight(columnWidths[columnIndex])} ")
                     .Append('|');
             }
 

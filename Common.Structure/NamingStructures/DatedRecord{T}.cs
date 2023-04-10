@@ -14,6 +14,11 @@ namespace Common.Structure.NamingStructures
         {
             return (a, b) => b.Date.CompareTo(a.Date);
         }
+
+        public static Comparison<DatedRecord<T>> InverseDateCompare<T>()
+        {
+            return (a, b) => -1 * b.Date.CompareTo(a.Date);
+        }
     }
 
     public sealed class DatedRecord<T>
