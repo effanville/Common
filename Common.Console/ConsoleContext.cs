@@ -8,12 +8,6 @@ using Common.Structure.Reporting;
 
 namespace Common.Console
 {
-    public enum ExitCode
-    {
-        Success = 0,
-        CommandError = 1,
-        OptionError = 2
-    }
     /// <summary>
     /// Contains the context for a console application, as well as the
     /// validation and execution routines.
@@ -194,7 +188,7 @@ namespace Common.Console
         /// <returns></returns>
         public bool Validate()
         {
-            if(Args.Length == 0)
+            if (Args.Length == 0)
             {
                 Console.WriteError("Could not locate suitable command to execute.");
                 return false;
