@@ -16,17 +16,18 @@ namespace Common.Statistics
         /// Export the collection to a file.
         /// </summary>
         /// <param name="collection">The collection to export.</param>
-        /// <param name="fileSystem"></param>
-        /// <param name="filePath"></param>
-        /// <param name="exportType"></param>
-        public static void ExportStats<S, T>(this IGenericStatCollection<S, T> collection, IFileSystem fileSystem, string filePath, DocumentType exportType, out string error)
+        /// <param name="fileSystem">The filesystem to use.</param>
+        /// <param name="filePath">The path to export to.</param>
+        /// <param name="documentType">The type of file to export to</param>
+        /// <param name="error">A string recording any error, if present.</param>
+        public static void ExportStats<S, T>(this IGenericStatCollection<S, T> collection, IFileSystem fileSystem, string filePath, DocumentType documentType, out string error)
             where S : Enum
             where T : class
         {
             error = null;
             try
             {
-                StringBuilder sb = collection.ExportStats(exportType, DocumentElement.h1);
+                StringBuilder sb = collection.ExportStats(documentType, DocumentElement.h1);
 
                 using (Stream stream = fileSystem.FileStream.Create(filePath, FileMode.Create))
                 using (StreamWriter fileWriter = new StreamWriter(stream))

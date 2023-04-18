@@ -10,35 +10,57 @@ namespace Common.Structure.MathLibrary.Vectors
     /// <typeparam name="T">The type of the values in the vector.</typeparam>
     public class Vector<T> : IEnumerable, IEnumerable<T> where T : struct, IEquatable<T>, IComparable<T>
     {
+        /// <summary>
+        /// The field values in this vector.
+        /// </summary>
         protected readonly T[] _values;
 
+        /// <summary>
+        /// The default value to use in calculations on this vector.
+        /// </summary>
         protected T DefaultValue
         {
             get;
             set;
         } = default(T);
 
+        /// <summary>
+        /// Return the value at the index specified.
+        /// </summary>
         public T this[int index]
         {
             get => _values[index];
             set => _values[index] = value;
         }
 
+        /// <summary>
+        /// The values stored in this vector as an array.
+        /// </summary>
         public T[] Values => _values;
 
+        /// <inheritdoc/>
         public int Count => _values.Length;
 
+        /// <summary>
+        /// Construct an instance.
+        /// </summary>
         public Vector(T[] values, T defaultValue)
         {
             _values = values;
             DefaultValue = defaultValue;
         }
 
+        /// <summary>
+        /// Construct an instance.
+        /// </summary>
         public Vector(T[] values)
             : this(values, default(T))
         {
         }
 
+        /// <summary>
+        /// Construct an instance.
+        /// </summary>
         public Vector(int size, T defaultValue)
         {
             _values = new T[size];
@@ -48,16 +70,23 @@ namespace Common.Structure.MathLibrary.Vectors
             }
         }
 
+        /// <inheritdoc/>
         public IEnumerator<T> GetEnumerator()
         {
             return (IEnumerator<T>)_values.GetEnumerator();
         }
 
+        /// <summary>
+        /// Set the value at the index to be the value specified.
+        /// </summary>
         public void Set(int index, T item)
         {
             _values[index] = item;
         }
 
+        /// <summary>
+        /// Set the value at the index specified to be the default value.
+        /// </summary>
         public void RemoveAt(int index)
         {
             _values[index] = default(T);
@@ -85,6 +114,7 @@ namespace Common.Structure.MathLibrary.Vectors
         /// </summary>
         /// <param name="values">The list to calculate the max for.</param>
         /// <param name="numberValues">The final number of values to consider.</param>
+        /// <param name="defaultValue">The default value to use if cannot calculate the maximum.</param>
         /// <returns>The maximum value.</returns>
         public static T Max(IReadOnlyList<T> values, int numberValues, T defaultValue = default(T))
         {
@@ -168,6 +198,7 @@ namespace Common.Structure.MathLibrary.Vectors
         /// </summary>
         /// <param name="values">The list to calculate the min for.</param>
         /// <param name="numberValues">The final number of values to consider.</param>
+        /// <param name="defaultValue">The default value to use if cannot calculate the mininum.</param>
         /// <returns>The minimum value.</returns>
         public static T Min(IReadOnlyList<T> values, int numberValues, T defaultValue = default(T))
         {
