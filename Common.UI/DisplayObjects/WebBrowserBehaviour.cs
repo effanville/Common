@@ -9,22 +9,34 @@ namespace Common.UI.DisplayObjects
     /// </summary>
     public static class WebBrowserBehaviours
     {
+        /// <summary>
+        /// The bindable source property.
+        /// </summary>
         public static readonly DependencyProperty BindableSourceProperty =
             DependencyProperty.RegisterAttached("BindableSource", typeof(object), typeof(WebBrowserBehaviours), new UIPropertyMetadata(null, BindableSourcePropertyChanged));
 
+        /// <summary>
+        /// Returns the bound source. 
+        /// </summary>
         public static object GetBindableSource(DependencyObject obj)
         {
             return (string)obj.GetValue(BindableSourceProperty);
         }
 
+        /// <summary>
+        /// Sets the source to the value specified.
+        /// </summary>
         public static void SetBindableSource(DependencyObject obj, object value)
         {
             obj.SetValue(BindableSourceProperty, value);
         }
 
+        /// <summary>
+        /// The property for binding the web browser source with.
+        /// </summary>
         public static void BindableSourcePropertyChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
-            if (!(o is WebBrowser browser))
+            if (o is not WebBrowser browser)
             {
                 return;
             }

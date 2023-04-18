@@ -9,6 +9,9 @@ namespace Common.UI.DisplayObjects
     /// </summary>
     public class BindableChart : Chart
     {
+        /// <summary>
+        /// The source for the series in this bindable chart.
+        /// </summary>
         public IEnumerable SeriesSource
         {
             get => (IEnumerable)GetValue(SeriesSourceProperty);
@@ -16,6 +19,9 @@ namespace Common.UI.DisplayObjects
             set => SetValue(SeriesSourceProperty, value);
         }
 
+        /// <summary>
+        /// The series source for the series in this bindable chart.
+        /// </summary>
         public static readonly DependencyProperty SeriesSourceProperty = DependencyProperty.Register(
             name: "SeriesSource",
             propertyType: typeof(IEnumerable),

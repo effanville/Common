@@ -7,6 +7,9 @@ namespace Common.UI.DisplayObjects
     /// </summary>
     public partial class ClosableHeader : UserControl
     {
+        /// <summary>
+        /// Construct an instance.
+        /// </summary>
         public ClosableHeader()
         {
             InitializeComponent();
