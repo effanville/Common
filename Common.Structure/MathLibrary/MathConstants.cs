@@ -2,7 +2,7 @@
 
 namespace Common.Structure.MathLibrary
 {
-    public static class MathConstants
+    internal static class MathConstants
     {
         public const double Pi = Math.PI;
         public const double GoldenRatio = 1.61803398875;

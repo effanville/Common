@@ -1,6 +1,6 @@
 ﻿namespace Common.Structure.MathLibrary.Functions
 {
-    public static class GaussLegendreQuadrature
+    internal static class GaussLegendreQuadrature
     {
         public static readonly int NumberValues = 18;
         public static readonly double[] Abscissa = new double[]
