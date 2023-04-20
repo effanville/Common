@@ -3,48 +3,14 @@ using System.IO.Abstractions;
 
 namespace Common.Structure.Reporting
 {
-    public interface IReport
-    {
-        IReport Type(ReportType type);
-        IReport Location(string location);
-        void WithMessage(string message);
-    }
-
-    internal class ReportBuilder : IReport
-    {
-        IReportLogger _logger;
-        ReportSeverity _severity;
-        ReportType _type;
-        string _location;
-        public ReportBuilder(IReportLogger logger, ReportSeverity reportSeverity)
-        {
-            _logger = logger;
-            _severity = reportSeverity;
-        }
-
-        public IReport Type(ReportType type)
-        {
-            _type = type;
-            return this;
-        }
-
-        public IReport Location(string location)
-        {
-            _location = location;
-            return this;
-        }
-
-        public void WithMessage(string message)
-        {
-            _logger.Log(_severity, _type, _location, message);
-        }
-    }
-
     /// <summary>
     /// Report Logger contract. Allows for reporting using types or strings.
     /// </summary>
     public interface IReportLogger
     {
+        /// <summary>
+        /// Return a Report constructor with <see cref="ReportSeverity.Critical"/>.
+        /// </summary>
         IReport Critical();
 
         /// <summary>
@@ -60,7 +26,7 @@ namespace Common.Structure.Reporting
         /// </summary>
         bool SaveInternally
         {
-            get;set;
+            get; set;
         }
 
         /// <summary>
@@ -125,20 +91,20 @@ namespace Common.Structure.Reporting
         /// Write the reports to a suitable file.
         /// </summary>
 		void WriteReportsToFile(string filePath);
-               
+
         /// <summary>
         /// Write the reports to a suitable file.
         /// </summary>
-		void WriteReportsToFile(string filePath, out string error);
+        void WriteReportsToFile(string filePath, out string error);
 
         /// <summary>
         /// Write the reports to a suitable file.
         /// </summary>
 		void WriteReportsToFile(string filePath, IFileSystem fileSystem);
-        
+
         /// <summary>
         /// Write the reports to a suitable file.
         /// </summary>
-		void WriteReportsToFile(string filePath, IFileSystem fileSystem, out string error);
+        void WriteReportsToFile(string filePath, IFileSystem fileSystem, out string error);
     }
 }

@@ -7,7 +7,7 @@ namespace Common.Structure.MathLibrary.ProbabilityDistributions
     /// <summary>
     /// The Gamma distribution
     /// </summary>
-    public class GammaDistribution : IProbabilityDistribution
+    internal class GammaDistribution : IProbabilityDistribution
     {
         private readonly double Alpha;
         private readonly double Beta;

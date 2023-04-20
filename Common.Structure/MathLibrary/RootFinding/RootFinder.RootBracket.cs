@@ -6,24 +6,37 @@ namespace Common.Structure.MathLibrary.RootFinding
 {
     public static partial class RootFinder
     {
+        /// <summary>
+        /// A bracket for a root.
+        /// </summary>
         public sealed class RootBracket
         {
+            /// <summary>
+            /// The lower bound of the root.
+            /// </summary>
             public double LowerBound
             {
                 get;
             }
 
+            /// <summary>
+            /// The upper bound of the root.
+            /// </summary>
             public double UpperBound
             {
                 get;
             }
 
+            /// <summary>
+            /// Construct an instance.
+            /// </summary>/
             public RootBracket(double lowerBound, double upperBound)
             {
                 LowerBound = lowerBound;
                 UpperBound = upperBound;
             }
 
+            /// <inheritdoc/>
             public override bool Equals(object obj)
             {
                 return obj is RootBracket result &&
@@ -31,6 +44,7 @@ namespace Common.Structure.MathLibrary.RootFinding
                        UpperBound == result.UpperBound;
             }
 
+            /// <inheritdoc/>
             public override int GetHashCode()
             {
                 int hashCode = 17;

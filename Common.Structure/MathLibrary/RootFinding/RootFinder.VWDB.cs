@@ -9,6 +9,9 @@ namespace Common.Structure.MathLibrary.RootFinding
         /// </summary>
         public static class VWDB
         {
+            /// <summary>
+            /// Find a root using the <see cref="Type.VWDB"/> method.
+            /// </summary>
             public static Result<double> FindRoot(
                Func<double, double> func,
                double lowerBound,

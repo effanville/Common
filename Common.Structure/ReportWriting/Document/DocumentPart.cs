@@ -2,23 +2,38 @@ using System;
 
 namespace Common.Structure.ReportWriting.Document
 {
+    /// <summary>
+    /// A part of a document.
+    /// </summary>
     public class DocumentPart : IEquatable<DocumentPart>
     {
+        /// <summary>
+        /// The type of the document.
+        /// </summary>
         public DocumentType DocType
         {
             get;
         }
 
+        /// <summary>
+        /// The type of this part.
+        /// </summary>
         public DocumentElement Element
         {
             get;
         }
 
+        /// <summary>
+        /// The string representing this part.
+        /// </summary>
         public string ConstituentString
         {
             get;
         }
 
+        /// <summary>
+        /// Construct an instance.
+        /// </summary>
         public DocumentPart(DocumentType docType, DocumentElement element, string constituentString)
         {
             DocType = docType;

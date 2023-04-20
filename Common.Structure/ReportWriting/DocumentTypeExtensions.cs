@@ -1,7 +1,13 @@
 ﻿namespace Common.Structure.ReportWriting
 {
+    /// <summary>
+    /// Extension methods for <see cref="DocumentType"/>s.
+    /// </summary>
     public static class DocumentTypeExtensions
     {
+        /// <summary>
+        /// Generate the string form for the <see cref="DocumentType"/> and the <see cref="DocumentElement"/>
+        /// </summary>
         public static string StringForm(this DocumentType docType, DocumentElement docElement)
         {
             return DocumentElementString(docType, docElement);
@@ -17,7 +23,7 @@
                     {
                         return "<div>";
                     }
-                    return $"<{docElement.ToString()}>";
+                    return $"<{docElement}>";
                 }
                 case DocumentType.Md:
                 {

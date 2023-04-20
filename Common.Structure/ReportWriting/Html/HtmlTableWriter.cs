@@ -9,7 +9,14 @@ namespace Common.Structure.ReportWriting.Html
     /// </summary>
     public sealed class HtmlTableWriter : ITableWriter
     {
+        /// <summary>
+        /// The Html start tag for a table.
+        /// </summary>
         public static readonly string StartTag = $"<{DocumentElement.table}>";
+
+        /// <summary>
+        /// The html end tag for a table.
+        /// </summary>
         public static readonly string EndTag = $"</{DocumentElement.table}>";
 
         /// <inheritdoc/>
