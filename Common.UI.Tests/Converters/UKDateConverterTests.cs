@@ -12,7 +12,7 @@ namespace Common.UI.Tests.Converters
         [TestCase("13/2/2019", "13/02/2019")]
         public void CanConvert(object input, object expected)
         {
-            DateTime inputTime = DateTime.Parse(input.ToString());
+            DateTime inputTime = DateTime.Parse(input.ToString(), UKEnglishCulture);
             StringToUKDateConverter converter = new StringToUKDateConverter();
             Assert.AreEqual(expected, converter.Convert(inputTime, null, null, UKEnglishCulture));
         }
@@ -20,16 +20,16 @@ namespace Common.UI.Tests.Converters
         [TestCase("13/2/2019", "2019-02-13")]
         public void CanConvertBack(object input, object expected)
         {
-            DateTime expectedTime = DateTime.Parse(expected.ToString());
+            DateTime expectedTime = DateTime.Parse(expected.ToString(), UKEnglishCulture);
             StringToUKDateConverter converter = new StringToUKDateConverter();
             Assert.AreEqual(expectedTime, converter.ConvertBack(input, null, null, UKEnglishCulture));
         }
 
         [TestCase("13/2/2019")]
         [TestCase("13/2/2019")]
-        public void RountTripConvert(object input)
+        public void RoundTripConvert(object input)
         {
-            DateTime inputTime = DateTime.Parse(input.ToString());
+            DateTime inputTime = DateTime.Parse(input.ToString(), UKEnglishCulture);
             StringToUKDateConverter converter = new StringToUKDateConverter();
             object converted = converter.Convert(inputTime, null, null, UKEnglishCulture);
             object convertBack = converter.ConvertBack(converted, null, null, UKEnglishCulture);

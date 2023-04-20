@@ -1,13 +1,22 @@
 ﻿namespace Common.Structure.ReportWriting.Document
 {
+    /// <summary>
+    /// A part of a document that contains text only.
+    /// </summary>
     public sealed class TextDocumentPart : DocumentPart
     {
+        /// <summary>
+        /// The text for this part of the document.
+        /// </summary>
         public string Text
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Construct an instance.
+        /// </summary>
         public TextDocumentPart(DocumentType docType, DocumentElement element, string constituentString)
             : base(docType, element, constituentString)
         {

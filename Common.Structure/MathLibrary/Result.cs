@@ -1,5 +1,8 @@
 ﻿namespace Common.Structure.MathLibrary
 {
+    /// <summary>
+    /// A result class without a type.
+    /// </summary>
     public sealed class Result
     {
         /// <summary>

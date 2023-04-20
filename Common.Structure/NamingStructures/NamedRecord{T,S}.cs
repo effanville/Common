@@ -2,29 +2,46 @@
 
 namespace Common.Structure.NamingStructures
 {
+    /// <summary>
+    /// A named record with two values.
+    /// </summary>
     public sealed class NamedRecord<T, S>
     {
         private readonly Func<T, T, T> fTAggregation;
         private readonly Func<S, S, S> fSAggregation;
         private readonly string fRecordName;
+
+        /// <summary>
+        /// The name of the record.
+        /// </summary>
         public Name Name
         {
             get;
             private set;
         }
 
+        /// <summary>
+        /// The primary value to record.
+        /// </summary>
         public T Value
         {
             get;
             private set;
         }
 
+        /// <summary>
+        /// The secondary value to record.
+        /// </summary>
         public S SecondValue
         {
             get;
             private set;
         }
 
+
+        /// <summary>
+        /// Construct an instance.
+        /// </summary>
         public NamedRecord(
             string recordName,
             Name name,
@@ -40,6 +57,10 @@ namespace Common.Structure.NamingStructures
             Value = value;
             SecondValue = secondValue;
         }
+
+        /// <summary>
+        /// Construct an instance.
+        /// </summary>
         public NamedRecord(
             string recordName,
             Name name,
@@ -52,6 +73,9 @@ namespace Common.Structure.NamingStructures
             SecondValue = secondValue;
         }
 
+        /// <summary>
+        /// Update the values.
+        /// </summary>
         public void UpdateValue(T additionalTValue, S additionalSValue)
         {
             if (fTAggregation != null)
@@ -64,10 +88,15 @@ namespace Common.Structure.NamingStructures
             }
         }
 
+        /// <summary>
+        /// Return the name of the record.
+        /// </summary>
         public string RecordName()
         {
             return fRecordName;
         }
+
+        /// <inheritdoc/>
         public override string ToString()
         {
             return $"{fRecordName}-{Name}-{Value}-{SecondValue}";

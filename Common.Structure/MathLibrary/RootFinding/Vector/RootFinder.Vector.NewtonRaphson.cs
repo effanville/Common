@@ -6,6 +6,9 @@ namespace Common.Structure.MathLibrary.RootFinding
 {
     public static partial class RootFinder
     {
+        /// <summary>
+        /// Contains vector root finder methods.
+        /// </summary>
         public static partial class Vector
         {
             /// <summary>
@@ -13,6 +16,9 @@ namespace Common.Structure.MathLibrary.RootFinding
             /// </summary>
             public static class NewtonRaphson
             {
+                /// <summary>
+                /// Find a vector root using the Newton Raphson method.
+                /// </summary>
                 public static Result<double[]> FindRoot(
                     Func<double[], double[]> func,
                     Func<double[], double[,]> derivativeFunc,

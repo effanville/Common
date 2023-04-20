@@ -54,6 +54,9 @@ namespace Common.Structure.ReportWriting
             UseScripts = useScripts;
         }
 
+        /// <summary>
+        /// Default settings for a <see cref="ReportBuilder"/>
+        /// </summary>
         public static ReportSettings Default()
         {
             return new ReportSettings(useColours: true, useDefaultStyle: true, useScripts: true);

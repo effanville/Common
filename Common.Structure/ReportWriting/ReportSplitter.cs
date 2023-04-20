@@ -5,6 +5,9 @@ using Common.Structure.ReportWriting.Document;
 
 namespace Common.Structure.ReportWriting
 {
+    /// <summary>
+    /// Contains methods for splitting reports into their constituent parts.
+    /// </summary>
     public static class ReportSplitter
     {
         /// <summary>
@@ -23,13 +26,13 @@ namespace Common.Structure.ReportWriting
             }
 
             string remainingReportString = RemoveHeader(docType, reportString);
-            var document = new Document.Document(docType);
+            Document.Document document = new Document.Document(docType);
             while (remainingReportString.Length > 0)
             {
-                var docElement = MatchDocumentStartElement(docType, remainingReportString, newElement: true);
+                DocumentElement docElement = MatchDocumentStartElement(docType, remainingReportString, newElement: true);
                 if (docElement != DocumentElement.None)
                 {
-                    var nextPart = GetPart(docType, docElement, remainingReportString);
+                    DocumentPart nextPart = GetPart(docType, docElement, remainingReportString);
                     document.Add(nextPart);
                     remainingReportString = remainingReportString.Substring(Math.Min(nextPart.ConstituentString.Length, remainingReportString.Length));
                 }

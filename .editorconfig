@@ -76,9 +76,9 @@ dotnet_code_quality_unused_parameters = all:warning
 #### C# Coding Conventions ####
 
 # var preferences
-csharp_style_var_elsewhere = false:silent
-csharp_style_var_for_built_in_types = false:suggestion
-csharp_style_var_when_type_is_apparent = false:silent
+csharp_style_var_elsewhere = false:warning
+csharp_style_var_for_built_in_types = false:warning
+csharp_style_var_when_type_is_apparent = false:warning
 
 # Expression-bodied members
 csharp_style_expression_bodied_accessors = when_on_single_line:error
@@ -214,3 +214,6 @@ csharp_style_implicit_object_creation_when_type_is_apparent = false
 
 # IDE0078: Use pattern matching
 csharp_style_prefer_pattern_matching = false
+
+# IDE0008: Use explicit type
+dotnet_diagnostic.IDE0008.severity = warning

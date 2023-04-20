@@ -21,13 +21,22 @@ namespace Common.Structure.MathLibrary.ParameterEstimation
         /// </summary>
         public static class LassoRegression
         {
+            /// <summary>
+            /// A result object containing the result of a <see cref="LassoRegression"/>.
+            /// </summary>
             public sealed class LassoResult : Result
             {
+                /// <summary>
+                /// The value of Lambda to use.
+                /// </summary>
                 public double Lambda
                 {
                     get;
                 }
 
+                /// <summary>
+                /// Construct an instance of a <see cref="LassoResult"/>
+                /// </summary>
                 public LassoResult(
                     double lambda,
                     double[,] fitData,
@@ -53,6 +62,9 @@ namespace Common.Structure.MathLibrary.ParameterEstimation
                 }
             }
 
+            /// <summary>
+            /// Fit the data to the values and find the best lambda value to use.
+            /// </summary>
             public static LassoResult Fit(double[,] fitData, double[] fitValues)
             {
                 double bestLambda = CalculateBestLambda(fitData, fitValues);
@@ -68,6 +80,9 @@ namespace Common.Structure.MathLibrary.ParameterEstimation
                     double.NaN);
             }
 
+            /// <summary>
+            /// Fit the data to the values with the given lambda.
+            /// </summary>
             public static LassoResult Fit(double[,] fitData, double[] fitValues, double lambda)
             {
                 double[] estimator = CalculateLassoWeights(fitData, fitValues, lambda);
@@ -219,6 +234,7 @@ namespace Common.Structure.MathLibrary.ParameterEstimation
             /// Mechanism to provide the optimal lambda parameter to use in a given range.
             /// </summary>
             /// <param name="data">The data matrix to use.</param>
+            /// <param name="values">The expected value matrix to use.</param>
             /// <param name="lowerBound">Lower bound for lambda.</param>
             /// <param name="upperBound">Upper bound for lambda.</param>
             /// <param name="increment">Increment value to use in the range.</param>

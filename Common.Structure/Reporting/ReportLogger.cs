@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.IO.Abstractions;
-using System.Threading.Tasks;
 
 using Common.Structure.DataStructures;
 
@@ -15,7 +13,7 @@ namespace Common.Structure.Reporting
     {
         private readonly Action<ReportSeverity, ReportType, string, string> _loggingAction;
 
-        private TaskQueue _loggingQueue;
+        private readonly TaskQueue _loggingQueue;
 
         /// <inheritdoc/>
         public ErrorReports Reports
@@ -62,11 +60,6 @@ namespace Common.Structure.Reporting
             return new ReportBuilder(this, ReportSeverity.Critical);
         }
 
-        public IReport Useful()
-        {
-            return new ReportBuilder(this, ReportSeverity.Useful);
-        }
-
         /// <inheritdoc />
         public void Log(ReportType type, string location, string message)
         {
@@ -75,9 +68,9 @@ namespace Common.Structure.Reporting
 
         /// <inheritdoc />
         public void Log(ReportSeverity severity, ReportType type, string location, string message)
-        {          
+        {
             AddReport(severity, type, location, message);
-            if(_loggingAction != null)
+            if (_loggingAction != null)
             {
                 _loggingQueue.Enqueue(() => _loggingAction?.Invoke(severity, type, location, message));
             }
@@ -85,7 +78,7 @@ namespace Common.Structure.Reporting
 
         /// <inheritdoc />
         public bool Log(ReportSeverity severity, ReportType type, ReportLocation location, string message)
-        {            
+        {
             AddReport(severity, type, location.ToString(), message);
             if (_loggingAction == null)
             {

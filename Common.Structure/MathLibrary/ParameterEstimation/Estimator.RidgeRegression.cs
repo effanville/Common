@@ -17,13 +17,22 @@ namespace Common.Structure.MathLibrary.ParameterEstimation
         /// </summary>
         public static class RidgeRegression
         {
+            /// <summary>
+            /// A result object containing the result of a <see cref="LassoRegression"/>.
+            /// </summary>
             public sealed class RidgeResult : Result
             {
+                /// <summary>
+                /// The value of Lambda to use.
+                /// </summary>
                 public double Lambda
                 {
                     get;
                 }
 
+                /// <summary>
+                /// Construct an instance.
+                /// </summary>
                 public RidgeResult(
                     double lambda,
                     double[,] fitData,
@@ -49,6 +58,10 @@ namespace Common.Structure.MathLibrary.ParameterEstimation
                 }
             }
 
+            /// <summary>
+            /// Fit the data and values using a Ridge Regression, where the best value of
+            /// lambda is calculated.
+            /// </summary>
             public static RidgeResult Fit(double[,] fitData, double[] fitValues)
             {
                 double bestLambda = CalculateBestLambda(fitData, fitValues);
@@ -63,6 +76,9 @@ namespace Common.Structure.MathLibrary.ParameterEstimation
                     double.NaN);
             }
 
+            /// <summary>
+            /// Fit the data and values using a Ridge Regression for a give lambda.
+            /// </summary>
             public static RidgeResult Fit(double[,] fitData, double[] fitValues, double lambda)
             {
                 double[] estimator = CalculateRidgeWeights(fitData, fitValues, lambda);
