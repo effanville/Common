@@ -2,34 +2,54 @@
 
 namespace Common.Structure.MathLibrary.Matrices
 {
+    /// <summary>
+    /// Contains a representation of a matrix of values of type <see paramref="T"/>.
+    /// </summary>
     public class Matrix<T> where T : struct, IEquatable<T>, IComparable<T>
     {
+        /// <summary>
+        /// The values stored in this matrix.
+        /// </summary>
         protected readonly T[,] _values;
 
+        /// <summary>
+        /// The default value for values in the matrix.
+        /// </summary>
         protected T DefaultValue
         {
             get;
             set;
         } = default(T);
 
-
+        /// <summary>
+        /// Return a value at the specified indexes.
+        /// </summary>
         public T this[int index, int index2]
         {
             get => _values[index, index2];
             set => _values[index, index2] = value;
         }
 
+        /// <summary>
+        /// Construct an instance
+        /// </summary>
         public Matrix(T[,] values, T defaultValue)
         {
             _values = values;
             DefaultValue = defaultValue;
         }
 
+        /// <summary>
+        /// Construct an instance
+        /// </summary>
         public Matrix(T[,] values)
             : this(values, default(T))
         {
         }
 
+        /// <summary>
+        /// Construct an instance
+        /// </summary>
         public Matrix(int size1, int size2, T defaultValue)
         {
             _values = new T[size1, size2];
@@ -42,27 +62,42 @@ namespace Common.Structure.MathLibrary.Matrices
             }
         }
 
+        /// <summary>
+        /// Returns the length of the dimension requested.
+        /// </summary>
         public int Count(int dimension)
         {
             return _values.GetLength(dimension);
         }
 
+        /// <summary>
+        /// Set the value at the given point to have the item value.
+        /// </summary>
         public void Set(int index1, int index2, T item)
         {
             _values[index1, index2] = item;
         }
 
+        /// <summary>
+        /// Set the value at the indices to be the default value.
+        /// </summary>
         public void RemoveAt(int index1, int index2)
         {
             _values[index1, index2] = default(T);
         }
 
+        /// <summary>
+        /// Transpose the matrix
+        /// </summary>
         public virtual Matrix<T> Transpose()
         {
             T[,] transpose = Transpose(_values);
             return new Matrix<T>(transpose);
         }
 
+        /// <summary>
+        /// Transpose the matrix
+        /// </summary>
         public static T[,] Transpose(T[,] matrix)
         {
             if (matrix.GetLength(1).Equals(0) || matrix.GetLength(0).Equals(0))
@@ -82,6 +117,9 @@ namespace Common.Structure.MathLibrary.Matrices
             return transpose;
         }
 
+        /// <summary>
+        /// Checks whether input matrix is square.
+        /// </summary>
         public bool IsSquare()
         {
             return IsSquare();
@@ -90,8 +128,6 @@ namespace Common.Structure.MathLibrary.Matrices
         /// <summary>
         /// Checks whether input matrix is square.
         /// </summary>
-        /// <param name="matrix"></param>
-        /// <returns></returns>
         public static bool IsSquare(T[,] matrix)
         {
             if (!matrix.GetLength(0).Equals(matrix.GetLength(1)))
@@ -102,13 +138,16 @@ namespace Common.Structure.MathLibrary.Matrices
             return true;
         }
 
+        /// <summary>
+        /// Is the matrix a symmetric matrix.
+        /// </summary>
         public bool IsSymmetric()
         {
             return IsSymmetric();
         }
 
         /// <summary>
-        /// Routine to check whether the input is symmetric.
+        /// Is the matrix a symmetric matrix.
         /// </summary>
         public static bool IsSymmetric(T[,] matrix)
         {
@@ -131,6 +170,7 @@ namespace Common.Structure.MathLibrary.Matrices
             return true;
         }
 
+        /// <inheritdoc/>
         public override bool Equals(object obj)
         {
             var mat = obj as Matrix<T>;
@@ -161,6 +201,7 @@ namespace Common.Structure.MathLibrary.Matrices
             return true;
         }
 
+        /// <inheritdoc/>
         public override int GetHashCode()
         {
             return HashCode.Combine(_values, DefaultValue);

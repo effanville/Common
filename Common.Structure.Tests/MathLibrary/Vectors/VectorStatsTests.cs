@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 
 using Common.Structure.MathLibrary.Vectors;
 
@@ -9,7 +8,7 @@ using NUnit.Framework;
 namespace Common.Structure.Tests.MathLibrary.Vectors
 {
     [TestFixture]
-    public sealed class VectorStatsTests
+    internal sealed class VectorStatsTests
     {
         private static IEnumerable<TestCaseData> MaxTestCases()
         {
@@ -65,10 +64,9 @@ namespace Common.Structure.Tests.MathLibrary.Vectors
         }
 
         [TestCaseSource(nameof(MeanTestCases))]
-        [SuppressMessage("Usage", "CS0618", Justification = "Deliberate test of old method.")]
         public void MeanTests(List<double> values, int number, double expected)
         {
-            double mean = VectorStats.Mean(values, number);
+            double mean = DoubleVector.Mean(values, number);
             Assert.AreEqual(expected, mean);
         }
 
@@ -88,7 +86,7 @@ namespace Common.Structure.Tests.MathLibrary.Vectors
         [TestCaseSource(nameof(VarianceTestCases))]
         public void VarianceTests(List<double> values, int number, double expected)
         {
-            double variance = VectorStats.Variance(values, number);
+            double variance = DoubleVector.Variance(values, number);
             Assert.AreEqual(expected, variance);
         }
 
@@ -108,7 +106,7 @@ namespace Common.Structure.Tests.MathLibrary.Vectors
         [TestCaseSource(nameof(StdDevTestCases))]
         public void StdDevTests(List<double> values, int number, double expected)
         {
-            double stdDev = VectorStats.StandardDev(values, number);
+            double stdDev = DoubleVector.StandardDev(values, number);
             Assert.AreEqual(expected, stdDev);
         }
 
@@ -128,8 +126,8 @@ namespace Common.Structure.Tests.MathLibrary.Vectors
         [TestCaseSource(nameof(VarianceStdDevTestCases))]
         public void VarianceAndStdDevAgreeTests(List<double> values, int number)
         {
-            double stdDev = VectorStats.StandardDev(values, number);
-            double variance = VectorStats.Variance(values, number);
+            double stdDev = DoubleVector.StandardDev(values, number);
+            double variance = DoubleVector.Variance(values, number);
             Assert.AreEqual(Math.Sqrt(variance), stdDev);
         }
     }

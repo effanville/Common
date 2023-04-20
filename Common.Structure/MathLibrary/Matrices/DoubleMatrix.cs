@@ -33,9 +33,7 @@ namespace Common.Structure.MathLibrary.Matrices
         {
         }
 
-        /// <summary>
-        /// Transpose the matrix
-        /// </summary>
+        /// <inheritdoc/>
         public override DoubleMatrix Transpose()
         {
             double[,] transpose = Transpose(_values);
