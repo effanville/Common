@@ -47,6 +47,10 @@
             "VSCode"
           ]
         },
+        "IsProd": {
+          "type": "boolean",
+          "description": "Is this a production release"
+        },
         "NoLogo": {
           "type": "boolean",
           "description": "Disables displaying the NUKE logo"
