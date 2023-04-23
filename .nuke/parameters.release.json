@@ -1,5 +1,15 @@
 {
   "$schema": "./build.schema.json",
   "Solution": "Common.sln",
+  "ExecutablePublishProjects": [
+  ],
+  "NugetPackageProjects": [
+    "Common.Structure",
+    "Common.UI",
+    "Common.Console"
+  ],
+  "Configuration": "Release",
+  "Framework": "net6.0-windows",
+  "Runtime": "win-x64"
   "IsProd": true
 }
