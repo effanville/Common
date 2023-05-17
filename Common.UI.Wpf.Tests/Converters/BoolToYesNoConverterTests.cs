@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using Common.UI.Converters;
+using Common.UI.Wpf.Converters;
 
 namespace Common.UI.Tests.Converters
 {

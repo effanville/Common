@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace Common.UI.DisplayObjects
+namespace Common.UI.Wpf.Controls
 {
     /// <summary>
     /// Class to assist with web browser to set a binding source.

@@ -1,7 +1,8 @@
 ﻿using System.Windows;
+
 using Common.UI.Interfaces;
 
-namespace Common.UI.Dialogs
+namespace Common.UI.Wpf.Dialogs
 {
     /// <summary>
     /// Interaction logic for DialogWindow.xaml

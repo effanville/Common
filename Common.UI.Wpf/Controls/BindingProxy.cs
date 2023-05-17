@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Common.UI
+namespace Common.UI.Wpf.Controls
 {
     /// <summary>
     /// A proxy to use to enable binding when it otherwise doesnt have it.

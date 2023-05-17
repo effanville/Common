@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows.Data;
 using Common.Structure.NamingStructures;
 
-namespace Common.UI.Converters
+namespace Common.UI.Wpf.Converters
 {
     /// <summary>
     /// Converts an object of type <see cref="Name"/> into a string.

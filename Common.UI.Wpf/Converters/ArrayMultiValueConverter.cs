@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace Common.UI.Converters
+namespace Common.UI.Wpf.Controls
 {
     /// <summary>
     /// Converter to convert an array of objects into a single object (and not back again)

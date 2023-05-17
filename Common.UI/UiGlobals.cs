@@ -47,7 +47,7 @@ namespace Common.UI
         /// <summary>
         /// Service for creating Dialog popups.
         /// </summary>
-        public IDialogCreationService DialogCreationService
+        public IBaseDialogCreationService DialogCreationService
         {
             get;
         }
@@ -69,7 +69,7 @@ namespace Common.UI
             IDispatcher currentDispatcher,
             IFileSystem currentFileSystem,
             IFileInteractionService fileInteractionService,
-            IDialogCreationService dialogCreationService,
+            IBaseDialogCreationService dialogCreationService,
             IReportLogger reportLogger)
         {
             CurrentWorkingDirectory = currentWorkingDirectory;

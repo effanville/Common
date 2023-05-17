@@ -1,7 +1,9 @@
 ﻿using System.Windows;
-using Common.UI.Dialogs;
 
-namespace Common.UI.Services
+using Common.UI.Services;
+using Common.UI.Wpf.Dialogs;
+
+namespace Common.UI.Wpf.Services
 {
     /// <summary>
     /// Created dialog boxes in the UI. Note that this should live in the UI part, but is a service that can be used in
@@ -26,18 +28,22 @@ namespace Common.UI.Services
         /// Shows a standard message box with the specified parameters.
         /// </summary>       
         /// <inheritdoc/>
-        public MessageBoxResult ShowMessageBox(string text, string title, MessageBoxButton buttons, MessageBoxImage imageType)
+        public MessageBoxOutcome ShowMessageBox(string text, string title, BoxButton buttons, BoxImage imageType)
         {
-            return MessageBox.Show(fDefaultParent, text, title, buttons, imageType);
+            MessageBoxImage messageImageType = imageType.ToMessageBoxImage();
+            MessageBoxButton messageButtons = buttons.ToMessageBoxButton();
+            return MessageBox.Show(fDefaultParent, text, title, messageButtons, messageImageType).ToResult();
         }
 
         /// <summary>
         /// Shows a standard message box with the specified parameters with non-default owner.
         /// </summary>
         /// <inheritdoc/>
-        public MessageBoxResult ShowMessageBox(Window owner, string text, string title, MessageBoxButton buttons, MessageBoxImage imageType)
+        public MessageBoxOutcome ShowMessageBox(Window owner, string text, string title, BoxButton buttons, BoxImage imageType)
         {
-            return MessageBox.Show(owner, text, title, buttons, imageType);
+            MessageBoxImage messageImageType = imageType.ToMessageBoxImage();
+            MessageBoxButton messageButtons = buttons.ToMessageBoxButton();
+            return MessageBox.Show(owner, text, title, messageButtons, messageImageType).ToResult();
         }
 
         /// <summary>

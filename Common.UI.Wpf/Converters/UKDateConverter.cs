@@ -3,14 +3,14 @@ using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace Common.UI.Converters
+namespace Common.UI.Wpf.Converters
 {
     /// <summary>
     /// Converter to convert from a DateTime into the UK representation of that DateTime.
     /// </summary>
-    public sealed class StringToUKDateTimeConverter : MarkupExtension, IValueConverter
+    public sealed class StringToUKDateConverter : MarkupExtension, IValueConverter
     {
-        private static StringToUKDateTimeConverter sConverter;
+        private static StringToUKDateConverter sConverter;
 
         /// <summary>
         /// Called to construct the value provider when required.
@@ -19,7 +19,7 @@ namespace Common.UI.Converters
         {
             if (sConverter == null)
             {
-                sConverter = new StringToUKDateTimeConverter();
+                sConverter = new StringToUKDateConverter();
             }
 
             return sConverter;
@@ -35,11 +35,11 @@ namespace Common.UI.Converters
                 if (culture.IetfLanguageTag == "en-US")
                 {
                     CultureInfo UKEnglishCulture = new CultureInfo("en-GB");
-                    return date.ToString(UKEnglishCulture.DateTimeFormat);
+                    return date.ToString("d", UKEnglishCulture.DateTimeFormat);
                 }
                 else
                 {
-                    return date.ToString(culture.DateTimeFormat);
+                    return date.ToString("d", culture.DateTimeFormat);
                 }
             }
 
@@ -58,14 +58,14 @@ namespace Common.UI.Converters
                     CultureInfo UKEnglishCulture = new CultureInfo("en-GB");
                     if (DateTime.TryParse(stringValue, UKEnglishCulture.DateTimeFormat, DateTimeStyles.None, out DateTime date))
                     {
-                        return date;
+                        return date.Date;
                     }
                 }
                 else
                 {
                     if (DateTime.TryParse(stringValue, culture.DateTimeFormat, DateTimeStyles.None, out DateTime date))
                     {
-                        return date;
+                        return date.Date;
                     }
                 }
             }

@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace Common.UI.DisplayObjects
+namespace Common.UI.Wpf.Controls
 {
     /// <summary>
     /// A control that auto generates the DateTime format in UK date format.

@@ -6,7 +6,8 @@
   "NugetPackageProjects": [
     "Common.Structure",
     "Common.UI",
-    "Common.Console"
+    "Common.Console",
+    "Common.UI.Wpf"
   ],
   "Configuration": "Release",
   "Framework": "net6.0-windows",

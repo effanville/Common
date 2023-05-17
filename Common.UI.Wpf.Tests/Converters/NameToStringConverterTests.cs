@@ -1,8 +1,8 @@
 ﻿using NUnit.Framework;
 using Common.Structure.NamingStructures;
-using Common.UI.Converters;
+using Common.UI.Wpf.Converters;
 
-namespace Common.UI.Tests.Converters
+namespace Common.UI.Wpf.Tests.Converters
 {
     [TestFixture]
     public sealed class PlayerNameToStringTests

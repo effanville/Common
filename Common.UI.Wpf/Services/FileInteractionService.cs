@@ -1,8 +1,10 @@
 ﻿using System.Windows;
 
+using Common.UI.Services;
+
 using Microsoft.Win32;
 
-namespace Common.UI.Services
+namespace Common.UI.Wpf.Services
 {
     /// <summary>
     /// Interaction service for the file system. Note this lives in the UI, but is a service for the view models.

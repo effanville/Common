@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls.DataVisualization.Charting;
 
-namespace Common.UI.DisplayObjects
+namespace Common.UI.Wpf.Controls
 {
     /// <summary>
     /// A chart that can have its source bound to.
