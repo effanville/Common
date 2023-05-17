@@ -8,11 +8,9 @@ namespace Common.UI.Commands
     /// </summary>
     public sealed class RelayCommandObject : ICommand
     {
-        private readonly Action<object> fExecute;
-
-        private readonly Predicate<object> fCanExecute;
-
-        private event EventHandler fCanExecuteChangedInternal;
+        private readonly Action<object> _execute;
+        private readonly Predicate<object> _canExecute;
+        private event EventHandler _canExecuteChangedInternal;
 
         /// <summary>
         /// Constructor that takes an execution method, and can always execute
@@ -27,18 +25,8 @@ namespace Common.UI.Commands
         /// </summary>
         public RelayCommandObject(Action<object> execute, Predicate<object> canExecute)
         {
-            if (execute == null)
-            {
-                throw new ArgumentNullException("execute");
-            }
-
-            if (canExecute == null)
-            {
-                throw new ArgumentNullException("canExecute");
-            }
-
-            fExecute = execute;
-            fCanExecute = canExecute;
+            _execute = execute ?? throw new ArgumentNullException(nameof(execute));
+            _canExecute = canExecute ?? throw new ArgumentNullException(nameof(canExecute));
         }
 
         /// <summary>
@@ -47,47 +35,26 @@ namespace Common.UI.Commands
         /// </summary>
         public event EventHandler CanExecuteChanged
         {
-            add
-            {
-                CommandManager.RequerySuggested += value;
-                fCanExecuteChangedInternal += value;
-            }
+            add => _canExecuteChangedInternal += value;
 
-            remove
-            {
-                CommandManager.RequerySuggested -= value;
-                fCanExecuteChangedInternal -= value;
-            }
+            remove => _canExecuteChangedInternal -= value;
         }
 
         /// <inheritdoc/>
-        public bool CanExecute(object parameter)
-        {
-            return fCanExecute != null && fCanExecute(parameter);
-        }
+        public bool CanExecute(object parameter) => _canExecute != null && _canExecute(parameter);
 
         /// <inheritdoc/>
-        public void Execute(object parameter)
-        {
-            fExecute(parameter);
-        }
+        public void Execute(object parameter) => _execute(parameter);
 
         /// <summary>
         /// Invokes the <see cref="CanExecuteChanged"/> event.
         /// </summary>
         public void OnCanExecuteChanged()
         {
-            EventHandler handler = fCanExecuteChangedInternal;
-            if (handler != null)
-            {
-                //DispatcherHelper.BeginInvokeOnUIThread(() => handler.Invoke(this, EventArgs.Empty));
-                handler.Invoke(this, EventArgs.Empty);
-            }
+            EventHandler handler = _canExecuteChangedInternal;
+            handler?.Invoke(this, EventArgs.Empty);
         }
 
-        private static bool DefaultCanExecute(object parameter)
-        {
-            return true;
-        }
+        private static bool DefaultCanExecute(object parameter) => true;
     }
 }

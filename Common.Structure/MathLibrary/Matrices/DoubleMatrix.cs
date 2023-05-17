@@ -4,29 +4,45 @@ using Common.Structure.MathLibrary.Vectors;
 
 namespace Common.Structure.MathLibrary.Matrices
 {
+    /// <summary>
+    /// Contains a representation of a matrix of double values.
+    /// </summary>
     public sealed class DoubleMatrix : Matrix<double>
     {
+        /// <summary>
+        /// Construct an instance
+        /// </summary>
         public DoubleMatrix(double[,] values, double defaultValue)
             : base(values, defaultValue)
         {
         }
 
+        /// <summary>
+        /// Construct an instance
+        /// </summary>
         public DoubleMatrix(double[,] values)
             : base(values)
         {
         }
 
+        /// <summary>
+        /// Construct an instance
+        /// </summary>
         public DoubleMatrix(int size1, int size2, double defaultValue)
             : base(size1, size2, defaultValue)
         {
         }
 
+        /// <inheritdoc/>
         public override DoubleMatrix Transpose()
         {
             double[,] transpose = Transpose(_values);
             return new DoubleMatrix(transpose);
         }
 
+        /// <summary>
+        /// Creates an identity matrix of the given size.
+        /// </summary>
         public static DoubleMatrix IdentityMatrix(int n)
         {
             return new DoubleMatrix(Identity(n));
@@ -46,6 +62,9 @@ namespace Common.Structure.MathLibrary.Matrices
             return Id;
         }
 
+        /// <summary>
+        /// Adds two matrices together. They must be of the same size.
+        /// </summary>
         public static DoubleMatrix operator +(DoubleMatrix a, DoubleMatrix b)
         {
             if (a.Count(0) != b.Count(0) || a.Count(1) != b.Count(1))
@@ -81,6 +100,9 @@ namespace Common.Structure.MathLibrary.Matrices
             return multiply;
         }
 
+        /// <summary>
+        /// Subtracts two matrices. They must be of the same size.
+        /// </summary>
         public static DoubleMatrix operator -(DoubleMatrix a, DoubleMatrix b)
         {
             if (a.Count(0) != b.Count(0) || a.Count(1) != b.Count(1))
@@ -242,6 +264,9 @@ namespace Common.Structure.MathLibrary.Matrices
             return matrix * scalar;
         }
 
+        /// <summary>
+        /// Multiplies a specific row in a matrix by a vector.
+        /// </summary>
         public double VectorMatrixRowMult(DoubleVector vector, int rowIndex)
         {
             return VectorMatrixRowMult(_values, vector.Values, rowIndex);
@@ -285,6 +310,9 @@ namespace Common.Structure.MathLibrary.Matrices
             return sum;
         }
 
+        /// <summary>
+        /// Calculates X^T*X for the given matrix X.
+        /// </summary>
         public DoubleMatrix XTX()
         {
             return new DoubleMatrix(XTX(_values));
@@ -313,6 +341,10 @@ namespace Common.Structure.MathLibrary.Matrices
             return multiply;
         }
 
+        /// <summary>
+        /// Calculates X^TX + lI in a manner requiring one iteration through all matrix 
+        /// values.
+        /// </summary>
         public DoubleMatrix XTXPlusI(double lambda)
         {
             return new DoubleMatrix(XTXPlusI(_values, lambda));
@@ -324,7 +356,6 @@ namespace Common.Structure.MathLibrary.Matrices
         /// </summary>
         /// <param name="matrix">The matrix X</param>
         /// <param name="lambda">The value to add to the diagonal.</param>
-        /// 
         public static double[,] XTXPlusI(double[,] matrix, double lambda)
         {
             double[,] output = new double[matrix.GetLength(1), matrix.GetLength(1)];
@@ -348,6 +379,9 @@ namespace Common.Structure.MathLibrary.Matrices
             return output;
         }
 
+        /// <summary>
+        /// Returns the inverse of the matrix.
+        /// </summary>
         public DoubleMatrix Inverse()
         {
             double[,] decomp = Inverse(_values);

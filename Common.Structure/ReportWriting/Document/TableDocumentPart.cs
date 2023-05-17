@@ -29,7 +29,7 @@ namespace Common.Structure.ReportWriting.Document
         public TableDocumentPart(DocumentType docType, DocumentElement element, string constituentString)
             : base(docType, element, constituentString)
         {
-            var inverted = TableInverter.InvertTable(DocType, constituentString);
+            TableDocumentPart inverted = TableInverter.InvertTable(DocType, constituentString);
             TableHeaders = inverted.TableHeaders;
             TableRows = inverted.TableRows;
         }
@@ -37,7 +37,11 @@ namespace Common.Structure.ReportWriting.Document
         /// <summary>
         /// Construct an instance of a <see cref="TableDocumentPart"/>
         /// </summary>
-        public TableDocumentPart(DocumentType docType, List<string> tableHeaders, List<List<string>> tableRows, string constituentString)
+        public TableDocumentPart(
+            DocumentType docType,
+            List<string> tableHeaders,
+            List<List<string>> tableRows,
+            string constituentString)
             : base(docType, DocumentElement.table, constituentString)
         {
             TableHeaders = tableHeaders;

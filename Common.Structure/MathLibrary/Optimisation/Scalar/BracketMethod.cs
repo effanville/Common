@@ -35,16 +35,26 @@ namespace Common.Structure.MathLibrary.Optimisation.Scalar
             {
                 get;
             }
+
+            /// <summary>
+            /// The lower function output value of the bracket.
+            /// </summary>
             public double LowerValue
             {
                 get;
             }
 
+            /// <summary>
+            /// The middle point function value of the bracket.
+            /// </summary>
             public double MiddleValue
             {
                 get;
             }
 
+            /// <summary>
+            /// The upper point function value of the bracket.
+            /// </summary>
             public double UpperValue
             {
                 get;
@@ -69,6 +79,7 @@ namespace Common.Structure.MathLibrary.Optimisation.Scalar
                 UpperValue = upperValue;
             }
 
+            /// <inheritdoc/>
             public override bool Equals(object obj)
             {
                 return obj is ExtremumBracket result
@@ -80,6 +91,7 @@ namespace Common.Structure.MathLibrary.Optimisation.Scalar
                     && UpperValue == result.UpperValue;
             }
 
+            /// <inheritdoc/>
             public override int GetHashCode()
             {
                 int hashCode = 17;
@@ -139,7 +151,15 @@ namespace Common.Structure.MathLibrary.Optimisation.Scalar
             return new ExtremumBracket(lowerBound, middlePoint, upperBound, lowerValue, middleValue, upperValue);
         }
 
-        public static Result<ExtremumBracket> Bracket(double lowerStartingPoint, double upperStartingPoint, Func<double, double> func, int maxIterations = 100)
+        /// <summary>
+        /// Calculate a bracket from an initial bound guess. Starts with the bounds, then expands outwards until 
+        /// one does bracket the extremum.
+        /// </summary>
+        public static Result<ExtremumBracket> Bracket(
+            double lowerStartingPoint,
+            double upperStartingPoint,
+            Func<double, double> func,
+            int maxIterations = 100)
         {
             double lowerPoint, middlePoint, upperPoint, lowerValue, middleValue, upperValue;
             double GLimit = 100.0;
@@ -150,12 +170,8 @@ namespace Common.Structure.MathLibrary.Optimisation.Scalar
             middleValue = func(middlePoint);
             if (middleValue > lowerValue)
             {
-                double temp = lowerValue;
-                lowerValue = middleValue;
-                middleValue = temp;
-                temp = lowerPoint;
-                lowerPoint = middlePoint;
-                middlePoint = temp;
+                (middleValue, lowerValue) = (lowerValue, middleValue);
+                (middlePoint, lowerPoint) = (lowerPoint, middlePoint);
             }
 
             upperPoint = middlePoint + MathConstants.GoldenRatio + (middlePoint - lowerPoint);

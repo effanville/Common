@@ -9,6 +9,9 @@ namespace Common.Structure.MathLibrary.RootFinding
         /// </summary>
         public static class FalsePosition
         {
+            /// <summary>
+            /// Find the root using a <see cref="Type.FalsePosition"/> method.
+            /// </summary>
             public static Result<double> FindRoot(
                Func<double, double> func,
                double lowerBound,

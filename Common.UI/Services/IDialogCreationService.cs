@@ -1,22 +1,15 @@
-﻿using System.Windows;
-
-namespace Common.UI.Services
+﻿namespace Common.UI.Services
 {
     /// <summary>
     /// Interface for creating dialog boxes in the UI. Note that this should live in the UI part, but is a service that can be used in
     /// the view model area of the code.
     /// </summary>
-    public interface IDialogCreationService
+    public interface IBaseDialogCreationService
     {
         /// <summary>
         /// Shows a standard message box with the specified parameters.
         /// </summary>
-        MessageBoxResult ShowMessageBox(string text, string title, MessageBoxButton buttons, MessageBoxImage imageType);
-
-        /// <summary>
-        /// Shows a standard message box with the specified parameters with non-default owner.
-        /// </summary>
-        MessageBoxResult ShowMessageBox(Window owner, string text, string title, MessageBoxButton buttons, MessageBoxImage imageType);
+        MessageBoxOutcome ShowMessageBox(string text, string title, BoxButton buttons, BoxImage imageType);
 
         /// <summary>
         /// Displays an arbitrary dialog window, populated from an object which is

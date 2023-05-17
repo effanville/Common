@@ -57,16 +57,9 @@ namespace Common.Structure.WebAccess
             {
                 HttpRequestMessage requestMessage = new HttpRequestMessage
                 {
-                    RequestUri = new Uri(url)
+                    RequestUri = new Uri(url),
+                    Method = HttpMethod.Get,
                 };
-                requestMessage.Headers.Add("Cookie", "A1S=d=AQABBBqjZl4CELBdwrYAVcmgp1PaEGx2xoQFEgABAQGPgF5eX_bPb2UB_iMAAAcIGqNmXmx2xoQ&S=AQAAAii_Jnul1r-aKGkxwIrap9c&j=GDPR");
-                requestMessage.Headers.Add("Cookie", "A1=d=AQABBBqjZl4CELBdwrYAVcmgp1PaEGx2xoQFEgABAQGPgF5eX_bPb2UB_iMAAAcIGqNmXmx2xoQ&S=AQAAAii_Jnul1r-aKGkxwIrap9c");
-                requestMessage.Headers.Add("Cookie", "A3=d=AQABBBqjZl4CELBdwrYAVcmgp1PaEGx2xoQFEgABAQGPgF5eX_bPb2UB_iMAAAcIGqNmXmx2xoQ&S=AQAAAii_Jnul1r-aKGkxwIrap9c");
-                requestMessage.Headers.Add("Cookie", "B=89hjmdhf6d8oq&b=3&s=bv");
-                requestMessage.Headers.Add("Cookie", "cmp=v=28&t=1586111544&j=1&o=106");
-                requestMessage.Headers.Add("Cookie", "EuConsent=BOw-KL2OxZWozAOABCENC7uAAAAtl6__f_97_8_v2ddvduz_Ov_j_c__3XW8fPZvcELzhK9Meu_2xzd4u9wNRM5wckx87eJrEso5czISsG-RMod_zt__3ziX9oxPowEc9rz3nbEw6vs2v-ZzBCGJ_Iw");
-                requestMessage.Headers.Add("Cookie", "GUC=AQABAQFegI9fXkIe8wSV");
-                requestMessage.Headers.Add("Cookie", "PRF=t%3D2800.HK%252BVUKE.L%252BIGLS.L%252BSAAA.L%252BVWRL.L");
                 HttpResponseMessage response = await client.SendAsync(requestMessage).ConfigureAwait(false);
                 _ = response.EnsureSuccessStatusCode();
                 string result = await response.Content.ReadAsStringAsync().ConfigureAwait(false);

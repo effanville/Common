@@ -41,23 +41,29 @@ namespace Common.Console.Options
                 return fValue;
             }
 
-            private set
-            {
-                fValue = value;
-            }
+            private set => fValue = value;
         }
 
+        /// <summary>
+        /// Construct an instance.
+        /// </summary>
         public CommandOption(string name, string description, Func<T, bool> validator = null)
             : this(name, description, false, validator)
         {
         }
 
+        /// <summary>
+        /// Construct an instance.
+        /// </summary>
         public CommandOption(string name, string description, T defaultValue, Func<T, bool> validator = null)
             : this(name, description, false, validator)
         {
             InputValue = defaultValue.ToString();
         }
 
+        /// <summary>
+        /// Construct an instance.
+        /// </summary>
         public CommandOption(string name, string description, bool required, Func<T, bool> validator = null)
             : base(name, description, required, null)
         {
@@ -72,6 +78,9 @@ namespace Common.Console.Options
             }
         }
 
+        /// <summary>
+        /// Construct an instance.
+        /// </summary>
         public CommandOption(string name, string description, bool required, T defaultValue, Func<T, bool> validator = null)
             : this(name, description, required, validator)
         {

@@ -9,6 +9,9 @@ namespace Common.Structure.MathLibrary.RootFinding
         /// </summary>
         public static class Bisection
         {
+            /// <summary>
+            /// Find a root with the <see cref="Type.Bisection"/> method.
+            /// </summary>
             public static Result<double> FindRoot(
                 Func<double, double> func,
                 double lowerBound,

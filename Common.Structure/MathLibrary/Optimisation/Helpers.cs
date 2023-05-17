@@ -2,7 +2,7 @@
 
 namespace Common.Structure.MathLibrary.Optimisation
 {
-    public static class Helpers
+    internal static class Helpers
     {
         public static void ShiftValues(ref double first, ref double second, ref double third, double d)
         {

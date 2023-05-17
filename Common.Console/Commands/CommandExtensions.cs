@@ -5,6 +5,9 @@ using Common.Structure.Reporting;
 
 namespace Common.Console.Commands
 {
+    /// <summary>
+    /// Contains various extensions for the <see cref="ICommand"/> interface.
+    /// </summary>
     public static class CommandExtensions
     {
         /// <summary>
@@ -41,8 +44,8 @@ namespace Common.Console.Commands
         }
 
         /// <summary>
-         /// Standard validation routine ensuring all options and sub commands are validated.
-         /// </summary>
+        /// Standard validation routine ensuring all options and sub commands are validated.
+        /// </summary>
         public static bool Validate(this ICommand cmd, string[] args, IConsole console, IReportLogger logger)
         {
             if (cmd.SubCommands != null && cmd.SubCommands.Count > 0)
@@ -125,6 +128,9 @@ namespace Common.Console.Commands
             return 1;
         }
 
+        /// <summary>
+        /// Provides a human readable way to output information on this <see cref="ICommand"/>
+        /// </summary>
         public static string ToString(this ICommand cmd)
         {
             string[] optionNames = cmd.Options.Any() ? cmd.Options.Select(option => option.Name).ToArray() : Array.Empty<string>();

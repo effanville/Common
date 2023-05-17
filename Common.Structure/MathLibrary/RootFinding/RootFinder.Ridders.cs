@@ -9,6 +9,9 @@ namespace Common.Structure.MathLibrary.RootFinding
         /// </summary>
         public static class Ridders
         {
+            /// <summary>
+            /// Find a root using a <see cref="Type.Ridders"/> method.
+            /// </summary>
             public static Result<double> FindRoot(
                Func<double, double> func,
                double lowerBound,

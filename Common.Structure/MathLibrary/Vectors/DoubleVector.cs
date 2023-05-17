@@ -3,20 +3,32 @@ using System.Collections.Generic;
 
 namespace Common.Structure.MathLibrary.Vectors
 {
+    /// <summary>
+    /// A vector of <see cref="double"/> values.
+    /// </summary>
     public sealed class DoubleVector : Vector<double>
     {
+        /// <summary>
+        /// Construct an instance of a <see cref="DoubleVector"/>
+        /// </summary>
         public DoubleVector(double[] values)
             : base(values)
         {
             DefaultValue = double.NaN;
         }
 
+        /// <summary>
+        /// Construct an instance of a <see cref="DoubleVector"/>
+        /// </summary>
         public DoubleVector(int size, double defaultValue)
             : base(size, defaultValue)
         {
             DefaultValue = double.NaN;
         }
 
+        /// <summary>
+        /// The addition operator for two doublevectors.
+        /// </summary>
         public static DoubleVector operator +(DoubleVector a, DoubleVector b)
         {
             if (a.Count != b.Count)
@@ -33,6 +45,9 @@ namespace Common.Structure.MathLibrary.Vectors
             return new DoubleVector(resultArray);
         }
 
+        /// <summary>
+        /// The subtraction operator for two doublevectors.
+        /// </summary>
         public static DoubleVector operator -(DoubleVector a, DoubleVector b)
         {
             if (a.Count != b.Count)
@@ -49,6 +64,9 @@ namespace Common.Structure.MathLibrary.Vectors
             return new DoubleVector(resultArray);
         }
 
+        /// <summary>
+        /// The dot product operator for two doublevectors.
+        /// </summary>
         public static double operator *(DoubleVector a, DoubleVector b)
         {
             if (a.Count != b.Count)
@@ -83,6 +101,7 @@ namespace Common.Structure.MathLibrary.Vectors
         /// </summary>
         /// <param name="values">The list to calculate the mean for.</param>
         /// <param name="number">The final number of values to consider.</param>
+        /// <param name="defaultValue">The default value to use in case of insufficient data.</param>
         /// <returns>The mean value.</returns>
         public static double Mean(IReadOnlyList<double> values, int number, double defaultValue = double.NaN)
         {
@@ -127,6 +146,7 @@ namespace Common.Structure.MathLibrary.Vectors
         /// </summary>
         /// <param name="values">The list to calculate the variance for.</param>
         /// <param name="number">The final number of values to consider.</param>
+        /// <param name="defaultValue">The default value to use in case of insufficient data.</param>
         /// <returns>The variance.</returns>
         public static double Variance(IReadOnlyList<double> values, int number, double defaultValue = double.NaN)
         {
@@ -172,6 +192,7 @@ namespace Common.Structure.MathLibrary.Vectors
         /// </summary>
         /// <param name="values">The list to calculate the standard deviation for.</param>
         /// <param name="number">The final number of values to consider.</param>
+        /// <param name="defaultValue">The default value to use in case of insufficient data.</param>
         /// <returns>The standard deviation.</returns>
         public static double StandardDev(IReadOnlyList<double> values, int number, double defaultValue = double.NaN)
         {

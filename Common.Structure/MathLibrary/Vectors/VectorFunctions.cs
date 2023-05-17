@@ -1,13 +1,13 @@
 ﻿namespace Common.Structure.MathLibrary.Vectors
 {
+    /// <summary>
+    /// Functions used to calculate vector maths.
+    /// </summary>
     public static class VectorFunctions
     {
         /// <summary>
         /// Calculates the dot product between two vectors.
         /// </summary>
-        /// <param name="first"></param>
-        /// <param name="second"></param>
-        /// <returns></returns>
         public static double DotProduct(double[] first, double[] second)
         {
             double product = 0.0;
@@ -20,6 +20,9 @@
             return product;
         }
 
+        /// <summary>
+        /// Subtracts two vectors.
+        /// </summary>
         public static double[] Subtract(this double[] first, double[] second)
         {
             int length = first.Length;
@@ -32,6 +35,9 @@
             return difference;
         }
 
+        /// <summary>
+        /// Calculates the negative of a vector.
+        /// </summary>
         public static double[] Negative(this double[] first)
         {
             int length = first.Length;

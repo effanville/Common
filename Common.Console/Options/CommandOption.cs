@@ -67,17 +67,26 @@ namespace Common.Console.Options
             private set;
         }
 
+        /// <summary>
+        /// Construct an instance.
+        /// </summary>
         public CommandOption(string name, string description, Func<object, bool> validator)
             : this(name, description, false, validator)
         {
         }
 
+        /// <summary>
+        /// Construct an instance.
+        /// </summary>
         public CommandOption(string name, string description, string defaultValue, Func<object, bool> validator = null)
             : this(name, description, false, validator)
         {
             InputValue = defaultValue;
         }
 
+        /// <summary>
+        /// Construct an instance.
+        /// </summary>
         public CommandOption(string name, string description, bool required, Func<object, bool> validator)
         {
             Name = name;
@@ -86,6 +95,9 @@ namespace Common.Console.Options
             Validator = validator;
         }
 
+        /// <summary>
+        /// Return a friendly string detailing the error message.
+        /// </summary>
         public string GetPrettyErrorMessage()
         {
             if (string.IsNullOrWhiteSpace(ErrorMessage))

@@ -3,16 +3,28 @@ using System.Collections.Generic;
 
 namespace Common.Structure.MathLibrary.Vectors
 {
+    /// <summary>
+    /// A vector of <see cref="decimal"/> values.
+    /// </summary>
     public sealed class DecimalVector : Vector<decimal>
     {
+        /// <summary>
+        /// Construct an instance of a <see cref="DecimalVector"/>
+        /// </summary>
         public DecimalVector(decimal[] values) : base(values)
         {
         }
 
+        /// <summary>
+        /// Construct an instance of a <see cref="DecimalVector"/>
+        /// </summary>
         public DecimalVector(int size, decimal defaultValue) : base(size, defaultValue)
         {
         }
 
+        /// <summary>
+        /// Addition operator for two decimal vectors.
+        /// </summary>
         public static DecimalVector operator +(DecimalVector a, DecimalVector b)
         {
             if (a.Count != b.Count)
@@ -29,6 +41,9 @@ namespace Common.Structure.MathLibrary.Vectors
             return new DecimalVector(resultArray);
         }
 
+        /// <summary>
+        /// Subtraction operator for two decimal vectors.
+        /// </summary>
         public static DecimalVector operator -(DecimalVector a, DecimalVector b)
         {
             if (a.Count != b.Count)
@@ -45,6 +60,9 @@ namespace Common.Structure.MathLibrary.Vectors
             return new DecimalVector(resultArray);
         }
 
+        /// <summary>
+        /// Dot product operator for two decimal vectors.
+        /// </summary>
         public static decimal operator *(DecimalVector a, DecimalVector b)
         {
             if (a.Count != b.Count)
@@ -79,6 +97,7 @@ namespace Common.Structure.MathLibrary.Vectors
         /// </summary>
         /// <param name="values">The list to calculate the mean for.</param>
         /// <param name="number">The final number of values to consider.</param>
+        /// <param name="defaultValue">The default value to use in case of insufficient data.</param>
         /// <returns>The mean value.</returns>
         public static decimal Mean(IReadOnlyList<decimal> values, int number, decimal defaultValue = decimal.MinValue)
         {
@@ -123,6 +142,7 @@ namespace Common.Structure.MathLibrary.Vectors
         /// </summary>
         /// <param name="values">The list to calculate the variance for.</param>
         /// <param name="number">The final number of values to consider.</param>
+        /// <param name="defaultValue">The default value to use in case of insufficient data.</param>
         /// <returns>The variance.</returns>
         public static decimal Variance(IReadOnlyList<decimal> values, int number, decimal defaultValue = decimal.MinValue)
         {
@@ -168,6 +188,7 @@ namespace Common.Structure.MathLibrary.Vectors
         /// </summary>
         /// <param name="values">The list to calculate the standard deviation for.</param>
         /// <param name="number">The final number of values to consider.</param>
+        /// <param name="defaultValue">The default value to use in case of insufficient data.</param>
         /// <returns>The standard deviation.</returns>
         public static decimal StandardDev(IReadOnlyList<decimal> values, int number, decimal defaultValue = decimal.MinValue)
         {

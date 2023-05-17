@@ -2,18 +2,14 @@
 
 namespace Common.Structure.MathLibrary.RootFinding
 {
+    /// <summary>
+    /// Class containing root finding algorithms.
+    /// </summary>
     public static partial class RootFinder
     {
-        public enum Type
-        {
-            Bisection,
-            FalsePosition,
-            NewtonRaphson,
-            Ridders,
-            Secant,
-            VWDB
-        }
-
+        /// <summary>
+        /// Find the root of the function in the bounds specified.
+        /// </summary>
         public static Result<double> FindRoot(
             Type rootFinderType,
             Func<double, double> func,
