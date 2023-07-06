@@ -16,6 +16,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="DotNetProjects.WpfToolkit.DataVisualization" Version="6.1.94" />
+		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1823.32" />
 	</ItemGroup>
 
 	<ItemGroup>
