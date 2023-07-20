@@ -1,4 +1,8 @@
-﻿namespace Common.UI.ViewModelBases
+﻿using System;
+
+using Common.Structure.DataEdit;
+
+namespace Common.UI.ViewModelBases
 {
     /// <summary>
     /// Base for ViewModels containing display purpose objects.
@@ -20,6 +24,23 @@
         public virtual string Header
         {
             get;
+        }
+
+        /// <summary>
+        /// Event for requesting an update of the underlying data.
+        /// </summary>
+        public EventHandler<UpdateRequestArgs<T>> UpdateRequest;
+
+        /// <summary>
+        /// handle the events raised in the above.
+        /// </summary>
+        protected void OnUpdateRequest(UpdateRequestArgs<T> e)
+        {
+            EventHandler<UpdateRequestArgs<T>> handler = UpdateRequest;
+            if (handler != null)
+            {
+                handler?.Invoke(null, e);
+            }
         }
 
         /// <summary>
