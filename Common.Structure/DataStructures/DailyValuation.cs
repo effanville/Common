@@ -12,7 +12,11 @@ namespace Common.Structure.DataStructures
     /// Holds a date and a decimal value to act as the value on that day. This is particularly for use
     /// with financial data.
     /// </summary>
-    public class DailyValuation : IComparable, IComparable<DailyValuation>, IEquatable<DailyValuation>, IXmlSerializable
+    public class DailyValuation :
+        IComparable,
+        IComparable<DailyValuation>,
+        IEquatable<DailyValuation>,
+        IXmlSerializable
     {
         /// <summary>
         /// The date for the valuation
@@ -59,16 +63,10 @@ namespace Common.Structure.DataStructures
         /// <summary>
         /// Appends date in UK format with value, separated by a comma.
         /// </summary>
-        public override string ToString()
-        {
-            return Day.ToUkDateStringPadded() + ", " + Value.ToString();
-        }
+        public override string ToString() => Day.ToUkDateStringPadded() + ", " + Value.ToString();
 
         /// <inheritdoc/>
-        public int CompareTo(DailyValuation other)
-        {
-            return DateTime.Compare(Day, other.Day);
-        }
+        public int CompareTo(DailyValuation other) => DateTime.Compare(Day, other.Day);
 
         /// <summary>
         /// Method of comparison. Compares dates.
@@ -87,10 +85,7 @@ namespace Common.Structure.DataStructures
         /// Returns a copy of the specified valuation
         /// </summary>
         /// <returns></returns>
-        public DailyValuation Copy()
-        {
-            return new DailyValuation(Day, Value);
-        }
+        public DailyValuation Copy() => new DailyValuation(Day, Value);
 
         /// <summary>
         /// Sets the data in the daily valuation.
@@ -114,9 +109,8 @@ namespace Common.Structure.DataStructures
 
         /// <inheritdoc/>
         public bool Equals(DailyValuation other)
-        {
-            return Day.Equals(other.Day) && Value.Equals(other.Value);
-        }
+            => Day.Equals(other.Day)
+                && Value.Equals(other.Value);
 
         /// <inheritdoc/>
         public override int GetHashCode()
@@ -128,10 +122,7 @@ namespace Common.Structure.DataStructures
         }
 
         /// <inheritdoc/>
-        public XmlSchema GetSchema()
-        {
-            return null;
-        }
+        public XmlSchema GetSchema() => null;
 
         private const string XmlBaseElement = "DailyValuation";
 

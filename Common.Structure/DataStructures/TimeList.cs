@@ -20,10 +20,7 @@ namespace Common.Structure.DataStructures
         /// </summary>
         public event EventHandler DataEdit;
 
-        internal void OnDataEdit(object edited)
-        {
-            DataEdit?.Invoke(edited, new EventArgs());
-        }
+        internal void OnDataEdit(object edited) => DataEdit?.Invoke(edited, new EventArgs());
 
         /// <summary>
         /// Collection of data within the TimeList.
@@ -51,10 +48,7 @@ namespace Common.Structure.DataStructures
         /// <summary>
         /// Returns a copy of the list.
         /// </summary>
-        public TimeList Copy()
-        {
-            return new TimeList(Values());
-        }
+        public TimeList Copy() => new TimeList(Values());
 
         /// <summary>
         /// Constructor adding values.
@@ -74,32 +68,17 @@ namespace Common.Structure.DataStructures
         }
 
         /// <inheritdoc/>
-        public bool Any()
-        {
-            return Any(Values());
-        }
+        public bool Any() => Any(Values());
 
-        private static bool Any(List<DailyValuation> values)
-        {
-            return values.Any();
-        }
+        private static bool Any(List<DailyValuation> values) => values.Any();
 
         /// <inheritdoc/>
-        public int Count()
-        {
-            return Count(Values());
-        }
+        public int Count() => Count(Values());
 
-        private static int Count(List<DailyValuation> values)
-        {
-            return values.Count;
-        }
+        private static int Count(List<DailyValuation> values) => values.Count;
 
         /// <inheritdoc/>
-        public XmlSchema GetSchema()
-        {
-            return null;
-        }
+        public XmlSchema GetSchema() => null;
 
         private const string XmlBaseName = "Values";
 
@@ -211,9 +190,6 @@ namespace Common.Structure.DataStructures
         }
 
         /// <inheritdoc/>
-        public override string ToString()
-        {
-            return $"Timelist({Count()})";
-        }
+        public override string ToString() => $"Timelist({Count()})";
     }
 }

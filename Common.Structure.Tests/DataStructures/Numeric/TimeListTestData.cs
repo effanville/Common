@@ -56,7 +56,7 @@ namespace Common.Structure.Tests.DataStructures.Numeric
 
             TimeNumberList tl2 = new TimeNumberList();
             tl2.SetData(new DateTime(2018, 1, 1), 1000);
-            tl2.SetData(new DateTime(2018, 6, 1), 1000);
+            tl2.SetData(new DateTime(2018, 6, 1), 1250);
             fExampleData.Add(TwoEntryKey, tl2);
 
             TimeNumberList tl3 = new TimeNumberList();

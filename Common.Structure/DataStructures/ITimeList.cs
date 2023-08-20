@@ -107,7 +107,7 @@ namespace Common.Structure.DataStructures
         /// <returns>
         /// A valuation with the date and the value on that date. The date is not necessarily the date requested. For example
         /// if the prior evaluator returns a different date, then that date is recorded.</returns>
-        DailyValuation Value(DateTime date, Func<DailyValuation, DailyValuation, DateTime, decimal> interpolationFunction);
+        DailyValuation Value(DateTime date, Func<DailyValuation, DailyValuation, DateTime, DailyValuation> interpolationFunction);
 
         /// <summary>
         /// Returns the value of the <see cref="TimeList"/> with various methods to interpolate.
@@ -122,7 +122,7 @@ namespace Common.Structure.DataStructures
         /// <returns>
         /// A valuation with the date and the value on that date. The date is not necessarily the date requested. For example
         /// if the prior evaluator returns a different date, then that date is recorded.</returns>
-        DailyValuation Value(DateTime date, Func<DailyValuation, DateTime, DailyValuation> priorEstimator, Func<DailyValuation, DateTime, DailyValuation> postEstimator, Func<DailyValuation, DailyValuation, DateTime, decimal> interpolationFunction);
+        DailyValuation Value(DateTime date, Func<DailyValuation, DateTime, DailyValuation> priorEstimator, Func<DailyValuation, DateTime, DailyValuation> postEstimator, Func<DailyValuation, DailyValuation, DateTime, DailyValuation> interpolationFunction);
 
         /// <summary>
         /// Provides a new <see cref="TimeList"/> with multiplicative inverses as values,

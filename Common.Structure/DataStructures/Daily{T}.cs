@@ -7,7 +7,10 @@ namespace Common.Structure.DataStructures
     /// <summary>
     /// Holds a date and a value to act as the value on that day.
     /// </summary>
-    public class Daily<T> : IComparable, IComparable<Daily<T>>, IEquatable<Daily<T>> where T : IEquatable<T>
+    public class Daily<T> :
+        IComparable,
+        IComparable<Daily<T>>,
+        IEquatable<Daily<T>> where T : IEquatable<T>
     {
         /// <summary>
         /// The date for the valuation
@@ -47,10 +50,7 @@ namespace Common.Structure.DataStructures
         /// <summary>
         /// Appends date in UK format with value, separated by a comma.
         /// </summary>
-        public override string ToString()
-        {
-            return Day.ToUkDateStringPadded() + ", " + Value.ToString();
-        }
+        public override string ToString() => Day.ToUkDateStringPadded() + ", " + Value.ToString();
 
         /// <summary>
         /// Method of comparison. Compares dates.
@@ -66,20 +66,14 @@ namespace Common.Structure.DataStructures
         }
 
         /// <inheritdoc/>
-        public int CompareTo(Daily<T> other)
-        {
-            return DateTime.Compare(Day, other.Day);
-        }
+        public int CompareTo(Daily<T> other) => DateTime.Compare(Day, other.Day);
 
 
         /// <summary>
         /// Returns a copy of the specified valuation
         /// </summary>
         /// <returns></returns>
-        public Daily<T> Copy()
-        {
-            return new Daily<T>(Day, Value);
-        }
+        public Daily<T> Copy() => new Daily<T>(Day, Value);
 
         /// <summary>
         /// Sets the data in the daily valuation.
@@ -103,9 +97,8 @@ namespace Common.Structure.DataStructures
 
         /// <inheritdoc/>
         public bool Equals(Daily<T> other)
-        {
-            return Day.Equals(other.Day) && Value.Equals(other.Value);
-        }
+            => Day.Equals(other.Day)
+                && Value.Equals(other.Value);
 
         /// <inheritdoc/>
         public override int GetHashCode()

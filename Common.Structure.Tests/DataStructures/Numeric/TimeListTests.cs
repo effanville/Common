@@ -15,25 +15,25 @@ namespace Common.Structure.Tests.DataStructures.Numeric
 
         private static IEnumerable<(string name, TimeNumberList testList, int count, bool any, string XmlString)> TestLists()
         {
-            yield return ("empty", 
-            TimeListTestData.GetTestTimeList(TimeListTestData.EmptyListKey), 
-                0, 
-                false, 
+            yield return ("empty",
+            TimeListTestData.GetTestTimeList(TimeListTestData.EmptyListKey),
+                0,
+                false,
                 $"<?xml version=\"1.0\" encoding=\"utf-16\"?>{enl}<Values />");
-            yield return ("single", 
-                TimeListTestData.GetTestTimeList(TimeListTestData.SingleEntryKey), 
-                1, 
-                true, 
+            yield return ("single",
+                TimeListTestData.GetTestTimeList(TimeListTestData.SingleEntryKey),
+                1,
+                true,
                 $"<?xml version=\"1.0\" encoding=\"utf-16\"?>{enl}<Values>{enl}  <DV D=\"2018-01-01T00:00:00\" V=\"1000\" />{enl}</Values>");
-            yield return ("repeatedValue", 
-                new TimeNumberList(new List<DailyNumeric>() { new DailyNumeric(new DateTime(2018, 1, 1), 0.0), new DailyNumeric(new DateTime(2018, 1, 1), 0.0) }), 
-                1, 
-                true, 
+            yield return ("repeatedValue",
+                new TimeNumberList(new List<DailyNumeric>() { new DailyNumeric(new DateTime(2018, 1, 1), 0.0), new DailyNumeric(new DateTime(2018, 1, 1), 0.0) }),
+                1,
+                true,
                 $"<?xml version=\"1.0\" encoding=\"utf-16\"?>{enl}<Values>{enl}  <DV D=\"2018-01-01T00:00:00\" V=\"0\" />{enl}  <DV D=\"2018-01-01T00:00:00\" V=\"0\" />{enl}</Values>");
-            yield return ("standardList", 
-                new TimeNumberList(new List<DailyNumeric>() { new DailyNumeric(new DateTime(2018, 1, 1), 0.0), new DailyNumeric(new DateTime(2019, 1, 1), 1.0), new DailyNumeric(new DateTime(2019, 5, 1), 2.0), new DailyNumeric(new DateTime(2019, 5, 5), 0.0) }), 
-                4, 
-                true, 
+            yield return ("standardList",
+                new TimeNumberList(new List<DailyNumeric>() { new DailyNumeric(new DateTime(2018, 1, 1), 0.0), new DailyNumeric(new DateTime(2019, 1, 1), 1.0), new DailyNumeric(new DateTime(2019, 5, 1), 2.0), new DailyNumeric(new DateTime(2019, 5, 5), 0.0) }),
+                4,
+                true,
                 $"<?xml version=\"1.0\" encoding=\"utf-16\"?>{enl}<Values>{enl}  <DV D=\"2018-01-01T00:00:00\" V=\"0\" />{enl}  <DV D=\"2019-01-01T00:00:00\" V=\"1\" />{enl}  <DV D=\"2019-05-01T00:00:00\" V=\"2\" />{enl}  <DV D=\"2019-05-05T00:00:00\" V=\"0\" />{enl}</Values>");
         }
 
@@ -64,10 +64,7 @@ namespace Common.Structure.Tests.DataStructures.Numeric
         }
 
         [TestCaseSource(nameof(AnyTestSource))]
-        public void AnyTests(bool result, TimeNumberList listToTest)
-        {
-            Assert.AreEqual(result, listToTest.Any());
-        }
+        public void AnyTests(bool result, TimeNumberList listToTest) => Assert.AreEqual(result, listToTest.Any());
 
         private static IEnumerable<TestCaseData> CleanValuesTestSource()
         {
@@ -155,7 +152,7 @@ namespace Common.Structure.Tests.DataStructures.Numeric
                 timelist.SetData(value.date, value.value);
             }
 
-            double interpolator(DailyNumeric earlier, DailyNumeric later, DateTime chosenDate) => earlier.Value + (later.Value - earlier.Value) / (later.Day - earlier.Day).Days * (chosenDate - earlier.Day).Days;
+            DailyNumeric interpolator(DailyNumeric earlier, DailyNumeric later, DateTime chosenDate) => new DailyNumeric(chosenDate, earlier.Value + (later.Value - earlier.Value) / (later.Day - earlier.Day).Days * (chosenDate - earlier.Day).Days);
             var actualValue = timelist.Value(date, interpolator);
             if (expectedResult == null)
             {

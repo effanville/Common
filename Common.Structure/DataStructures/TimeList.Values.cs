@@ -6,26 +6,40 @@ namespace Common.Structure.DataStructures
 {
     public partial class TimeList
     {
+        private static DailyValuation OutlierInterpolation(DailyValuation dv, DateTime dt)
+            => dv;
+
+        private static DailyValuation DayBasedInterpolationFunction(DailyValuation earlier, DailyValuation later, DateTime day)
+                => new DailyValuation(day, earlier.Value + (later.Value - earlier.Value) / (later.Day - earlier.Day).Days * (day - earlier.Day).Days);
+
+        /// <summary>
+        /// Returns the value on the date specified, wit
+        /// </summary>
+        /// <param name="date">The date to query on</param>
+        /// <param name="defaultValue">The default value to use when no value found.</param>
+        /// <returns></returns>
+        public decimal Value(DateTime date, decimal defaultValue)
+            => Value(date)?.Value ?? defaultValue;
+
         /// <inheritdoc/>
         public DailyValuation Value(DateTime date)
         {
-            decimal interpolationFunction(DailyValuation earlier, DailyValuation later, DateTime day) => earlier.Value + (later.Value - earlier.Value) / (later.Day - earlier.Day).Days * (day - earlier.Day).Days;
             return Value(
                 date,
-                (valuation, dateTime) => valuation,
-                (valuation, dateTime) => valuation,
-                interpolationFunction);
+                OutlierInterpolation,
+                OutlierInterpolation,
+                DayBasedInterpolationFunction);
         }
 
         /// <inheritdoc/>
         public DailyValuation Value(
             DateTime date,
-            Func<DailyValuation, DailyValuation, DateTime, decimal> interpolationFunction)
+            Func<DailyValuation, DailyValuation, DateTime, DailyValuation> interpolationFunction)
         {
             return Value(
                 date,
-                (valuation, dateTime) => valuation,
-                (valuation, dateTime) => valuation,
+                OutlierInterpolation,
+                OutlierInterpolation,
                 interpolationFunction);
         }
 
@@ -34,7 +48,7 @@ namespace Common.Structure.DataStructures
             DateTime date,
             Func<DailyValuation, DateTime, DailyValuation> priorEstimator,
             Func<DailyValuation, DateTime, DailyValuation> postEstimator,
-            Func<DailyValuation, DailyValuation, DateTime, decimal> interpolationFunction)
+            Func<DailyValuation, DailyValuation, DateTime, DailyValuation> interpolationFunction)
         {
             return Value(
                 Values(),
@@ -49,7 +63,7 @@ namespace Common.Structure.DataStructures
             DateTime date,
             Func<DailyValuation, DateTime, DailyValuation> priorEstimator,
             Func<DailyValuation, DateTime, DailyValuation> postEstimator,
-            Func<DailyValuation, DailyValuation, DateTime, decimal> interpolationFunction)
+            Func<DailyValuation, DailyValuation, DateTime, DailyValuation> interpolationFunction)
         {
             if (!values.Any())
             {
@@ -69,7 +83,7 @@ namespace Common.Structure.DataStructures
             }
 
             var vals = ValuesOnOrBeforeAndAfter(values, date);
-            return new DailyValuation(date, interpolationFunction(vals.Item1, vals.Item2, date));
+            return interpolationFunction(vals.Item1, vals.Item2, date);
         }
 
         /// <summary>
@@ -81,8 +95,8 @@ namespace Common.Structure.DataStructures
             return Value(
                 date,
                 (valuation, dateTime) => new DailyValuation(date, 0.0m),
-                (valuation, datetime) => valuation,
-                (earlier, later, calculationDate) => earlier.Value + (later.Value - earlier.Value) / (later.Day - earlier.Day).Days * (calculationDate - earlier.Day).Days);
+                OutlierInterpolation,
+                DayBasedInterpolationFunction);
         }
 
         private static (DailyValuation, DailyValuation) ValuesOnOrBeforeAndAfter(List<DailyValuation> values, DateTime date)
@@ -137,83 +151,60 @@ namespace Common.Structure.DataStructures
         }
 
         /// <summary>
+        /// Returns the value on or before the date specified.
+        /// </summary>
+        /// <param name="date">The date to query on</param>
+        /// <param name="defaultValue">The default value to use when no value found.</param>
+        /// <returns></returns>
+        public decimal ValueOnOrBefore(DateTime date, decimal defaultValue)
+            => ValueOnOrBefore(date)?.Value ?? defaultValue;
+
+        /// <summary>
         /// Returns the DailyValuation on or before the date specified.
         /// </summary>
         public DailyValuation ValueOnOrBefore(DateTime date)
-        {
-            return ValueOnOrBefore(Values(), date);
-        }
-
-        private static DailyValuation ValueOnOrBefore(List<DailyValuation> values, DateTime date)
-        {
-            if (!values.Any())
-            {
-                return null;
-            }
-
-            var first = FirstValuation(values);
-            if (date < first.Day)
-            {
-                return null;
-            }
-
-            var latest = LatestValuation(values);
-            if (date >= latest.Day)
-            {
-                return latest;
-            }
-
-            for (int i = values.Count - 1; i > -1; i--)
-            {
-                if (date >= values[i].Day)
-                {
-                    return values[i].Copy();
-                }
-            }
-
-            return null;
-        }
+             => Value(Values(), date, (a, b) => null, OutlierInterpolation, (a, b, c) => a);
 
         /// <summary>
         /// Returns DailyValuation closest to the date but earlier to it.
         /// If a strictly earlier one cannot be found then return null.
         /// </summary>
         public DailyValuation ValueBefore(DateTime date)
-        {
-            return ValueBefore(Values(), date);
-        }
+            => ValueBefore(Values(), date);
 
         private static DailyValuation ValueBefore(List<DailyValuation> values, DateTime date)
         {
-            if (values != null && values.Any())
+            if (values == null || !values.Any())
             {
-                if (date <= FirstValuation(values).Day)
-                {
-                    return null;
-                }
+                return null;
+            }
 
-                var latest = LatestValuation(values);
-                if (date > latest.Day)
-                {
-                    return latest;
-                }
+            if (date <= FirstValuation(values).Day)
+            {
+                return null;
+            }
 
-                // go back in time until find a valuation that is after the date we want
-                // Then the value we want is the previous in the vector.
-                for (int i = values.Count - 1; i >= 0; i--)
+            var latest = LatestValuation(values);
+            if (date > latest.Day)
+            {
+                return latest;
+            }
+
+            // go back in time until find a valuation that is after the date we want
+            // Then the value we want is the previous in the vector.
+            for (int i = values.Count - 1; i >= 0; i--)
+            {
+                if (date == values[i].Day)
                 {
-                    if (date == values[i].Day)
-                    {
-                        return values[i - 1].Copy();
-                    }
-                    if (date > values[i].Day)
-                    {
-                        return values[i].Copy();
-                    }
+                    return values[i - 1].Copy();
+                }
+                if (date > values[i].Day)
+                {
+                    return values[i].Copy();
                 }
             }
 
-            return new DailyValuation(date, 0.0m);
+            return null;
         }
 
         /// <summary>
@@ -221,67 +212,31 @@ namespace Common.Structure.DataStructures
         /// If there is no date after the value, then null is returned.
         /// </summary>
         public DailyValuation ValueAfter(DateTime date)
-        {
-            return ValueAfter(Values(), date);
-        }
-
-        private static DailyValuation ValueAfter(List<DailyValuation> values, DateTime date)
-        {
-            if (!values.Any())
-            {
-                return null;
-            }
-
-            var first = FirstValuation(values);
-
-            if (date >= LatestValuation(values).Day)
-            {
-                return null;
-            }
-
-            if (date < first.Day)
-            {
-                return first;
-            }
-
-            for (int i = 0; i < values.Count; i++)
-            {
-                if (date < values[i].Day)
-                {
-                    return values[i].Copy();
-                }
-            }
-
-            return null;
-        }
+            => Value(
+                Values(),
+                date,
+                OutlierInterpolation,
+                (value, actualTime) => null,
+                (priorValue, postValue, actualTime) => postValue);
 
         /// <summary>
         /// Returns the first date held in the vector, or default if cannot find any data
         /// </summary>
-        public DateTime FirstDate()
-        {
-            return FirstValuation()?.Day ?? new DateTime();
-        }
+        public DateTime FirstDate() => FirstValuation()?.Day ?? new DateTime();
 
         /// <summary>
         /// Returns first value held, or null if no data.
         /// </summary>
-        public decimal? FirstValue()
-        {
-            return FirstValuation()?.Value;
-        }
+        public decimal? FirstValue() => FirstValuation()?.Value;
 
         /// <summary>
         /// Returns first pair of date and value, or null if this doesn't exist.
         /// </summary>
-        public DailyValuation FirstValuation()
-        {
-            return FirstValuation(Values());
-        }
+        public DailyValuation FirstValuation() => FirstValuation(Values());
 
         private static DailyValuation FirstValuation(List<DailyValuation> values)
         {
-            if (values.Any())
+            if (values != null && values.Any())
             {
                 return values[0].Copy();
             }
@@ -292,30 +247,21 @@ namespace Common.Structure.DataStructures
         /// <summary>
         /// Returns latest date held, or default if no data.
         /// </summary>
-        public DateTime LatestDate()
-        {
-            return LatestValuation()?.Day ?? new DateTime();
-        }
+        public DateTime LatestDate() => LatestValuation()?.Day ?? new DateTime();
 
         /// <summary>
         /// Returns latest value, or null if no data held.
         /// </summary>
-        public decimal? LatestValue()
-        {
-            return LatestValuation()?.Value;
-        }
+        public decimal? LatestValue() => LatestValuation()?.Value;
 
         /// <summary>
         /// Returns a pair of date and value of the most recently held data, or null if no data held.
         /// </summary>
-        public DailyValuation LatestValuation()
-        {
-            return LatestValuation(Values());
-        }
+        public DailyValuation LatestValuation() => LatestValuation(Values());
 
         private static DailyValuation LatestValuation(List<DailyValuation> values)
         {
-            if (values.Any())
+            if (values != null && values.Any())
             {
                 return values[values.Count - 1].Copy();
             }
@@ -327,9 +273,7 @@ namespace Common.Structure.DataStructures
         /// Returns all valuations on or between the two dates specified, or empty list if none held.
         /// </summary>
         public List<DailyValuation> GetValuesBetween(DateTime earlierTime, DateTime laterTime)
-        {
-            return GetValuesBetween(Values(), earlierTime, laterTime);
-        }
+            => GetValuesBetween(Values(), earlierTime, laterTime);
 
         private static List<DailyValuation> GetValuesBetween(List<DailyValuation> values, DateTime earlierTime, DateTime laterTime)
         {

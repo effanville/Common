@@ -68,7 +68,7 @@ namespace Common.Structure.Tests.DataStructures.Money
 
             TimeList tl2 = new TimeList();
             tl2.SetData(new DateTime(2018, 1, 1), 1000);
-            tl2.SetData(new DateTime(2018, 6, 1), 1000);
+            tl2.SetData(new DateTime(2018, 6, 1), 1250);
             fExampleData.Add(TwoEntryKey, tl2);
 
             var timelist = new TimeList();

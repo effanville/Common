@@ -11,12 +11,8 @@ namespace Common.Structure.DataStructures
     /// </summary>
     public partial class TimeList
     {
-
         /// <inheritdoc />
-        public TimeList Inverted()
-        {
-            return Inverted(Values());
-        }
+        public TimeList Inverted() => Inverted(Values());
 
         private static TimeList Inverted(List<DailyValuation> values)
         {
@@ -42,36 +38,43 @@ namespace Common.Structure.DataStructures
         /// <summary>
         /// Adds all values in the list. The sum of an empty list is defined to be 0.
         /// </summary>
-        public decimal Sum()
-        {
-            return Sum(Values());
-        }
+        public decimal Sum() => Sum(Values());
 
         /// <summary>
         /// Adds all values in the list that satisfy the predicate.
         /// </summary>
         public decimal Sum(Func<DailyValuation, bool> predicate)
-        {
-            return Sum(Values().Where(val => predicate(val)));
-        }
+            => Sum(Values().Where(val => predicate(val)));
 
-        private static decimal Sum(IEnumerable<DailyValuation> values)
+        private static decimal Sum(IEnumerable<DailyValuation> values) => values.Sum(val => val.Value);
+
+        /// <summary>
+        /// returns the CAR of the timelist between the dates provided.
+        /// </summary>
+        public double CAR(DateTime earlierTime, DateTime laterTime) => CAR(Values(), earlierTime, laterTime);
+
+        private static double CAR(List<DailyValuation> values, DateTime earlierTime, DateTime laterTime)
         {
-            return values.Sum(val => val.Value);
+            DailyValuation earlierValue = Value(values, earlierTime, OutlierInterpolation, OutlierInterpolation, DayBasedInterpolationFunction);
+            DailyValuation laterValue = Value(values, laterTime, OutlierInterpolation, OutlierInterpolation, DayBasedInterpolationFunction);
+            if (earlierValue == null || laterValue == null)
+            {
+                return double.NaN;
+            }
+
+            return FinanceFunctions.CAR(earlierValue, laterValue);
         }
 
         /// <summary>
         /// returns the CAR of the timelist between the dates provided.
         /// </summary>
-        public double CAR(DateTime earlierTime, DateTime laterTime)
-        {
-            return CAR(Values(), earlierTime, laterTime);
-        }
+        public double CAROnOrBefore(DateTime earlierTime, DateTime laterTime)
+            => CAROnOrBefore(Values(), earlierTime, laterTime);
 
-        private static double CAR(List<DailyValuation> values, DateTime earlierTime, DateTime laterTime)
+        private static double CAROnOrBefore(List<DailyValuation> values, DateTime earlierTime, DateTime laterTime)
         {
-            DailyValuation earlierValue = ValueOnOrBefore(values, earlierTime);
-            DailyValuation laterValue = ValueOnOrBefore(values, laterTime);
+            DailyValuation earlierValue = Value(values, earlierTime, (a, b) => null, OutlierInterpolation, (a, b, c) => a);
+            DailyValuation laterValue = Value(values, laterTime, (a, b) => null, OutlierInterpolation, (a, b, c) => a); ;
             if (earlierValue == null || laterValue == null)
             {
                 return double.NaN;
@@ -83,10 +86,7 @@ namespace Common.Structure.DataStructures
         /// <summary>
         /// Returns internal rate of return of the values in the TimeList
         /// </summary>
-        internal double IRR(DailyValuation latestValue)
-        {
-            return IRR(Values(), latestValue);
-        }
+        internal double IRR(DailyValuation latestValue) => IRR(Values(), latestValue);
 
         private static double IRR(List<DailyValuation> values, DailyValuation latestValue)
         {
@@ -108,9 +108,7 @@ namespace Common.Structure.DataStructures
         /// Returns the internal rate of return between <param name="startValue"/> and <param name="latestValue"/>.
         /// </summary>
         internal double IRR(DailyValuation startValue, DailyValuation latestValue)
-        {
-            return IRR(Values(), startValue, latestValue);
-        }
+            => IRR(Values(), startValue, latestValue);
 
         private static double IRR(List<DailyValuation> values, DailyValuation startValue, DailyValuation latestValue)
         {
