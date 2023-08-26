@@ -4,15 +4,21 @@ using System.Threading.Tasks;
 
 using Common.Structure.Reporting;
 
+using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
+
 namespace Common.Structure.WebAccess
 {
     /// <summary>
     /// Provides methods for downloading html from a website.
     /// Hopefully works with websites that require cookies.
     /// </summary>
-    public static class WebDownloader
+    public class WebDownloader : IDisposable
     {
-        private static readonly HttpClient client = new HttpClient();
+        private static HttpClient _client = new HttpClient();
+
+        private static IWebDriver _driver;
+        private bool _disposedValue;
 
         /// <summary>
         /// Determines whether the string is well formed as a url.
@@ -31,9 +37,7 @@ namespace Common.Structure.WebAccess
         /// Downloads from url synchronously.
         /// </summary>
         public static string DownloadFromURL(string url, IReportLogger reportLogger = null)
-        {
-            return DownloadFromURLasync(url, reportLogger).Result;
-        }
+            => DownloadFromURLasync(url, reportLogger).Result;
 
         /// <summary>
         /// downloads the data from url asynchronously.
@@ -60,7 +64,9 @@ namespace Common.Structure.WebAccess
                     RequestUri = new Uri(url),
                     Method = HttpMethod.Get,
                 };
-                HttpResponseMessage response = await client.SendAsync(requestMessage).ConfigureAwait(false);
+
+
+                HttpResponseMessage response = await _client.SendAsync(requestMessage).ConfigureAwait(false);
                 _ = response.EnsureSuccessStatusCode();
                 string result = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 if (string.IsNullOrEmpty(result))
@@ -79,6 +85,72 @@ namespace Common.Structure.WebAccess
             }
 
             return output;
+        }
+
+        /// <summary>
+        /// Returns a cached instance of a web driver.
+        /// </summary>
+        public static IWebDriver GetCachedInstance(bool forceNew)
+        {
+            if (_driver == null || forceNew)
+            {
+                var options = new FirefoxOptions();
+                options.AddArguments("--headless");
+                _driver = new FirefoxDriver(options);
+                _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
+            }
+
+            return _driver;
+        }
+
+        /// <summary>
+        /// Returns the element text from the specified elememnt from the web driver.
+        /// </summary>
+        public static string GetElementText(IWebDriver driver, string url, string elementId, int msDelay, IReportLogger logger = null)
+        {
+            try
+            {
+                driver.Navigate().GoToUrl(url);
+                string pageSource = driver.PageSource;
+                _ = Task.Delay(msDelay);
+                IWebElement element = driver.FindElement(By.Id(elementId));
+                _ = Task.Delay(msDelay);
+                return element.Text;
+            }
+            catch (Exception ex)
+            {
+                logger?.Log(ReportType.Error, "Downloading", ex.Message);
+            }
+
+            return null;
+        }
+
+        /// <inheritdoc/>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    _client.Dispose();
+                    _driver.Dispose();
+                    _driver.Quit();
+                }
+
+                _client = null;
+                _driver = null;
+                // TODO: free unmanaged resources (unmanaged objects) and override finalizer
+                // TODO: set large fields to null
+                _disposedValue = true;
+            }
+        }
+
+        /// <inheritdoc/>
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
     }
 }
