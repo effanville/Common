@@ -31,7 +31,7 @@ namespace Common.UI.ViewModelBases
         /// <summary>
         /// Constructor only setting the header value.
         /// </summary>
-        public TabViewModelBase(string header)
+        protected TabViewModelBase(string header)
             : base(header)
         {
         }
@@ -39,7 +39,7 @@ namespace Common.UI.ViewModelBases
         /// <summary>
         /// Constructor setting the header and database value.
         /// </summary>
-        public TabViewModelBase(string header, T database)
+        protected TabViewModelBase(string header, T database)
              : base(header, database)
         {
         }
@@ -47,7 +47,7 @@ namespace Common.UI.ViewModelBases
         /// <summary>
         /// Construct an instance.
         /// </summary>
-        public TabViewModelBase(string header, Action<object> loadTab)
+        protected TabViewModelBase(string header, Action<object> loadTab)
             : base(header)
         {
             LoadSelectedTab = loadTab;
@@ -57,7 +57,7 @@ namespace Common.UI.ViewModelBases
         /// Constructor setting the header and database value and the routine by which tabs are selected
         /// to be closed.
         /// </summary>
-        public TabViewModelBase(string header, T database, Action<object> loadTab)
+        protected TabViewModelBase(string header, T database, Action<object> loadTab)
             : base(header, database)
         {
             LoadSelectedTab = loadTab;
@@ -70,8 +70,8 @@ namespace Common.UI.ViewModelBases
         /// <param name="removeTab"> Callback specifying whether this tab should be removed</param>
         public virtual void UpdateData(T dataToDisplay, Action<object> removeTab)
         {
-            DataStore = null;
-            DataStore = dataToDisplay;
+            ModelData = null;
+            ModelData = dataToDisplay;
         }
     }
 }
