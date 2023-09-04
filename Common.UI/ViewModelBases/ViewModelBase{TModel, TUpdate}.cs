@@ -1,6 +1,7 @@
 using System;
 
 using Common.Structure.DataEdit;
+using Common.Structure.Reporting;
 
 namespace Common.UI.ViewModelBases;
 
@@ -14,13 +15,23 @@ public abstract class ViewModelBase<TModel, TUpdate> : PropertyChangedBase
     where TModel : class where TUpdate : class
 {
     private string _header;
+    
+    /// <summary>
+    /// The globals for this view model.
+    /// </summary>
+    protected readonly UiGlobals DisplayGlobals;
+    
+    /// <summary>
+    /// The logging mechanism.
+    /// </summary>
+    protected IReportLogger ReportLogger => DisplayGlobals.ReportLogger;
     /// <summary>
     /// The data for the model in this view model.
     /// </summary>
     public TModel ModelData
     {
         get;
-        set;
+        protected set;
     }
         
     /// <summary>
@@ -45,6 +56,16 @@ public abstract class ViewModelBase<TModel, TUpdate> : PropertyChangedBase
     {
         _header = header;
     }
+    
+    /// <summary>
+    /// Generate a <see cref="ViewModelBase{TModel, TUpdate}"/> with a
+    /// specific header.
+    /// </summary>
+    protected ViewModelBase(string header, UiGlobals globals)
+    {
+        Header = header;
+        DisplayGlobals = globals;
+    }
         
     /// <summary>
     /// Generate a <see cref="ViewModelBase{TModel, TUpdate}"/> with a
@@ -55,25 +76,33 @@ public abstract class ViewModelBase<TModel, TUpdate> : PropertyChangedBase
         Header = header;
         ModelData = modelData;
     }
-
+        
+    /// <summary>
+    /// Generate a <see cref="ViewModelBase{TModel, TUpdate}"/> with a
+    /// specific header and a specified model.
+    /// </summary>
+    protected ViewModelBase(string header, TModel modelData, UiGlobals displayGlobals)
+    {
+        Header = header;
+        ModelData = modelData;
+        DisplayGlobals = displayGlobals;
+    }
+    
     /// <summary>
     /// handle the events raised in the above.
     /// </summary>
     protected void OnUpdateRequest(UpdateRequestArgs<TUpdate> e)
     {
         EventHandler<UpdateRequestArgs<TUpdate>> handler = UpdateRequest;
-        if (handler != null)
-        {
-            handler?.Invoke(null, e);
-        }
+        handler?.Invoke(null, e);
     }
         
     /// <summary>
     /// Mechanism to update the data 
     /// </summary>
-    public virtual void UpdateData(TModel dataToDisplay)
+    public virtual void UpdateData(TModel modelData)
     {
         ModelData = null;
-        ModelData = dataToDisplay;
+        ModelData = modelData;
     }
 }

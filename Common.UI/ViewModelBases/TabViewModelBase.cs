@@ -39,26 +39,17 @@ namespace Common.UI.ViewModelBases
         /// <summary>
         /// Constructor setting the header and database value.
         /// </summary>
-        protected TabViewModelBase(string header, T database)
-             : base(header, database)
+        protected TabViewModelBase(string header, T database, UiGlobals uiGlobals)
+             : base(header, database, uiGlobals)
         {
-        }
-
-        /// <summary>
-        /// Construct an instance.
-        /// </summary>
-        protected TabViewModelBase(string header, Action<object> loadTab)
-            : base(header)
-        {
-            LoadSelectedTab = loadTab;
         }
 
         /// <summary>
         /// Constructor setting the header and database value and the routine by which tabs are selected
         /// to be closed.
         /// </summary>
-        protected TabViewModelBase(string header, T database, Action<object> loadTab)
-            : base(header, database)
+        protected TabViewModelBase(string header, T database, Action<object> loadTab, UiGlobals uiGlobals)
+            : base(header, database, uiGlobals)
         {
             LoadSelectedTab = loadTab;
         }
@@ -66,12 +57,12 @@ namespace Common.UI.ViewModelBases
         /// <summary>
         /// Updates the data and provides a mechanism to remove the tab
         /// </summary>
-        /// <param name="dataToDisplay">The data to update with.</param>
+        /// <param name="modelData">The data to update with.</param>
         /// <param name="removeTab"> Callback specifying whether this tab should be removed</param>
-        public virtual void UpdateData(T dataToDisplay, Action<object> removeTab)
+        public virtual void UpdateData(T modelData, Action<object> removeTab)
         {
             ModelData = null;
-            ModelData = dataToDisplay;
+            ModelData = modelData;
         }
     }
 }
