@@ -47,15 +47,6 @@ public abstract class ViewModelBase<TModel, TUpdate> : PropertyChangedBase
     /// Event for requesting an update of the underlying data.
     /// </summary>
     public EventHandler<UpdateRequestArgs<TUpdate>> UpdateRequest;
-
-    /// <summary>
-    /// Generate a <see cref="ViewModelBase{TModel, TUpdate}"/> with a
-    /// specific header.
-    /// </summary>
-    protected ViewModelBase(string header)
-    {
-        _header = header;
-    }
     
     /// <summary>
     /// Generate a <see cref="ViewModelBase{TModel, TUpdate}"/> with a
@@ -65,16 +56,6 @@ public abstract class ViewModelBase<TModel, TUpdate> : PropertyChangedBase
     {
         Header = header;
         DisplayGlobals = globals;
-    }
-        
-    /// <summary>
-    /// Generate a <see cref="ViewModelBase{TModel, TUpdate}"/> with a
-    /// specific header and a specified model.
-    /// </summary>
-    protected ViewModelBase(string header, TModel modelData)
-    {
-        Header = header;
-        ModelData = modelData;
     }
         
     /// <summary>
