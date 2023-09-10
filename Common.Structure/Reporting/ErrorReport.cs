@@ -10,44 +10,28 @@ namespace Common.Structure.Reporting
         /// <summary>
         /// The time the report was logged.
         /// </summary>
-        public DateTime TimeStamp;
+        public DateTime TimeStamp { get; }
 
 
         /// <summary>
         /// How serious the report is, enabling a grading of the reports based on seriousness.
         /// </summary>
-        public ReportSeverity ErrorSeverity
-        {
-            get;
-            set;
-        }
+        public ReportSeverity ErrorSeverity { get; set; }
 
         /// <summary>
         /// The type of the report (is this an error or a warning etc).
         /// </summary>
-        public ReportType ErrorType
-        {
-            get;
-            set;
-        }
+        public ReportType ErrorType { get; set; }
 
         /// <summary>
         /// Where is this a report from.
         /// </summary>
-        public string ErrorLocation
-        {
-            get;
-            set;
-        }
+        public string ErrorLocation { get; set; }
 
         /// <summary>
         /// Any extra text needed to aid info to the report.
         /// </summary>
-        public string Message
-        {
-            get;
-            set;
-        }
+        public string Message { get; set; }
 
         /// <summary>
         /// Default constructor with no arguments.
@@ -73,13 +57,11 @@ namespace Common.Structure.Reporting
         /// Constructs a full report, setting all properties.
         /// </summary>
         public ErrorReport(ReportSeverity severity, ReportType type, ReportLocation errorLocation, string message)
+         : this(type, errorLocation, message)
         {
-            TimeStamp = DateTime.Now;
             ErrorSeverity = severity;
-            ErrorType = type;
-            ErrorLocation = errorLocation.ToString();
-            Message = message;
         }
+        
         /// <summary>
         /// Constructs an error report with default <see cref="ReportSeverity"/>.
         /// </summary>
@@ -95,23 +77,25 @@ namespace Common.Structure.Reporting
         /// Constructs a full report, setting all properties.
         /// </summary>
         public ErrorReport(ReportSeverity severity, ReportType type, string errorLocation, string message)
+            : this(type, errorLocation, message)
         {
             TimeStamp = DateTime.Now;
             ErrorSeverity = severity;
-            ErrorType = type;
-            ErrorLocation = errorLocation;
-            Message = message;
         }
 
         /// <summary>
         /// Output of error as a string. This does not include the severity of the report.
         /// </summary>
-        public override string ToString()
-        {
-            return $"[{TimeStamp}]-({ErrorType}) - [{ErrorLocation}] - {Message}";
+        public override string ToString() => $"[{TimeStamp}]-({ErrorType}) - [{ErrorLocation}] - {Message}";
 
-        }
-
+        public static string ToCsvHeader() => "TimeStamp,Severity,ErrorType,Location,Message";
+        /// <summary>
+        /// Output of the report in csv format.
+        /// </summary>
+        /// <returns></returns>
+        public string ToCsvString() =>
+            $"{TimeStamp},{ErrorSeverity},{ErrorType},{ErrorLocation},{Message}";
+        
         /// <summary>
         /// Method of comparison
         /// </summary>
@@ -132,17 +116,14 @@ namespace Common.Structure.Reporting
         /// <returns></returns>
         public int CompareTo(ErrorReport other)
         {
-            if (other.ErrorType.Equals(ErrorType))
+            if (!other.ErrorType.Equals(ErrorType))
             {
-                if (string.Equals(other.ErrorLocation, ErrorLocation))
-                {
-                    return string.Compare(Message, other.Message);
-                }
-
-                return string.Compare(other.ErrorLocation, ErrorLocation);
+                return ErrorType.CompareTo(other.ErrorType);
             }
 
-            return ErrorType.CompareTo(other.ErrorType);
+            return string.Equals(other.ErrorLocation, ErrorLocation) 
+                ? string.Compare(Message, other.Message, StringComparison.InvariantCulture) 
+                : string.Compare(other.ErrorLocation, ErrorLocation, StringComparison.InvariantCulture);
         }
     }
 }
