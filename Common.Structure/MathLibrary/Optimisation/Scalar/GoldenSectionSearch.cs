@@ -10,7 +10,7 @@ namespace Common.Structure.MathLibrary.Optimisation.Scalar
         /// <summary>
         /// Find a minimum of a function.
         /// </summary>
-        public static OptimisationResult<ScalarFuncEval> Minimise(
+        public static Common.Structure.Results.Result<ScalarFuncEval> Minimise(
            double lowerBound,
            double upperBound,
            Func<double, double> func,
@@ -18,24 +18,24 @@ namespace Common.Structure.MathLibrary.Optimisation.Scalar
            int maxIterations)
         {
             var result = BracketMethod.BracketFromBounds(lowerBound, upperBound, func, 1000, 2, 2);
-            if (result.IsError())
+            if (result.Failure)
             {
                 result = BracketMethod.Bracket(lowerBound, upperBound, func);
             }
 
-            if (result.IsError())
+            if (result.Failure)
             {
-                return OptimisationResult<ScalarFuncEval>.ErrorResult();
+                return OptimisationErrorResult<ScalarFuncEval>.ErrorResult();
             }
 
-            var value = result.Value;
+            var value = result.Data;
             return Minimum(value.LowerPoint, value.MiddlePoint, value.UpperPoint, func, tolerance, maxIterations);
         }
 
         /// <summary>
         /// Find a minimum of a function with an alternative method.
         /// </summary>
-        public static OptimisationResult<ScalarFuncEval> MinimumAlternative(
+        public static Common.Structure.Results.Result<ScalarFuncEval> MinimumAlternative(
            double lowerBound,
            double upperBound,
            Func<double, double> func,
@@ -43,21 +43,21 @@ namespace Common.Structure.MathLibrary.Optimisation.Scalar
            int maxIterations)
         {
             var result = BracketMethod.BracketFromBounds(lowerBound, upperBound, func, 1000, 2, 2);
-            if (result.IsError())
+            if (result.Failure)
             {
                 result = BracketMethod.Bracket(lowerBound, upperBound, func);
             }
 
-            if (result.IsError())
+            if (result.Failure)
             {
-                return OptimisationResult<ScalarFuncEval>.ErrorResult();
+                return OptimisationErrorResult<ScalarFuncEval>.ErrorResult();
             }
 
-            var value = result.Value;
+            var value = result.Data;
             return MinimumMathNet(value.LowerPoint, value.UpperPoint, func, tolerance, maxIterations);
         }
 
-        private static OptimisationResult<ScalarFuncEval> MinimumMathNet(
+        private static Common.Structure.Results.Result<ScalarFuncEval> MinimumMathNet(
             double lowerBound,
             double upperBound,
             Func<double, double> func,
@@ -102,13 +102,13 @@ namespace Common.Structure.MathLibrary.Optimisation.Scalar
 
             if (iterations == maxIterations)
             {
-                return OptimisationResult<ScalarFuncEval>.ExceedIterations(maxIterations);
+                return OptimisationErrorResult<ScalarFuncEval>.ExceedIterations(maxIterations);
             }
 
-            return new OptimisationResult<ScalarFuncEval>(new ScalarFuncEval(middlePoint, func(middlePoint)), ExitCondition.BoundTolerance, iterations);
+            return new OptimisationSuccessResult<ScalarFuncEval>(new ScalarFuncEval(middlePoint, func(middlePoint)), ExitCondition.BoundTolerance, iterations);
         }
 
-        private static OptimisationResult<ScalarFuncEval> Minimum(
+        private static Common.Structure.Results.Result<ScalarFuncEval> Minimum(
             double lowerBound,
             double middlePoint,
             double upperBound,
@@ -160,16 +160,16 @@ namespace Common.Structure.MathLibrary.Optimisation.Scalar
 
             if (iterations == maxIterations)
             {
-                return OptimisationResult<ScalarFuncEval>.ExceedIterations(maxIterations);
+                return OptimisationErrorResult<ScalarFuncEval>.ExceedIterations(maxIterations);
             }
 
             if (f1 < f2)
             {
-                return new OptimisationResult<ScalarFuncEval>(new ScalarFuncEval(x1, f1), ExitCondition.BoundTolerance, iterations);
+                return new OptimisationSuccessResult<ScalarFuncEval>(new ScalarFuncEval(x1, f1), ExitCondition.BoundTolerance, iterations);
             }
             else
             {
-                return new OptimisationResult<ScalarFuncEval>(new ScalarFuncEval(x2, f2), ExitCondition.BoundTolerance, iterations);
+                return new OptimisationSuccessResult<ScalarFuncEval>(new ScalarFuncEval(x2, f2), ExitCondition.BoundTolerance, iterations);
             }
         }
     }

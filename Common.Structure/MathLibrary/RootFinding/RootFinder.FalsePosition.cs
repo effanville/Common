@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Common.Structure.Results;
+
 namespace Common.Structure.MathLibrary.RootFinding
 {
     public static partial class RootFinder
@@ -26,7 +28,7 @@ namespace Common.Structure.MathLibrary.RootFinding
                 double swap;
                 if (fLower * fUpper > 0.0)
                 {
-                    return Result.ErrorResult<double>("Root must be bracketed for False Position to work.");
+                    return new ErrorResult<double>("Root must be bracketed for False Position to work.");
                 }
 
                 if (fLower < 0.0)
@@ -67,11 +69,11 @@ namespace Common.Structure.MathLibrary.RootFinding
                     dx = xUpper - xLower;
                     if (Math.Abs(del) < tolerance || fRootCandidate == 0.0)
                     {
-                        return rootCandidate;
+                        return new SuccessResult<double>(rootCandidate);
                     }
                 }
 
-                return Result.ErrorResult<double>("Exceeded max number of iterations.");
+                return new ErrorResult<double>("Exceeded max number of iterations.");
             }
         }
     }

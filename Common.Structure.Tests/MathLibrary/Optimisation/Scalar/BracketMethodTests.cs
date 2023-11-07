@@ -59,8 +59,8 @@ namespace Common.Structure.Tests.MathLibrary.Optimisation.Scalar
         {
             var actualResult = BracketMethod.Bracket(testData.Lower, testData.Upper, testData.Func);
             Assert.That(actualResult, Is.Not.Null);
-            Assert.That(actualResult.IsError(), Is.False);
-            Assert.That(actualResult.Value, Is.EqualTo(testData.ExpectedResult));
+            Assert.That(actualResult.Failure, Is.False);
+            Assert.That(actualResult.Data, Is.EqualTo(testData.ExpectedResult));
         }
 
         private static IEnumerable<TestCaseData> BracketFromBoundsTestData()
@@ -87,8 +87,8 @@ namespace Common.Structure.Tests.MathLibrary.Optimisation.Scalar
         {
             var actualResult = BracketMethod.BracketFromBounds(testData.Lower, testData.Upper, testData.Func, 1000, 2, 2);
             Assert.That(actualResult, Is.Not.Null);
-            Assert.That(actualResult.IsError(), Is.False);
-            Assert.That(actualResult.Value, Is.EqualTo(testData.ExpectedResult));
+            Assert.That(actualResult.Failure, Is.False);
+            Assert.That(actualResult.Data, Is.EqualTo(testData.ExpectedResult));
         }
     }
 }

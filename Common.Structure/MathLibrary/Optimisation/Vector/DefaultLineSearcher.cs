@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Common.Structure.Results;
+
 namespace Common.Structure.MathLibrary.Optimisation.Vector
 {
     /// <summary>
@@ -18,7 +20,7 @@ namespace Common.Structure.MathLibrary.Optimisation.Vector
         }
 
         /// <inheritdoc/>
-        public Result<VectorFuncEval> FindConformingStep(
+        public Common.Structure.Results.Result<VectorFuncEval> FindConformingStep(
             double[] startingPoint,
             double startingValue,
             double[] startingDerivative,
@@ -36,7 +38,7 @@ namespace Common.Structure.MathLibrary.Optimisation.Vector
         }
 
         /// <inheritdoc/>
-        public Result<VectorFuncEval> FindConformingStep(
+        public Common.Structure.Results.Result<VectorFuncEval> FindConformingStep(
             double[] startingPoint,
             double startingValue,
             double[] startingDerivative,
@@ -72,7 +74,7 @@ namespace Common.Structure.MathLibrary.Optimisation.Vector
 
             if (slope >= 0.0)
             {
-                return Result.ErrorResult<VectorFuncEval>("Rounding error.");
+                return new Results.ErrorResult<VectorFuncEval>("Rounding error.");
             }
 
             double test = 0.0;
@@ -109,11 +111,11 @@ namespace Common.Structure.MathLibrary.Optimisation.Vector
                         candidateOutputPoint[index] = startingPoint[index];
                     }
 
-                    return new VectorFuncEval(candidateOutputPoint, candidateOutputFunctionValue);
+                    return new SuccessResult<VectorFuncEval>(new VectorFuncEval(candidateOutputPoint, candidateOutputFunctionValue));
                 }
                 else if (candidateOutputFunctionValue <= startingValue + 1e-4 * currentStepSize * slope)
                 {
-                    return new VectorFuncEval(candidateOutputPoint, candidateOutputFunctionValue);
+                    return new SuccessResult<VectorFuncEval>(new VectorFuncEval(candidateOutputPoint, candidateOutputFunctionValue));
                 }
                 else
                 {
@@ -160,7 +162,7 @@ namespace Common.Structure.MathLibrary.Optimisation.Vector
                 currentStepSize = Math.Max(tempStepSize, 0.1 * currentStepSize);
             }
 
-            return Result.ErrorResult<VectorFuncEval>("Exceeded max number of iterations.");
+            return new ErrorResult<VectorFuncEval>("Exceeded max number of iterations.");
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Common.Structure.Results;
+
 namespace Common.Structure.MathLibrary.Optimisation.Scalar
 {
     /// <summary>
@@ -145,10 +147,10 @@ namespace Common.Structure.MathLibrary.Optimisation.Scalar
 
             if (upperValue < middleValue || lowerValue < middleValue)
             {
-                return Result.ErrorResult<ExtremumBracket>("Could not bracket minimum value.");
+                return new ErrorResult<ExtremumBracket>("Could not bracket minimum value.");
             }
 
-            return new ExtremumBracket(lowerBound, middlePoint, upperBound, lowerValue, middleValue, upperValue);
+            return new SuccessResult<ExtremumBracket>(new ExtremumBracket(lowerBound, middlePoint, upperBound, lowerValue, middleValue, upperValue));
         }
 
         /// <summary>
@@ -192,13 +194,13 @@ namespace Common.Structure.MathLibrary.Optimisation.Scalar
                         middlePoint = u;
                         lowerValue = middleValue;
                         middleValue = fu;
-                        return new ExtremumBracket(lowerPoint, middlePoint, upperPoint, lowerValue, middleValue, upperValue);
+                        return new SuccessResult<ExtremumBracket>(new ExtremumBracket(lowerPoint, middlePoint, upperPoint, lowerValue, middleValue, upperValue));
                     }
                     else if (fu > middleValue)
                     {
                         upperPoint = u;
                         upperValue = fu;
-                        return new ExtremumBracket(lowerPoint, middlePoint, upperPoint, lowerValue, middleValue, upperValue);
+                        return new SuccessResult<ExtremumBracket>(new ExtremumBracket(lowerPoint, middlePoint, upperPoint, lowerValue, middleValue, upperValue));
                     }
                     else
                     {
@@ -237,10 +239,10 @@ namespace Common.Structure.MathLibrary.Optimisation.Scalar
 
             if (iterations > maxIterations)
             {
-                return Result.ErrorResult<ExtremumBracket>("Exceeded maximum number of iterations.");
+                return new ErrorResult<ExtremumBracket>("Exceeded maximum number of iterations.");
             }
 
-            return new ExtremumBracket(lowerPoint, middlePoint, upperPoint, lowerValue, middleValue, upperValue);
+            return new SuccessResult<ExtremumBracket>(new ExtremumBracket(lowerPoint, middlePoint, upperPoint, lowerValue, middleValue, upperValue));
         }
     }
 }

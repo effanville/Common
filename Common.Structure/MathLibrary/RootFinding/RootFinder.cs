@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Common.Structure.Results;
+
 namespace Common.Structure.MathLibrary.RootFinding
 {
     /// <summary>
@@ -26,7 +28,7 @@ namespace Common.Structure.MathLibrary.RootFinding
                 }
                 case Type.NewtonRaphson:
                 {
-                    return Result.ErrorResult<double>($"{Type.NewtonRaphson} requires a derivative function to work. Use method {nameof(NewtonRaphson)} directly.");
+                    return new ErrorResult<double>($"{Type.NewtonRaphson} requires a derivative function to work. Use method {nameof(NewtonRaphson)} directly.");
                 }
                 case Type.FalsePosition:
                 {

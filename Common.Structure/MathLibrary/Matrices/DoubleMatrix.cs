@@ -401,12 +401,12 @@ namespace Common.Structure.MathLibrary.Matrices
         public static double[,] Inverse(double[,] matrix)
         {
             var decomp = LUDecomposition.Generate(matrix);
-            if (decomp.IsError())
+            if (decomp.Failure)
             {
                 return null;
             }
 
-            return decomp.Value.Inverse();
+            return decomp.Data.Inverse();
         }
     }
 }

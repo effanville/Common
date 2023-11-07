@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Common.Structure.Results;
+
 namespace Common.Structure.MathLibrary.Matrices
 {
     /// <summary>
@@ -31,7 +33,7 @@ namespace Common.Structure.MathLibrary.Matrices
         {
             if (!Matrix<double>.IsSymmetric(matrix))
             {
-                return Result.ErrorResult<CholeskyDecomposition>("Matrix is not symmetric");
+                return new ErrorResult<CholeskyDecomposition>("Matrix is not symmetric");
             }
 
             return GenerateCholeskyBanachiewiczDecomp(matrix);
@@ -52,7 +54,7 @@ namespace Common.Structure.MathLibrary.Matrices
         {
             if (!matrix.GetLength(0).Equals(matrix.GetLength(1)))
             {
-                return Result.ErrorResult<CholeskyDecomposition>("Matrix not square.");
+                return new ErrorResult<CholeskyDecomposition>("Matrix not square.");
             }
 
             int size = matrix.GetLength(0);
@@ -71,7 +73,7 @@ namespace Common.Structure.MathLibrary.Matrices
                     {
                         if (matrix[rowIndex, columnIndex] < sum)
                         {
-                            return Result.ErrorResult<CholeskyDecomposition>($"Cannot compute Cholesky decomposition. Sum for row {rowIndex} and column {columnIndex} is negative.");
+                            return new ErrorResult<CholeskyDecomposition>($"Cannot compute Cholesky decomposition. Sum for row {rowIndex} and column {columnIndex} is negative.");
                         }
 
                         lowerDecomp[rowIndex, columnIndex] = Math.Sqrt(matrix[rowIndex, columnIndex] - sum);
@@ -83,7 +85,7 @@ namespace Common.Structure.MathLibrary.Matrices
                 }
             }
 
-            return new CholeskyDecomposition(lowerDecomp);
+            return new SuccessResult<CholeskyDecomposition>(new CholeskyDecomposition(lowerDecomp));
         }
 
         /// <summary>

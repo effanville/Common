@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using Common.Structure.MathLibrary.RootFinding;
+using Common.Structure.Results;
 
 using NUnit.Framework;
 
@@ -44,8 +45,8 @@ namespace Common.Structure.Tests.MathLibrary.RootFinding
                 testData.Upper,
                 testData.MaxIterations,
                 testData.Tolerance);
-            Assert.IsFalse(rootFindingResult.IsError());
-            Assert.That(Math.Abs(rootFindingResult.Value - testData.ExpectedResult), Is.LessThan(1e-8));
+            Assert.IsFalse(rootFindingResult.Failure);
+            Assert.That(Math.Abs(rootFindingResult.Data - testData.ExpectedResult), Is.LessThan(1e-8));
         }
         private static IEnumerable<TestCaseData> BracketFailureTestData()
         {
@@ -78,9 +79,10 @@ namespace Common.Structure.Tests.MathLibrary.RootFinding
                 testData.Lower,
                 testData.Upper,
                 maxIterations: 20);
-            Assert.IsTrue(rootFindingResult.IsError());
-            Assert.AreEqual(testData.ErrorMessage, rootFindingResult.Error);
-            Assert.That(Math.Abs(rootFindingResult.Value - testData.ExpectedResult), Is.LessThan(1e-8));
+            Assert.IsTrue(rootFindingResult.Failure);
+            var res = rootFindingResult as ErrorResult<double>;
+            Assert.AreEqual(testData.ErrorMessage, res.Message);
+            Assert.That(Math.Abs(rootFindingResult.Data - testData.ExpectedResult), Is.LessThan(1e-8));
         }
     }
 }
