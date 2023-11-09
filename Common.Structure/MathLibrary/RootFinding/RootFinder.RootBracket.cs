@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 
+using Common.Structure.Results;
+
 namespace Common.Structure.MathLibrary.RootFinding
 {
     public static partial class RootFinder
@@ -68,7 +70,7 @@ namespace Common.Structure.MathLibrary.RootFinding
             if (lowerGuess == upperGuess)
             {
                 // bad initial range guess
-                return Result.ErrorResult<RootBracket>($"Bad Initial guess: {nameof(lowerGuess)} = {nameof(upperGuess)}.");
+                return new ErrorResult<RootBracket>($"Bad Initial guess: {nameof(lowerGuess)} = {nameof(upperGuess)}.");
             }
 
             double f1 = func(lowerGuess);
@@ -78,7 +80,7 @@ namespace Common.Structure.MathLibrary.RootFinding
             {
                 if (f1 * f2 < 0)
                 {
-                    return new RootBracket(lowerGuess, upperGuess);
+                    return new SuccessResult<RootBracket>(new RootBracket(lowerGuess, upperGuess));
                 }
 
                 if (Math.Abs(f1) < Math.Abs(f2))
@@ -91,7 +93,7 @@ namespace Common.Structure.MathLibrary.RootFinding
                 }
             }
 
-            return Result.ErrorResult<RootBracket>("Exceeded max number of iterations.");
+            return new ErrorResult<RootBracket>("Exceeded max number of iterations.");
         }
 
         /// <summary>

@@ -1,4 +1,6 @@
-﻿namespace Common.Structure.MathLibrary.Matrices
+﻿using Common.Structure.Results;
+
+namespace Common.Structure.MathLibrary.Matrices
 {
     /// <summary>
     /// Contains the lower-upper decomposition of a given matrix.
@@ -128,7 +130,7 @@
         {
             if (!Matrix<double>.IsSquare(matrix))
             {
-                return Result.ErrorResult<LUDecomposition>("Matrix is not square.");
+                return new ErrorResult<LUDecomposition>("Matrix is not square.");
             }
 
             int size = matrix.GetLength(0);
@@ -160,7 +162,7 @@
 
                 if (upper[columnIndex, columnIndex].Equals(0.0))
                 {
-                    return Result.ErrorResult<LUDecomposition>("Matrix is not invertible.");
+                    return new ErrorResult<LUDecomposition>("Matrix is not invertible.");
                 }
 
                 for (int lowerRowIndex = columnIndex + 1; lowerRowIndex < size; lowerRowIndex++)
@@ -175,7 +177,7 @@
                 }
             }
 
-            return new LUDecomposition(lower, upper, pivotValues);
+            return new SuccessResult<LUDecomposition>(new LUDecomposition(lower, upper, pivotValues));
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Common.Structure.Results;
+
 namespace Common.Structure.MathLibrary.RootFinding
 {
     public static partial class RootFinder
@@ -47,11 +49,11 @@ namespace Common.Structure.MathLibrary.RootFinding
                     f = func(rootCandidate);
                     if (Math.Abs(dx) < tolerance || f == 0.0)
                     {
-                        return rootCandidate;
+                        return new SuccessResult<double>(rootCandidate);
                     }
                 }
 
-                return Result.ErrorResult<double>("Exceeded max number of iterations.");
+                return new ErrorResult<double>("Exceeded max number of iterations.");
             }
         }
     }

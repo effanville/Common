@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Common.Structure.Results;
+
 namespace Common.Structure.MathLibrary.RootFinding
 {
     public static partial class RootFinder
@@ -33,7 +35,7 @@ namespace Common.Structure.MathLibrary.RootFinding
                 if ((fa > 0.0 && fb > 0.0) ||
                     (fa < 0.0 && fb < 0.0))
                 {
-                    return Result.ErrorResult<double>($"Root must be bracketed for {nameof(VWDB)} to work.");
+                    return new ErrorResult<double>($"Root must be bracketed for {nameof(VWDB)} to work.");
                 }
 
                 double fc = fb;
@@ -62,7 +64,7 @@ namespace Common.Structure.MathLibrary.RootFinding
                     xm = 0.5 * (c - b);
                     if (Math.Abs(xm) <= tolerance || fb == 0.0)
                     {
-                        return b;
+                        return new SuccessResult<double>(b);
                     }
 
                     if (Math.Abs(e) >= tolerance && Math.Abs(fa) > Math.Abs(fb))
@@ -120,7 +122,7 @@ namespace Common.Structure.MathLibrary.RootFinding
                     fb = func(b);
                 }
 
-                return Result.ErrorResult<double>("Exceeded max number of iterations.");
+                return new ErrorResult<double>("Exceeded max number of iterations.");
             }
         }
     }

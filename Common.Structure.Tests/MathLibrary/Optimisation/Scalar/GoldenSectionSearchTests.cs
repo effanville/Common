@@ -30,7 +30,7 @@ namespace Common.Structure.Tests.MathLibrary.Optimisation.Scalar
                 set;
             }
 
-            public OptimisationResult<ScalarFuncEval> ExpectedResult
+            public OptimisationSuccessResult<ScalarFuncEval> ExpectedResult
             {
                 get;
                 set;
@@ -44,7 +44,7 @@ namespace Common.Structure.Tests.MathLibrary.Optimisation.Scalar
                 Lower = 0,
                 Upper = 1,
                 Func = value => value * value,
-                ExpectedResult = new OptimisationResult<ScalarFuncEval>(new ScalarFuncEval(0, 0), ExitCondition.BoundTolerance, 1)
+                ExpectedResult = new OptimisationSuccessResult<ScalarFuncEval>(new ScalarFuncEval(0, 0), ExitCondition.BoundTolerance, 1)
             }).SetName("StandardQuadratic");
             // Following three all should have 3 as solution.
             yield return new TestCaseData(new TestData()
@@ -52,7 +52,7 @@ namespace Common.Structure.Tests.MathLibrary.Optimisation.Scalar
                 Lower = -100,
                 Upper = 100,
                 Func = x => (x - 3) * (x - 3),
-                ExpectedResult = new OptimisationResult<ScalarFuncEval>(new ScalarFuncEval(3, 0), ExitCondition.BoundTolerance, 1)
+                ExpectedResult = new OptimisationSuccessResult<ScalarFuncEval>(new ScalarFuncEval(3, 0), ExitCondition.BoundTolerance, 1)
             }).SetName("QuadraticCenteredAtThree");
 
             yield return new TestCaseData(new TestData()
@@ -60,7 +60,7 @@ namespace Common.Structure.Tests.MathLibrary.Optimisation.Scalar
                 Lower = -10,
                 Upper = 10,
                 Func = x => (x - 3) * (x - 3),
-                ExpectedResult = new OptimisationResult<ScalarFuncEval>(new ScalarFuncEval(3, 0), ExitCondition.BoundTolerance, 1)
+                ExpectedResult = new OptimisationSuccessResult<ScalarFuncEval>(new ScalarFuncEval(3, 0), ExitCondition.BoundTolerance, 1)
             }).SetName("QuadraticCenteredAtThree2");
 
             yield return new TestCaseData(new TestData()
@@ -68,7 +68,7 @@ namespace Common.Structure.Tests.MathLibrary.Optimisation.Scalar
                 Lower = 0,
                 Upper = 5,
                 Func = x => (x - 3) * (x - 3),
-                ExpectedResult = new OptimisationResult<ScalarFuncEval>(new ScalarFuncEval(3, 0), ExitCondition.BoundTolerance, 1)
+                ExpectedResult = new OptimisationSuccessResult<ScalarFuncEval>(new ScalarFuncEval(3, 0), ExitCondition.BoundTolerance, 1)
             }).SetName("QuadraticCenteredAtThree3");
 
             yield return new TestCaseData(new TestData()
@@ -76,7 +76,7 @@ namespace Common.Structure.Tests.MathLibrary.Optimisation.Scalar
                 Lower = 0,
                 Upper = 5,
                 Func = x => (x - 3) * (x - 3) * (x + 1),
-                ExpectedResult = new OptimisationResult<ScalarFuncEval>(new ScalarFuncEval(3, 0), ExitCondition.BoundTolerance, 1)
+                ExpectedResult = new OptimisationSuccessResult<ScalarFuncEval>(new ScalarFuncEval(3, 0), ExitCondition.BoundTolerance, 1)
             }).SetName("CubicCenteredAtThree");
         }
 
@@ -86,9 +86,10 @@ namespace Common.Structure.Tests.MathLibrary.Optimisation.Scalar
             var min = GoldenSectionSearch.MinimumAlternative(data.Lower, data.Upper, data.Func, 1e-8, 100);
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(data.ExpectedResult.Value.Point, min.Value.Point, 1e-8);
-                Assert.AreEqual(data.ExpectedResult.Value.Value, min.Value.Value, 1e-8);
-                Assert.That(min.ReasonForExit, Is.EqualTo(data.ExpectedResult.ReasonForExit));
+                Assert.AreEqual(data.ExpectedResult.Data.Point, min.Data.Point, 1e-8);
+                Assert.AreEqual(data.ExpectedResult.Data.Value, min.Data.Value, 1e-8);
+                var optRes = min as IOptimisationResult<ScalarFuncEval>;
+                Assert.That(optRes.ReasonForExit, Is.EqualTo(data.ExpectedResult.ReasonForExit));
             });
         }
 
@@ -98,9 +99,10 @@ namespace Common.Structure.Tests.MathLibrary.Optimisation.Scalar
             var min = GoldenSectionSearch.Minimise(data.Lower, data.Upper, data.Func, 1e-8, 100);
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(data.ExpectedResult.Value.Point, min.Value.Point, 1e-8);
-                Assert.AreEqual(data.ExpectedResult.Value.Value, min.Value.Value, 1e-8);
-                Assert.That(min.ReasonForExit, Is.EqualTo(data.ExpectedResult.ReasonForExit));
+                Assert.AreEqual(data.ExpectedResult.Data.Point, min.Data.Point, 1e-8);
+                Assert.AreEqual(data.ExpectedResult.Data.Value, min.Data.Value, 1e-8);
+                var optRes = min as IOptimisationResult<ScalarFuncEval>;
+                Assert.That(optRes.ReasonForExit, Is.EqualTo(data.ExpectedResult.ReasonForExit));
             });
         }
     }

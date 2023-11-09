@@ -2,6 +2,7 @@
 
 using Common.Structure.MathLibrary;
 using Common.Structure.MathLibrary.Matrices;
+using Common.Structure.Results;
 
 using NUnit.Framework;
 
@@ -77,13 +78,15 @@ namespace Common.Structure.Tests.MathLibrary.Matrices
         public void CholeskyDecompCorrect(string matrixName, string expectedErrorMessage, double[,] expectedLowerDecomp)
         {
             double[,] matrix = MatrixTestHelper.ExampleMatrices.Matrix(matrixName);
-            Result<CholeskyDecomposition> lUDecomposition = CholeskyDecomposition.Generate(matrix);
+            var lUDecomposition = CholeskyDecomposition.Generate(matrix);
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(expectedErrorMessage, lUDecomposition.Error);
-
-                var value = lUDecomposition.Value;
+                if(lUDecomposition is ErrorResult<CholeskyDecomposition> res)
+                {
+                    Assert.AreEqual(expectedErrorMessage, res.Message);
+                }
+                var value = lUDecomposition.Data;
                 if (value != null)
                 {
                     double[,] product = value.LowerDecomp.Multiply(value.LowerTranspose());

@@ -8,12 +8,12 @@ namespace Common.Structure.MathLibrary.Optimisation.Vector
     /// <summary>
     /// Contains the BFGS minimisation.
     /// </summary>
-    public static partial class BFGS
+    public static class BFGS
     {
         /// <summary>
         /// Minimise a function and its derivative.
         /// </summary>
-        public static OptimisationResult<VectorFuncEval> Minimise(
+        public static Common.Structure.Results.Result<VectorFuncEval> Minimise(
             double[] startingPoint,
             double gradientTolerance,
             Func<double[], double> func,
@@ -53,13 +53,13 @@ namespace Common.Structure.MathLibrary.Optimisation.Vector
             {
                 // First update the search point.
                 var point = lineSearcher.FindConformingStep(candidateMinimum, functionValue, gradientValue, lineSearchDirection, func);
-                if (point.IsError())
+                if (point.Failure)
                 {
-                    return OptimisationResult<VectorFuncEval>.ErrorResult();
+                    return OptimisationErrorResult<VectorFuncEval>.ErrorResult();
                 }
 
-                pnew = point.Value.Point;
-                functionValue = point.Value.Value;
+                pnew = point.Data.Point;
+                functionValue = point.Data.Value;
                 for (dimensionIndex = 0; dimensionIndex < numDimensions; dimensionIndex++)
                 {
                     lineSearchDirection[dimensionIndex] = pnew[dimensionIndex] - candidateMinimum[dimensionIndex];
@@ -79,7 +79,7 @@ namespace Common.Structure.MathLibrary.Optimisation.Vector
 
                 if (test < tolerance)
                 {
-                    return new OptimisationResult<VectorFuncEval>(new VectorFuncEval(candidateMinimum, functionValue), ExitCondition.BoundTolerance, iteration);
+                    return new OptimisationSuccessResult<VectorFuncEval>(new VectorFuncEval(candidateMinimum, functionValue), ExitCondition.BoundTolerance, iteration);
                 }
 
                 for (dimensionIndex = 0; dimensionIndex < numDimensions; dimensionIndex++)
@@ -100,7 +100,7 @@ namespace Common.Structure.MathLibrary.Optimisation.Vector
 
                 if (test < gradientTolerance)
                 {
-                    return new OptimisationResult<VectorFuncEval>(new VectorFuncEval(candidateMinimum, functionValue), ExitCondition.BoundTolerance, iteration);
+                    return new OptimisationSuccessResult<VectorFuncEval>(new VectorFuncEval(candidateMinimum, functionValue), ExitCondition.BoundTolerance, iteration);
                 }
 
                 // Now update the gradient value and hessian in preparation for the next step.
@@ -150,7 +150,7 @@ namespace Common.Structure.MathLibrary.Optimisation.Vector
                 UpdateSearchDirection(ref lineSearchDirection, numDimensions, gradientValue, hessian);
             }
 
-            return OptimisationResult<VectorFuncEval>.ExceedIterations(maxIterations);
+            return OptimisationErrorResult<VectorFuncEval>.ExceedIterations(maxIterations);
         }
 
         private static void UpdateSearchDirection(ref double[] lineSearchDirection, int numDimensions, double[] gradientValue, double[,] hessian)

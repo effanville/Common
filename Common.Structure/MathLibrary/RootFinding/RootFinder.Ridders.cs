@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Common.Structure.Results;
+
 namespace Common.Structure.MathLibrary.RootFinding
 {
     public static partial class RootFinder
@@ -35,20 +37,20 @@ namespace Common.Structure.MathLibrary.RootFinding
                         s = Math.Sqrt(fm * fm - fLower * fUpper);
                         if (s == 0)
                         {
-                            return ans;
+                            return new SuccessResult<double>(ans);
                         }
 
                         xNew = xm + (xm - xLower) * (fLower > fUpper ? 1.0 : -1.0) * fm / s;
                         if (Math.Abs(xNew - ans) < tolerance)
                         {
-                            return ans;
+                            return new SuccessResult<double>(ans);
                         }
 
                         ans = xNew;
                         fNew = func(ans);
                         if (fNew == 0.0)
                         {
-                            return ans;
+                            return new SuccessResult<double>(ans);
                         }
 
                         if (Helpers.Sign(fm, fNew) != fm)
@@ -70,28 +72,28 @@ namespace Common.Structure.MathLibrary.RootFinding
                         }
                         else
                         {
-                            return Result.ErrorResult<double>("Shouldnt be here.");
+                            return new ErrorResult<double>("Shouldnt be here.");
                         }
 
                         if (Math.Abs(xUpper - xLower) < tolerance)
                         {
-                            return ans;
+                            return new SuccessResult<double>(ans);
                         }
                     }
 
-                    return Result.ErrorResult<double>("Exceeded max number of iterations.");
+                    return new ErrorResult<double>("Exceeded max number of iterations.");
                 }
                 else if (fLower == 0.0)
                 {
-                    return lowerBound;
+                    return new SuccessResult<double>(lowerBound);
                 }
                 else if (fUpper == 0.0)
                 {
-                    return upperBound;
+                    return new SuccessResult<double>(upperBound);
                 }
                 else
                 {
-                    return Result.ErrorResult<double>("Root must be bracketed for Ridders method to work.");
+                    return new ErrorResult<double>("Root must be bracketed for Ridders method to work.");
                 }
             }
         }

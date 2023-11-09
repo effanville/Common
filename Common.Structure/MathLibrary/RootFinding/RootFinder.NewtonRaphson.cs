@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Common.Structure.Results;
+
 namespace Common.Structure.MathLibrary.RootFinding
 {
     public static partial class RootFinder
@@ -34,16 +36,16 @@ namespace Common.Structure.MathLibrary.RootFinding
                     rtn -= dx;
                     if ((lowerBound - rtn) * (rtn - upperBound) < 0.0)
                     {
-                        return Result.ErrorResult<double>("Jumped out of bracketing interval.");
+                        return new ErrorResult<double>("Jumped out of bracketing interval.");
                     }
 
                     if (Math.Abs(dx) < tolerance)
                     {
-                        return rtn;
+                        return new SuccessResult<double>(rtn);
                     }
                 }
 
-                return Result.ErrorResult<double>("Exceeded max iterations.");
+                return new ErrorResult<double>("Exceeded max iterations.");
             }
 
             /// <summary>
@@ -62,17 +64,17 @@ namespace Common.Structure.MathLibrary.RootFinding
                 double fh = func(upperBound);
                 if ((fl > 0.0 && fh > 0.0) || (fl < 0.0 && fh < 0.0))
                 {
-                    return Result.ErrorResult<double>("Root was not bracketed by initial guess.");
+                    return new ErrorResult<double>("Root was not bracketed by initial guess.");
                 }
 
                 if (Math.Abs(fl) < tolerance)
                 {
-                    return lowerBound;
+                    return new SuccessResult<double>(lowerBound);
                 }
 
                 if (Math.Abs(fh) < tolerance)
                 {
-                    return upperBound;
+                    return new SuccessResult<double>(upperBound);
                 }
 
                 double xl;
@@ -104,7 +106,7 @@ namespace Common.Structure.MathLibrary.RootFinding
                         rts = xl + dx;
                         if (xl == rts)
                         {
-                            return rts;
+                            return new SuccessResult<double>(rts);
                         }
                     }
                     else
@@ -115,13 +117,13 @@ namespace Common.Structure.MathLibrary.RootFinding
                         rts -= dx;
                         if (temp == rts)
                         {
-                            return rts;
+                            return new SuccessResult<double>(rts);
                         }
                     }
 
                     if (Math.Abs(dx) < tolerance)
                     {
-                        return rts;
+                        return new SuccessResult<double>(rts);
                     }
 
                     f = func(rts);
@@ -136,7 +138,7 @@ namespace Common.Structure.MathLibrary.RootFinding
                     }
                 }
 
-                return Result.ErrorResult<double>("Exceeded max iterations.");
+                return new ErrorResult<double>("Exceeded max iterations.");
             }
         }
     }

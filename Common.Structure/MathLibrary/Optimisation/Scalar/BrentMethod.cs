@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Common.Structure.Results;
+
 namespace Common.Structure.MathLibrary.Optimisation.Scalar
 {
     /// <summary>
@@ -10,7 +12,7 @@ namespace Common.Structure.MathLibrary.Optimisation.Scalar
         /// <summary>
         /// Find a minimum of a function using the Brent algorithm.
         /// </summary>
-        public static OptimisationResult<ScalarFuncEval> Minimise(
+        public static Result<ScalarFuncEval> Minimise(
            double lowerBound,
            double upperBound,
            Func<double, double> func,
@@ -18,20 +20,20 @@ namespace Common.Structure.MathLibrary.Optimisation.Scalar
            int maxIterations)
         {
             var result = BracketMethod.BracketFromBounds(lowerBound, upperBound, func, maxIterations);
-            if (result.IsError())
+            if (result.Failure)
             {
                 result = BracketMethod.Bracket(lowerBound, upperBound, func, maxIterations);
             }
-            if (result.IsError())
+            if (result.Failure)
             {
-                return OptimisationResult<ScalarFuncEval>.ErrorResult();
+                return OptimisationErrorResult<ScalarFuncEval>.ErrorResult();
             }
 
-            var value = result.Value;
+            var value = result.Data;
             return MinimumCPPBook(value.LowerPoint, value.MiddlePoint, value.UpperPoint, func, tolerance, maxIterations);
         }
 
-        private static OptimisationResult<ScalarFuncEval> MinimumCPPBook(
+        private static Common.Structure.Results.Result<ScalarFuncEval> MinimumCPPBook(
             double lowerBound,
             double middlePoint,
             double upperBound,
@@ -52,7 +54,7 @@ namespace Common.Structure.MathLibrary.Optimisation.Scalar
                 tol2 = 2.0 * (tol1 = tolerance * Math.Abs(x) + MathConstants.ZEps);
                 if (Math.Abs(x - xm) <= (tol2 - 0.5 * (b - a)))
                 {
-                    return new OptimisationResult<ScalarFuncEval>(new ScalarFuncEval(x, fx), ExitCondition.Converged, iter);
+                    return new OptimisationSuccessResult<ScalarFuncEval>(new ScalarFuncEval(x, fx), ExitCondition.Converged, iter);
                 }
 
                 if (Math.Abs(e) > tol1)
@@ -137,7 +139,7 @@ namespace Common.Structure.MathLibrary.Optimisation.Scalar
                 }
             }
 
-            return OptimisationResult<ScalarFuncEval>.ExceedIterations(maxIterations);
+            return OptimisationErrorResult<ScalarFuncEval>.ExceedIterations(maxIterations);
         }
     }
 }

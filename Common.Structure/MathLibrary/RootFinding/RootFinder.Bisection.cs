@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Common.Structure.Results;
+
 namespace Common.Structure.MathLibrary.RootFinding
 {
     public static partial class RootFinder
@@ -25,7 +27,7 @@ namespace Common.Structure.MathLibrary.RootFinding
                 double xMid;
                 if (f * fMid >= 0)
                 {
-                    return Result.ErrorResult<double>("Root must be bracketed for bisection to work.");
+                    return new ErrorResult<double>("Root must be bracketed for bisection to work.");
                 }
                 double rtb;
                 if (f < 0)
@@ -49,11 +51,11 @@ namespace Common.Structure.MathLibrary.RootFinding
                     }
                     if (Math.Abs(dx) < tolerance || fMid == 0)
                     {
-                        return rtb;
+                        return new SuccessResult<double>(rtb);
                     }
                 }
 
-                return Result.ErrorResult<double>("Exceeded max number of iterations.");
+                return new ErrorResult<double>("Exceeded max number of iterations.");
             }
         }
     }

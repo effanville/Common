@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Common.Structure.MathLibrary.Matrices;
+using Common.Structure.Results;
 
 namespace Common.Structure.MathLibrary.RootFinding
 {
@@ -42,7 +43,7 @@ namespace Common.Structure.MathLibrary.RootFinding
 
                         if (errf <= toleranceFunction)
                         {
-                            return x;
+                            return new SuccessResult<double[]>(x);
                         }
 
                         double[] p = new double[n];
@@ -52,12 +53,12 @@ namespace Common.Structure.MathLibrary.RootFinding
                         }
 
                         Result<LUDecomposition> luDecomp = LUDecomposition.Generate(df);
-                        if (luDecomp.IsError())
+                        if (luDecomp.Failure)
                         {
-                            return Result.ErrorResult<double[]>("Could not decompose");
+                            return new ErrorResult<double[]>("Could not decompose");
                         }
 
-                        double[] output = luDecomp.Value.LinearSolve(p);
+                        double[] output = luDecomp.Data.LinearSolve(p);
                         double errx = 0.0;
                         for (int i = 0; i < n; i++)
                         {
@@ -67,11 +68,11 @@ namespace Common.Structure.MathLibrary.RootFinding
 
                         if (errx < tolerance)
                         {
-                            return x;
+                            return new SuccessResult<double[]>(x);
                         }
                     }
 
-                    return Result.ErrorResult<double[]>("Exceeded max number of iterations.");
+                    return new ErrorResult<double[]>("Exceeded max number of iterations.");
                 }
             }
         }

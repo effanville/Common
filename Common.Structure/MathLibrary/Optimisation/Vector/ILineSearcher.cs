@@ -18,7 +18,7 @@ namespace Common.Structure.MathLibrary.Optimisation.Vector
         /// <param name="func">The function.</param>
         /// <param name="maxIterations">The maximum iterations.</param>
         /// <returns>The point at value </returns>
-        Result<VectorFuncEval> FindConformingStep(
+        Common.Structure.Results.Result<VectorFuncEval> FindConformingStep(
             double[] startingPoint,
             double startingValue,
             double[] startingDerivative,
@@ -38,7 +38,7 @@ namespace Common.Structure.MathLibrary.Optimisation.Vector
         /// <param name="func">The function.</param>
         /// <param name="maxIterations">The maximum iterations.</param>
         /// <returns>The point at value </returns>
-        Result<VectorFuncEval> FindConformingStep(
+        Common.Structure.Results.Result<VectorFuncEval> FindConformingStep(
             double[] startingPoint,
             double startingValue,
             double[] startingDerivative,

@@ -13,16 +13,16 @@ namespace Common.Structure.Tests.MathLibrary.RootFinding
         public void FindRoot()
         {
             var bisectionResult = RootFinder.NewtonRaphson.FindRoot(x => (x - 2) * (x - 4), x => 2 * x - 4, 0, 3);
-            Assert.IsFalse(bisectionResult.IsError());
-            Assert.That(Math.Abs(bisectionResult.Value - 2), Is.LessThan(1e-8));
+            Assert.IsFalse(bisectionResult.Failure);
+            Assert.That(Math.Abs(bisectionResult.Data - 2), Is.LessThan(1e-8));
         }
 
         [Test]
         public void FindRootUnsafe()
         {
             var bisectionResult = RootFinder.NewtonRaphson.FindRootUnsafe(x => (x - 2) * (x - 4), x => 2 * x - 4, 0, 3);
-            Assert.IsFalse(bisectionResult.IsError());
-            Assert.That(Math.Abs(bisectionResult.Value - 2), Is.LessThan(1e-8));
+            Assert.IsFalse(bisectionResult.Failure);
+            Assert.That(Math.Abs(bisectionResult.Data - 2), Is.LessThan(1e-8));
         }
     }
 }

@@ -24,9 +24,9 @@ namespace Common.Structure.Tests.MathLibrary.Optimisation.Vector
                 tolerance: 1e-5,
                 maxIterations: 1000);
 
-            Assert.That(Math.Abs(min.Value.Point[0] - function.GlobalMinimum.Point[0]), Is.LessThan(1e-4));
-            Assert.That(Math.Abs(min.Value.Point[1] - function.GlobalMinimum.Point[1]), Is.LessThan(1e-4));
-            Assert.That(Math.Abs(min.Value.Value - function.GlobalMinimum.Value), Is.LessThan(1e-4));
+            Assert.That(Math.Abs(min.Data.Point[0] - function.GlobalMinimum.Point[0]), Is.LessThan(1e-4));
+            Assert.That(Math.Abs(min.Data.Point[1] - function.GlobalMinimum.Point[1]), Is.LessThan(1e-4));
+            Assert.That(Math.Abs(min.Data.Value - function.GlobalMinimum.Value), Is.LessThan(1e-4));
         }
 
         [TestCase(new double[] { 120, 120 })]
@@ -44,9 +44,9 @@ namespace Common.Structure.Tests.MathLibrary.Optimisation.Vector
                 tolerance: 1e-5,
                 maxIterations: 1000);
 
-            Assert.That(Math.Abs(min.Value.Point[0] - function.GlobalMinimum.Point[0]), Is.LessThan(1e-4));
-            Assert.That(Math.Abs(min.Value.Point[1] - function.GlobalMinimum.Point[1]), Is.LessThan(1e-4));
-            Assert.That(Math.Abs(min.Value.Value - function.GlobalMinimum.Value), Is.LessThan(1e-4));
+            Assert.That(Math.Abs(min.Data.Point[0] - function.GlobalMinimum.Point[0]), Is.LessThan(1e-4));
+            Assert.That(Math.Abs(min.Data.Point[1] - function.GlobalMinimum.Point[1]), Is.LessThan(1e-4));
+            Assert.That(Math.Abs(min.Data.Value - function.GlobalMinimum.Value), Is.LessThan(1e-4));
         }
 
         [TestCase(new double[] { 1, 1 })]
@@ -62,9 +62,9 @@ namespace Common.Structure.Tests.MathLibrary.Optimisation.Vector
                 tolerance: 1e-5,
                 maxIterations: 1000);
 
-            Assert.That(Math.Abs(min.Value.Point[0] - function.GlobalMinimum.Point[0]), Is.LessThan(1e-4));
-            Assert.That(Math.Abs(min.Value.Point[1] - function.GlobalMinimum.Point[1]), Is.LessThan(1e-4));
-            Assert.That(Math.Abs(min.Value.Value - function.GlobalMinimum.Value), Is.LessThan(1e-4));
+            Assert.That(Math.Abs(min.Data.Point[0] - function.GlobalMinimum.Point[0]), Is.LessThan(1e-4));
+            Assert.That(Math.Abs(min.Data.Point[1] - function.GlobalMinimum.Point[1]), Is.LessThan(1e-4));
+            Assert.That(Math.Abs(min.Data.Value - function.GlobalMinimum.Value), Is.LessThan(1e-4));
         }
 
         [TestCase(new double[] { 1, 1 })]
@@ -80,9 +80,9 @@ namespace Common.Structure.Tests.MathLibrary.Optimisation.Vector
                 tolerance: 1e-5,
                 maxIterations: 1000);
 
-            Assert.That(Math.Abs(min.Value.Point[0] - function.GlobalMinimum.Point[0]), Is.LessThan(1e-4));
-            Assert.That(Math.Abs(min.Value.Point[1] - function.GlobalMinimum.Point[1]), Is.LessThan(1e-4));
-            Assert.That(Math.Abs(min.Value.Value - function.GlobalMinimum.Value), Is.LessThan(1e-4));
+            Assert.That(Math.Abs(min.Data.Point[0] - function.GlobalMinimum.Point[0]), Is.LessThan(1e-4));
+            Assert.That(Math.Abs(min.Data.Point[1] - function.GlobalMinimum.Point[1]), Is.LessThan(1e-4));
+            Assert.That(Math.Abs(min.Data.Value - function.GlobalMinimum.Value), Is.LessThan(1e-4));
         }
 
         [TestCase(new double[] { 2, 4 }, 3)]
@@ -100,9 +100,9 @@ namespace Common.Structure.Tests.MathLibrary.Optimisation.Vector
                 tolerance: 1e-5,
                 maxIterations: 1000);
 
-            Assert.That(Math.Abs(min.Value.Point[0] - function.LocalMinima[localMinIndex].Point[0]), Is.LessThan(1e-4));
-            Assert.That(Math.Abs(min.Value.Point[1] - function.LocalMinima[localMinIndex].Point[1]), Is.LessThan(1e-4));
-            Assert.That(Math.Abs(min.Value.Value - function.LocalMinima[localMinIndex].Value), Is.LessThan(1e-4));
+            Assert.That(Math.Abs(min.Data.Point[0] - function.LocalMinima[localMinIndex].Point[0]), Is.LessThan(1e-4));
+            Assert.That(Math.Abs(min.Data.Point[1] - function.LocalMinima[localMinIndex].Point[1]), Is.LessThan(1e-4));
+            Assert.That(Math.Abs(min.Data.Value - function.LocalMinima[localMinIndex].Value), Is.LessThan(1e-4));
         }
     }
 }

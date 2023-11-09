@@ -11,7 +11,7 @@ namespace Common.Structure.Tests.MathLibrary.Matrices
         public void LUDecompCorrect([Values(1, 2, 3, 4, 5, 6, 7, 8)] int expectedMatrixIndex)
         {
             TestMatrixValues matrix = MatrixTestHelper.GetMatrix(expectedMatrixIndex);
-            LUDecomposition lUDecomposition = LUDecomposition.Generate(matrix.Matrix).Value;
+            LUDecomposition lUDecomposition = LUDecomposition.Generate(matrix.Matrix).Data;
             double[,] product = lUDecomposition.Lower.Multiply(lUDecomposition.Upper);
 
             Assertions.AreEqual(matrix.Matrix, product, 1e-3, "products wrong");
