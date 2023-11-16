@@ -62,7 +62,7 @@ namespace Common.Console.Tests
                 new[] { ("number", false, alwaysValid) }, 
                 new[] { "--number", "five" }, 
                 false, 
-                "[Option number] - Input string was not in a correct format.")
+                "[Option number] - The input string 'five' was not in a correct format.")
                 .SetName("SingleOption - Fails - value not a double.");
         }
 
