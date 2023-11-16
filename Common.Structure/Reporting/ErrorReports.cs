@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Abstractions;
 using System.Linq;
 
 namespace Common.Structure.Reporting
@@ -14,14 +16,14 @@ namespace Common.Structure.Reporting
         /// <summary>
         /// List of all reports held.
         /// </summary>
-        private readonly List<ErrorReport> fReports;
+        private readonly List<ErrorReport> _reports;
 
         /// <summary>
         /// Creates an instance with an empty list of reports.
         /// </summary>
         public ErrorReports()
         {
-            fReports = new List<ErrorReport>();
+            _reports = new List<ErrorReport>();
         }
 
         /// <summary>
@@ -30,14 +32,13 @@ namespace Common.Structure.Reporting
         /// </summary>
         public ErrorReports(List<ErrorReport> errorReports)
         {
-            fReports = errorReports;
+            _reports = errorReports;
         }
 
         /// <inheritdoc/>
         public override string ToString()
-        {
-            return $"These reports contain {Count()} entries: {GetReports(ReportType.Error)} errors, {GetReports(ReportType.Warning)} warnings and {GetReports(ReportType.Information)} reports.";
-        }
+            =>
+                $"These reports contain {Count()} entries: {GetReports(ReportType.Error)} errors, {GetReports(ReportType.Warning)} warnings and {GetReports(ReportType.Information)} reports.";
 
         /// <summary>
         /// Number of reports in total.
@@ -46,7 +47,7 @@ namespace Common.Structure.Reporting
         {
             lock (lockObject)
             {
-                return fReports.Count;
+                return _reports.Count;
             }
         }
 
@@ -58,7 +59,7 @@ namespace Common.Structure.Reporting
         {
             lock (lockObject)
             {
-                return fReports.Any();
+                return _reports.Any();
             }
         }
 
@@ -70,7 +71,7 @@ namespace Common.Structure.Reporting
         {
             lock (lockObject)
             {
-                fReports.AddRange(reports.GetReports());
+                _reports.AddRange(reports.GetReports());
             }
         }
 
@@ -93,7 +94,7 @@ namespace Common.Structure.Reporting
         {
             lock (lockObject)
             {
-                fReports.Add(new ErrorReport(severity, type, location, newReport));
+                _reports.Add(new ErrorReport(severity, type, location, newReport));
             }
         }
 
@@ -104,7 +105,7 @@ namespace Common.Structure.Reporting
         {
             lock (lockObject)
             {
-                fReports.Add(new ErrorReport(severity, type, location, newReport));
+                _reports.Add(new ErrorReport(severity, type, location, newReport));
             }
         }
 
@@ -115,14 +116,14 @@ namespace Common.Structure.Reporting
         {
             lock (lockObject)
             {
-                return new List<ErrorReport>(fReports);
+                return new List<ErrorReport>(_reports);
             }
         }
 
         /// <summary>
         /// Returns all reports of a certain severity from the system.
         /// </summary>
-        public List<ErrorReport> GetReports(ReportSeverity severity = ReportSeverity.Useful)
+        public List<ErrorReport> GetReports(ReportSeverity severity)
         {
             switch (severity)
             {
@@ -130,7 +131,8 @@ namespace Common.Structure.Reporting
                     return GetReports().Where(report => report.ErrorSeverity == severity).ToList();
                 default:
                 case ReportSeverity.Useful:
-                    return GetReports().Where(report => report.ErrorSeverity == severity || report.ErrorSeverity == ReportSeverity.Critical).ToList();
+                    return GetReports().Where(report =>
+                        report.ErrorSeverity == severity || report.ErrorSeverity == ReportSeverity.Critical).ToList();
                 case ReportSeverity.Detailed:
                     return GetReports();
             }
@@ -140,25 +142,19 @@ namespace Common.Structure.Reporting
         /// Returns a list of reports with location the same as the specified location.
         /// </summary>
         public List<ErrorReport> GetReports(ReportLocation location)
-        {
-            return GetReports(location.ToString());
-        }
+            => GetReports(location.ToString());
 
         /// <summary>
         /// Returns a list of reports with location the same as the specified location.
         /// </summary>
         public List<ErrorReport> GetReports(string location)
-        {
-            return GetReports().Where(report => report.ErrorLocation == location).ToList();
-        }
+            => GetReports().Where(report => report.ErrorLocation == location).ToList();
 
         /// <summary>
         /// Returns a list of reports with ReportType matching the desired type.
         /// </summary>
         public List<ErrorReport> GetReports(ReportType reportType)
-        {
-            return GetReports().Where(report => report.ErrorType == reportType).ToList();
-        }
+            => GetReports().Where(report => report.ErrorType == reportType).ToList();
 
         /// <summary>
         /// Removes element at index <param name="i"/>
@@ -167,10 +163,38 @@ namespace Common.Structure.Reporting
         {
             lock (lockObject)
             {
-                if (i >= 0 && i < fReports.Count)
+                if (i >= 0 && i < _reports.Count)
                 {
-                    fReports.RemoveAt(i);
+                    _reports.RemoveAt(i);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Removes the selected element
+        /// </summary>
+        public int RemoveReports(IList<ErrorReport> reports)
+        {
+            lock (lockObject)
+            {
+                int numberRemovals = 0;
+                foreach (var report in reports)
+                {
+                    numberRemovals += _reports.Remove(report) ? 1 : 0;
+                }
+
+                return numberRemovals;
+            }
+        }
+        
+        /// <summary>
+        /// Removes the selected element
+        /// </summary>
+        public bool RemoveReport(ErrorReport report)
+        {
+            lock (lockObject)
+            {
+                return _reports.Remove(report);
             }
         }
 
@@ -181,7 +205,7 @@ namespace Common.Structure.Reporting
         {
             lock (lockObject)
             {
-                fReports.Clear();
+                _reports.Clear();
             }
         }
 
@@ -194,20 +218,32 @@ namespace Common.Structure.Reporting
             {
                 lock (lockObject)
                 {
-                    return fReports[index];
+                    return _reports[index];
                 }
             }
         }
 
         /// <inheritdoc/>
-        public IEnumerator<ErrorReport> GetEnumerator()
-        {
-            return fReports.GetEnumerator();
-        }
+        public IEnumerator<ErrorReport> GetEnumerator() => _reports.GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator()
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+        /// <summary>
+        /// Saves the reports to file.
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <param name="fileSystem"></param>
+        public void Save(string filePath, IFileSystem fileSystem)
         {
-            return GetEnumerator();
+            using (Stream stream = fileSystem.FileStream.Create(filePath, FileMode.Create))
+            using (StreamWriter writer = new StreamWriter(stream))
+            {
+                writer.WriteLine(ErrorReport.ToCsvHeader());
+                foreach (ErrorReport report in GetReports())
+                {
+                    writer.WriteLine(report.ToCsvString());
+                }
+            }
         }
     }
 }
