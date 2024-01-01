@@ -10,7 +10,7 @@ namespace Common.Structure.Reporting
         /// <summary>
         /// The time the report was logged.
         /// </summary>
-        public DateTime TimeStamp { get; }
+        public DateTime TimeStamp { get; internal set;  }
 
 
         /// <summary>
