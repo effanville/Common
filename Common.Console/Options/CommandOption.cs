@@ -7,6 +7,8 @@ namespace Common.Console.Options
     /// </summary>
     public class CommandOption
     {
+        protected const string EnvVarPrefix = "env:";
+        
         /// <summary>
         /// The name of this option. Used to input the value
         /// for this option in the command line.

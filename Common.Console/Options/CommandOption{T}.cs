@@ -102,16 +102,22 @@ namespace Common.Console.Options
             }
             else
             {
+                string parsedInputValue = InputValue;
+                if (InputValue.StartsWith(EnvVarPrefix))
+                {
+                    string envVarName = InputValue.Substring(EnvVarPrefix.Length);
+                    parsedInputValue = Environment.GetEnvironmentVariable(envVarName);
+                }
                 T parsedValue;
                 try
                 {
                     if (typeof(T).IsEnum)
                     {
-                        parsedValue = InputValue.ToEnum<T>();
+                        parsedValue = parsedInputValue.ToEnum<T>();
                     }
                     else
                     {
-                        parsedValue = (T)Convert.ChangeType(InputValue, typeof(T));
+                        parsedValue = (T)Convert.ChangeType(parsedInputValue, typeof(T));
                     }
                 }
                 catch (Exception ex)
