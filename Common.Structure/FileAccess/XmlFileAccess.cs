@@ -26,6 +26,7 @@ namespace Common.Structure.FileAccess
         {
             WriteToXmlFile(new FileSystem(), filePath, objectToWrite, out error, append);
         }
+        
         /// <summary>
         /// Writes the given object instance to an XML file.
         /// <para>Only Public properties and variables will be written to the file. These can be any type though, even other classes.</para>
@@ -58,6 +59,38 @@ namespace Common.Structure.FileAccess
             {
                 error = $"{ex.Message}-InnerException {ex.InnerException}";
                 return;
+            }
+        }
+        
+        /// <summary>
+        /// Writes the given object instance to a stream.
+        /// <para>Only Public properties and variables will be written to the file. These can be any type though, even other classes.</para>
+        /// <para>If there are public properties/variables that you do not want written to the file, decorate them with the [XmlIgnore] attribute.</para>
+        /// <para>Object type must have a parameterless constructor.</para>
+        /// </summary>
+        /// <typeparam name="T">The type of object being written to the file.</typeparam>
+        /// <param name="stream">The stream to use to write to.</param>
+        /// <param name="objectToWrite">The object instance to write to the file.</param>
+        /// <param name="error">String containing any error that may have occurred.</param>
+        /// <param name="append">If false the file will be overwritten if it already exists. If true the contents will be appended to the file.</param>
+        public static void WriteToStream<T>(Stream stream, T objectToWrite, out string error, bool append = false) where T : new()
+        {            error = null;
+            try
+            {
+                var xmlWriterSettings = new XmlWriterSettings()
+                {
+                    Indent = true
+                };
+                using (XmlWriter writer = XmlWriter.Create(new StreamWriter(stream), xmlWriterSettings))
+                {
+                    XmlSerializer serializer = new XmlSerializer(typeof(T));
+                    serializer.Serialize(writer, objectToWrite);
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                error = $"{ex.Message}-InnerException {ex.InnerException}";
             }
         }
 
@@ -103,7 +136,7 @@ namespace Common.Structure.FileAccess
         }
 
         /// <summary>
-        /// Reads an object instance from an XML file.
+        /// Reads an object instance from a stream.
         /// <para>Object type must have a parameterless constructor.</para>
         /// </summary>
         /// <typeparam name="T">The type of object to read from the file.</typeparam>
