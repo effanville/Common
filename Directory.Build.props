@@ -19,6 +19,8 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <RootNamespace>Effanville.$(MSBuildProjectName)</RootNamespace>
+    <AssemblyName>Effanville.$(MSBuildProjectName)</AssemblyName>
     <Deterministic>false</Deterministic>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
   </PropertyGroup>
