@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-      <_Parameter1>Common.Structure.Tests</_Parameter1>
+      <_Parameter1>Effanville.Common.Structure.Tests</_Parameter1>
     </AssemblyAttribute>
   </ItemGroup>
 	
