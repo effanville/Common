@@ -20,26 +20,17 @@ namespace Common.Console.Commands
         /// The name of this command. This also is the expected first argument
         /// on the command line.
         /// </summary>
-        string Name
-        {
-            get;
-        }
+        string Name { get; }
 
         /// <summary>
         /// The options for this command.
         /// </summary>
-        IList<CommandOption> Options
-        {
-            get;
-        }
+        IList<CommandOption> Options { get; }
 
         /// <summary>
         /// Any sub commands for this command.
         /// </summary>
-        IList<ICommand> SubCommands
-        {
-            get;
-        }
+        IList<ICommand> SubCommands { get; }
 
         /// <summary>
         /// The method to write help for this command.

@@ -8,8 +8,8 @@ namespace Common.Console
     /// </summary>
     public sealed class ConsoleInstance : IConsole
     {
-        private readonly Action<string> fWriteAction;
-        private readonly Action<string> fWriteErrorAction;
+        private readonly Action<string> _writeAction;
+        private readonly Action<string> _writeErrorAction;
 
         /// <summary>
         /// Construct an instance.
@@ -18,20 +18,14 @@ namespace Common.Console
         /// <param name="writeAction">The action for writing a normal line.</param>
         public ConsoleInstance(Action<string> writeErrorAction, Action<string> writeAction)
         {
-            fWriteErrorAction = writeErrorAction;
-            fWriteAction = writeAction;
+            _writeErrorAction = writeErrorAction;
+            _writeAction = writeAction;
         }
 
         /// <inheritdoc/>
-        public void WriteLine(string line = null)
-        {
-            fWriteAction(line);
-        }
+        public void WriteLine(string line = null) => _writeAction(line);
 
         /// <inheritdoc/>
-        public void WriteError(string error = null)
-        {
-            fWriteErrorAction(error);
-        }
+        public void WriteError(string error = null) => _writeErrorAction(error);
     }
 }

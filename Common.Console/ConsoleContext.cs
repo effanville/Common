@@ -17,12 +17,12 @@ namespace Common.Console
         /// <summary>
         /// The names to use for displaying the help.
         /// </summary>
-        private readonly HashSet<string> HelpNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { "help", "--help" };
+        private readonly HashSet<string> _helpNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { "help", "--help" };
 
         /// <summary>
         /// The chosen command.
         /// </summary>
-        private ICommand fCommand;
+        private ICommand _command;
 
         /// <summary>
         /// The command line arguments specified.
@@ -81,37 +81,33 @@ namespace Common.Console
         /// <summary>
         /// Performs a standard routine from the inputs. Validates the arguments before execution.
         /// </summary>
-        /// <param name="Args">The command line arguments specified.</param>
+        /// <param name="args">The command line arguments specified.</param>
         /// <param name="console">The console to write with.</param>
         /// <param name="validCommands">The valid commands for this context.</param>
-        public static int SetAndExecute(string[] Args, IConsole console, List<ICommand> validCommands)
-        {
-            return SetAndExecute(Args, new FileSystem(), console, null, validCommands);
-        }
+        public static int SetAndExecute(string[] args, IConsole console, List<ICommand> validCommands) 
+            => SetAndExecute(args, new FileSystem(), console, null, validCommands);
 
         /// <summary>
         /// Performs a standard routine from the inputs. Validates the arguments before execution.
         /// </summary>
-        /// <param name="Args">The command line arguments specified.</param>
+        /// <param name="args">The command line arguments specified.</param>
         /// <param name="console">The console to write with.</param>
         /// <param name="logger">The logging routine.</param>
         /// <param name="validCommands">The valid commands for this context.</param>
-        public static int SetAndExecute(string[] Args, IConsole console, IReportLogger logger, List<ICommand> validCommands)
-        {
-            return SetAndExecute(Args, new FileSystem(), console, logger, validCommands);
-        }
+        public static int SetAndExecute(string[] args, IConsole console, IReportLogger logger, List<ICommand> validCommands) 
+            => SetAndExecute(args, new FileSystem(), console, logger, validCommands);
 
         /// <summary>
         /// Performs a standard routine from the inputs. Validates the arguments before execution.
         /// </summary>
-        /// <param name="Args">The command line arguments specified.</param>
+        /// <param name="args">The command line arguments specified.</param>
         /// <param name="fileSystem">The file system for this interaction.</param>
         /// <param name="console">The console to write with.</param>
         /// <param name="logger">The logging routine.</param>
         /// <param name="validCommands">The valid commands for this context.</param>
-        public static int SetAndExecute(string[] Args, IFileSystem fileSystem, IConsole console, IReportLogger logger, List<ICommand> validCommands)
+        public static int SetAndExecute(string[] args, IFileSystem fileSystem, IConsole console, IReportLogger logger, List<ICommand> validCommands)
         {
-            var context = new ConsoleContext(Args, fileSystem, console, logger);
+            var context = new ConsoleContext(args, fileSystem, console, logger);
             context.SetValidCommands(validCommands);
             return context.ValidateAndExecute();
         }
@@ -119,12 +115,12 @@ namespace Common.Console
         /// <summary>
         /// Performs a standard routine from the inputs. Validates the arguments before execution.
         /// </summary>
-        /// <param name="Args">The command line arguments specified.</param>
+        /// <param name="args">The command line arguments specified.</param>
         /// <param name="globals">The global scope objects for this context.</param>
         /// <param name="validCommands">The valid commands for this context.</param>
-        public static int SetAndExecute(string[] Args, ConsoleGlobals globals, List<ICommand> validCommands)
+        public static int SetAndExecute(string[] args, ConsoleGlobals globals, List<ICommand> validCommands)
         {
-            var context = new ConsoleContext(Args, globals);
+            var context = new ConsoleContext(args, globals);
             context.SetValidCommands(validCommands);
             return context.ValidateAndExecute();
         }
@@ -132,10 +128,8 @@ namespace Common.Console
         /// <summary>
         /// Sets the commands that are valid in this context.
         /// </summary>
-        private void SetValidCommands(List<ICommand> commands)
-        {
-            ValidCommands = commands;
-        }
+        private void SetValidCommands(List<ICommand> commands) 
+            => ValidCommands = commands;
 
         private int ValidateAndExecute()
         {
@@ -151,24 +145,24 @@ namespace Common.Console
                 return (int)ExitCode.OptionError;
             }
 
-            int exitcode = Execute();
-            if (exitcode != 0)
+            int exitCode = Execute();
+            if (exitCode == 0)
             {
-                Logger.Log(ReportSeverity.Critical, ReportType.Error, $"{nameof(Execute)}", "Error when Executing command line input.");
-                Console.WriteError("Exit code does not suggest success.");
+                return exitCode;
             }
 
-            return exitcode;
+            Logger.Log(ReportSeverity.Critical, ReportType.Error, $"{nameof(Execute)}", "Error when Executing command line input.");
+            Console.WriteError("Exit code does not suggest success.");
+
+            return exitCode;
         }
 
         /// <summary>
         /// Whether help is needed for this context.
         /// </summary>
         /// <returns></returns>
-        private bool IsHelpRequired()
-        {
-            return Args.Length == 0 || (Args.Length > 0 && HelpNames.Contains(Args[0]));
-        }
+        private bool IsHelpRequired() 
+            => Args.Length == 0 || (Args.Length > 0 && _helpNames.Contains(Args[0]));
 
         /// <summary>
         /// The mechanism for writing help.
@@ -193,8 +187,8 @@ namespace Common.Console
                 Console.WriteError("Could not locate suitable command to execute.");
                 return false;
             }
-            fCommand = ValidCommands.FirstOrDefault(comd => comd.Name.Equals(Args[0], StringComparison.OrdinalIgnoreCase));
-            if (fCommand == null)
+            _command = ValidCommands.FirstOrDefault(command => command.Name.Equals(Args[0], StringComparison.OrdinalIgnoreCase));
+            if (_command == null)
             {
                 Logger.Log(ReportSeverity.Critical, ReportType.Error, $"{nameof(Validate)}", "Could not locate suitable command to validate.");
                 Console.WriteError("Could not locate suitable command to validate.");
@@ -202,7 +196,7 @@ namespace Common.Console
             }
 
             string[] commandArgs = Args.Skip(1).ToArray();
-            return fCommand.Validate(commandArgs, Console, Logger);
+            return _command.Validate(commandArgs, Console, Logger);
         }
 
         /// <summary>
@@ -211,10 +205,10 @@ namespace Common.Console
         /// <returns></returns>
         public int Execute()
         {
-            if (fCommand == null)
+            if (_command == null)
             {
-                fCommand = ValidCommands.FirstOrDefault(comd => comd.Name.Equals(Args[0], StringComparison.OrdinalIgnoreCase));
-                if (fCommand == null)
+                _command = ValidCommands.FirstOrDefault(command => command.Name.Equals(Args[0], StringComparison.OrdinalIgnoreCase));
+                if (_command == null)
                 {
                     Logger.Log(ReportSeverity.Critical, ReportType.Error, $"{nameof(Execute)}", "Could not locate suitable command to execute.");
                     Console.WriteError("Could not locate suitable command to execute.");
@@ -225,14 +219,14 @@ namespace Common.Console
             string[] commandArgs = Args.Skip(1).ToArray();
             if (commandArgs.Any())
             {
-                if (HelpNames.Contains(commandArgs.FirstOrDefault()))
+                if (_helpNames.Contains(commandArgs.FirstOrDefault()))
                 {
-                    fCommand.WriteHelp(Console);
+                    _command.WriteHelp(Console);
                     return (int)ExitCode.Success;
                 }
             }
 
-            return fCommand.Execute(Console, Logger, commandArgs);
+            return _command.Execute(Console, Logger, commandArgs);
         }
     }
 }
