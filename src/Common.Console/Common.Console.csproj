@@ -6,7 +6,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Common.Structure\Common.Structure.csproj" />
+		<ProjectReference Include="..\..\Common.Structure\Common.Structure.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Update="appsettings.json">
