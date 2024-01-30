@@ -2,7 +2,7 @@
 
 using Common.Structure.Extensions;
 
-namespace Common.Console.Options
+namespace Effanville.Common.Console.Options
 {
     /// <summary>
     /// An option to be input by the user.

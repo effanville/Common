@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Common.Console.Options
+namespace Effanville.Common.Console.Options
 {
     /// <summary>
     /// A container for a user specified command line input.

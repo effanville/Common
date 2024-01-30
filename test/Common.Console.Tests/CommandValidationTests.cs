@@ -1,16 +1,18 @@
 using System;
 using System.Collections.Generic;
-using Common.Console.Options;
+
+using Effanville.Common.Console.Options;
+
 using NUnit.Framework;
 
-namespace Common.Console.Tests
+namespace Effanville.Common.Console.Tests
 {
     [TestFixture]
     public class CommandValidationTests
     {
         private static IEnumerable<TestCaseData> SingleOptionTestSource()
         {
-            Func<double, bool> alwaysValid = x => true;
+            Func<double, bool> alwaysValid = _ => true;
 
             Func<double, bool> positiveValid = x => x >= 0;
             yield return new TestCaseData(
@@ -29,7 +31,7 @@ namespace Common.Console.Tests
                 new[] { ("number", false, alwaysValid) }, 
                 new[] { "--Number", "4" }, 
                 true, 
-                "").SetName("SingleOption - Passes - case insensitve name");
+                "").SetName("SingleOption - Passes - case insensitive name");
 
             yield return new TestCaseData(
                 new[] { ("number", false, positiveValid) }, 
@@ -68,7 +70,7 @@ namespace Common.Console.Tests
 
         private static IEnumerable<TestCaseData> TwoOptionTestSource()
         {
-            Func<double, bool> alwaysValid = x => true;
+            Func<double, bool> alwaysValid = _ => true;
 
             Func<double, bool> positiveValid = x => x >= 0;
             yield return new TestCaseData(
@@ -125,20 +127,11 @@ namespace Common.Console.Tests
 
         [TestCaseSource(nameof(SingleOptionTestSource))]
         [TestCaseSource(nameof(TwoOptionTestSource))]
-        public void CommandValidatorTester((string, bool, Func<double, bool>)[] options, string[] args, bool expectedOutcome, string expectedReport)
+        public void CommandValidatorTester((string, bool, Func<double, bool>)[] options, string[] args, bool expectedOutcome, string expectedError)
         {
             string error = "";
-            void writeError(string err)
-            {
-                error = err;
-            }
-            string report = "";
-            void writeReport(string rep)
-            {
-                report = rep;
-            }
 
-            var consoleInstance = new ConsoleInstance(writeError, writeReport);
+            var consoleInstance = new ConsoleInstance(WriteError, WriteReport);
             var testCommand = new TestCommand();
             foreach (var optionData in options)
             {
@@ -150,8 +143,18 @@ namespace Common.Console.Tests
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(expectedOutcome, validated);
-                Assert.AreEqual(expectedReport, error);
+                Assert.AreEqual(expectedError, error);
             });
+            return;
+
+            void WriteError(string err)
+            {
+                error = err;
+            }
+            
+            void WriteReport(string rep)
+            {
+            }
         }
     }
 }

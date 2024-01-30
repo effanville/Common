@@ -1,4 +1,4 @@
-﻿namespace Common.Console
+﻿namespace Effanville.Common.Console
 {
     /// <summary>
     /// An interface of a Console writer.

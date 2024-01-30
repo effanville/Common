@@ -4,7 +4,7 @@ using System.IO.Abstractions;
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Common.Console;
+namespace Effanville.Common.Console;
 
 /// <summary>
 /// Contains extension methods to register the necessary services for the <see cref="ConsoleContext"/> to run.

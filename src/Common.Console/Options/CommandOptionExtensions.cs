@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Common.Console.Options
+namespace Effanville.Common.Console.Options
 {
     /// <summary>
     /// Extension methods for <see cref="CommandOption"/>s and <see cref="CommandOption{T}"/>s.

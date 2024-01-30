@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 
-using Common.Console.Commands;
+using Effanville.Common.Console.Commands;
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Common.Console;
+namespace Effanville.Common.Console;
 
 /// <summary>
 /// Contains registration methods for adding <see cref="ICommand"/>s

@@ -5,13 +5,14 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Common.Console.Commands;
 using Common.Structure.Extensions;
 using Common.Structure.Reporting;
 
+using Effanville.Common.Console.Commands;
+
 using Microsoft.Extensions.Hosting;
 
-namespace Common.Console;
+namespace Effanville.Common.Console;
 
 /// <summary>
 /// A <see cref="IHostedService"/> implementation that enables a console instance to run.

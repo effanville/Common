@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Common.Console
+namespace Effanville.Common.Console
 {
     /// <summary>
     /// An instance of an <see cref="IConsole"/> allowing for

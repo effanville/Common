@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.IO.Abstractions;
 using System.Linq;
 
-using Common.Console.Commands;
 using Common.Structure.Reporting;
 
-namespace Common.Console
+using Effanville.Common.Console.Commands;
+
+namespace Effanville.Common.Console
 {
     /// <summary>
     /// Contains the context for a console application, as well as the

@@ -4,7 +4,7 @@ using Common.Structure.Reporting;
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Common.Console;
+namespace Effanville.Common.Console;
 
 /// <summary>
 /// Registration extensions for console logging and an <see cref="IConsole"/> instance.

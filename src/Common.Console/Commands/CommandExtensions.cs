@@ -3,7 +3,7 @@ using System.Linq;
 
 using Common.Structure.Reporting;
 
-namespace Common.Console.Commands
+namespace Effanville.Common.Console.Commands
 {
     /// <summary>
     /// Contains various extensions for the <see cref="ICommand"/> interface.

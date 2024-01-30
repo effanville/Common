@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 
-using Common.Console.Options;
 using Common.Structure.Reporting;
 
-namespace Common.Console.Commands
+using Effanville.Common.Console.Options;
+
+namespace Effanville.Common.Console.Commands
 {
     /// <summary>
     /// A command for a console, namely a string that contains specified

@@ -1,4 +1,4 @@
-namespace Common.Console;
+namespace Effanville.Common.Console;
 
 /// <summary>
 /// Wrapper for arguments passed into console.

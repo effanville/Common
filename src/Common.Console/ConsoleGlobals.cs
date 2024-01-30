@@ -1,7 +1,8 @@
 ﻿using System.IO.Abstractions;
+
 using Common.Structure.Reporting;
 
-namespace Common.Console
+namespace Effanville.Common.Console
 {
     /// <summary>
     /// Contains data required at a global scope for a console app.
