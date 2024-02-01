@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
+using Common.Structure.DataStructures;
 using Common.Structure.Reporting;
 
 using Effanville.Common.Console.Options;
@@ -8,7 +10,14 @@ using Effanville.Common.Console.Options;
 using NUnit.Framework;
 
 namespace Effanville.Common.Console.Tests
-{
+{public sealed class SingleTaskQueue : ITaskQueue
+    {
+        public void Enqueue(Action action) => action();
+
+        public void Enqueue<T>(Action<T> action, T obj) => action(obj);
+
+        public void Enqueue(Task currentTask){ }
+    }
     [TestFixture]
     public class CommandValidationTests
     {
@@ -45,7 +54,7 @@ namespace Effanville.Common.Console.Tests
                 new[] { ("number", false, positiveValid) }, 
                 new[] { "--number", "-5" }, 
                 false, 
-                "[Option number] - Argument '-5' failed in validation.")
+                "(Error) - [Validate] - [Option number] - Argument '-5' failed in validation.")
                 .SetName("SingleOption - Fails - validator says false");
 
             yield return new TestCaseData(
@@ -123,7 +132,7 @@ namespace Effanville.Common.Console.Tests
                 new[] { ("number", false, alwaysValid), ("other", false, alwaysValid) }, 
                 new[] { "--dog", "4" }, 
                 false, 
-                "(Error) - [Validate] - Option dog is not a valid option.")
+                "(Error) - [Test.Validate] - Option dog is not a valid option.")
                 .SetName("TwoOption - Fails - OptionName not found");
         }
 
@@ -134,7 +143,7 @@ namespace Effanville.Common.Console.Tests
             string error = "";
 
             var consoleInstance = new ConsoleInstance(WriteError, WriteReport);
-            var logReporter = new LogReporter(ReportAction);
+            var logReporter = new LogReporter(ReportAction, new SingleTaskQueue(), saveInternally: true);
             var testCommand = new TestCommand();
             foreach (var optionData in options)
             {

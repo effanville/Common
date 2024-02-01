@@ -19,7 +19,7 @@ namespace Effanville.Common.Console;
 /// </summary>
 public sealed class ConsoleHost : IHostedService
 {
-    private int? _exitCode;
+    internal int? _exitCode;
     private readonly ConsoleCommandArgs _commandArgs;
     private readonly IFileSystem _fileSystem;
     private readonly IConsole _console;

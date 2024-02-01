@@ -19,8 +19,7 @@ namespace Effanville.Common.Console.Tests
         public void WriteHelp(IConsole console) => CommandExtensions.WriteHelp(this, console);
 
         /// <inheritdoc/>
-        public int Execute(IConsole console, IReportLogger logger, string[] args) 
-            => CommandExtensions.Execute(this, console, logger, args);
+        public int Execute(IConsole console, IReportLogger logger, string[] args) => 0;
 
         /// <inheritdoc/>
         public int Execute(IConsole console, string[] args) => Execute(console, null, args);
