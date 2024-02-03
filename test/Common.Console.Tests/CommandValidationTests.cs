@@ -10,14 +10,7 @@ using Effanville.Common.Console.Options;
 using NUnit.Framework;
 
 namespace Effanville.Common.Console.Tests
-{public sealed class SingleTaskQueue : ITaskQueue
-    {
-        public void Enqueue(Action action) => action();
-
-        public void Enqueue<T>(Action<T> action, T obj) => action(obj);
-
-        public void Enqueue(Task currentTask){ }
-    }
+{
     [TestFixture]
     public class CommandValidationTests
     {

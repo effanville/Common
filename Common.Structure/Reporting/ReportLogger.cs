@@ -37,7 +37,10 @@ namespace Common.Structure.Reporting
             _loggingQueue = new TaskQueue();
         }
         
-        internal LogReporter(Action<ReportSeverity, ReportType, string, string> addReport, ITaskQueue taskQueue, bool saveInternally)
+        /// <summary>
+        /// Constructor for reporting mechanisms. Parameter addReport is the report callback mechanism.
+        /// </summary>
+        public LogReporter(Action<ReportSeverity, ReportType, string, string> addReport, ITaskQueue taskQueue, bool saveInternally)
         {
             _loggingAction = addReport;
             _loggingQueue = taskQueue;
