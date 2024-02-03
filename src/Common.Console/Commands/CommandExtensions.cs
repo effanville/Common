@@ -64,6 +64,11 @@ namespace Effanville.Common.Console.Commands
                 return false;
             }
 
+            if (args == null)
+            {
+                return false;
+            }
+
             bool isValid = true;
             // cycle through user given values filling in option values.
             for (int index = 0; index < args.Length - 1; index++)
