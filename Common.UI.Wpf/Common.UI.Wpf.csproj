@@ -1,31 +1,32 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<UseWPF>true</UseWPF>
-	</PropertyGroup>
-	
-	<PropertyGroup>
-		<GenerateDocumentationFile>true</GenerateDocumentationFile>
-		<VersionPrefix>2.0.0.0</VersionPrefix>
-	</PropertyGroup>
-	
-	<ItemGroup>
-		<ProjectReference Include="..\Common.Structure\Common.Structure.csproj" />
-		<ProjectReference Include="..\Common.UI\Common.UI.csproj" />
-	</ItemGroup>
+    <PropertyGroup>
+        <TargetFrameworks>net7.0-windows</TargetFrameworks>
+        <UseWPF>true</UseWPF>
+    </PropertyGroup>
 
-	<ItemGroup>
-		<PackageReference Include="DotNetProjects.WpfToolkit.DataVisualization" Version="6.1.94" />
-		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1823.32" />
-	</ItemGroup>
+    <PropertyGroup>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <VersionPrefix>2.0.0.0</VersionPrefix>
+    </PropertyGroup>
 
-	<ItemGroup>
-		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-			<_Parameter1>Common.UI.Tests</_Parameter1>
-		</AssemblyAttribute>
-		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-			<_Parameter1>Common.UI.Wpf.Tests</_Parameter1>
-		</AssemblyAttribute>
-	</ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Common.Structure\Common.Structure.csproj"/>
+        <ProjectReference Include="..\Common.UI\Common.UI.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="DotNetProjects.WpfToolkit.DataVisualization" Version="6.1.94"/>
+        <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1823.32"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+            <_Parameter1>Common.UI.Tests</_Parameter1>
+        </AssemblyAttribute>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+            <_Parameter1>Common.UI.Wpf.Tests</_Parameter1>
+        </AssemblyAttribute>
+    </ItemGroup>
 
 </Project>
