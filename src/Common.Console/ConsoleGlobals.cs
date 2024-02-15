@@ -1,7 +1,8 @@
 ﻿using System.IO.Abstractions;
+
 using Common.Structure.Reporting;
 
-namespace Common.Console
+namespace Effanville.Common.Console
 {
     /// <summary>
     /// Contains data required at a global scope for a console app.
@@ -11,36 +12,22 @@ namespace Common.Console
         /// <summary>
         /// The current working directory for the application.
         /// </summary>
-        public string CurrentWorkingDirectory
-        {
-            get;
-            set;
-        }
+        public string CurrentWorkingDirectory { get; set; }
 
         /// <summary>
         /// The current filesystem for the application.
         /// </summary>
-        public IFileSystem CurrentFileSystem
-        {
-            get;
-        }
+        public IFileSystem CurrentFileSystem { get; }
 
         /// <summary>
         /// A logger to log with.
         /// </summary>
-        public IReportLogger ReportLogger
-        {
-            get;
-            set;
-        }
+        public IReportLogger ReportLogger { get; set; }
 
         /// <summary>
         /// Abstraction for writing to the console.
         /// </summary>
-        public IConsole Console
-        {
-            get;
-        }
+        public IConsole Console { get; }
 
         /// <summary>
         /// Standard constructor.

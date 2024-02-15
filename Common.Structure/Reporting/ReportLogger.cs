@@ -13,7 +13,7 @@ namespace Common.Structure.Reporting
     {
         private readonly Action<ReportSeverity, ReportType, string, string> _loggingAction;
 
-        private readonly TaskQueue _loggingQueue;
+        private readonly ITaskQueue _loggingQueue;
 
         /// <inheritdoc/>
         public ErrorReports Reports
@@ -35,6 +35,16 @@ namespace Common.Structure.Reporting
         {
             _loggingAction = addReport;
             _loggingQueue = new TaskQueue();
+        }
+        
+        /// <summary>
+        /// Constructor for reporting mechanisms. Parameter addReport is the report callback mechanism.
+        /// </summary>
+        public LogReporter(Action<ReportSeverity, ReportType, string, string> addReport, ITaskQueue taskQueue, bool saveInternally)
+        {
+            _loggingAction = addReport;
+            _loggingQueue = taskQueue;
+            SaveInternally = saveInternally;
         }
 
         /// <summary>

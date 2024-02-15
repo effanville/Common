@@ -1,4 +1,4 @@
-﻿namespace Common.Console
+﻿namespace Effanville.Common.Console
 {
     /// <summary>
     /// The exitCode of the application.

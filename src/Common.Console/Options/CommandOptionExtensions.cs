@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Common.Console.Options
+namespace Effanville.Common.Console.Options
 {
     /// <summary>
     /// Extension methods for <see cref="CommandOption"/>s and <see cref="CommandOption{T}"/>s.
@@ -12,9 +12,7 @@ namespace Common.Console.Options
         /// Returns a <see cref="CommandOption{T}"/> from a list of <see cref="CommandOption"/>s given by
         /// the specified name. Is null if no option exists.
         /// </summary>
-        public static CommandOption<T> GetOption<T>(this IList<CommandOption> options, string optionName)
-        {
-            return options.FirstOrDefault(option => option.Name == optionName) as CommandOption<T>;
-        }
+        public static CommandOption<T> GetOption<T>(this IList<CommandOption> options, string optionName) 
+            => options.FirstOrDefault(option => option.Name == optionName) as CommandOption<T>;
     }
 }

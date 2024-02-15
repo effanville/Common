@@ -2,7 +2,7 @@
 
 using Common.Structure.Extensions;
 
-namespace Common.Console.Options
+namespace Effanville.Common.Console.Options
 {
     /// <summary>
     /// An option to be input by the user.
@@ -10,18 +10,15 @@ namespace Common.Console.Options
     /// <typeparam name="T">The type for the input value.</typeparam>
     public sealed class CommandOption<T> : CommandOption
     {
+        private T _value;
+
         /// <summary>
         /// The method for validation of this option.
         /// </summary>
-        public new Func<T, bool> Validator
-        {
-            get;
-        }
+        public new Func<T, bool> Validator { get; }
 
         /// <inheritdoc/>
         public override object ValueAsObject => Value;
-
-        private T fValue;
 
         /// <summary>
         /// The value after validation for this option.
@@ -30,18 +27,14 @@ namespace Common.Console.Options
         {
             get
             {
-                if (fValue == null)
+                if (_value != null)
                 {
-                    if (!Validate())
-                    {
-                        return default(T);
-                    }
+                    return _value;
                 }
 
-                return fValue;
+                return !Validate() ? default(T) : _value;
             }
-
-            private set => fValue = value;
+            private set => _value = value;
         }
 
         /// <summary>
@@ -68,20 +61,14 @@ namespace Common.Console.Options
             : base(name, description, required, null)
         {
             // set validator here, as base validator is a Func<object, bool>
-            if (validator != null)
-            {
-                Validator = validator;
-            }
-            else
-            {
-                Validator = input => true;
-            }
+            Validator = validator ?? (_ => true);
         }
 
         /// <summary>
         /// Construct an instance.
         /// </summary>
-        public CommandOption(string name, string description, bool required, T defaultValue, Func<T, bool> validator = null)
+        public CommandOption(string name, string description, bool required, T defaultValue,
+            Func<T, bool> validator = null)
             : this(name, description, required, validator)
         {
             Value = defaultValue;
@@ -96,48 +83,47 @@ namespace Common.Console.Options
                 ErrorMessage = "Is required and no value supplied.";
                 return false;
             }
-            else if (nullInput)
+            if (nullInput)
             {
                 return true;
             }
-            else
-            {
-                string parsedInputValue = InputValue;
-                if (InputValue.StartsWith(EnvVarPrefix))
-                {
-                    string envVarName = InputValue.Substring(EnvVarPrefix.Length);
-                    parsedInputValue = Environment.GetEnvironmentVariable(envVarName);
-                }
-                T parsedValue;
-                try
-                {
-                    if (typeof(T).IsEnum)
-                    {
-                        parsedValue = parsedInputValue.ToEnum<T>();
-                    }
-                    else
-                    {
-                        parsedValue = (T)Convert.ChangeType(parsedInputValue, typeof(T));
-                    }
-                }
-                catch (Exception ex)
-                {
-                    ErrorMessage = ex.Message;
-                    return false;
-                }
 
-                bool valid = Validator(parsedValue);
-                if (valid)
+            string parsedInputValue = InputValue;
+            if (InputValue.StartsWith(EnvVarPrefix))
+            {
+                string envVarName = InputValue.Substring(EnvVarPrefix.Length);
+                parsedInputValue = Environment.GetEnvironmentVariable(envVarName);
+            }
+
+            T parsedValue;
+            try
+            {
+                if (typeof(T).IsEnum)
                 {
-                    Value = parsedValue;
+                    parsedValue = parsedInputValue.ToEnum<T>();
                 }
                 else
                 {
-                    ErrorMessage = $"Argument '{parsedValue}' failed in validation.";
+                    parsedValue = (T)Convert.ChangeType(parsedInputValue, typeof(T));
                 }
-
-                return valid;
             }
+            catch (Exception ex)
+            {
+                ErrorMessage = ex.Message;
+                return false;
+            }
+
+            bool valid = Validator(parsedValue);
+            if (valid)
+            {
+                Value = parsedValue;
+            }
+            else
+            {
+                ErrorMessage = $"Argument '{parsedValue}' failed in validation.";
+            }
+
+            return valid;
         }
     }
 }

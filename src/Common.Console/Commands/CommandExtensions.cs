@@ -3,7 +3,7 @@ using System.Linq;
 
 using Common.Structure.Reporting;
 
-namespace Common.Console.Commands
+namespace Effanville.Common.Console.Commands
 {
     /// <summary>
     /// Contains various extensions for the <see cref="ICommand"/> interface.
@@ -25,13 +25,15 @@ namespace Common.Console.Commands
                 }
             }
 
-            if (cmd.Options.Count > 0)
+            if (cmd.Options.Count <= 0)
             {
-                console.WriteLine("Valid options:");
-                foreach (var option in cmd.Options)
-                {
-                    console.WriteLine($"{option.Name} - {option.Description}");
-                }
+                return;
+            }
+
+            console.WriteLine("Valid options:");
+            foreach (var option in cmd.Options)
+            {
+                console.WriteLine($"{option.Name} - {option.Description}");
             }
         }
 
@@ -39,9 +41,7 @@ namespace Common.Console.Commands
         /// Standard validation routine ensuring all options and sub commands are validated.
         /// </summary>
         public static bool Validate(this ICommand cmd, string[] args, IConsole console)
-        {
-            return Validate(cmd, args, console, null);
-        }
+            => Validate(cmd, args, console, null);
 
         /// <summary>
         /// Standard validation routine ensuring all options and sub commands are validated.
@@ -58,45 +58,48 @@ namespace Common.Console.Commands
                 }
             }
 
-            bool isValid = true;
             var options = cmd.Options;
-            if (options != null && options.Count > 0)
+            if (options == null || options.Count <= 0)
             {
+                return false;
+            }
 
-                // cycle through user given values filling in option values.
-                for (int index = 0; index < args.Length - 1; index++)
+            if (args == null)
+            {
+                return false;
+            }
+
+            bool isValid = true;
+            // cycle through user given values filling in option values.
+            for (int index = 0; index < args.Length - 1; index++)
+            {
+                if (!args[index].StartsWith("--"))
                 {
-                    if (!args[index].StartsWith("--"))
-                    {
-                        continue;
-                    }
-                    else
-                    {
-                        string optionName = args[index].TrimStart('-');
-                        if (!options.Any(opt => opt.Name.Equals(optionName, StringComparison.OrdinalIgnoreCase)))
-                        {
-                            string error = $"Option {optionName} is not a valid option.";
-                            logger?.Log(ReportSeverity.Critical, ReportType.Error, $"{cmd.Name}.{nameof(Validate)}", error);
-                            console.WriteError($"[Command {cmd.Name}] - {error}");
-                            return false;
-                        }
-
-                        var option = options.First(opt => opt.Name.Equals(optionName, StringComparison.OrdinalIgnoreCase));
-                        option.InputValue = args[index + 1];
-                    }
+                    continue;
                 }
 
-                foreach (var option in options)
+                string optionName = args[index].TrimStart('-');
+                if (!options.Any(opt => opt.Name.Equals(optionName, StringComparison.OrdinalIgnoreCase)))
                 {
-                    bool valid = option.Validate();
-                    if (!valid)
-                    {
-                        string error = $"{option.GetPrettyErrorMessage()}";
-                        logger?.Log(ReportSeverity.Critical, ReportType.Error, $"{nameof(Validate)}", error);
-                        console.WriteError(error);
-                        isValid = false;
-                    }
+                    string error = $"Option {optionName} is not a valid option.";
+                    logger?.Log(ReportSeverity.Critical, ReportType.Error, $"{cmd.Name}.{nameof(Validate)}", error);
+                    return false;
                 }
+
+                var option = options.First(opt => opt.Name.Equals(optionName, StringComparison.OrdinalIgnoreCase));
+                option.InputValue = args[index + 1];
+            }
+
+            foreach (var option in options)
+            {
+                if (option.Validate())
+                {
+                    continue;
+                }
+
+                string error = $"{option.GetPrettyErrorMessage()}";
+                logger?.Log(ReportSeverity.Critical, ReportType.Error, $"{nameof(Validate)}", error);
+                isValid = false;
             }
 
             return isValid;
@@ -107,9 +110,7 @@ namespace Common.Console.Commands
         /// Returns error if fails to execute a sub command.
         /// </summary>
         public static int Execute(this ICommand cmd, IConsole console, string[] args)
-        {
-            return Execute(cmd, console, null, args);
-        }
+            => Execute(cmd, console, null, args);
 
         /// <summary>
         /// A default execute algorithm that attempts to execute a sub command.
@@ -117,15 +118,16 @@ namespace Common.Console.Commands
         /// </summary>
         public static int Execute(this ICommand cmd, IConsole console, IReportLogger logger, string[] args)
         {
-            var subCommand = cmd.SubCommands.FirstOrDefault(command => command.Name.Equals(args[0], StringComparison.OrdinalIgnoreCase));
+            var subCommand = cmd.SubCommands.FirstOrDefault(command =>
+                command.Name.Equals(args[0], StringComparison.OrdinalIgnoreCase));
 
-            if (subCommand != null)
+            if (subCommand == null)
             {
-                string[] commandArgs = args.Skip(1).ToArray();
-                return subCommand.Execute(console, logger, commandArgs);
+                return 1;
             }
 
-            return 1;
+            string[] commandArgs = args.Skip(1).ToArray();
+            return subCommand.Execute(console, logger, commandArgs);
         }
 
         /// <summary>
@@ -133,7 +135,9 @@ namespace Common.Console.Commands
         /// </summary>
         public static string ToString(this ICommand cmd)
         {
-            string[] optionNames = cmd.Options.Any() ? cmd.Options.Select(option => option.Name).ToArray() : Array.Empty<string>();
+            string[] optionNames = cmd.Options.Any()
+                ? cmd.Options.Select(option => option.Name).ToArray()
+                : Array.Empty<string>();
             return cmd.Name + $" options: {string.Join(", ", optionNames)}";
         }
     }

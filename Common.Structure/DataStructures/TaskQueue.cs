@@ -6,7 +6,7 @@ namespace Common.Structure.DataStructures;
 /// <summary>
 /// Contains a process to queue a collection of tasks to enact them in the order added.
 /// </summary>
-public sealed class TaskQueue
+public sealed class TaskQueue : ITaskQueue
 {
     private readonly object lockRoot = new object();
     private Task fPreviousTask;
