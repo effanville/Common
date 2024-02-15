@@ -86,15 +86,18 @@ namespace Common.Structure.Reporting
         /// <summary>
         /// Output of error as a string. This does not include the severity of the report.
         /// </summary>
-        public override string ToString() => $"[{TimeStamp}]-({ErrorType}) - [{ErrorLocation}] - {Message}";
+        public override string ToString() => $"[{TimeStamp}] [{ErrorType.ToLogString()}] [{ErrorLocation}] {Message}";
 
+        /// <summary>
+        /// Output the headers for the report in csv format.
+        /// </summary>
         public static string ToCsvHeader() => "TimeStamp,Severity,ErrorType,Location,Message";
+        
         /// <summary>
         /// Output of the report in csv format.
         /// </summary>
         /// <returns></returns>
-        public string ToCsvString() =>
-            $"{TimeStamp},{ErrorSeverity},{ErrorType},{ErrorLocation},{Message}";
+        public string ToCsvString() => $"{TimeStamp},{ErrorSeverity},{ErrorType},{ErrorLocation},{Message}";
         
         /// <summary>
         /// Method of comparison
