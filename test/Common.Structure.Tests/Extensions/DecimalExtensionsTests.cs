@@ -5,7 +5,7 @@ using Common.Structure.Extensions;
 
 using NUnit.Framework;
 
-namespace Common.Structure.Tests.Extensions
+namespace Effanville.Common.Structure.Tests.Extensions
 {
     [TestFixture]
     public sealed class DecimalExtensionsTests

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using Common.Structure.DataStructures.Numeric;
 
-namespace Common.Structure.Tests.DataStructures.Numeric
+namespace Effanville.Common.Structure.Tests.DataStructures.Numeric
 {
     public static class TimeListTestData
     {

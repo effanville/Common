@@ -4,7 +4,7 @@ using Common.Structure.WebAccess;
 
 using NUnit.Framework;
 
-namespace Common.Structure.Tests.WebAccess
+namespace Effanville.Common.Structure.Tests.WebAccess
 {
     [TestFixture]
     public sealed class WebDownloaderTests

@@ -1,7 +1,8 @@
-﻿using NUnit.Framework;
-using Common.UI.Wpf.Converters;
+﻿using Common.UI.Wpf.Converters;
 
-namespace Common.UI.Tests.Converters
+using NUnit.Framework;
+
+namespace Effanville.Common.UI.Wpf.Tests.Converters
 {
     [TestFixture]
     public class BoolToYesNoConverterTests

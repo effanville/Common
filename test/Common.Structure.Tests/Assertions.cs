@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace Common.Structure.Tests
+namespace Effanville.Common.Structure.Tests
 {
     public static class Assertions
     {

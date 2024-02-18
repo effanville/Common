@@ -2,7 +2,7 @@
 
 using Common.Structure.MathLibrary.Optimisation.Vector;
 
-namespace Common.Structure.Tests.MathLibrary.Optimisation.Vector
+namespace Effanville.Common.Structure.Tests.MathLibrary
 {
     /// <summary>
     /// f(x,y) = 0.26(x^2 + y^2) -0.48 x y

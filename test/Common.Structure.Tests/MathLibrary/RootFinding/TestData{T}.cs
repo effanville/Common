@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Common.Structure.Tests.MathLibrary.RootFinding
+namespace Effanville.Common.Structure.Tests.MathLibrary.RootFinding
 {
     public sealed class TestData<T>
     {

@@ -2,7 +2,7 @@
 
 using Common.Structure.MathLibrary.Optimisation.Vector;
 
-namespace Common.Structure.Tests.MathLibrary.Optimisation.Vector
+namespace Effanville.Common.Structure.Tests.MathLibrary
 {
     /// <summary>
     /// f(x,y) = (x^2 + y - 11)^2 + (x + y^2 - 7)^2.

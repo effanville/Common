@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Globalization;
-using NUnit.Framework;
+
 using Common.UI.Wpf.Converters;
 
-namespace Common.UI.Wpf.Tests.Converters
+using NUnit.Framework;
+
+namespace Effanville.Common.UI.Wpf.Tests.Converters
 {
     public sealed class UKDateConverterTests
     {

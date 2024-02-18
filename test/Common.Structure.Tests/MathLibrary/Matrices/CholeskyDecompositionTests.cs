@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 
-using Common.Structure.MathLibrary;
 using Common.Structure.MathLibrary.Matrices;
 using Common.Structure.Results;
 
 using NUnit.Framework;
 
-namespace Common.Structure.Tests.MathLibrary.Matrices
+namespace Effanville.Common.Structure.Tests.MathLibrary.Matrices
 {
     [TestFixture]
     public sealed class CholeskyDecompositionTests

@@ -2,7 +2,7 @@
 
 using NUnit.Framework;
 
-namespace Common.Structure.Tests.MathLibrary.Matrices
+namespace Effanville.Common.Structure.Tests.MathLibrary.Matrices
 {
     [TestFixture]
     public sealed class LUDecompositionTests

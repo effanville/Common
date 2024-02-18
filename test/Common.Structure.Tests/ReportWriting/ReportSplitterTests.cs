@@ -5,7 +5,7 @@ using Common.Structure.ReportWriting.Document;
 
 using NUnit.Framework;
 
-namespace Common.Structure.Tests.ReportWriting
+namespace Effanville.Common.Structure.Tests.ReportWriting
 {
     [TestFixture]
     internal sealed class ReportSplitterTests

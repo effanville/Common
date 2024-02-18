@@ -1,8 +1,10 @@
 ﻿using System;
-using NUnit.Framework;
+
 using Common.Structure.MathLibrary.ParameterEstimation;
 
-namespace Common.Structure.Tests.MathLibrary.ParameterEstimation
+using NUnit.Framework;
+
+namespace Effanville.Common.Structure.Tests.MathLibrary.ParameterEstimation
 {
     internal class EstimatorValues
     {

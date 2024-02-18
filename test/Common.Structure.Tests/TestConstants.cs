@@ -1,6 +1,6 @@
 using System;
 
-namespace Common.Structure.Tests;
+namespace Effanville.Common.Structure.Tests;
 
 public static class TestConstants
 {

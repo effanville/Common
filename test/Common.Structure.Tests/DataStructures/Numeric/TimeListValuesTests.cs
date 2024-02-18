@@ -5,7 +5,7 @@ using Common.Structure.DataStructures.Numeric;
 
 using NUnit.Framework;
 
-namespace Common.Structure.Tests.DataStructures.Numeric
+namespace Effanville.Common.Structure.Tests.DataStructures.Numeric
 {
     [TestFixture]
     public sealed class TimeListValuesTests

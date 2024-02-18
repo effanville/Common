@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
-using NUnit.Framework;
+
 using Common.Structure.DataStructures.Numeric;
 
-namespace Common.Structure.Tests.DataStructures.Numeric
+using NUnit.Framework;
+
+namespace Effanville.Common.Structure.Tests.DataStructures.Numeric
 {
     [TestFixture]
     public sealed class TimeList_RatesTests

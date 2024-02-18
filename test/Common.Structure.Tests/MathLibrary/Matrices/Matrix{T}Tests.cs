@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 
-using NUnit.Framework;
-
 using Common.Structure.MathLibrary.Matrices;
 
-namespace Common.Structure.Tests.MathLibrary.Matrices
+using NUnit.Framework;
+
+namespace Effanville.Common.Structure.Tests.MathLibrary.Matrices
 {
     public class Matrix_T_Tests
     {

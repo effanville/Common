@@ -6,7 +6,7 @@ using Common.Structure.MathLibrary.Optimisation.Scalar;
 
 using NUnit.Framework;
 
-namespace Common.Structure.Tests.MathLibrary.Optimisation.Scalar
+namespace Effanville.Common.Structure.Tests.MathLibrary.Optimisation.Scalar
 {
     [TestFixture]
     public sealed class GoldenSectionSearchTests

@@ -2,11 +2,10 @@
 using System.Text;
 
 using Common.Structure.ReportWriting;
-using Common.Structure.ReportWriting.Markdown;
 
 using NUnit.Framework;
 
-namespace Common.Structure.Tests.ReportWriting.Html
+namespace Effanville.Common.Structure.Tests.ReportWriting.Html
 {
     [TestFixture]
     public sealed class HtmlTableWriterTests

@@ -4,7 +4,7 @@ using Common.Structure.MathLibrary.RootFinding;
 
 using NUnit.Framework;
 
-namespace Common.Structure.Tests.MathLibrary.RootFinding.Vector
+namespace Effanville.Common.Structure.Tests.MathLibrary.RootFinding.Vector
 {
     [TestFixture]
     internal sealed class NewtonRaphsonTests

@@ -1,8 +1,10 @@
 ﻿using System;
-using NUnit.Framework;
+
 using Common.Structure.Reporting;
 
-namespace Common.Structure.Tests.Reporting
+using NUnit.Framework;
+
+namespace Effanville.Common.Structure.Tests.Reporting
 {
     [TestFixture]
     public sealed class ErrorReportTests

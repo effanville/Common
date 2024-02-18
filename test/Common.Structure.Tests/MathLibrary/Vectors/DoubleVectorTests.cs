@@ -5,7 +5,7 @@ using Common.Structure.MathLibrary.Vectors;
 
 using NUnit.Framework;
 
-namespace Common.Structure.Tests.MathLibrary.Vectors
+namespace Effanville.Common.Structure.Tests.MathLibrary.Vectors
 {
     [TestFixture]
     public sealed class DoubleVectorTests

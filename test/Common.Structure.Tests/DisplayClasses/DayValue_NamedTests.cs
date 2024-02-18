@@ -5,7 +5,7 @@ using Common.Structure.NamingStructures;
 
 using NUnit.Framework;
 
-namespace Common.Structure.Tests.DisplayClasses
+namespace Effanville.Common.Structure.Tests.DisplayClasses
 {
     [TestFixture]
     public class DayValue_NamedTests

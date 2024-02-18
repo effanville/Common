@@ -4,7 +4,7 @@ using Common.Structure.ReportWriting;
 
 using NUnit.Framework;
 
-namespace Common.Structure.Tests.ReportWriting
+namespace Effanville.Common.Structure.Tests.ReportWriting
 {
     [TestFixture]
     internal class TableInverterTests

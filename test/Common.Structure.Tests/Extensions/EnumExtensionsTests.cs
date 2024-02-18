@@ -2,7 +2,7 @@
 
 using NUnit.Framework;
 
-namespace Common.Structure.Tests.Extensions
+namespace Effanville.Common.Structure.Tests.Extensions
 {
     [TestFixture]
     public sealed class EnumExtensionsTests

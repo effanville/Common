@@ -2,7 +2,7 @@
 
 using NUnit.Framework;
 
-namespace Common.Structure.Tests.MathLibrary
+namespace Effanville.Common.Structure.Tests.MathLibrary
 {
     [TestFixture]
     internal sealed class HelpersTests

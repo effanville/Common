@@ -1,6 +1,6 @@
 ﻿using Common.Structure.MathLibrary.Optimisation.Vector;
 
-namespace Common.Structure.Tests.MathLibrary
+namespace Effanville.Common.Structure.Tests.MathLibrary
 {
     public interface IVectorFunction
     {

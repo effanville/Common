@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using System.Xml.Serialization;
-using NUnit.Framework;
-using Common.Structure.DataStructures;
 using System.Xml;
+using System.Xml.Serialization;
 
-namespace Common.Structure.Tests.DataStructures.Money
+using Common.Structure.DataStructures;
+
+using NUnit.Framework;
+
+namespace Effanville.Common.Structure.Tests.DataStructures.Money
 {
     /// <summary>
     /// Tests to ensure that a TimeList as a field or property of another class

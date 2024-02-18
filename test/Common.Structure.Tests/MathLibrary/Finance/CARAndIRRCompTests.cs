@@ -6,7 +6,7 @@ using Common.Structure.MathLibrary.Finance;
 
 using NUnit.Framework;
 
-namespace Common.Structure.Tests.MathLibrary.Finance
+namespace Effanville.Common.Structure.Tests.MathLibrary.Finance
 {
     [TestFixture]
     internal sealed class CARAndIRRCompTests

@@ -2,11 +2,10 @@
 using System.Text;
 
 using Common.Structure.ReportWriting;
-using Common.Structure.ReportWriting.Markdown;
 
 using NUnit.Framework;
 
-namespace Common.Structure.Tests.ReportWriting.Markdown
+namespace Effanville.Common.Structure.Tests.ReportWriting.Markdown
 {
     [TestFixture]
     public sealed class MarkdownTableWriterTests

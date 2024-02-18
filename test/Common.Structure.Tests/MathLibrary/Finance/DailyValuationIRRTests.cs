@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 
-using NUnit.Framework;
-
 using Common.Structure.DataStructures;
 using Common.Structure.MathLibrary.Finance;
 
-namespace Common.Structure.Tests.MathLibrary.Finance
+using NUnit.Framework;
+
+namespace Effanville.Common.Structure.Tests.MathLibrary.Finance
 {
     [TestFixture]
     public class DailyValuationIRRTests

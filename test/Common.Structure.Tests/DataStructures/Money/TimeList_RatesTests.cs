@@ -5,7 +5,7 @@ using Common.Structure.DataStructures;
 
 using NUnit.Framework;
 
-namespace Common.Structure.Tests.DataStructures.Money
+namespace Effanville.Common.Structure.Tests.DataStructures.Money
 {
     [TestFixture]
     public sealed class TimeList_RatesTests

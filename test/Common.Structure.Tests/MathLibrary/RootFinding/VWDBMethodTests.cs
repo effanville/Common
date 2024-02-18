@@ -6,7 +6,7 @@ using Common.Structure.Results;
 
 using NUnit.Framework;
 
-namespace Common.Structure.Tests.MathLibrary.RootFinding
+namespace Effanville.Common.Structure.Tests.MathLibrary.RootFinding
 {
     [TestFixture]
     public sealed class VWDBMethodTests

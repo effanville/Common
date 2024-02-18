@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml;
-using NUnit.Framework;
+
 using Common.Structure.DataStructures;
 
-namespace Common.Structure.Tests.DataStructures.Money
+using NUnit.Framework;
+
+namespace Effanville.Common.Structure.Tests.DataStructures.Money
 {
     public class DailyValuationTests
     {

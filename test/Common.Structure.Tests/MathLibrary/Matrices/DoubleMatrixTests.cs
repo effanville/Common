@@ -4,7 +4,7 @@ using Common.Structure.MathLibrary.Matrices;
 
 using NUnit.Framework;
 
-namespace Common.Structure.Tests.MathLibrary.Matrices
+namespace Effanville.Common.Structure.Tests.MathLibrary.Matrices
 {
     [TestFixture]
     internal sealed class DoubleMatrixTests

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using Common.Structure.DataStructures;
 
-namespace Common.Structure.Tests.DataStructures.Money
+namespace Effanville.Common.Structure.Tests.DataStructures.Money
 {
     public static class TimeListTestData
     {

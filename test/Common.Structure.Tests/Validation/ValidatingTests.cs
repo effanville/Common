@@ -1,8 +1,10 @@
 ﻿using System;
-using NUnit.Framework;
+
 using Common.Structure.Validation;
 
-namespace Common.Structure.Tests.Validation
+using NUnit.Framework;
+
+namespace Effanville.Common.Structure.Tests.Validation
 {
     [TestFixture]
     public sealed class ValidatingTests

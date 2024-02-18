@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
-using NUnit.Framework;
+
 using Common.Structure.NamingStructures;
 using Common.Structure.Validation;
 
-namespace Common.Structure.Tests.NamingStructures
+using NUnit.Framework;
+
+namespace Effanville.Common.Structure.Tests.NamingStructures
 {
     [TestFixture]
     public sealed class NameTests

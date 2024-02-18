@@ -4,7 +4,7 @@ using Common.Structure.MathLibrary.Optimisation.Vector;
 
 using NUnit.Framework;
 
-namespace Common.Structure.Tests.MathLibrary.Optimisation.Vector
+namespace Effanville.Common.Structure.Tests.MathLibrary.Optimisation.Vector
 {
     [TestFixture]
     public sealed class BFGSTests

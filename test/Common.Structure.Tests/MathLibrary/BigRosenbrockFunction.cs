@@ -3,7 +3,7 @@ using System.Linq;
 
 using Common.Structure.MathLibrary.Optimisation.Vector;
 
-namespace Common.Structure.Tests.MathLibrary.Optimisation.Vector
+namespace Effanville.Common.Structure.Tests.MathLibrary
 {
     public sealed class BigRosenbrockFunction : IVectorFunction
     {

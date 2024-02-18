@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Common.Structure.Tests.MathLibrary.Matrices
+namespace Effanville.Common.Structure.Tests.MathLibrary.Matrices
 {
     public class TestMatrixValues
     {
