@@ -3,7 +3,7 @@
 using Effanville.Common.Structure.MathLibrary.Matrices;
 using Effanville.Common.Structure.Results;
 
-namespace Effanville.Common.Structure.MathLibrary.RootFinding.Vector
+namespace Effanville.Common.Structure.MathLibrary.RootFinding
 {
     public static partial class RootFinder
     {
