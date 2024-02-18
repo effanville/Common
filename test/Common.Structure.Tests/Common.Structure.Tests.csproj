@@ -11,8 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Common.Structure\Common.Structure.csproj" />
-    <ProjectReference Include="..\Common.UI\Common.UI.csproj" />
+    <ProjectReference Include="..\..\src\Common.Structure\Common.Structure.csproj" />
   </ItemGroup>
 
 </Project>
