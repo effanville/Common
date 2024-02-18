@@ -1,6 +1,6 @@
 using System;
 
-namespace Common.Structure;
+namespace Effanville.Common.Structure;
 
 /// <summary>
 /// Contains various constants on a system or environment level.

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Common.Structure.NamingStructures
+namespace Effanville.Common.Structure.NamingStructures
 {
     /// <summary>
     /// A wrapper for adding a <see cref="Name"/> to an object of type

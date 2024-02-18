@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Common.Structure.MathLibrary.Matrices
+namespace Effanville.Common.Structure.MathLibrary.Matrices
 {
     /// <summary>
     /// Contains a representation of a matrix of values of type <see paramref="T"/>.

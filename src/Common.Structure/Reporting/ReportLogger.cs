@@ -2,9 +2,9 @@
 using System.IO;
 using System.IO.Abstractions;
 
-using Common.Structure.DataStructures;
+using Effanville.Common.Structure.DataStructures;
 
-namespace Common.Structure.Reporting
+namespace Effanville.Common.Structure.Reporting
 {
     /// <summary>
     /// Collection of standard reporting mechanisms.

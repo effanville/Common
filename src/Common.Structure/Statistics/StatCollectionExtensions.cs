@@ -3,9 +3,9 @@ using System.IO;
 using System.IO.Abstractions;
 using System.Text;
 
-using Common.Structure.ReportWriting;
+using Effanville.Common.Structure.ReportWriting;
 
-namespace Common.Statistics
+namespace Effanville.Common.Structure.Statistics
 {
     /// <summary>
     /// Extensions for the <see cref="IGenericStatCollection{S, T}"/> interface.

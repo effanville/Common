@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Common.Structure.ReportWriting
+namespace Effanville.Common.Structure.ReportWriting
 {
     /// <summary>
     /// Contains extension methods for an <see cref="ITableWriter"/>.

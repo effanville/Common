@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Common.Structure.MathLibrary.Functions
+namespace Effanville.Common.Structure.MathLibrary.Functions
 {
     /// <summary>
     /// The incomplete Gamma function written as P(a,x).

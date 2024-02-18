@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Common.Structure.MathLibrary
+namespace Effanville.Common.Structure.MathLibrary
 {
     internal sealed class Helpers
     {

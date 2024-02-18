@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Common.Structure.Validation
+namespace Effanville.Common.Structure.Validation
 {
     /// <summary>
     /// Contains standard validation routines.

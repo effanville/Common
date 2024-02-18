@@ -1,10 +1,9 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-using Common.Structure.Results;
+using Effanville.Common.Structure.Results;
 
-namespace Common.Structure.MathLibrary.RootFinding
+namespace Effanville.Common.Structure.MathLibrary.RootFinding
 {
     public static partial class RootFinder
     {

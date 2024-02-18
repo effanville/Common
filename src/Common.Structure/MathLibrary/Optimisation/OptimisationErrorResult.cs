@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Common.Structure.MathLibrary.Optimisation;
+namespace Effanville.Common.Structure.MathLibrary.Optimisation;
 
 public sealed class OptimisationErrorResult<T> : Results.ErrorResult<T>, IOptimisationResult<T>
 {

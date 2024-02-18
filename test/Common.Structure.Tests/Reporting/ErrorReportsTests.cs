@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-using Common.Structure.Reporting;
+using Effanville.Common.Structure.Reporting;
 
 using NUnit.Framework;
 

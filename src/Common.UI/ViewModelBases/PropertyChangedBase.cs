@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Common.UI.ViewModelBases
+namespace Effanville.Common.UI.ViewModelBases
 {
     /// <summary>
     /// Base implementation of INotifyPropertyChanged interface

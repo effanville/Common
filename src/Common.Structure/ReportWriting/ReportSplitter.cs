@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Text;
 
-using Common.Structure.ReportWriting.Document;
+using Effanville.Common.Structure.ReportWriting.Document;
 
-namespace Common.Structure.ReportWriting
+namespace Effanville.Common.Structure.ReportWriting
 {
     /// <summary>
     /// Contains methods for splitting reports into their constituent parts.

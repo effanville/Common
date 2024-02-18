@@ -1,6 +1,6 @@
-﻿using Common.Structure.Results;
+﻿using Effanville.Common.Structure.Results;
 
-namespace Common.Structure.MathLibrary.Matrices
+namespace Effanville.Common.Structure.MathLibrary.Matrices
 {
     /// <summary>
     /// Contains the lower-upper decomposition of a given matrix.

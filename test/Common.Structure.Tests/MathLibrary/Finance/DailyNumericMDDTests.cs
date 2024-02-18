@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Common.Structure.DataStructures.Numeric;
-using Common.Structure.MathLibrary.Finance;
+using Effanville.Common.Structure.DataStructures.Numeric;
+using Effanville.Common.Structure.MathLibrary.Finance;
 
 using NUnit.Framework;
 

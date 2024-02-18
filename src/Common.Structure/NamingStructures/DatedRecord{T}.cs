@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Common.Structure.NamingStructures
+namespace Effanville.Common.Structure.NamingStructures
 {
     /// <summary>
     /// A record that contains a date and a value.

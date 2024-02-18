@@ -1,8 +1,8 @@
 ﻿using System;
 
-using Common.Structure.Reporting;
+using Effanville.Common.Structure.Reporting;
 
-namespace Common.Structure.DataStructures
+namespace Effanville.Common.Structure.DataStructures
 {
     /// <summary>
     /// A list of <typeparamref name="T"/>s that is ordered by the <see cref="Daily{T}.Day"/> property.

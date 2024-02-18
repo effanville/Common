@@ -1,4 +1,4 @@
-﻿namespace Common.UI.Services
+﻿namespace Effanville.Common.UI.Services
 {
     /// <summary>
     /// Interface for interacting with the file structure.

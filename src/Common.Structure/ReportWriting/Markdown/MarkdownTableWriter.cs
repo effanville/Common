@@ -1,8 +1,7 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
 
-namespace Common.Structure.ReportWriting.Markdown
+namespace Effanville.Common.Structure.ReportWriting.Markdown
 {
     /// <summary>
     /// A table writer for markdown documents.

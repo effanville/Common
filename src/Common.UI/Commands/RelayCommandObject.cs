@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace Common.UI.Commands
+namespace Effanville.Common.UI.Commands
 {
     /// <summary>
     /// Command instance that executes with an argument that is an object.

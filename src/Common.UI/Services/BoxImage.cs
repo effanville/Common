@@ -1,4 +1,4 @@
-﻿namespace Common.UI.Services;
+﻿namespace Effanville.Common.UI.Services;
 
 /// <summary>
 /// Specifies the icon that is displayed by a message box.

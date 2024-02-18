@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Common.Structure.MathLibrary.Optimisation.Scalar;
+using Effanville.Common.Structure.MathLibrary.Optimisation.Scalar;
 
 using NUnit.Framework;
 

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 
-using Common.Structure.Reporting;
+using Effanville.Common.Structure.Reporting;
 
-namespace Common.Structure.DataStructures.Numeric
+namespace Effanville.Common.Structure.DataStructures.Numeric
 {
     public partial class TimeNumberList
     {

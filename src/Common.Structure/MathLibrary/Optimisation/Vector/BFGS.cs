@@ -1,9 +1,9 @@
 ﻿using System;
 
-using Common.Structure.MathLibrary.Matrices;
-using Common.Structure.MathLibrary.Vectors;
+using Effanville.Common.Structure.MathLibrary.Matrices;
+using Effanville.Common.Structure.MathLibrary.Vectors;
 
-namespace Common.Structure.MathLibrary.Optimisation.Vector
+namespace Effanville.Common.Structure.MathLibrary.Optimisation.Vector
 {
     /// <summary>
     /// Contains the BFGS minimisation.

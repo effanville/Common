@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 
-namespace Common.Structure.ReportWriting
+namespace Effanville.Common.Structure.ReportWriting
 {
     /// <summary>
     /// Contains methods for writing tables.

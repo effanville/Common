@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Common.Structure.NamingStructures
+namespace Effanville.Common.Structure.NamingStructures
 {
     /// <summary>
     /// Record comparisons.

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Common.Structure.Validation
+namespace Effanville.Common.Structure.Validation
 {
     /// <summary>
     /// A class detailing the validity of a property or field.

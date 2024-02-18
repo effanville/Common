@@ -1,4 +1,4 @@
-﻿namespace Common.Structure.MathLibrary.ProbabilityDistributions
+﻿namespace Effanville.Common.Structure.MathLibrary.ProbabilityDistributions
 {
     internal interface IProbabilityDistribution
     {

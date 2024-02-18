@@ -4,7 +4,7 @@ using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
 
-namespace Common.Structure.Reporting
+namespace Effanville.Common.Structure.Reporting
 {
     /// <summary>
     /// Collection of ErrorReport with added query functionality to tell the user what is happening.

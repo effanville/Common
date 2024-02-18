@@ -1,9 +1,9 @@
 using System;
 using System.Windows.Input;
 
-using Common.UI.Commands;
+using Effanville.Common.UI.Commands;
 
-namespace Common.UI.ViewModelBases;
+namespace Effanville.Common.UI.ViewModelBases;
 
 /// <summary>
 /// A view model base that enables closing, and invokes a closing action when closed.

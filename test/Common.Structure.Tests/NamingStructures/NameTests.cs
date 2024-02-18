@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
-using Common.Structure.NamingStructures;
-using Common.Structure.Validation;
+using Effanville.Common.Structure.NamingStructures;
+using Effanville.Common.Structure.Validation;
 
 using NUnit.Framework;
 

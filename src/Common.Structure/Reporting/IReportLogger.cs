@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO.Abstractions;
 
-namespace Common.Structure.Reporting
+namespace Effanville.Common.Structure.Reporting
 {
     /// <summary>
     /// Report Logger contract. Allows for reporting using types or strings.

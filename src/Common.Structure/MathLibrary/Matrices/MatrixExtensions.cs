@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Common.Structure.MathLibrary.Matrices
+namespace Effanville.Common.Structure.MathLibrary.Matrices
 {
     /// <summary>
     /// Implementations of matrix manipulations.

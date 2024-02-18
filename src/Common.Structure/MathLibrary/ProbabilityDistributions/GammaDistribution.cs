@@ -1,8 +1,8 @@
 ﻿using System;
 
-using Common.Structure.MathLibrary.Functions;
+using Effanville.Common.Structure.MathLibrary.Functions;
 
-namespace Common.Structure.MathLibrary.ProbabilityDistributions
+namespace Effanville.Common.Structure.MathLibrary.ProbabilityDistributions
 {
     /// <summary>
     /// The Gamma distribution

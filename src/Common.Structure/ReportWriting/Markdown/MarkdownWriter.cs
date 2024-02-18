@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Common.Structure.ReportWriting.Markdown
+namespace Effanville.Common.Structure.ReportWriting.Markdown
 {
     /// <summary>
     /// Contains helper methods for writing markdown docs.

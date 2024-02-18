@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Common.UI.Wpf.Controls.ClosableHeader"
+﻿<UserControl x:Class="Effanville.Common.UI.Wpf.Controls.ClosableHeader"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"

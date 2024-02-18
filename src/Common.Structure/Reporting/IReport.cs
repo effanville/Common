@@ -1,4 +1,4 @@
-﻿namespace Common.Structure.Reporting
+﻿namespace Effanville.Common.Structure.Reporting
 {
     /// <summary>
     /// Methods for setting data in a report.

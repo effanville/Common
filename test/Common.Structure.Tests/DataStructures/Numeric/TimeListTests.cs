@@ -4,7 +4,7 @@ using System.IO;
 using System.Text;
 using System.Xml;
 
-using Common.Structure.DataStructures.Numeric;
+using Effanville.Common.Structure.DataStructures.Numeric;
 
 using NUnit.Framework;
 

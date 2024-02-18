@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Common.Structure.MathLibrary.Finance;
+using Effanville.Common.Structure.MathLibrary.Finance;
 
-namespace Common.Structure.DataStructures.Numeric
+namespace Effanville.Common.Structure.DataStructures.Numeric
 {
     /// <summary>
     /// Sorted list of values, with last value the most recent, and first the oldest.

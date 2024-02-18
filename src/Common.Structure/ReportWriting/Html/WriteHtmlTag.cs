@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace Common.Structure.ReportWriting.Html
+namespace Effanville.Common.Structure.ReportWriting.Html
 {
     /// <summary>
     /// Class used to write html tags with corresponding closing tag.

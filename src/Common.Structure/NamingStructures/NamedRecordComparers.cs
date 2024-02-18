@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Common.Structure.NamingStructures
+namespace Effanville.Common.Structure.NamingStructures
 {
     /// <summary>
     /// Comparisons for <see cref="NamedRecord{T}"/>

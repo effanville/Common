@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Common.Structure.NamingStructures
+namespace Effanville.Common.Structure.NamingStructures
 {
     /// <summary>
     /// Comparer methods for a <see cref="NameDurationRecord{T}"/>.

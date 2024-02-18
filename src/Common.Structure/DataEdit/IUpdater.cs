@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Common.Structure.DataEdit
+namespace Effanville.Common.Structure.DataEdit
 {
     /// <summary>
     /// Contains methods for updating an object of type <see typeparamcref="T"/> using callbacks.

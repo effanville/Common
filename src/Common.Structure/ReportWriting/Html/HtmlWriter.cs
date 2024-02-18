@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Common.Structure.ReportWriting.Html
+namespace Effanville.Common.Structure.ReportWriting.Html
 {
     internal sealed class HtmlWriter : ITextWriter
     {

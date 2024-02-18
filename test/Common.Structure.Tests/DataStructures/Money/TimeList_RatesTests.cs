@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-using Common.Structure.DataStructures;
+using Effanville.Common.Structure.DataStructures;
 
 using NUnit.Framework;
 

@@ -1,4 +1,4 @@
-﻿namespace Common.UI.Services;
+﻿namespace Effanville.Common.UI.Services;
 
 /// <summary>
 /// Wrapper around a MessageBoxResult.

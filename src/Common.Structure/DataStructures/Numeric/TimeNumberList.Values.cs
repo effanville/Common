@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Common.Structure.DataStructures.Numeric
+namespace Effanville.Common.Structure.DataStructures.Numeric
 {
     public partial class TimeNumberList
     {

@@ -1,9 +1,9 @@
 ﻿using System;
 
-using Common.Structure.MathLibrary.Matrices;
-using Common.Structure.Results;
+using Effanville.Common.Structure.MathLibrary.Matrices;
+using Effanville.Common.Structure.Results;
 
-namespace Common.Structure.MathLibrary.RootFinding
+namespace Effanville.Common.Structure.MathLibrary.RootFinding.Vector
 {
     public static partial class RootFinder
     {

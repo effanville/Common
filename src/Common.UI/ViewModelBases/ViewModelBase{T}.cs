@@ -1,4 +1,4 @@
-﻿namespace Common.UI.ViewModelBases
+﻿namespace Effanville.Common.UI.ViewModelBases
 {
     /// <summary>
     /// Base for ViewModels containing display purpose objects.

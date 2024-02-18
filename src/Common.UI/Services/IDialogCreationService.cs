@@ -1,4 +1,4 @@
-﻿namespace Common.UI.Services
+﻿namespace Effanville.Common.UI.Services
 {
     /// <summary>
     /// Interface for creating dialog boxes in the UI. Note that this should live in the UI part, but is a service that can be used in

@@ -1,4 +1,4 @@
-﻿namespace Common.Structure.MathLibrary.Optimisation
+﻿namespace Effanville.Common.Structure.MathLibrary.Optimisation
 {
     /// <summary>
     /// The exit condition for an optimisation routine.

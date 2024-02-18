@@ -1,6 +1,6 @@
 ﻿using System;
 
-using Common.Structure.Extensions;
+using Effanville.Common.Structure.Extensions;
 
 namespace Effanville.Common.Console.Options
 {

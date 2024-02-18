@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Common.Structure.DisplayClasses
+namespace Effanville.Common.Structure.DisplayClasses
 {
     /// <summary>
     /// Class that wraps a boolean around an instance of a type <typeparamref name="T"/>. when the boolean 

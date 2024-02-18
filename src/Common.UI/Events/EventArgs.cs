@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Common.UI.Events
+namespace Effanville.Common.UI.Events
 {
     /// <summary>
     /// Event args with an extra parameter specifying a value.

@@ -1,9 +1,9 @@
 ﻿using System.IO.Abstractions;
 
-using Common.Structure.Reporting;
-using Common.UI.Services;
+using Effanville.Common.Structure.Reporting;
+using Effanville.Common.UI.Services;
 
-namespace Common.UI
+namespace Effanville.Common.UI
 {
     /// <summary>
     /// Class containing services to be used throughout a UI application.

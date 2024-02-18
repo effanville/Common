@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Common.Structure.Extensions
+namespace Effanville.Common.Structure.Extensions
 {
     /// <summary>
     /// Miscellaneous custom extension functions for the <see cref="Enum"/> type.

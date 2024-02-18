@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Common.Structure.ReportWriting.Document
+namespace Effanville.Common.Structure.ReportWriting.Document
 {
     /// <summary>
     /// A part of a document detailing a table.

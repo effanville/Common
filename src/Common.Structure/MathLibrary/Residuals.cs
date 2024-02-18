@@ -1,4 +1,4 @@
-﻿namespace Common.Structure.MathLibrary
+﻿namespace Effanville.Common.Structure.MathLibrary
 {
     /// <summary>
     /// Contains standard methods for calculating residual errors.

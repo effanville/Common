@@ -1,9 +1,9 @@
 ﻿using System;
 
-using Common.Structure.DataStructures;
-using Common.Structure.DataStructures.Numeric;
+using Effanville.Common.Structure.DataStructures;
+using Effanville.Common.Structure.DataStructures.Numeric;
 
-namespace Common.Structure.MathLibrary.Finance
+namespace Effanville.Common.Structure.MathLibrary.Finance
 {
     /// <summary>
     /// Contains functions for calculating the compound annual rate.

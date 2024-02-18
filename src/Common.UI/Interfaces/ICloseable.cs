@@ -1,4 +1,4 @@
-﻿namespace Common.UI.Interfaces
+﻿namespace Effanville.Common.UI.Interfaces
 {
     /// <summary>
     /// Wrapper for an object that enables the closing of itself (e.g. a window)

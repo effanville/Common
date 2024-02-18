@@ -1,6 +1,6 @@
 using System;
 
-namespace Common.Structure.ReportWriting.Document
+namespace Effanville.Common.Structure.ReportWriting.Document
 {
     /// <summary>
     /// A part of a document.

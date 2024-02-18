@@ -2,12 +2,12 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 
-using Common.Structure.Reporting;
+using Effanville.Common.Structure.Reporting;
 
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 
-namespace Common.Structure.WebAccess
+namespace Effanville.Common.Structure.WebAccess
 {
     /// <summary>
     /// Provides methods for downloading html from a website.

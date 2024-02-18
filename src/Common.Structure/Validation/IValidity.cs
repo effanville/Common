@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Common.Structure.Validation
+namespace Effanville.Common.Structure.Validation
 {
     /// <summary>
     /// An interface for validation routines for a class.

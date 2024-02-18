@@ -1,4 +1,4 @@
-﻿using Common.Structure.Extensions;
+﻿using Effanville.Common.Structure.Extensions;
 
 using NUnit.Framework;
 

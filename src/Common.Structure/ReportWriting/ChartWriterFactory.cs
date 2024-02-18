@@ -1,6 +1,6 @@
-﻿using Common.Structure.ReportWriting.Html;
+﻿using Effanville.Common.Structure.ReportWriting.Html;
 
-namespace Common.Structure.ReportWriting
+namespace Effanville.Common.Structure.ReportWriting
 {
     /// <summary>
     /// Contains factory methods for Chart writers.

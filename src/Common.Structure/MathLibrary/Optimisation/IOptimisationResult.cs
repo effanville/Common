@@ -1,4 +1,4 @@
-namespace Common.Structure.MathLibrary.Optimisation;
+namespace Effanville.Common.Structure.MathLibrary.Optimisation;
 
 public interface IOptimisationResult<TData>
 {

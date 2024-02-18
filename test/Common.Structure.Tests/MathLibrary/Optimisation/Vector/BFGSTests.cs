@@ -1,6 +1,6 @@
 ﻿using System;
 
-using Common.Structure.MathLibrary.Optimisation.Vector;
+using Effanville.Common.Structure.MathLibrary.Optimisation.Vector;
 
 using NUnit.Framework;
 

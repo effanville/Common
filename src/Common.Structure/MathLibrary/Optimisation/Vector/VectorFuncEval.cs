@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Common.Structure.MathLibrary.Optimisation.Vector
+namespace Effanville.Common.Structure.MathLibrary.Optimisation.Vector
 {
     /// <summary>
     /// Contains function data for a function from R^n to R.

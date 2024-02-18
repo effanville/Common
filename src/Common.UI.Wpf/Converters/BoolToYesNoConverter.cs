@@ -2,7 +2,7 @@
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace Common.UI.Wpf.Converters
+namespace Effanville.Common.UI.Wpf.Converters
 {
     /// <summary>
     /// Converts a boolean to the strings "Yes" and "No" and back again.

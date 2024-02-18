@@ -1,4 +1,4 @@
-﻿namespace Common.Structure.Reporting
+﻿namespace Effanville.Common.Structure.Reporting
 {
     /// <summary>
     /// The type of the report.

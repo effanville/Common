@@ -1,8 +1,8 @@
 ﻿using System;
 
-using Common.Structure.Results;
+using Effanville.Common.Structure.Results;
 
-namespace Common.Structure.MathLibrary.Optimisation.Vector
+namespace Effanville.Common.Structure.MathLibrary.Optimisation.Vector
 {
     /// <summary>
     /// The standard search mechanism for a line search.

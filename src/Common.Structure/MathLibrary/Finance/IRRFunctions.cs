@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Common.Structure.DataStructures;
-using Common.Structure.DataStructures.Numeric;
+using Effanville.Common.Structure.DataStructures;
+using Effanville.Common.Structure.DataStructures.Numeric;
 
-namespace Common.Structure.MathLibrary.Finance
+namespace Effanville.Common.Structure.MathLibrary.Finance
 {
     /// <summary>
     /// Default financial based functions.

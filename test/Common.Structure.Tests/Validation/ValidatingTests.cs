@@ -1,6 +1,6 @@
 ﻿using System;
 
-using Common.Structure.Validation;
+using Effanville.Common.Structure.Validation;
 
 using NUnit.Framework;
 

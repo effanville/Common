@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-using Common.Structure.WebAccess;
+using Effanville.Common.Structure.WebAccess;
 
 using NUnit.Framework;
 

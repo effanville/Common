@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace Common.UI.Wpf.Converters
+namespace Effanville.Common.UI.Wpf.Converters
 {
     /// <summary>
     /// Converter to convert from a DateTime into the UK representation of that DateTime.

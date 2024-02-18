@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Abstractions;
-using Common.Structure.Reporting;
 
-namespace Common.Structure.FileAccess
+using Effanville.Common.Structure.Reporting;
+
+namespace Effanville.Common.Structure.FileAccess
 {
     /// <summary>
     /// Contains routines to extract data from csv files.

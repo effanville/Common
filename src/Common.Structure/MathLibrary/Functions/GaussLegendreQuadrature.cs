@@ -1,4 +1,4 @@
-﻿namespace Common.Structure.MathLibrary.Functions
+﻿namespace Effanville.Common.Structure.MathLibrary.Functions
 {
     internal static class GaussLegendreQuadrature
     {

@@ -1,4 +1,4 @@
-﻿namespace Common.Structure.MathLibrary.RootFinding
+﻿namespace Effanville.Common.Structure.MathLibrary.RootFinding
 {
     public static partial class RootFinder
     {

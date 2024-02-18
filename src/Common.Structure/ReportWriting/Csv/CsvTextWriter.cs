@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Common.Structure.ReportWriting.Csv
+namespace Effanville.Common.Structure.ReportWriting.Csv
 {
     internal sealed class CsvTextWriter : ITextWriter
     {

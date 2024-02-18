@@ -1,6 +1,6 @@
 ﻿using System.IO.Abstractions;
 
-using Common.Structure.Reporting;
+using Effanville.Common.Structure.Reporting;
 
 namespace Effanville.Common.Console
 {

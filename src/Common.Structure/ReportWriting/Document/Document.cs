@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Common.Structure.ReportWriting.Document
+namespace Effanville.Common.Structure.ReportWriting.Document
 {
     /// <summary>
     /// A representation of a document that contains various parts.

@@ -4,7 +4,7 @@ using System.IO.Abstractions;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace Common.Structure.FileAccess
+namespace Effanville.Common.Structure.FileAccess
 {
     /// <summary>
     /// Contains generic type routines for writing and reading from xml file.

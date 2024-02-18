@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Common.Structure.Extensions
+namespace Effanville.Common.Structure.Extensions
 {
     /// <summary>
     /// Miscellaneous custom extension methods for the <see cref="DateTime"/> class.

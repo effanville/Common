@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Common.Structure.DataStructures;
+namespace Effanville.Common.Structure.DataStructures;
 
 /// <summary>
 /// Contains a process to queue a collection of tasks to enact them in the order added.

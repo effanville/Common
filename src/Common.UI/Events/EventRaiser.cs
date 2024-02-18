@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Common.UI.Events
+namespace Effanville.Common.UI.Events
 {
     /// <summary>
     /// Contains extension methods for an event handler.

@@ -1,8 +1,8 @@
 ﻿using System;
 
-using Common.Structure.Results;
+using Effanville.Common.Structure.Results;
 
-namespace Common.Structure.MathLibrary.RootFinding
+namespace Effanville.Common.Structure.MathLibrary.RootFinding
 {
     /// <summary>
     /// Class containing root finding algorithms.

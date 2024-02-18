@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 
-namespace Common.Structure.ReportWriting.Document
+namespace Effanville.Common.Structure.ReportWriting.Document
 {
     /// <summary>
     /// Provides a builder for creating documents.

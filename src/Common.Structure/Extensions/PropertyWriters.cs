@@ -1,4 +1,4 @@
-﻿namespace Common.Structure.Extensions
+﻿namespace Effanville.Common.Structure.Extensions
 {
     /// <summary>
     /// Writes properties of an object into strings.

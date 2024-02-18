@@ -1,4 +1,4 @@
-﻿namespace Common.Structure.ReportWriting
+﻿namespace Effanville.Common.Structure.ReportWriting
 {
     /// <summary>
     /// Container for all used document tags

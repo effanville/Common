@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Common.Structure.MathLibrary.Vectors
+namespace Effanville.Common.Structure.MathLibrary.Vectors
 {
     /// <summary>
     /// Generic implementation of a vector. Wraps an array and provides convenient return methods.

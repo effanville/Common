@@ -5,7 +5,7 @@ using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 
-namespace Common.Structure.DataStructures
+namespace Effanville.Common.Structure.DataStructures
 {
     /// <summary>
     /// Sorted list of values, with last value the most recent, and first the oldest.

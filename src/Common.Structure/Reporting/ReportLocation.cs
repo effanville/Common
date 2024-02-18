@@ -1,4 +1,4 @@
-﻿namespace Common.Structure.Reporting
+﻿namespace Effanville.Common.Structure.Reporting
 {
     /// <summary>
     /// Details a location pertaining to a report.

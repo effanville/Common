@@ -1,8 +1,8 @@
 ﻿using System;
 
-using Common.Structure.Results;
+using Effanville.Common.Structure.Results;
 
-namespace Common.Structure.MathLibrary.Optimisation.Scalar
+namespace Effanville.Common.Structure.MathLibrary.Optimisation.Scalar
 {
     /// <summary>
     /// Contains methods for optimisation using the Brent Algorithm

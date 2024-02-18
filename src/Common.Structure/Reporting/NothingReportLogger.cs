@@ -1,6 +1,6 @@
 ﻿using System.IO.Abstractions;
 
-namespace Common.Structure.Reporting
+namespace Effanville.Common.Structure.Reporting
 {
     /// <summary>
     /// Report logger that does nothing, but declares successfully reported.

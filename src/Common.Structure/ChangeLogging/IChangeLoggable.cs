@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Common.Structure.ChangeLogging
+namespace Effanville.Common.Structure.ChangeLogging
 {
     /// <summary>
     /// Interface to enable the logging of what has changed.

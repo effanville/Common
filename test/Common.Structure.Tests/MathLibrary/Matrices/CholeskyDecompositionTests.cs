@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
-using Common.Structure.MathLibrary.Matrices;
-using Common.Structure.Results;
+using Effanville.Common.Structure.MathLibrary.Matrices;
+using Effanville.Common.Structure.Results;
 
 using NUnit.Framework;
 

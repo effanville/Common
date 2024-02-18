@@ -1,9 +1,9 @@
 using System;
 
-using Common.Structure.DataEdit;
-using Common.Structure.Reporting;
+using Effanville.Common.Structure.DataEdit;
+using Effanville.Common.Structure.Reporting;
 
-namespace Common.UI.ViewModelBases;
+namespace Effanville.Common.UI.ViewModelBases;
 
 /// <summary>
 /// A view model base for storing base model data and an updater for a

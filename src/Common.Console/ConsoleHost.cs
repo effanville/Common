@@ -5,10 +5,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Common.Structure.Extensions;
-using Common.Structure.Reporting;
-
 using Effanville.Common.Console.Commands;
+using Effanville.Common.Structure.Extensions;
+using Effanville.Common.Structure.Reporting;
 
 using Microsoft.Extensions.Hosting;
 

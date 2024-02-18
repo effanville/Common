@@ -3,7 +3,7 @@ using System.Windows;
 
 using Microsoft.Web.WebView2.Wpf;
 
-namespace Common.UI.Wpf.Controls
+namespace Effanville.Common.UI.Wpf.Controls
 {
     /// <summary>
     /// Class to assist with web browser to set a binding source.

@@ -1,4 +1,4 @@
-﻿namespace Common.Structure.ReportWriting
+﻿namespace Effanville.Common.Structure.ReportWriting
 {
     /// <summary>
     /// Extension methods for <see cref="DocumentType"/>s.

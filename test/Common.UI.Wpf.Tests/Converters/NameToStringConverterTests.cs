@@ -1,5 +1,5 @@
-﻿using Common.Structure.NamingStructures;
-using Common.UI.Wpf.Converters;
+﻿using Effanville.Common.Structure.NamingStructures;
+using Effanville.Common.UI.Wpf.Converters;
 
 using NUnit.Framework;
 

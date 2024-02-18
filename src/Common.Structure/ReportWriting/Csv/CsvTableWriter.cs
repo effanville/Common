@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 
-namespace Common.Structure.ReportWriting.Csv
+namespace Effanville.Common.Structure.ReportWriting.Csv
 {
     /// <summary>
     /// A writer of tables in csv format.

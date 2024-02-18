@@ -1,4 +1,4 @@
-namespace Common.Structure.Results;
+namespace Effanville.Common.Structure.Results;
 
 /// <summary>
 /// A class detailing that the result of an operation was successful

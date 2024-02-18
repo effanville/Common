@@ -1,4 +1,4 @@
-﻿namespace Common.UI.Services
+﻿namespace Effanville.Common.UI.Services
 {
     /// <summary>
     /// The result of an interaction with a file system.

@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text;
 
-namespace Common.Structure.ReportWriting.Html
+namespace Effanville.Common.Structure.ReportWriting.Html
 {
     /// <summary>
     /// A writer of tables in an Html format.

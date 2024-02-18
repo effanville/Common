@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 
-using Common.Structure.Reporting;
-
 using Effanville.Common.Console.Options;
+using Effanville.Common.Structure.Reporting;
 
 namespace Effanville.Common.Console.Commands
 {

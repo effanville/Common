@@ -1,8 +1,8 @@
-﻿using Common.Structure.ReportWriting.Csv;
-using Common.Structure.ReportWriting.Html;
-using Common.Structure.ReportWriting.Markdown;
+﻿using Effanville.Common.Structure.ReportWriting.Csv;
+using Effanville.Common.Structure.ReportWriting.Html;
+using Effanville.Common.Structure.ReportWriting.Markdown;
 
-namespace Common.Structure.ReportWriting
+namespace Effanville.Common.Structure.ReportWriting
 {
     /// <summary>
     /// Factory for creating an <see cref="ITableWriter"/>.

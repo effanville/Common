@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
-using Common.Structure.Validation;
 
-namespace Common.Structure.Extensions
+using Effanville.Common.Structure.Validation;
+
+namespace Effanville.Common.Structure.Extensions
 {
     /// <summary>
     /// Contains extensions for lists.

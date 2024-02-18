@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
-using Common.Structure.ReportWriting;
-using Common.Structure.ReportWriting.Document;
+using Effanville.Common.Structure.ReportWriting;
+using Effanville.Common.Structure.ReportWriting.Document;
 
 using NUnit.Framework;
 

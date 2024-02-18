@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Common.Structure.ChangeLogging
+namespace Effanville.Common.Structure.ChangeLogging
 {
     /// <summary>
     /// Class that can store information on whether something in the type T has been edited.

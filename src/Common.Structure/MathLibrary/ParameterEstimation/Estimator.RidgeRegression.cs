@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Common.Structure.MathLibrary.Matrices;
+using Effanville.Common.Structure.MathLibrary.Matrices;
 
-namespace Common.Structure.MathLibrary.ParameterEstimation
+namespace Effanville.Common.Structure.MathLibrary.ParameterEstimation
 {
     public static partial class Estimator
     {

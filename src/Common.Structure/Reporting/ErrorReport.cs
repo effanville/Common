@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Common.Structure.Reporting
+namespace Effanville.Common.Structure.Reporting
 {
     /// <summary>
     /// A report structure containing information about a possible problem (or just info) happening in the program.

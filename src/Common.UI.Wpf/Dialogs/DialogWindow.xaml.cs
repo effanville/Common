@@ -1,8 +1,8 @@
 ﻿using System.Windows;
 
-using Common.UI.Interfaces;
+using Effanville.Common.UI.Interfaces;
 
-namespace Common.UI.Wpf.Dialogs
+namespace Effanville.Common.UI.Wpf.Dialogs
 {
     /// <summary>
     /// Interaction logic for DialogWindow.xaml

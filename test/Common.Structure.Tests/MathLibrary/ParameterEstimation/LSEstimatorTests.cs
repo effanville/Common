@@ -1,6 +1,6 @@
 ﻿using System;
 
-using Common.Structure.MathLibrary.ParameterEstimation;
+using Effanville.Common.Structure.MathLibrary.ParameterEstimation;
 
 using NUnit.Framework;
 

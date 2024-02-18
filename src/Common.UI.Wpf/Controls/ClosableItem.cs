@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace Common.UI.Wpf.Controls
+namespace Effanville.Common.UI.Wpf.Controls
 {
     internal class ClosableTab : TabItem
     {

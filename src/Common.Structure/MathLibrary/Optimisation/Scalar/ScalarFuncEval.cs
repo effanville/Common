@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Common.Structure.MathLibrary.Optimisation.Scalar
+namespace Effanville.Common.Structure.MathLibrary.Optimisation.Scalar
 {
     /// <summary>
     /// Contains a scalar function point and its value.

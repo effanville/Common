@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
 
-using Common.Structure.Extensions;
-using Common.Structure.Validation;
+using Effanville.Common.Structure.Extensions;
+using Effanville.Common.Structure.Validation;
 
-namespace Common.Structure.NamingStructures
+namespace Effanville.Common.Structure.NamingStructures
 {
     /// <summary>
     /// Contains naming information, allowing for a primary and secondary name.

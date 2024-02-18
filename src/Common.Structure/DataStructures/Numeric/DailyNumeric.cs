@@ -4,9 +4,9 @@ using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 
-using Common.Structure.Extensions;
+using Effanville.Common.Structure.Extensions;
 
-namespace Common.Structure.DataStructures.Numeric
+namespace Effanville.Common.Structure.DataStructures.Numeric
 {
     /// <summary>
     /// Holds a date and a double value to act as the value on that day.

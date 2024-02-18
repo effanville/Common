@@ -1,9 +1,9 @@
 ﻿using System.Windows;
 
-using Common.UI.Services;
-using Common.UI.Wpf.Dialogs;
+using Effanville.Common.UI.Services;
+using Effanville.Common.UI.Wpf.Dialogs;
 
-namespace Common.UI.Wpf.Services
+namespace Effanville.Common.UI.Wpf.Services
 {
     /// <summary>
     /// Created dialog boxes in the UI. Note that this should live in the UI part, but is a service that can be used in

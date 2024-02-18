@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-using Common.Structure.ReportWriting.Document;
+using Effanville.Common.Structure.ReportWriting.Document;
 
 using HtmlAgilityPack;
 
-namespace Common.Structure.ReportWriting
+namespace Effanville.Common.Structure.ReportWriting
 {
     /// <summary>
     /// Class to invert a Table.

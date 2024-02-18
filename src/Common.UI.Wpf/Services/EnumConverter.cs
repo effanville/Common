@@ -1,8 +1,8 @@
 ﻿using System.Windows;
 
-using Common.UI.Services;
+using Effanville.Common.UI.Services;
 
-namespace Common.UI.Wpf.Services;
+namespace Effanville.Common.UI.Wpf.Services;
 
 /// <summary>
 /// Converts internal types into System.Windows types

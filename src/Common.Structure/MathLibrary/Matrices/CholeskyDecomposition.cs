@@ -1,8 +1,8 @@
 ﻿using System;
 
-using Common.Structure.Results;
+using Effanville.Common.Structure.Results;
 
-namespace Common.Structure.MathLibrary.Matrices
+namespace Effanville.Common.Structure.MathLibrary.Matrices
 {
     /// <summary>
     /// Class to generate the CholeskyDecomposition of a matrix.

@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace Common.Structure.DataStructures;
+namespace Effanville.Common.Structure.DataStructures;
 
 /// <summary>
 /// Task queue implementation that runs synchronously.

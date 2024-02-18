@@ -1,4 +1,4 @@
-﻿using Common.Structure.MathLibrary.Optimisation.Vector;
+﻿using Effanville.Common.Structure.MathLibrary.Optimisation.Vector;
 
 namespace Effanville.Common.Structure.Tests.MathLibrary
 {

@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace Common.UI.Wpf.Controls
+namespace Effanville.Common.UI.Wpf.Controls
 {
     /// <summary>
     /// Interaction logic for ClosableTabItem.xaml

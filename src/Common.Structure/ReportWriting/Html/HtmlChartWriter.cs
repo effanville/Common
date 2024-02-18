@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Common.Structure.ReportWriting.Html
+namespace Effanville.Common.Structure.ReportWriting.Html
 {
     /// <summary>
     /// Helper methods for writing charts into Html files.

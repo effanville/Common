@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Threading;
 
-namespace Common.UI.Wpf
+namespace Effanville.Common.UI.Wpf
 {
     /// <summary>
     /// An implementation of <see cref="IDispatcher"/> using

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Common.Structure.Extensions
+namespace Effanville.Common.Structure.Extensions
 {
     /// <summary>
     /// Static extension methods for strings.

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Common.Structure.DataEdit
+namespace Effanville.Common.Structure.DataEdit
 {
     /// <summary>
     /// Contains information on how to update an object of type <typeparamref name="T"/>

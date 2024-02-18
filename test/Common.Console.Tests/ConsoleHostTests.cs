@@ -4,11 +4,10 @@ using System.IO.Abstractions.TestingHelpers;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Common.Structure.DataStructures;
-using Common.Structure.Reporting;
-
 using Effanville.Common.Console.Commands;
 using Effanville.Common.Console.Options;
+using Effanville.Common.Structure.DataStructures;
+using Effanville.Common.Structure.Reporting;
 
 using Microsoft.Extensions.Hosting;
 

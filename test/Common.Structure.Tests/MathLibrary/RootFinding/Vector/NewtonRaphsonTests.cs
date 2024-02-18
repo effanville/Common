@@ -1,6 +1,6 @@
 ﻿using System;
 
-using Common.Structure.MathLibrary.RootFinding;
+using Effanville.Common.Structure.MathLibrary.RootFinding;
 
 using NUnit.Framework;
 

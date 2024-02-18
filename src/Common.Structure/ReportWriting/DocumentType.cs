@@ -1,4 +1,4 @@
-﻿namespace Common.Structure.ReportWriting
+﻿namespace Effanville.Common.Structure.ReportWriting
 {
     /// <summary>
     /// The type of file that is being exported.

@@ -1,8 +1,8 @@
 ﻿using System;
 
-using Common.Structure.MathLibrary.Vectors;
+using Effanville.Common.Structure.MathLibrary.Vectors;
 
-namespace Common.Structure.MathLibrary.Matrices
+namespace Effanville.Common.Structure.MathLibrary.Matrices
 {
     /// <summary>
     /// Contains a representation of a matrix of double values.

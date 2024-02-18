@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Common.UI
+namespace Effanville.Common.UI
 {
     /// <summary>
     /// A thin interface around the Threading.Dispatcher class

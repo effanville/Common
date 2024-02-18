@@ -1,4 +1,4 @@
-namespace Common.Structure.ReportWriting.Document
+namespace Effanville.Common.Structure.ReportWriting.Document
 {
     /// <summary>
     /// Provides methods for generating parts of documents.

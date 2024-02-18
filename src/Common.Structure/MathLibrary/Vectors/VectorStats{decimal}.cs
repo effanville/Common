@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Common.Structure.MathLibrary.Vectors
+namespace Effanville.Common.Structure.MathLibrary.Vectors
 {
     /// <summary>
     /// Contains helper methods for calculating a statistic from a list.

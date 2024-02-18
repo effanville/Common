@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-using Common.Structure.MathLibrary;
+using Effanville.Common.Structure.MathLibrary;
 
 using NUnit.Framework;
 

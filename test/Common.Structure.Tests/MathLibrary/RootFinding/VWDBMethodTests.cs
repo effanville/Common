@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Common.Structure.MathLibrary.RootFinding;
-using Common.Structure.Results;
+using Effanville.Common.Structure.MathLibrary.RootFinding;
+using Effanville.Common.Structure.Results;
 
 using NUnit.Framework;
 

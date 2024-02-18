@@ -1,8 +1,8 @@
 ﻿using System;
 
-using Common.Structure.DataStructures;
+using Effanville.Common.Structure.DataStructures;
 
-namespace Common.Structure.NamingStructures
+namespace Effanville.Common.Structure.NamingStructures
 {
     /// <summary>
     /// Wraps a <see cref="Name"/> around a <see cref="DailyValuation"/>.

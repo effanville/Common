@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-using Common.Structure.Reporting;
+using Effanville.Common.Structure.Reporting;
 
 namespace Effanville.Common.Console.Commands
 {

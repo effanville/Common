@@ -1,4 +1,4 @@
-﻿namespace Common.Structure.ReportWriting
+﻿namespace Effanville.Common.Structure.ReportWriting
 {
     /// <summary>
     /// Extensions for the <see cref="DocumentElement"/> enum.

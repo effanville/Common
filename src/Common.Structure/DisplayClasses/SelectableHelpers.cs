@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Common.Structure.DisplayClasses
+namespace Effanville.Common.Structure.DisplayClasses
 {
     /// <summary>
     /// Helper methods for lists of <see cref="Selectable{T}"/> objects.

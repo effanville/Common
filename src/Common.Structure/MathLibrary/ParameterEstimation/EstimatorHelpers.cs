@@ -1,4 +1,4 @@
-﻿namespace Common.Structure.MathLibrary.ParameterEstimation
+﻿namespace Effanville.Common.Structure.MathLibrary.ParameterEstimation
 {
     internal static class EstimatorHelpers
     {

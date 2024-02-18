@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Common.Structure.Results;
+namespace Effanville.Common.Structure.Results;
 
 /// <summary>
 /// A <see cref="Result{TData}"/> indicating failure and detailing why the failure happened.

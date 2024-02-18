@@ -5,7 +5,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 
-using Common.Structure.DataStructures.Numeric;
+using Effanville.Common.Structure.DataStructures.Numeric;
 
 using NUnit.Framework;
 

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
-using Common.Structure.Reporting;
+using Effanville.Common.Structure.Reporting;
 
-namespace Common.Structure.FileAccess
+namespace Effanville.Common.Structure.FileAccess
 {
     /// <summary>
     /// Contains methods to obtain and export data from csv file

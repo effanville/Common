@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-using Common.Structure.ReportWriting;
+using Effanville.Common.Structure.ReportWriting;
 
-namespace Common.Statistics
+namespace Effanville.Common.Structure.Statistics
 {
     /// <summary>
     /// Provides the ability to export a statistics object.

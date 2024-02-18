@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Common.Structure.Extensions
+namespace Effanville.Common.Structure.Extensions
 {
     /// <summary>
     /// Extension methods for a <see cref="decimal"/>.

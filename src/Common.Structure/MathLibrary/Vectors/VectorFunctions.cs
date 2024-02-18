@@ -1,4 +1,4 @@
-﻿namespace Common.Structure.MathLibrary.Vectors
+﻿namespace Effanville.Common.Structure.MathLibrary.Vectors
 {
     /// <summary>
     /// Functions used to calculate vector maths.
