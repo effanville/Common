@@ -13,6 +13,7 @@ namespace Effanville.Common.Structure.Tests.DataStructures.Numeric
         public const string TwoEntryKey = "TwoEntry";
         public const string ThreeEntryKey1 = "ThreeEntry1";
         public const string ThreeEntryKey2 = "ThreeEntry2";
+        public const string FourEntrySameDayKey = "FourEntrySameDay";
         public const string TenEntryKey = "TenEntry";
         public const string HundredEntryKey = "HundredEntry";
         public const string ThousandEntryKey = "ThousandEntry";
@@ -71,6 +72,13 @@ namespace Effanville.Common.Structure.Tests.DataStructures.Numeric
             tl4.SetData(new DateTime(2018, 6, 1), 1200);
             fExampleData.Add(ThreeEntryKey2, tl4);
 
+            TimeNumberList tlSameDay = new TimeNumberList();
+            tlSameDay.SetData(new DateTime(2018, 1, 1), 0.0);
+            tlSameDay.SetData(new DateTime(2019, 1, 1,2,4, 5), 1.0);
+            tlSameDay.SetData(new DateTime(2019, 1, 1, 21,2, 4), 2.0);
+            tlSameDay.SetData(new DateTime(2019, 5, 5), 2.0);
+            fExampleData.Add(FourEntrySameDayKey, tlSameDay);
+            
             TimeNumberList tl5 = new TimeNumberList();
             AddData(tl5, 10, new DateTime(2018, 5, 4), 2.0, 55, 12.2);
             fExampleData.Add(TenEntryKey, tl5);

@@ -55,8 +55,8 @@ namespace Effanville.Common.Structure.DataStructures
 
         private static double CAR(List<DailyValuation> values, DateTime earlierTime, DateTime laterTime)
         {
-            DailyValuation earlierValue = Value(values, earlierTime, OutlierInterpolation, OutlierInterpolation, DayBasedInterpolationFunction);
-            DailyValuation laterValue = Value(values, laterTime, OutlierInterpolation, OutlierInterpolation, DayBasedInterpolationFunction);
+            DailyValuation earlierValue = Value(values, earlierTime, OutlierInterpolation, OutlierInterpolation, SecondBasedInterpolationFunction);
+            DailyValuation laterValue = Value(values, laterTime, OutlierInterpolation, OutlierInterpolation, SecondBasedInterpolationFunction);
             if (earlierValue == null || laterValue == null)
             {
                 return double.NaN;

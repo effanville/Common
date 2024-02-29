@@ -10,7 +10,8 @@ namespace Effanville.Common.Structure.DataStructures.Numeric
     => dv;
 
         private static DailyNumeric DayBasedInterpolationFunction(DailyNumeric earlier, DailyNumeric later, DateTime day)
-                => new DailyNumeric(day, earlier.Value + (later.Value - earlier.Value) / (later.Day - earlier.Day).Days * (day - earlier.Day).Days);
+                => new DailyNumeric(day, earlier.Value + (later.Value - earlier.Value) / (later.Day - earlier.Day).TotalDays * (day - earlier.Day).TotalDays);
+        
         /// <inheritdoc/>
         public DailyNumeric Value(DateTime date)
         {

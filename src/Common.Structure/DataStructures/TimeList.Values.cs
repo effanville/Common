@@ -9,8 +9,8 @@ namespace Effanville.Common.Structure.DataStructures
         private static DailyValuation OutlierInterpolation(DailyValuation dv, DateTime dt)
             => dv;
 
-        private static DailyValuation DayBasedInterpolationFunction(DailyValuation earlier, DailyValuation later, DateTime day)
-                => new DailyValuation(day, earlier.Value + (later.Value - earlier.Value) / (later.Day - earlier.Day).Days * (day - earlier.Day).Days);
+        private static DailyValuation SecondBasedInterpolationFunction(DailyValuation earlier, DailyValuation later, DateTime day)
+                => new DailyValuation(day, earlier.Value + (later.Value - earlier.Value) / (decimal)(later.Day - earlier.Day).TotalDays * (decimal)(day - earlier.Day).TotalDays);
 
         /// <summary>
         /// Returns the value on the date specified, wit
@@ -28,7 +28,7 @@ namespace Effanville.Common.Structure.DataStructures
                 date,
                 OutlierInterpolation,
                 OutlierInterpolation,
-                DayBasedInterpolationFunction);
+                SecondBasedInterpolationFunction);
         }
 
         /// <inheritdoc/>
@@ -96,7 +96,7 @@ namespace Effanville.Common.Structure.DataStructures
                 date,
                 (valuation, dateTime) => new DailyValuation(date, 0.0m),
                 OutlierInterpolation,
-                DayBasedInterpolationFunction);
+                SecondBasedInterpolationFunction);
         }
 
         private static (DailyValuation, DailyValuation) ValuesOnOrBeforeAndAfter(List<DailyValuation> values, DateTime date)

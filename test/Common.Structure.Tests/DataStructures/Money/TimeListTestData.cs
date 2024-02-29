@@ -18,6 +18,7 @@ namespace Effanville.Common.Structure.Tests.DataStructures.Money
         public const string ThreeEntryKey2 = "ThreeEntry2";
         public const string FourEntryKey = "FourEntry";
         public const string FourEntryKey2 = "FourEntry2";
+        public const string FourEntrySameDayKey = "FourEntrySameDay";
         public const string FourEntryZeroValuesKey = "FourEntryZeroValues";
         public const string TenEntryKey = "TenEntry";
         public const string HundredEntryKey = "HundredEntry";
@@ -113,6 +114,13 @@ namespace Effanville.Common.Structure.Tests.DataStructures.Money
             tl12.SetData(new DateTime(2019, 5, 1), 2.0m);
             tl12.SetData(new DateTime(2019, 5, 5), 2.0m);
             fExampleData.Add(FourEntryKey2, tl12);
+            
+            TimeList tlSameDay = new TimeList();
+            tlSameDay.SetData(new DateTime(2018, 1, 1), 0.0m);
+            tlSameDay.SetData(new DateTime(2019, 1, 1,2,4, 5), 1.0m);
+            tlSameDay.SetData(new DateTime(2019, 1, 1, 21,2, 4), 2.0m);
+            tlSameDay.SetData(new DateTime(2019, 5, 5), 2.0m);
+            fExampleData.Add(FourEntrySameDayKey, tlSameDay);
 
             TimeList tl5 = new TimeList();
             AddData(tl5, 10, new DateTime(2018, 5, 4), 2.0m, 55, 12.2m);

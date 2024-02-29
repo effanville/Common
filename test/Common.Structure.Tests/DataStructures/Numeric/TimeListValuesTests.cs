@@ -72,6 +72,12 @@ namespace Effanville.Common.Structure.Tests.DataStructures.Numeric
                 false,
                 new DateTime(2018, 6, 1),
                 1250.0).SetName($"{nameof(ValueTest)}-TwoEntryValues5");
+            yield return new TestCaseData(
+                TimeListTestData.GetTestTimeList(TimeListTestData.FourEntrySameDayKey),
+                new DateTime(2019, 1, 1, 8, 2, 3),
+                false,
+                new DateTime(2019, 1, 1, 8, 2, 3),
+                0.4136986301369863).SetName($"{nameof(ValueTest)}-FourEntrySameDay");
         }
 
         [TestCaseSource(nameof(ValueTestData))]
