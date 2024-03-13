@@ -3,22 +3,22 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Structure", "Common.Structure\Common.Structure.csproj", "{3C7B2621-4A28-40AE-807F-52F1B6965660}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Structure", "src\Common.Structure\Common.Structure.csproj", "{3C7B2621-4A28-40AE-807F-52F1B6965660}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.UI", "Common.UI\Common.UI.csproj", "{EC58508D-FE02-48B7-A7C6-8F29E060E996}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.UI", "src\Common.UI\Common.UI.csproj", "{EC58508D-FE02-48B7-A7C6-8F29E060E996}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2A5FEEA6-F6DE-45DC-9800-3CFE3E36D3A2}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Structure.Tests", "Common.Structure.Tests\Common.Structure.Tests.csproj", "{3F789DFF-0A8D-4163-9C5A-E5C748D64AF9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Structure.Tests", "test\Common.Structure.Tests\Common.Structure.Tests.csproj", "{3F789DFF-0A8D-4163-9C5A-E5C748D64AF9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.UI.Tests", "Common.UI.Tests\Common.UI.Tests.csproj", "{68892F98-75CB-4768-B888-5B85402B9E12}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.UI.Tests", "test\Common.UI.Tests\Common.UI.Tests.csproj", "{68892F98-75CB-4768-B888-5B85402B9E12}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Console", "Common.Console\Common.Console.csproj", "{AD052EB4-CA7E-424B-B88D-8AFA3DBA3EBA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Console", "src\Common.Console\Common.Console.csproj", "{AD052EB4-CA7E-424B-B88D-8AFA3DBA3EBA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Console.Tests", "Common.Console.Tests\Common.Console.Tests.csproj", "{BDC91609-7E1A-4B53-9189-4059AD2393C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Console.Tests", "test\Common.Console.Tests\Common.Console.Tests.csproj", "{BDC91609-7E1A-4B53-9189-4059AD2393C3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{62E033EC-15B9-4318-9CC5-AF755560740A}"
 	ProjectSection(SolutionItems) = preProject
@@ -27,9 +27,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{62E033EC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "BuildProcess\source\_build.csproj", "{C4D16866-9EE6-4D3A-94A6-82BABF3673A2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.UI.Wpf", "Common.UI.Wpf\Common.UI.Wpf.csproj", "{2A86006A-429C-495D-BA9B-78A112D02864}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.UI.Wpf", "src\Common.UI.Wpf\Common.UI.Wpf.csproj", "{2A86006A-429C-495D-BA9B-78A112D02864}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.UI.Wpf.Tests", "Common.UI.Wpf.Tests\Common.UI.Wpf.Tests.csproj", "{FD845AED-807F-4DE5-AC5C-DC6B42EB276B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.UI.Wpf.Tests", "test\Common.UI.Wpf.Tests\Common.UI.Wpf.Tests.csproj", "{FD845AED-807F-4DE5-AC5C-DC6B42EB276B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -76,7 +76,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{62E033EC-15B9-4318-9CC5-AF755560740A} = {2A5FEEA6-F6DE-45DC-9800-3CFE3E36D3A2}
 		{C4D16866-9EE6-4D3A-94A6-82BABF3673A2} = {62E033EC-15B9-4318-9CC5-AF755560740A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

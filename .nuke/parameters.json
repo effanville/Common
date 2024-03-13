@@ -10,6 +10,14 @@
     "Common.UI.Wpf"
   ],
   "Configuration": "Release",
-  "Framework": "net6.0-windows",
-  "Runtime": "win-x64"
+  "Framework": "net7.0-windows",
+  "Runtime": "win-x64",
+  "TagRepo": true,
+  "PushTag": false,
+  "TestProjects": [
+    "Common.Structure.Tests",
+    "Common.Console.Tests",
+    "Common.UI.Tests",
+    "Common.UI.Wpf.Tests"
+  ]
 }
