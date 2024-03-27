@@ -1,10 +1,12 @@
+using System;
 using System.Collections.Generic;
-using System.IO.Abstractions.TestingHelpers;
 
 using Effanville.Common.Console.Commands;
 using Effanville.Common.Console.Options;
-using Effanville.Common.Structure.DataStructures;
-using Effanville.Common.Structure.Reporting;
+
+using Microsoft.Extensions.Logging;
+
+using Moq;
 
 using NUnit.Framework;
 
@@ -15,7 +17,7 @@ public class ConsoleContextTests
     private static IEnumerable<TestCaseData> CanRunTests()
     {
         yield return new TestCaseData(new string[] { }, 2,
-            "Options specified were not valid.");
+            "Command line input failed validation.");
         yield return new TestCaseData(new [] { "Test" }, 0, "");
         yield return new TestCaseData(new [] { "Test", "--number", "4" }, 0, "");
     }
@@ -23,43 +25,29 @@ public class ConsoleContextTests
     [TestCaseSource(nameof(CanRunTests))]
     public void CanRun(string[] args, int expectedExitCode, string errorMessage)
     {
-        string error = string.Empty;
-        var fileSystem = new MockFileSystem();
-        var consoleInstance = new ConsoleInstance(WriteError, WriteReport);
-        var logReporter = new LogReporter(ReportAction, new SingleTaskQueue(), saveInternally: true);
-        var testCommand = new TestCommand();
+        var consoleInstance = new ConsoleInstance(null, null);
+        var mockLogger = new Mock<ILogger<TestCommand>>();
+        var testCommand = new TestCommand(mockLogger.Object);
         testCommand.Options.Add(new CommandOption<string>("number", ""));
-        int actualExitCode = ConsoleContext.SetAndExecute(
-            args,
-            fileSystem,
+        var consoleContextMock = new Mock<ILogger<ConsoleContext>>();
+        ILogger<ConsoleContext> consoleContextLogger = consoleContextMock.Object;
+        var context = new ConsoleContext(
+            new ConsoleCommandArgs(args),
+            new List<ICommand>() { testCommand },
             consoleInstance,
-            logReporter,
-            new List<ICommand>() { testCommand });
+            consoleContextLogger);
+        int actualExitCode = context.ValidateAndExecute();
 
         Assert.AreEqual(expectedExitCode, actualExitCode);
-        Assert.AreEqual(errorMessage, error);
-        return;
-
-        void WriteError(string err)
-        {
-            error = err;
-        }
-
-        void WriteReport(string rep)
-        {
-        }
-
-        void ReportAction(ReportSeverity severity, ReportType reportType, string location, string text)
-        {
-            string message = $"({reportType}) - [{location}] - {text}";
-            if (reportType == ReportType.Error)
-            {
-                WriteError(message);
-            }
-            else
-            {
-                WriteReport(message);
-            }
-        }
+        Times times = expectedExitCode != 0 ? Times.Once() : Times.Never();
+        consoleContextMock.Verify(l =>
+                l.Log(LogLevel.Error,
+                    It.IsAny<EventId>(),
+                    It.Is<It.IsAnyType>((v, _) => v.ToString().Contains(errorMessage)),
+                    It.IsAny<Exception>(),
+                    It.IsAny<Func<It.IsAnyType, Exception, string>>()
+                ),
+            times
+        );
     }
 }

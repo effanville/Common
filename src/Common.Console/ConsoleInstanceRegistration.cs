@@ -3,6 +3,7 @@ using System;
 using Effanville.Common.Structure.Reporting;
 
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace Effanville.Common.Console;
 
@@ -12,15 +13,16 @@ namespace Effanville.Common.Console;
 public static class ConsoleInstanceRegistration
 {
     /// <summary>
-    /// Add console logging and report logging to the <see cref="IServiceCollection"/>.
+    /// Add console and ReportLogger logging to the <see cref="ILoggingBuilder"/>.
     /// </summary>
-    public static IServiceCollection AddReporting(
-        this IServiceCollection serviceCollection)
+    public static ILoggingBuilder AddReporting(
+        this ILoggingBuilder builder,
+        Action<ReportLoggerConfiguration> configure = null)
     {
-        serviceCollection.AddSingleton<IReportLogger, LogReporter>(_ =>
-            new LogReporter(ReportAction, saveInternally: true));
-        return serviceCollection.AddSingleton<IConsole, ConsoleInstance>(
+        builder.AddReportLogger(configure, ReportAction);
+        builder.Services.AddSingleton<IConsole, ConsoleInstance>(
             _ => new ConsoleInstance(WriteError, WriteLine));
+        return builder;
     }
 
     private static void WriteError(string text)

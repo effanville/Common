@@ -1,6 +1,6 @@
 ﻿using System.IO.Abstractions;
 
-using Effanville.Common.Structure.Reporting;
+using Microsoft.Extensions.Logging;
 
 namespace Effanville.Common.Console
 {
@@ -22,7 +22,7 @@ namespace Effanville.Common.Console
         /// <summary>
         /// A logger to log with.
         /// </summary>
-        public IReportLogger ReportLogger { get; set; }
+        public ILogger ReportLogger { get; set; }
 
         /// <summary>
         /// Abstraction for writing to the console.
@@ -32,7 +32,7 @@ namespace Effanville.Common.Console
         /// <summary>
         /// Standard constructor.
         /// </summary>
-        public ConsoleGlobals(string currentWorkingDirectory, IFileSystem currentFileSystem, IConsole console, IReportLogger reportLogger)
+        public ConsoleGlobals(string currentWorkingDirectory, IFileSystem currentFileSystem, IConsole console, ILogger reportLogger)
         {
             CurrentWorkingDirectory = currentWorkingDirectory;
             CurrentFileSystem = currentFileSystem;
@@ -43,7 +43,7 @@ namespace Effanville.Common.Console
         /// <summary>
         /// Standard constructor using the file system.
         /// </summary>
-        public ConsoleGlobals(IFileSystem currentFileSystem, IConsole console, IReportLogger reportLogger)
+        public ConsoleGlobals(IFileSystem currentFileSystem, IConsole console, ILogger reportLogger)
             : this(currentFileSystem.Directory.GetCurrentDirectory(), currentFileSystem, console, reportLogger)
         {
         }

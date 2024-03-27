@@ -21,8 +21,8 @@ public static class ConsoleContextRegistration
         string[] args)
     {
         serviceCollection.AddSingleton<IFileSystem, FileSystem>();
-        serviceCollection.AddReporting();
         serviceCollection.AddConsoleCommands(consoleCommandTypes);
+        serviceCollection.AddSingleton<IConsoleContext, ConsoleContext>();
         serviceCollection.AddScoped(_ => new ConsoleCommandArgs(args));
         serviceCollection.AddHostedService<ConsoleHost>();
         return serviceCollection;

@@ -23,9 +23,9 @@ namespace Effanville.Common.Console
         }
 
         /// <inheritdoc/>
-        public void WriteLine(string line = null) => _writeAction(line);
+        public void WriteLine(string line = null) => _writeAction?.Invoke(line);
 
         /// <inheritdoc/>
-        public void WriteError(string error = null) => _writeErrorAction(error);
+        public void WriteError(string error = null) => _writeErrorAction?.Invoke(error);
     }
 }

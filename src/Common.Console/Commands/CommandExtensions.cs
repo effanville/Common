@@ -3,6 +3,8 @@ using System.Linq;
 
 using Effanville.Common.Structure.Reporting;
 
+using Microsoft.Extensions.Logging;
+
 namespace Effanville.Common.Console.Commands
 {
     /// <summary>
@@ -14,14 +16,16 @@ namespace Effanville.Common.Console.Commands
         /// Writes a standard help information for the command.
         /// Writes all sub command names, followed by the available options.
         /// </summary>
-        public static void WriteHelp(this ICommand cmd, IConsole console)
+        public static void WriteHelp(this ICommand cmd, IConsole console, ILogger logger)
         {
             if (cmd.SubCommands != null && cmd.SubCommands.Count > 0)
             {
                 console.WriteLine("Sub commands:");
+                logger.Log(LogLevel.Information, "Sub Commands: ");
                 foreach (var command in cmd.SubCommands)
                 {
-                    console.WriteLine($"{command.Name}");
+                    console.WriteLine(command.Name);
+                    logger.Log(LogLevel.Information, command.Name);
                 }
             }
 
@@ -31,22 +35,18 @@ namespace Effanville.Common.Console.Commands
             }
 
             console.WriteLine("Valid options:");
+            logger.Log(LogLevel.Information,"Valid options:");
             foreach (var option in cmd.Options)
             {
                 console.WriteLine($"{option.Name} - {option.Description}");
+                logger.Log(LogLevel.Information,$"{option.Name} - {option.Description}");
             }
         }
 
         /// <summary>
         /// Standard validation routine ensuring all options and sub commands are validated.
         /// </summary>
-        public static bool Validate(this ICommand cmd, string[] args, IConsole console)
-            => Validate(cmd, args, console, null);
-
-        /// <summary>
-        /// Standard validation routine ensuring all options and sub commands are validated.
-        /// </summary>
-        public static bool Validate(this ICommand cmd, string[] args, IConsole console, IReportLogger logger)
+        public static bool Validate(this ICommand cmd, string[] args, IConsole console, ILogger logger)
         {
             if (cmd.SubCommands != null && cmd.SubCommands.Count > 0)
             {
@@ -54,7 +54,7 @@ namespace Effanville.Common.Console.Commands
                 if (subCommand != null)
                 {
                     string[] commandArgs = args.Skip(1).ToArray();
-                    return subCommand.Validate(console, logger, commandArgs);
+                    return subCommand.Validate(console, commandArgs);
                 }
             }
 
@@ -82,7 +82,7 @@ namespace Effanville.Common.Console.Commands
                 if (!options.Any(opt => opt.Name.Equals(optionName, StringComparison.OrdinalIgnoreCase)))
                 {
                     string error = $"Option {optionName} is not a valid option.";
-                    logger?.Log(ReportSeverity.Critical, ReportType.Error, $"{cmd.Name}.{nameof(Validate)}", error);
+                    logger?.Log(LogLevel.Error, error);
                     return false;
                 }
 
@@ -98,7 +98,7 @@ namespace Effanville.Common.Console.Commands
                 }
 
                 string error = $"{option.GetPrettyErrorMessage()}";
-                logger?.Log(ReportSeverity.Critical, ReportType.Error, $"{nameof(Validate)}", error);
+                logger?.Log(LogLevel.Error, error);
                 isValid = false;
             }
 
