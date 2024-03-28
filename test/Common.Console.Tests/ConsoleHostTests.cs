@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Effanville.Common.Console.Commands;
 using Effanville.Common.Console.Options;
 
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -19,7 +20,7 @@ public class ConsoleHostTests
 {
     private static IEnumerable<TestCaseData> CanRunTests()
     {
-        yield return new TestCaseData(new string[] { }, 2,
+        yield return new TestCaseData(new string[] { "NotATest"}, 2,
             "Command line input failed validation.");
         yield return new TestCaseData(new [] { "Test" }, 0, "");
         yield return new TestCaseData(new [] { "Test", "--number", "4" }, 0, "");
@@ -38,8 +39,12 @@ public class ConsoleHostTests
         testCommand.Options.Add(new CommandOption<string>("number", ""));
         var applicationLifetime = new Mock<IHostApplicationLifetime>();
         var applicationStartedCts = new CancellationTokenSource();
+        IConfiguration config = new ConfigurationBuilder()
+            .AddCommandLine(new ConsoleCommandArgs(args).GetEffectiveArgs())
+            .AddEnvironmentVariables()
+            .Build();
         applicationLifetime.Setup(x => x.ApplicationStarted).Returns(applicationStartedCts.Token);
-        var consoleContext = new ConsoleContext(new ConsoleCommandArgs(args), new List<ICommand>() { testCommand },
+        var consoleContext = new ConsoleContext(config, new List<ICommand>() { testCommand },
             consoleInstance, consoleContextLogger);
         var host = new ConsoleHost(
             consoleContext,

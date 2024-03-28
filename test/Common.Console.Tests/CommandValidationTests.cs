@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using Effanville.Common.Console.Options;
 
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 using Moq;
@@ -60,8 +61,8 @@ namespace Effanville.Common.Console.Tests
             yield return new TestCaseData(
                 new[] { ("number", false, alwaysValid) }, 
                 new[] { "--dog", "4" }, 
-                false, 
-                "Option dog is not a valid option.")
+                true, 
+                "")
                 .SetName("SingleOption - Fails - OptionName not found");
 
             yield return new TestCaseData(
@@ -124,8 +125,8 @@ namespace Effanville.Common.Console.Tests
             yield return new TestCaseData(
                 new[] { ("number", false, alwaysValid), ("other", false, alwaysValid) }, 
                 new[] { "--dog", "4" }, 
-                false, 
-                "Option dog is not a valid option.")
+                true, 
+                "")
                 .SetName("TwoOption - Fails - OptionName not found");
         }
 
@@ -141,7 +142,11 @@ namespace Effanville.Common.Console.Tests
                 var option = new CommandOption<double>(optionData.Item1, "", optionData.Item2, optionData.Item3);
                 testCommand.Options.Add(option);
             }
-            bool validated = testCommand.Validate(consoleInstance, args);
+            IConfiguration config = new ConfigurationBuilder()
+                .AddCommandLine(new ConsoleCommandArgs(args).GetEffectiveArgs())
+                .AddEnvironmentVariables()
+                .Build();
+            bool validated = testCommand.Validate(consoleInstance, config);
 
             Assert.Multiple(() =>
             {

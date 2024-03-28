@@ -4,6 +4,7 @@ using System.Linq;
 
 using Effanville.Common.Console.Commands;
 
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace Effanville.Common.Console
@@ -21,7 +22,7 @@ namespace Effanville.Common.Console
         /// </summary>
         private ICommand _command;
 
-        private readonly string[] _args;
+        private readonly IConfiguration _config;
 
         /// <summary>
         /// The console mechanism.
@@ -41,10 +42,10 @@ namespace Effanville.Common.Console
         /// <summary>
         /// Construct an instance.
         /// </summary>
-        public ConsoleContext(ConsoleCommandArgs args, IEnumerable<ICommand> validCommands, IConsole console, ILogger<ConsoleContext> logger)
+        public ConsoleContext(IConfiguration config, IEnumerable<ICommand> validCommands, IConsole console, ILogger<ConsoleContext> logger)
         {
             _validCommands = validCommands.ToList();
-            _args = args.Args;
+            _config = config;
             _console = console;
             _logger = logger;
         }
@@ -55,6 +56,7 @@ namespace Effanville.Common.Console
             if (IsHelpRequired())
             {
                 WriteHelp();
+                return (int)ExitCode.Success;
             }
 
             if (!Validate())
@@ -81,7 +83,9 @@ namespace Effanville.Common.Console
         /// </summary>
         /// <returns></returns>
         private bool IsHelpRequired() 
-            => _args.Length == 0 || (_args.Length > 0 && _helpNames.Contains(_args[0]));
+            => string.IsNullOrEmpty(_config.GetValue<string>("CommandName")) 
+               || !string.IsNullOrWhiteSpace(_config.GetValue<string>("help"))
+               || _helpNames.Contains(_config.GetValue<string>("CommandName"));
 
         /// <summary>
         /// The mechanism for writing help.
@@ -98,12 +102,15 @@ namespace Effanville.Common.Console
         /// <inheritdoc />
         public bool Validate()
         {
-            if (_args.Length == 0)
+            string commandNames = _config.GetValue<string>("CommandName");
+            if (string.IsNullOrWhiteSpace(commandNames))
             {
                 _console.WriteError("Could not locate suitable command to execute.");
                 return false;
             }
-            _command = _validCommands.FirstOrDefault(command => command.Name.Equals(_args[0], StringComparison.OrdinalIgnoreCase));
+
+            string[] orderedCommandNames = commandNames.Split(';');
+            _command = _validCommands.FirstOrDefault(command => command.Name.Equals(orderedCommandNames[0], StringComparison.OrdinalIgnoreCase));
             if (_command == null)
             {
                 _logger.Log(LogLevel.Error, "Could not locate suitable command to validate.");
@@ -111,8 +118,7 @@ namespace Effanville.Common.Console
                 return false;
             }
 
-            string[] commandArgs = _args.Skip(1).ToArray();
-            return _command.Validate(_console, commandArgs);
+            return _command.Validate(_console, _config);
         }
 
         /// <inheritdoc />
@@ -120,7 +126,8 @@ namespace Effanville.Common.Console
         {
             if (_command == null)
             {
-                _command = _validCommands.FirstOrDefault(command => command.Name.Equals(_args[0], StringComparison.OrdinalIgnoreCase));
+                string commandNames = _config.GetValue<string>("CommandName");
+                _command = _validCommands.FirstOrDefault(command => command.Name.Equals(commandNames, StringComparison.OrdinalIgnoreCase));
                 if (_command == null)
                 {
                     _logger.Log(LogLevel.Error, "Could not locate suitable command to execute.");
@@ -129,14 +136,13 @@ namespace Effanville.Common.Console
                 }
             }
 
-            string[] commandArgs = _args.Skip(1).ToArray();
-            if (commandArgs.Any() && _helpNames.Contains(commandArgs.FirstOrDefault()))
+            if (_config != null && _helpNames.Contains(_config.GetValue<string>("CommandName")))
             {
                 _command.WriteHelp(_console);
                 return (int)ExitCode.Success;
             }
 
-            return _command.Execute(_console, commandArgs);
+            return _command.Execute(_console, _config);
         }
     }
 }

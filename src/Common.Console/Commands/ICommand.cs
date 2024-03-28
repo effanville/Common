@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 
 using Effanville.Common.Console.Options;
-using Effanville.Common.Structure.Reporting;
+
+using Microsoft.Extensions.Configuration;
 
 namespace Effanville.Common.Console.Commands
 {
@@ -42,16 +43,16 @@ namespace Effanville.Common.Console.Commands
         /// The mechanism for validating the input option values.
         /// </summary>
         /// <param name="console">The console instance to execute through.</param>
-        /// <param name="args">The command line arguments.</param>
+        /// <param name="config">The command line arguments.</param>
         /// <returns>Was validation successful.</returns>
-        bool Validate(IConsole console, string[] args);
+        bool Validate(IConsole console, IConfiguration config);
 
         /// <summary>
         /// Execute the given command.
         /// </summary>
         /// <param name="console">The console instance to execute through.</param>
-        /// <param name="args">The command line arguments.</param>
+        /// <param name="config">The command line arguments.</param>
         /// <returns>The exit code of the command.</returns>
-        int Execute(IConsole console, string[] args = null);
+        int Execute(IConsole console, IConfiguration config);
     }
 }

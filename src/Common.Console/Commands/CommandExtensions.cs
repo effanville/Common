@@ -3,6 +3,7 @@ using System.Linq;
 
 using Effanville.Common.Structure.Reporting;
 
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace Effanville.Common.Console.Commands
@@ -46,15 +47,20 @@ namespace Effanville.Common.Console.Commands
         /// <summary>
         /// Standard validation routine ensuring all options and sub commands are validated.
         /// </summary>
-        public static bool Validate(this ICommand cmd, string[] args, IConsole console, ILogger logger)
+        public static bool Validate(this ICommand cmd, IConfiguration config, IConsole console, ILogger logger)
         {
             if (cmd.SubCommands != null && cmd.SubCommands.Count > 0)
             {
-                var subCommand = cmd.SubCommands.FirstOrDefault(command => command.Name == args[0]);
-                if (subCommand != null)
+                string commandName = config.GetValue<string>("CommandName");
+                string[] commandNames = commandName.Split(';');
+                int currentCommand = Array.FindIndex(commandNames, x => x == cmd.Name);
+                if (currentCommand < commandNames.Length - 1)
                 {
-                    string[] commandArgs = args.Skip(1).ToArray();
-                    return subCommand.Validate(console, commandArgs);
+                    var subCommand = cmd.SubCommands.FirstOrDefault(command => command.Name == commandNames[currentCommand + 1]);
+                    if (subCommand != null)
+                    {
+                        return subCommand.Validate(console, config);
+                    }
                 }
             }
 
@@ -64,30 +70,20 @@ namespace Effanville.Common.Console.Commands
                 return false;
             }
 
-            if (args == null)
+            if (config == null)
             {
                 return false;
             }
 
             bool isValid = true;
             // cycle through user given values filling in option values.
-            for (int index = 0; index < args.Length - 1; index++)
+            foreach (var option in options)
             {
-                if (!args[index].StartsWith("--"))
+                string configValue = config.GetValue<string>(option.Name);
+                if (!string.IsNullOrWhiteSpace(configValue))
                 {
-                    continue;
+                    option.InputValue = configValue;
                 }
-
-                string optionName = args[index].TrimStart('-');
-                if (!options.Any(opt => opt.Name.Equals(optionName, StringComparison.OrdinalIgnoreCase)))
-                {
-                    string error = $"Option {optionName} is not a valid option.";
-                    logger?.Log(LogLevel.Error, error);
-                    return false;
-                }
-
-                var option = options.First(opt => opt.Name.Equals(optionName, StringComparison.OrdinalIgnoreCase));
-                option.InputValue = args[index + 1];
             }
 
             foreach (var option in options)

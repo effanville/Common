@@ -11,7 +11,7 @@ namespace Effanville.Common.Console;
 /// Registration extensions for console logging and an <see cref="IConsole"/> instance.
 /// </summary>
 public static class ConsoleInstanceRegistration
-{
+{    
     /// <summary>
     /// Add console and ReportLogger logging to the <see cref="ILoggingBuilder"/>.
     /// </summary>
