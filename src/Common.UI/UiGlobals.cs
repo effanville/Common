@@ -71,8 +71,26 @@ namespace Effanville.Common.UI
             IFileInteractionService fileInteractionService,
             IBaseDialogCreationService dialogCreationService,
             IReportLogger reportLogger)
+            : this(
+                currentDispatcher,
+                currentFileSystem, 
+                fileInteractionService,
+                dialogCreationService, 
+                reportLogger)
         {
             CurrentWorkingDirectory = currentWorkingDirectory;
+        }
+        
+        /// <summary>
+        /// Construct an instance.
+        /// </summary>
+        public UiGlobals(
+            IDispatcher currentDispatcher,
+            IFileSystem currentFileSystem,
+            IFileInteractionService fileInteractionService,
+            IBaseDialogCreationService dialogCreationService,
+            IReportLogger reportLogger)
+        {
             CurrentDispatcher = currentDispatcher;
             CurrentFileSystem = currentFileSystem;
             FileInteractionService = fileInteractionService;
