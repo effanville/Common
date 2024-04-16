@@ -24,7 +24,7 @@ public abstract class ViewModelBase<TModel, TUpdate> : PropertyChangedBase
     /// <summary>
     /// The logging mechanism.
     /// </summary>
-    protected IReportLogger ReportLogger => DisplayGlobals.ReportLogger;
+    public IReportLogger ReportLogger => DisplayGlobals.ReportLogger;
     /// <summary>
     /// The data for the model in this view model.
     /// </summary>
