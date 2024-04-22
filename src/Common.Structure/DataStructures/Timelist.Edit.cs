@@ -40,7 +40,8 @@ namespace Effanville.Common.Structure.DataStructures
             {
                 for (int valueIndex = 0; valueIndex < fValues.Count; ++valueIndex)
                 {
-                    if (fValues[valueIndex].Value.Equals(value))
+                    
+                    if (fValues[valueIndex].Value.Equals(Convert.ToDecimal(value)))
                     {
                         fValues.RemoveAt(valueIndex);
                         --valueIndex;
@@ -132,11 +133,19 @@ namespace Effanville.Common.Structure.DataStructures
                 {
                     for (int i = 0; i < fValues.Count; i++)
                     {
-                        if (fValues[i].Day == oldDate)
+                        var thisValue = fValues[i];
+                        if (thisValue.Day == oldDate)
                         {
-                            reportLogger?.Log(ReportSeverity.Detailed, ReportType.Information, $"{nameof(TimeList)}.{nameof(TryEditData)}", $"{oldDate}-{fValues[i].Value} changed to {newDate} - {value}");
-                            fValues[i].SetData(newDate, value);
-                            edited = true;
+                            if (thisValue.Value != value)
+                            {
+                                reportLogger?.Log(
+                                    ReportSeverity.Detailed,
+                                    ReportType.Information,
+                                    $"{nameof(TimeList)}.{nameof(TryEditData)}",
+                                    $"{oldDate}-{fValues[i].Value} changed to {newDate}-{value}");
+                                thisValue.SetData(newDate, value);
+                                edited = true;
+                            }
                         }
                     }
                 }
