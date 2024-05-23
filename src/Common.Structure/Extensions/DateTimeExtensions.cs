@@ -15,6 +15,11 @@ namespace Effanville.Common.Structure.Extensions
             return date.Day + "/" + date.Month + "/" + date.Year;
         }
 
+        public static string ToIsoDateString(this DateTime date)
+        {
+            return $"{date.Year}-{date.Month}-{date.Day}";
+        }
+
         /// <summary>
         /// Outputs a date in the UK format (the good format) from a datetime
         /// where single digit days and months are padded to be 2 digit.
