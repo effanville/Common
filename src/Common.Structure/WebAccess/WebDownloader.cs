@@ -34,12 +34,6 @@ namespace Effanville.Common.Structure.WebAccess
         }
 
         /// <summary>
-        /// Downloads from url synchronously.
-        /// </summary>
-        public static string DownloadFromURL(string url, IReportLogger reportLogger = null)
-            => DownloadFromURLasync(url, reportLogger).Result;
-
-        /// <summary>
         /// downloads the data from url asynchronously.
         /// </summary>
         public static async Task<string> DownloadFromURLasync(string url, IReportLogger reportLogger = null)
@@ -64,6 +58,10 @@ namespace Effanville.Common.Structure.WebAccess
                     RequestUri = new Uri(url),
                     Method = HttpMethod.Get,
                 };
+                
+                requestMessage.Headers.Add("Connection", "keep-alive");
+                requestMessage.Headers.Add("User-Agent", "PostmanRuntime/7.32.3");
+                requestMessage.Headers.Add("Accept", "*/*");
 
 
                 HttpResponseMessage response = await _client.SendAsync(requestMessage).ConfigureAwait(false);
@@ -102,7 +100,27 @@ namespace Effanville.Common.Structure.WebAccess
 
             return _driver;
         }
+        
+        /// <summary>
+        /// Returns the element text from the specified element from the web driver.
+        /// </summary>
+        public static string GetWebpageSource(IWebDriver driver, string url, int msDelay, IReportLogger logger = null)
+        {
+            try
+            {
+                driver.Navigate().GoToUrl(url);
+                string pageSource = driver.PageSource;
+                _ = Task.Delay(msDelay);
+                return pageSource;
+            }
+            catch (Exception ex)
+            {
+                logger?.Log(ReportType.Error, "Downloading", ex.Message);
+            }
 
+            return null;
+        }
+        
         /// <summary>
         /// Returns the element text from the specified elememnt from the web driver.
         /// </summary>
