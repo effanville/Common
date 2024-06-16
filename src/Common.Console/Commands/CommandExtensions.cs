@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Linq;
 
-using Effanville.Common.Structure.Reporting;
-
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
@@ -100,30 +98,28 @@ namespace Effanville.Common.Console.Commands
 
             return isValid;
         }
-
+        
         /// <summary>
         /// A default execute algorithm that attempts to execute a sub command.
         /// Returns error if fails to execute a sub command.
         /// </summary>
-        public static int Execute(this ICommand cmd, IConsole console, string[] args)
-            => Execute(cmd, console, null, args);
-
-        /// <summary>
-        /// A default execute algorithm that attempts to execute a sub command.
-        /// Returns error if fails to execute a sub command.
-        /// </summary>
-        public static int Execute(this ICommand cmd, IConsole console, IReportLogger logger, string[] args)
+        public static int Execute(this ICommand cmd, IConfiguration config, IConsole console, ILogger logger)
         {
-            var subCommand = cmd.SubCommands.FirstOrDefault(command =>
-                command.Name.Equals(args[0], StringComparison.OrdinalIgnoreCase));
-
-            if (subCommand == null)
+            if (cmd.SubCommands == null || cmd.SubCommands.Count <= 0)
             {
                 return 1;
             }
 
-            string[] commandArgs = args.Skip(1).ToArray();
-            return subCommand.Execute(console, logger, commandArgs);
+            string commandName = config.GetValue<string>("CommandName");
+            string[] commandNames = commandName.Split(';');
+            int currentCommand = Array.FindIndex(commandNames, x => x == cmd.Name);
+            if (currentCommand >= commandNames.Length - 1)
+            {
+                return 1;
+            }
+
+            var subCommand = cmd.SubCommands.FirstOrDefault(command => command.Name == commandNames[currentCommand + 1]);
+            return subCommand?.Execute(console, config) ?? 1;
         }
 
         /// <summary>
