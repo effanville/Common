@@ -17,6 +17,23 @@ public static class ServiceRegistration
     /// </summary>
     public static ILoggingBuilder AddReportLogger(
         this ILoggingBuilder builder,
+        IReportLogger reportLogger)
+    {
+        builder.AddConfiguration();
+
+        builder.Services.AddSingleton(reportLogger);
+        builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<ILoggerProvider, InjectableReportLoggerProvider>());
+
+        LoggerProviderOptions.RegisterProviderOptions<ReportLoggerConfiguration, InjectableReportLoggerProvider>(builder.Services);
+
+        return builder;
+    }
+    
+    /// <summary>
+    /// Add report logging and logging providers to the <see cref="IServiceCollection"/>
+    /// </summary>
+    public static ILoggingBuilder AddReportLogger(
+        this ILoggingBuilder builder,
         Action<ReportSeverity, ReportType, string, string> reportAction = null)
     {
         builder.AddConfiguration();
