@@ -30,6 +30,18 @@ public sealed class ConsoleHost : IHostedService
         _applicationLifetime = applicationLifetime;
     }
 
+    private void RunInBackground()
+    {
+        try
+        {
+            ExitCode = _consoleContext.ValidateAndExecute();
+        }
+        finally
+        {
+            _applicationLifetime.StopApplication();
+        }
+    }
+
     /// <summary>
     /// The call to start the host running.
     /// </summary>
@@ -38,14 +50,7 @@ public sealed class ConsoleHost : IHostedService
         _logger.Log(LogLevel.Information, "Starting Processing.");
         _applicationLifetime.ApplicationStarted.Register(() =>
         {
-            try
-            {
-                ExitCode = _consoleContext.ValidateAndExecute();
-            }
-            finally
-            {
-                _applicationLifetime.StopApplication();
-            }
+            Task.Run(RunInBackground, cancellationToken);
         });
         return Task.CompletedTask;
     }
