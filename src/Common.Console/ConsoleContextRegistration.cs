@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.IO.Abstractions;
+using System.Reflection;
 
 using Effanville.Common.Structure.Reporting;
 
@@ -24,11 +26,11 @@ public static class ConsoleContextRegistration
         string[] args,
         IEnumerable<Type> consoleCommandTypes)
     {
-        hostApplicationBuilder.Configuration.AddConfiguration(args);
         hostApplicationBuilder.Logging
             .ClearProviders()
             .AddReporting(config => config.MinimumLogLevel = ReportType.Information);
         hostApplicationBuilder.Services.AddConsoleContext(consoleCommandTypes);
+        hostApplicationBuilder.Configuration.AddConfiguration(args);
         return hostApplicationBuilder;
     }
     
@@ -39,9 +41,11 @@ public static class ConsoleContextRegistration
         this IConfigurationBuilder builder,
         string[] args)
     {
+        string executingAssemblyLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        string appSettingsFilePath = Path.Combine(executingAssemblyLocation, "appsettings.json");
         var configuration = new ConsoleCommandArgs(args);
         builder.AddCommandLine(configuration.GetEffectiveArgs())
-            .AddJsonFile("appsettings.json")
+            .AddJsonFile(appSettingsFilePath)
             .AddEnvironmentVariables();
         return builder;
     }
