@@ -31,7 +31,6 @@ public class ConsoleContextTests
     [TestCaseSource(nameof(CanRunTests))]
     public void CanRun(string[] args, int expectedExitCode, string errorMessage)
     {
-        var consoleInstance = new ConsoleInstance(null, null);
         var mockLogger = new Mock<ILogger<TestCommand>>();
         var testCommand = new TestCommand(mockLogger.Object);
         testCommand.Options.Add(new CommandOption<string>("number", ""));
@@ -45,7 +44,6 @@ public class ConsoleContextTests
         var context = new ConsoleContext(
             config,
             new List<ICommand>() { testCommand },
-            consoleInstance,
             consoleContextLogger);
         int actualExitCode = context.ValidateAndExecute();
 
@@ -78,7 +76,6 @@ public class ConsoleContextTests
     [TestCaseSource(nameof(CanRunSubCommandTests))]
     public void CanRunSubCommand(string[] args, int expectedExitCode, string errorMessage)
     {
-        var consoleInstance = new ConsoleInstance(null, null);
         var mockLogger = new Mock<ILogger<TestCommand>>();
         var testCommand = new TestCommand(mockLogger.Object);
         testCommand.Options.Add(new CommandOption<string>("number", ""));
@@ -96,7 +93,6 @@ public class ConsoleContextTests
         var context = new ConsoleContext(
             config,
             new List<ICommand>() { testCommand },
-            consoleInstance,
             consoleContextLogger);
         int actualExitCode = context.ValidateAndExecute();
 

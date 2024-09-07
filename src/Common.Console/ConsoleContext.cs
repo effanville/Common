@@ -25,11 +25,6 @@ namespace Effanville.Common.Console
         private readonly IConfiguration _config;
 
         /// <summary>
-        /// The console mechanism.
-        /// </summary>
-        private readonly IConsole _console;
-
-        /// <summary>
         /// The logger for the context.
         /// </summary>
         private readonly ILogger _logger;
@@ -42,11 +37,10 @@ namespace Effanville.Common.Console
         /// <summary>
         /// Construct an instance.
         /// </summary>
-        public ConsoleContext(IConfiguration config, IEnumerable<ICommand> validCommands, IConsole console, ILogger<ConsoleContext> logger)
+        public ConsoleContext(IConfiguration config, IEnumerable<ICommand> validCommands, ILogger<ConsoleContext> logger)
         {
             _validCommands = validCommands.ToList();
             _config = config;
-            _console = console;
             _logger = logger;
         }
 
@@ -62,7 +56,6 @@ namespace Effanville.Common.Console
             if (!Validate())
             {
                 _logger.Log(LogLevel.Error, "Command line input failed validation.");
-                _console.WriteError("Options specified were not valid.");
                 return (int)ExitCode.OptionError;
             }
 
@@ -73,7 +66,6 @@ namespace Effanville.Common.Console
             }
 
             _logger.Log(LogLevel.Error, "Error when Executing command line input.");
-            _console.WriteError("Exit code does not suggest success.");
 
             return exitCode;
         }
@@ -92,10 +84,11 @@ namespace Effanville.Common.Console
         /// </summary>
         private void WriteHelp()
         {
-            _console.WriteLine("Valid commands:");
+            _logger.Log(LogLevel.Information, "Valid commands:");
             foreach (var command in _validCommands)
             {
-                _console.WriteLine($"{command.Name}");
+                _logger.Log(LogLevel.Information, $"{command.Name}");
+                command.WriteHelp();
             }
         }
 
@@ -105,7 +98,7 @@ namespace Effanville.Common.Console
             string commandNames = _config.GetValue<string>("CommandName");
             if (string.IsNullOrWhiteSpace(commandNames))
             {
-                _console.WriteError("Could not locate suitable command to execute.");
+                _logger.Log(LogLevel.Error, "Could not locate suitable command to execute.");
                 return false;
             }
 
@@ -114,11 +107,10 @@ namespace Effanville.Common.Console
             if (_command == null)
             {
                 _logger.Log(LogLevel.Error, "Could not locate suitable command to validate.");
-                _console.WriteError("Could not locate suitable command to validate.");
                 return false;
             }
 
-            return _command.Validate(_console, _config);
+            return _command.Validate(_config);
         }
 
         /// <inheritdoc />
@@ -131,18 +123,17 @@ namespace Effanville.Common.Console
                 if (_command == null)
                 {
                     _logger.Log(LogLevel.Error, "Could not locate suitable command to execute.");
-                    _console.WriteError("Could not locate suitable command to execute.");
                     return (int)ExitCode.CommandError;
                 }
             }
 
             if (_config != null && _helpNames.Contains(_config.GetValue<string>("CommandName")))
             {
-                _command.WriteHelp(_console);
+                _command.WriteHelp();
                 return (int)ExitCode.Success;
             }
 
-            return _command.Execute(_console, _config);
+            return _command.Execute(_config);
         }
     }
 }

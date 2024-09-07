@@ -15,15 +15,13 @@ namespace Effanville.Common.Console.Commands
         /// Writes a standard help information for the command.
         /// Writes all sub command names, followed by the available options.
         /// </summary>
-        public static void WriteHelp(this ICommand cmd, IConsole console, ILogger logger)
+        public static void WriteHelp(this ICommand cmd, ILogger logger)
         {
             if (cmd.SubCommands != null && cmd.SubCommands.Count > 0)
             {
-                console.WriteLine("Sub commands:");
                 logger.Log(LogLevel.Information, "Sub Commands: ");
                 foreach (var command in cmd.SubCommands)
                 {
-                    console.WriteLine(command.Name);
                     logger.Log(LogLevel.Information, command.Name);
                 }
             }
@@ -33,11 +31,9 @@ namespace Effanville.Common.Console.Commands
                 return;
             }
 
-            console.WriteLine("Valid options:");
             logger.Log(LogLevel.Information,"Valid options:");
             foreach (var option in cmd.Options)
             {
-                console.WriteLine($"{option.Name} - {option.Description}");
                 logger.Log(LogLevel.Information,$"{option.Name} - {option.Description}");
             }
         }
@@ -45,7 +41,7 @@ namespace Effanville.Common.Console.Commands
         /// <summary>
         /// Standard validation routine ensuring all options and sub commands are validated.
         /// </summary>
-        public static bool Validate(this ICommand cmd, IConfiguration config, IConsole console, ILogger logger)
+        public static bool Validate(this ICommand cmd, IConfiguration config, ILogger logger)
         {
             if (cmd.SubCommands != null && cmd.SubCommands.Count > 0)
             {
@@ -57,7 +53,7 @@ namespace Effanville.Common.Console.Commands
                     var subCommand = cmd.SubCommands.FirstOrDefault(command => command.Name == commandNames[currentCommand + 1]);
                     if (subCommand != null)
                     {
-                        return subCommand.Validate(console, config);
+                        return subCommand.Validate(config);
                     }
                 }
             }
@@ -103,7 +99,7 @@ namespace Effanville.Common.Console.Commands
         /// A default execute algorithm that attempts to execute a sub command.
         /// Returns error if fails to execute a sub command.
         /// </summary>
-        public static int Execute(this ICommand cmd, IConfiguration config, IConsole console, ILogger logger)
+        public static int Execute(this ICommand cmd, IConfiguration config, ILogger logger)
         {
             if (cmd.SubCommands == null || cmd.SubCommands.Count <= 0)
             {
@@ -119,7 +115,8 @@ namespace Effanville.Common.Console.Commands
             }
 
             var subCommand = cmd.SubCommands.FirstOrDefault(command => command.Name == commandNames[currentCommand + 1]);
-            return subCommand?.Execute(console, config) ?? 1;
+            logger?.Log(LogLevel.Information, $"Executing command {subCommand?.Name}");
+            return subCommand?.Execute(config) ?? 1;
         }
 
         /// <summary>

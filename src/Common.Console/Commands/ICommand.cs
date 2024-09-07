@@ -36,23 +36,20 @@ namespace Effanville.Common.Console.Commands
         /// <summary>
         /// The method to write help for this command.
         /// </summary>
-        /// <param name="console">The console instance to execute through.</param>
-        void WriteHelp(IConsole console);
+        void WriteHelp();
 
         /// <summary>
         /// The mechanism for validating the input option values.
         /// </summary>
-        /// <param name="console">The console instance to execute through.</param>
         /// <param name="config">The command line arguments.</param>
         /// <returns>Was validation successful.</returns>
-        bool Validate(IConsole console, IConfiguration config);
+        bool Validate(IConfiguration config);
 
         /// <summary>
         /// Execute the given command.
         /// </summary>
-        /// <param name="console">The console instance to execute through.</param>
         /// <param name="config">The command line arguments.</param>
         /// <returns>The exit code of the command.</returns>
-        int Execute(IConsole console, IConfiguration config);
+        int Execute(IConfiguration config);
     }
 }

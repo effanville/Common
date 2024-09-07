@@ -23,13 +23,13 @@ namespace Effanville.Common.Console.Tests
         }
 
         /// <inheritdoc/>
-        public void WriteHelp(IConsole console) => this.WriteHelp(console, _logger);
+        public void WriteHelp() => this.WriteHelp(_logger);
 
         /// <inheritdoc/>
-        public int Execute(IConsole console, IConfiguration config) => 0;
+        public int Execute(IConfiguration config) => 0;
 
         /// <inheritdoc/>
-        public bool Validate(IConsole console, IConfiguration config) 
-            => this.Validate(config, console, _logger);
+        public bool Validate(IConfiguration config) 
+            => this.Validate(config, _logger);
     }
 }

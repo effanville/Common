@@ -25,26 +25,20 @@ namespace Effanville.Common.Console
         public ILogger ReportLogger { get; set; }
 
         /// <summary>
-        /// Abstraction for writing to the console.
-        /// </summary>
-        public IConsole Console { get; }
-
-        /// <summary>
         /// Standard constructor.
         /// </summary>
-        public ConsoleGlobals(string currentWorkingDirectory, IFileSystem currentFileSystem, IConsole console, ILogger reportLogger)
+        public ConsoleGlobals(string currentWorkingDirectory, IFileSystem currentFileSystem, ILogger reportLogger)
         {
             CurrentWorkingDirectory = currentWorkingDirectory;
             CurrentFileSystem = currentFileSystem;
-            Console = console;
             ReportLogger = reportLogger;
         }
 
         /// <summary>
         /// Standard constructor using the file system.
         /// </summary>
-        public ConsoleGlobals(IFileSystem currentFileSystem, IConsole console, ILogger reportLogger)
-            : this(currentFileSystem.Directory.GetCurrentDirectory(), currentFileSystem, console, reportLogger)
+        public ConsoleGlobals(IFileSystem currentFileSystem, ILogger reportLogger)
+            : this(currentFileSystem.Directory.GetCurrentDirectory(), currentFileSystem, reportLogger)
         {
         }
     }

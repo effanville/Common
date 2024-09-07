@@ -20,8 +20,6 @@ public static class ConsoleInstanceRegistration
         Action<ReportLoggerConfiguration> configure = null)
     {
         builder.AddReportLogger(configure, ReportAction);
-        builder.Services.AddSingleton<IConsole, ConsoleInstance>(
-            _ => new ConsoleInstance(WriteError, WriteLine));
         return builder;
     }
 

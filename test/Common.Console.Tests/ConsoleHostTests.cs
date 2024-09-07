@@ -29,7 +29,6 @@ public class ConsoleHostTests
     [TestCaseSource(nameof(CanRunTests))]
     public async Task CanRun(string[] args, int expectedExitCode, string errorMessage)
     {
-        var consoleInstance = new ConsoleInstance(null, null);
         var mock = new Mock<ILogger<ConsoleHost>>();
         ILogger<ConsoleHost> logger = mock.Object;
         var consoleContextMock = new Mock<ILogger<ConsoleContext>>();
@@ -44,8 +43,10 @@ public class ConsoleHostTests
             .AddEnvironmentVariables()
             .Build();
         applicationLifetime.Setup(x => x.ApplicationStarted).Returns(applicationStartedCts.Token);
-        var consoleContext = new ConsoleContext(config, new List<ICommand>() { testCommand },
-            consoleInstance, consoleContextLogger);
+        var consoleContext = new ConsoleContext(
+            config, 
+            new List<ICommand>() { testCommand },
+            consoleContextLogger);
         var host = new ConsoleHost(
             consoleContext,
             logger,
