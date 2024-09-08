@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Effanville.Common.Structure.Extensions
 {
@@ -15,10 +16,11 @@ namespace Effanville.Common.Structure.Extensions
             return date.Day + "/" + date.Month + "/" + date.Year;
         }
 
-        public static string ToIsoDateString(this DateTime date)
-        {
-            return $"{date.Year}-{date.Month}-{date.Day}";
-        }
+        /// <summary>
+        /// Outputs a date in ISO-8601 format.
+        /// </summary>
+        public static string ToIsoDateString(this DateTime date) 
+            => date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
 
         /// <summary>
         /// Outputs a date in the UK format (the good format) from a datetime
