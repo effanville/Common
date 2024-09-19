@@ -69,7 +69,6 @@ namespace Effanville.Common.Structure.WebAccess
 
 
                 HttpResponseMessage response = await _client.SendAsync(requestMessage).ConfigureAwait(false);
-                _ = response.EnsureSuccessStatusCode();
                 string result = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 if (string.IsNullOrEmpty(result))
                 {
@@ -79,6 +78,7 @@ namespace Effanville.Common.Structure.WebAccess
                 {
                     output = result;
                 }
+                _ = response.EnsureSuccessStatusCode();
             }
             catch (Exception ex)
             {
