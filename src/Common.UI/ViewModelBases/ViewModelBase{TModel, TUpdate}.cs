@@ -81,7 +81,7 @@ public abstract class ViewModelBase<TModel, TUpdate> : PropertyChangedBase
     /// <summary>
     /// Mechanism to update the data 
     /// </summary>
-    public virtual void UpdateData(TModel modelData)
+    public virtual void UpdateData(TModel modelData, bool force)
     {
         ModelData = null;
         ModelData = modelData;
