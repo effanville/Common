@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 
 using Effanville.Common.Console.Commands;
+using Effanville.Common.Structure.Reporting.LogAspect;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -24,9 +25,16 @@ public static class ConsoleCommandRegistration
         this IServiceCollection serviceCollection,
         IEnumerable<Type> consoleCommandTypes)
     {
-        foreach (var commandType in consoleCommandTypes)
+        foreach (Type commandType in consoleCommandTypes)
         {
-            serviceCollection.AddScoped(typeof(ICommand), commandType);
+            if(commandType.IsAssignableTo(typeof(ILogInterceptable)))
+            {
+                serviceCollection.AddProxiedScoped(typeof(ICommand), commandType);
+            }
+            else
+            {
+                serviceCollection.AddScoped(typeof(ICommand), commandType);
+            }
         }
 
         return serviceCollection;

@@ -48,7 +48,7 @@ namespace Effanville.Common.Console
         public int ValidateAndExecute()
         {
             if (IsHelpRequired())
-            {
+            { 
                 WriteHelp();
                 return (int)ExitCode.Success;
             }
