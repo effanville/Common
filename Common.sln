@@ -31,6 +31,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.UI.Wpf", "src\Common
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.UI.Wpf.Tests", "test\Common.UI.Wpf.Tests\Common.UI.Wpf.Tests.csproj", "{FD845AED-807F-4DE5-AC5C-DC6B42EB276B}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.ReportWriting", "src\Common.ReportWriting\Common.ReportWriting.csproj", "{3E3B7B1E-B804-472A-8D9E-ABCC6A7E0E51}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.ReportWriting.Unit.Tests", "test\Common.ReportWriting.Unit.Tests\Common.ReportWriting.Unit.Tests.csproj", "{FF317BC7-95FD-4214-B67D-F6E73556F858}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -71,6 +75,14 @@ Global
 		{FD845AED-807F-4DE5-AC5C-DC6B42EB276B}.Debug|x64.Build.0 = Debug|x64
 		{FD845AED-807F-4DE5-AC5C-DC6B42EB276B}.Release|x64.ActiveCfg = Release|x64
 		{FD845AED-807F-4DE5-AC5C-DC6B42EB276B}.Release|x64.Build.0 = Release|x64
+		{3E3B7B1E-B804-472A-8D9E-ABCC6A7E0E51}.Debug|x64.ActiveCfg = Debug|x64
+		{3E3B7B1E-B804-472A-8D9E-ABCC6A7E0E51}.Debug|x64.Build.0 = Debug|x64
+		{3E3B7B1E-B804-472A-8D9E-ABCC6A7E0E51}.Release|x64.ActiveCfg = Release|x64
+		{3E3B7B1E-B804-472A-8D9E-ABCC6A7E0E51}.Release|x64.Build.0 = Release|x64
+		{FF317BC7-95FD-4214-B67D-F6E73556F858}.Debug|x64.ActiveCfg = Debug|x64
+		{FF317BC7-95FD-4214-B67D-F6E73556F858}.Debug|x64.Build.0 = Debug|x64
+		{FF317BC7-95FD-4214-B67D-F6E73556F858}.Release|x64.ActiveCfg = Release|x64
+		{FF317BC7-95FD-4214-B67D-F6E73556F858}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
