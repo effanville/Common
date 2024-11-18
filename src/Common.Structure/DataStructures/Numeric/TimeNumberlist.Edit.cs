@@ -134,9 +134,16 @@ namespace Effanville.Common.Structure.DataStructures.Numeric
                     {
                         if (fValues[i].Day == oldDate)
                         {
-                            reportLogger?.Log(ReportSeverity.Detailed, ReportType.Information, $"{nameof(TimeNumberList)}.{nameof(TryEditData)}", $"{oldDate}- {fValues[i].Value} changed to {newDate} - {value}");
-                            fValues[i].SetData(newDate, value);
-                            edited = true;
+                            if (fValues[i].Value != value)
+                            {
+                                reportLogger?.Log(
+                                    ReportSeverity.Detailed, 
+                                    ReportType.Information,
+                                    $"{nameof(TimeNumberList)}.{nameof(TryEditData)}",
+                                    $"{oldDate}- {fValues[i].Value} changed to {newDate}-{value}");
+                                fValues[i].SetData(newDate, value);
+                                edited = true;
+                            }
                         }
                     }
                 }

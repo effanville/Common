@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Linq;
 
-using Effanville.Common.Structure.Reporting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace Effanville.Common.Console.Commands
 {
@@ -14,14 +15,14 @@ namespace Effanville.Common.Console.Commands
         /// Writes a standard help information for the command.
         /// Writes all sub command names, followed by the available options.
         /// </summary>
-        public static void WriteHelp(this ICommand cmd, IConsole console)
+        public static void WriteHelp(this ICommand cmd, ILogger logger)
         {
             if (cmd.SubCommands != null && cmd.SubCommands.Count > 0)
             {
-                console.WriteLine("Sub commands:");
+                logger.Log(LogLevel.Information, "Sub Commands: ");
                 foreach (var command in cmd.SubCommands)
                 {
-                    console.WriteLine($"{command.Name}");
+                    logger.Log(LogLevel.Information, command.Name);
                 }
             }
 
@@ -30,31 +31,30 @@ namespace Effanville.Common.Console.Commands
                 return;
             }
 
-            console.WriteLine("Valid options:");
+            logger.Log(LogLevel.Information,"Valid options:");
             foreach (var option in cmd.Options)
             {
-                console.WriteLine($"{option.Name} - {option.Description}");
+                logger.Log(LogLevel.Information,$"{option.Name} - {option.Description}");
             }
         }
 
         /// <summary>
         /// Standard validation routine ensuring all options and sub commands are validated.
         /// </summary>
-        public static bool Validate(this ICommand cmd, string[] args, IConsole console)
-            => Validate(cmd, args, console, null);
-
-        /// <summary>
-        /// Standard validation routine ensuring all options and sub commands are validated.
-        /// </summary>
-        public static bool Validate(this ICommand cmd, string[] args, IConsole console, IReportLogger logger)
+        public static bool Validate(this ICommand cmd, IConfiguration config, ILogger logger)
         {
             if (cmd.SubCommands != null && cmd.SubCommands.Count > 0)
             {
-                var subCommand = cmd.SubCommands.FirstOrDefault(command => command.Name == args[0]);
-                if (subCommand != null)
+                string commandName = config.GetValue<string>("CommandName");
+                string[] commandNames = commandName.Split(';');
+                int currentCommand = Array.FindIndex(commandNames, x => x == cmd.Name);
+                if (currentCommand < commandNames.Length - 1)
                 {
-                    string[] commandArgs = args.Skip(1).ToArray();
-                    return subCommand.Validate(console, logger, commandArgs);
+                    var subCommand = cmd.SubCommands.FirstOrDefault(command => command.Name == commandNames[currentCommand + 1]);
+                    if (subCommand != null)
+                    {
+                        return subCommand.Validate(config);
+                    }
                 }
             }
 
@@ -64,30 +64,20 @@ namespace Effanville.Common.Console.Commands
                 return false;
             }
 
-            if (args == null)
+            if (config == null)
             {
                 return false;
             }
 
             bool isValid = true;
             // cycle through user given values filling in option values.
-            for (int index = 0; index < args.Length - 1; index++)
+            foreach (var option in options)
             {
-                if (!args[index].StartsWith("--"))
+                string configValue = config.GetValue<string>(option.Name);
+                if (!string.IsNullOrWhiteSpace(configValue))
                 {
-                    continue;
+                    option.InputValue = configValue;
                 }
-
-                string optionName = args[index].TrimStart('-');
-                if (!options.Any(opt => opt.Name.Equals(optionName, StringComparison.OrdinalIgnoreCase)))
-                {
-                    string error = $"Option {optionName} is not a valid option.";
-                    logger?.Log(ReportSeverity.Critical, ReportType.Error, $"{cmd.Name}.{nameof(Validate)}", error);
-                    return false;
-                }
-
-                var option = options.First(opt => opt.Name.Equals(optionName, StringComparison.OrdinalIgnoreCase));
-                option.InputValue = args[index + 1];
             }
 
             foreach (var option in options)
@@ -98,36 +88,35 @@ namespace Effanville.Common.Console.Commands
                 }
 
                 string error = $"{option.GetPrettyErrorMessage()}";
-                logger?.Log(ReportSeverity.Critical, ReportType.Error, $"{nameof(Validate)}", error);
+                logger?.Log(LogLevel.Error, error);
                 isValid = false;
             }
 
             return isValid;
         }
-
+        
         /// <summary>
         /// A default execute algorithm that attempts to execute a sub command.
         /// Returns error if fails to execute a sub command.
         /// </summary>
-        public static int Execute(this ICommand cmd, IConsole console, string[] args)
-            => Execute(cmd, console, null, args);
-
-        /// <summary>
-        /// A default execute algorithm that attempts to execute a sub command.
-        /// Returns error if fails to execute a sub command.
-        /// </summary>
-        public static int Execute(this ICommand cmd, IConsole console, IReportLogger logger, string[] args)
+        public static int Execute(this ICommand cmd, IConfiguration config, ILogger logger)
         {
-            var subCommand = cmd.SubCommands.FirstOrDefault(command =>
-                command.Name.Equals(args[0], StringComparison.OrdinalIgnoreCase));
-
-            if (subCommand == null)
+            if (cmd.SubCommands == null || cmd.SubCommands.Count <= 0)
             {
                 return 1;
             }
 
-            string[] commandArgs = args.Skip(1).ToArray();
-            return subCommand.Execute(console, logger, commandArgs);
+            string commandName = config.GetValue<string>("CommandName");
+            string[] commandNames = commandName.Split(';');
+            int currentCommand = Array.FindIndex(commandNames, x => x == cmd.Name);
+            if (currentCommand >= commandNames.Length - 1)
+            {
+                return 1;
+            }
+
+            var subCommand = cmd.SubCommands.FirstOrDefault(command => command.Name == commandNames[currentCommand + 1]);
+            logger?.Log(LogLevel.Information, $"Executing command {subCommand?.Name}");
+            return subCommand?.Execute(config) ?? 1;
         }
 
         /// <summary>

@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 
 using Effanville.Common.Console.Options;
-using Effanville.Common.Structure.Reporting;
+
+using Microsoft.Extensions.Configuration;
 
 namespace Effanville.Common.Console.Commands
 {
@@ -35,41 +36,20 @@ namespace Effanville.Common.Console.Commands
         /// <summary>
         /// The method to write help for this command.
         /// </summary>
-        /// <param name="console">The console instance to execute through.</param>
-        void WriteHelp(IConsole console);
+        void WriteHelp();
 
         /// <summary>
         /// The mechanism for validating the input option values.
         /// </summary>
-        /// <param name="console">The console instance to execute through.</param>
-        /// <param name="args">The command line arguments.</param>
+        /// <param name="config">The command line arguments.</param>
         /// <returns>Was validation successful.</returns>
-        bool Validate(IConsole console, string[] args);
+        bool Validate(IConfiguration config);
 
         /// <summary>
         /// Execute the given command.
         /// </summary>
-        /// <param name="console">The console instance to execute through.</param>
-        /// <param name="args">The command line arguments.</param>
+        /// <param name="config">The command line arguments.</param>
         /// <returns>The exit code of the command.</returns>
-        int Execute(IConsole console, string[] args = null);
-
-        /// <summary>
-        /// The mechanism for validating the input option values.
-        /// </summary>
-        /// <param name="console">The console instance to execute through.</param>
-        /// <param name="logger">The report logger to log reports with.</param>
-        /// <param name="args">The command line arguments.</param>
-        /// <returns>Was validation successful.</returns>
-        bool Validate(IConsole console, IReportLogger logger, string[] args);
-
-        /// <summary>
-        /// Execute the given command.
-        /// </summary>
-        /// <param name="console">The console instance to write output to.</param>
-        /// <param name="logger">The report logger to log reports with.</param>
-        /// <param name="args">The command line arguments.</param>
-        /// <returns>The exit code of the command.</returns>
-        int Execute(IConsole console, IReportLogger logger, string[] args = null);
+        int Execute(IConfiguration config);
     }
 }

@@ -1,15 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.IO.Abstractions;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Effanville.Common.Console.Commands;
-using Effanville.Common.Structure.Extensions;
-using Effanville.Common.Structure.Reporting;
-
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace Effanville.Common.Console;
 
@@ -18,31 +12,34 @@ namespace Effanville.Common.Console;
 /// </summary>
 public sealed class ConsoleHost : IHostedService
 {
-    internal int? _exitCode;
-    private readonly ConsoleCommandArgs _commandArgs;
-    private readonly IFileSystem _fileSystem;
-    private readonly IConsole _console;
-    private readonly IReportLogger _logger;
-    private readonly List<ICommand> _validCommands;
+    internal int? ExitCode;
+    private readonly IConsoleContext _consoleContext;
+    private readonly ILogger<ConsoleHost> _logger;
     private readonly IHostApplicationLifetime _applicationLifetime;
 
     /// <summary>
     /// Construct an instance.
     /// </summary>
     public ConsoleHost(
-        ConsoleCommandArgs commandArgs,
-        IFileSystem fileSystem,
-        IConsole console,
-        IReportLogger logger,
-        IEnumerable<ICommand> validCommands,
+        IConsoleContext consoleContext,
+        ILogger<ConsoleHost> logger,
         IHostApplicationLifetime applicationLifetime)
     {
-        _commandArgs = commandArgs;
-        _fileSystem = fileSystem;
-        _console = console;
+        _consoleContext = consoleContext;
         _logger = logger;
         _applicationLifetime = applicationLifetime;
-        _validCommands = validCommands.ToList();
+    }
+
+    private void RunInBackground()
+    {
+        try
+        {
+            ExitCode = _consoleContext.ValidateAndExecute();
+        }
+        finally
+        {
+            _applicationLifetime.StopApplication();
+        }
     }
 
     /// <summary>
@@ -50,17 +47,10 @@ public sealed class ConsoleHost : IHostedService
     /// </summary>
     public Task StartAsync(CancellationToken cancellationToken)
     {
-        _logger.Log(ReportSeverity.Useful, ReportType.Information, $"FPDConsole", "FPDConsole.exe - version 1");
+        _logger.Log(LogLevel.Information, "Starting Processing.");
         _applicationLifetime.ApplicationStarted.Register(() =>
         {
-            try
-            {
-                _exitCode = ConsoleContext.SetAndExecute(_commandArgs.Args, _fileSystem, _console, _logger, _validCommands);
-            }
-            finally
-            {
-                _applicationLifetime.StopApplication();
-            }
+            Task.Run(RunInBackground, cancellationToken);
         });
         return Task.CompletedTask;
     }
@@ -70,12 +60,8 @@ public sealed class ConsoleHost : IHostedService
     /// </summary>
     public Task StopAsync(CancellationToken cancellationToken)
     {
-        _logger.Log(ReportSeverity.Useful, ReportType.Information, "FPDConsole",
-            "Completed processing. Shutting Down.");
-        string logPath = _fileSystem.Path.Combine(_fileSystem.Directory.GetCurrentDirectory(),
-            $"{DateTime.Now.FileSuitableDateTimeValue()}-consoleLog.log");
-        _logger.WriteReportsToFile(logPath);
-        Environment.ExitCode = _exitCode.GetValueOrDefault(-1);
+        _logger.Log(LogLevel.Information, "Completed processing. Shutting Down.");
+        Environment.ExitCode = ExitCode.GetValueOrDefault(-1);
         return Task.CompletedTask;
     }
 }

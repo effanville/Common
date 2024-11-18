@@ -2,33 +2,34 @@
 
 using Effanville.Common.Console.Commands;
 using Effanville.Common.Console.Options;
-using Effanville.Common.Structure.Reporting;
+
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace Effanville.Common.Console.Tests
 {
     public sealed class TestCommand : ICommand
     {
-        public string Name => "Test";
+        private readonly ILogger<TestCommand> _logger;
+        public string Name { get; set; } = "Test";
 
         public IList<CommandOption> Options { get; } = new List<CommandOption>();
 
         public IList<ICommand> SubCommands { get; } = new List<ICommand>();
 
-        /// <inheritdoc/>
-        public void WriteHelp(IConsole console) => CommandExtensions.WriteHelp(this, console);
+        public TestCommand(ILogger<TestCommand> logger) 
+        {
+            _logger = logger;
+        }
 
         /// <inheritdoc/>
-        public int Execute(IConsole console, IReportLogger logger, string[] args) => 0;
+        public void WriteHelp() => this.WriteHelp(_logger);
 
         /// <inheritdoc/>
-        public int Execute(IConsole console, string[] args) => Execute(console, null, args);
+        public int Execute(IConfiguration config) => 0;
 
         /// <inheritdoc/>
-        public bool Validate(IConsole console, IReportLogger logger, string[] args) 
-            => this.Validate(args, console, logger);
-
-        /// <inheritdoc/>
-        public bool Validate(IConsole console, string[] args) 
-            => Validate(console, null, args);
+        public bool Validate(IConfiguration config) 
+            => this.Validate(config, _logger);
     }
 }

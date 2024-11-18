@@ -34,15 +34,9 @@ namespace Effanville.Common.Structure.WebAccess
         }
 
         /// <summary>
-        /// Downloads from url synchronously.
-        /// </summary>
-        public static string DownloadFromURL(string url, IReportLogger reportLogger = null)
-            => DownloadFromURLasync(url, reportLogger).Result;
-
-        /// <summary>
         /// downloads the data from url asynchronously.
         /// </summary>
-        public static async Task<string> DownloadFromURLasync(string url, IReportLogger reportLogger = null)
+        public static async Task<string> DownloadFromURLasync(string url, bool addCookie = false, IReportLogger reportLogger = null)
         {
             if (string.IsNullOrEmpty(url))
             {
@@ -64,10 +58,31 @@ namespace Effanville.Common.Structure.WebAccess
                     RequestUri = new Uri(url),
                     Method = HttpMethod.Get,
                 };
+                
+                requestMessage.Headers.Add("Connection", "keep-alive");
+                requestMessage.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36 Edg/128.0.0.0");
+                requestMessage.Headers.Add("Accept", "*/*");
+                if(addCookie)
+                {
+                    if (url.Contains("morningstar"))
+                    {
+                    }
+                    if (url.Contains("yahoo"))
+                    {   
+                        requestMessage.Headers.Add("Cookie", "tbla_id=aae3bca5-6f89-41d1-a9b5-0fcf5b24dca9-tuctbe0ecca; axids=gam=y-JmJxMy9G2uJMAN9wD14k9M.psqL3kOBkZzIMRE_JWvNawfdZ7g---A&dv360=eS1oZG5ZX2g5RTJ1RTg2TGs5WVgzWTduN2dHT2JsZHJ5NEV1SlF2RnQwM1ZabnVUTUpveXR1M2ZqNUg1UzVSUUdiYmxjan5B&ydsp=y-vEkVS0xE2uI19DbvY9XMuebQtdZ0p.1XkBdfVH_x2DeD9YOA.ixAcjxOywMl82QqFR6h~A&tbla=y-R49G1d5G2uJHw0ZjRDQDgqX98JMET.7vNxKEeH57vb.Re7SAMg---A; _cb=DZzfdfrdKCGDAANjE; GUC=AQABCAFm_ppnLUIkAgTn&s=AQAAAGrQgRFC&g=Zv1LCA; A1=d=AQABBHUF4mQCEGnAACKAZYaxdDvd9vq-H08FEgABCAGa_mYtZ1iia3sB9qMAAAcIcgXiZGZ2N60ID14fAc_fM35JXkckD_MdQwkBBwoBWw&S=AQAAApGmiNCUIiy5FZF9lqtge94; A3=d=AQABBHUF4mQCEGnAACKAZYaxdDvd9vq-H08FEgABCAGa_mYtZ1iia3sB9qMAAAcIcgXiZGZ2N60ID14fAc_fM35JXkckD_MdQwkBBwoBWw&S=AQAAApGmiNCUIiy5FZF9lqtge94; A1S=d=AQABBHUF4mQCEGnAACKAZYaxdDvd9vq-H08FEgABCAGa_mYtZ1iia3sB9qMAAAcIcgXiZGZ2N60ID14fAc_fM35JXkckD_MdQwkBBwoBWw&S=AQAAApGmiNCUIiy5FZF9lqtge94; PRF=t%3DRKT.L%252B%255EFVX%252B0005.HK%252BIBKR%252BGBPEUR%253DX%252BSDR.L%252BIII.L%252BMKS.L%252BJXN%252BVWRP.L%252B%255EGSPC%252BABDP.L%252BGRP.L%252BVUKE.L%252BXMTW.L%26newChartbetateaser%3D0%252C1694096505479; cmp=t=1730597755&j=1&u=1---&v=50; EuConsent=CQEEBUAQEEBUAAOACBENBNFoAP_gAEPgACiQJhNB9G7WTVFneXp2YPskOYUX0VBJ4MAwBgCBAcABzBIUIAwGVmAzJEyIICACGAIAIGBBIABtGAhAQEAAYIAFAABIAEAAIBAAIGAAACAAAABACAAAAAAAAAAQgEAXMBQgmAZEBFoIQUhAggAgAQAAAAAEAIgBCgQAEAAAQAAICAAIACgAAgAAAAAAAAAEAFAIEQAAAAECAotkfQTBABINSogCLAkJCAQMIIEAIgoCACgQAAAAECAAAAmCAoQBgEqMBEAIAQAAAAAAAAQEACAAACABCAAIAAgQAAAAAQAAAAQCAAAEAAAAAAAAAAAAAAAAAAAAAAAAAMQAhBAACACCAAgoAAAABAAAAAAAAAARAAEAAAAAAAAAAAAAARAAAAAAAAAAAAAAAAAAAQAAAAAAAABACILAAA; _chartbeat2=.1714004187120.1730597755644.0000000000000001.61atgC4SP8q_Z3RtUwd_JCmuIYQ.1; _cb_svref=null; _SUPERFLY_lockout=1");
+                    }
+                    if (url.Contains("markets.ft"))
+                    {
+                    }
+
+                    if (url.Contains("bloomberg"))
+                    {   
+                        requestMessage.Headers.Add("Cookie", "bbgconsentstring=req1fun1pad1; bdfpc=004.3771631935.1711068963254; _ga=GA1.1.1664482315.1711068963; agent_id=c04fa5f7-6be6-42c2-b35a-7fac373bb047; session_id=f99095c7-e0ab-4444-9601-2f138ceb0a37; _session_id_backup=f99095c7-e0ab-4444-9601-2f138ceb0a37; session_key=302c109daf69e573196ac1165fd2d4aec8734ce5; gatehouse_id=8c312246-8489-49f0-bdaf-990a70045ff6; _pxvid=f50f7e44-e7e6-11ee-bdb4-0b0a525f25ed; consentUUID=1eaa51e4-bac3-445b-8d66-1f135dc97bf2; usnatUUID=6027740b-6915-4459-8057-76ef431ff354; _uetvid=f5cedf50e7e611ee8410771eb52265ec; afUserId=94de923c-9849-4c95-a39e-6757214238c8-p; __gads=ID=f140f78eabf69755:T=1711068965:RT=1711068965:S=ALNI_MYMVOw1H3A27kRfxI01XyKDKqgalQ; __eoi=ID=2250c158e23e961c:T=1711068965:RT=1711068965:S=AA-AfjbYbapOHMuMZVkqU2aFebig; _clck=1bfivdo%7C2%7Cfka%7C0%7C1542; _cc_id=b952f2362570ce66ae68d0d01ef81f12; _scid=de426731-08df-4496-94d0-f59424f8f7b7; _scid_r=de426731-08df-4496-94d0-f59424f8f7b7; _sctr=1%7C1711036800000; __stripe_mid=ec8b4bb4-2c9a-4a50-a57b-239d5eb129e6ceef10; _ga_GQ1PBLXZCT=GS1.1.1711068963.1.1.1711069067.0.0.0; geo_info=%7B%22countryCode%22%3A%22HK%22%2C%22country%22%3A%22HK%22%2C%22field_n%22%3A%22hf%22%2C%22trackingRegion%22%3A%22Asia%22%2C%22cacheExpiredTime%22%3A1726328194821%2C%22region%22%3A%22Asia%22%2C%22fieldN%22%3A%22hf%22%7D%7C1726328194821; geo_info={%22country%22:%22HK%22%2C%22region%22:%22Asia%22%2C%22fieldN%22:%22hf%22}|1726328196789; exp_pref=APAC; country_code=HK; seen_uk=1; _user-data=%7B%22status%22%3A%22anonymous%22%7D; _reg-csrf=s%3AfOQnbguGv1d6i7h7iVtgyZPV.FXDqWI6Ad3WxNFAYIalBqq8e5lCiGyIaen71HYdtmXc; _reg-csrf-token=zAy2o34l-OVOHhOuXLY4A_eKxcTtt6V6e8QM; __stripe_sid=ca041b93-c563-4675-a6e7-9cba87cbdf4b15ca81");
+                    }
+                }
 
 
                 HttpResponseMessage response = await _client.SendAsync(requestMessage).ConfigureAwait(false);
-                _ = response.EnsureSuccessStatusCode();
                 string result = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 if (string.IsNullOrEmpty(result))
                 {
@@ -77,6 +92,7 @@ namespace Effanville.Common.Structure.WebAccess
                 {
                     output = result;
                 }
+                _ = response.EnsureSuccessStatusCode();
             }
             catch (Exception ex)
             {
@@ -102,7 +118,27 @@ namespace Effanville.Common.Structure.WebAccess
 
             return _driver;
         }
+        
+        /// <summary>
+        /// Returns the element text from the specified element from the web driver.
+        /// </summary>
+        public static string GetWebpageSource(IWebDriver driver, string url, int msDelay, IReportLogger logger = null)
+        {
+            try
+            {
+                driver.Navigate().GoToUrl(url);
+                string pageSource = driver.PageSource;
+                _ = Task.Delay(msDelay);
+                return pageSource;
+            }
+            catch (Exception ex)
+            {
+                logger?.Log(ReportType.Error, "Downloading", ex.Message);
+            }
 
+            return null;
+        }
+        
         /// <summary>
         /// Returns the element text from the specified elememnt from the web driver.
         /// </summary>
