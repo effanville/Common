@@ -36,7 +36,7 @@ namespace Effanville.Common.Structure.Reporting
             _loggingAction = addReport;
             _loggingQueue = new TaskQueue();
         }
-        
+
         /// <summary>
         /// Constructor for reporting mechanisms. Parameter addReport is the report callback mechanism.
         /// </summary>
@@ -156,7 +156,7 @@ namespace Effanville.Common.Structure.Reporting
             }
             try
             {
-                using (Stream stream = fileSystem.FileStream.Create(filePath, FileMode.Create))
+                using (Stream stream = fileSystem.FileStream.New(filePath, FileMode.Create))
                 using (TextWriter writer = new StreamWriter(stream))
                 {
                     foreach (ErrorReport report in Reports)

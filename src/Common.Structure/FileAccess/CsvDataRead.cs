@@ -34,7 +34,7 @@ namespace Effanville.Common.Structure.FileAccess
         {
             try
             {
-                using (Stream stream = fileSystem.FileStream.Create(filePath, FileMode.Open))
+                using (Stream stream = fileSystem.FileStream.New(filePath, FileMode.Open))
                 using (TextReader reader = new StreamReader(stream))
                 {
                     string line = null;
@@ -77,7 +77,7 @@ namespace Effanville.Common.Structure.FileAccess
         {
             try
             {
-                using (Stream stream = fileSystem.FileStream.Create(filePath, FileMode.Create))
+                using (Stream stream = fileSystem.FileStream.New(filePath, FileMode.Create))
                 using (TextWriter writer = new StreamWriter(stream))
                 {
                     dataTypeToWrite.WriteDataToCsv(writer, reportLogger);

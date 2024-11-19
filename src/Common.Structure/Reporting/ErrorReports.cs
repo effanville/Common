@@ -186,7 +186,7 @@ namespace Effanville.Common.Structure.Reporting
                 return numberRemovals;
             }
         }
-        
+
         /// <summary>
         /// Removes the selected element
         /// </summary>
@@ -235,7 +235,7 @@ namespace Effanville.Common.Structure.Reporting
         /// <param name="fileSystem"></param>
         public void Save(string filePath, IFileSystem fileSystem)
         {
-            using (Stream stream = fileSystem.FileStream.Create(filePath, FileMode.Create))
+            using (Stream stream = fileSystem.FileStream.New(filePath, FileMode.Create))
             using (StreamWriter writer = new StreamWriter(stream))
             {
                 writer.WriteLine(ErrorReport.ToCsvHeader());

@@ -26,7 +26,7 @@ namespace Effanville.Common.Structure.FileAccess
         {
             WriteToXmlFile(new FileSystem(), filePath, objectToWrite, out error, append);
         }
-        
+
         /// <summary>
         /// Writes the given object instance to an XML file.
         /// <para>Only Public properties and variables will be written to the file. These can be any type though, even other classes.</para>
@@ -48,7 +48,7 @@ namespace Effanville.Common.Structure.FileAccess
                 {
                     Indent = true
                 };
-                using (Stream stream = fileSystem.FileStream.Create(filePath, append ? FileMode.Append : FileMode.Create))
+                using (Stream stream = fileSystem.FileStream.New(filePath, append ? FileMode.Append : FileMode.Create))
                 using (XmlWriter writer = XmlWriter.Create(new StreamWriter(stream), xmlWriterSettings))
                 {
                     XmlSerializer serializer = new XmlSerializer(typeof(T));
@@ -61,7 +61,7 @@ namespace Effanville.Common.Structure.FileAccess
                 return;
             }
         }
-        
+
         /// <summary>
         /// Writes the given object instance to a stream.
         /// <para>Only Public properties and variables will be written to the file. These can be any type though, even other classes.</para>
@@ -74,7 +74,8 @@ namespace Effanville.Common.Structure.FileAccess
         /// <param name="error">String containing any error that may have occurred.</param>
         /// <param name="append">If false the file will be overwritten if it already exists. If true the contents will be appended to the file.</param>
         public static void WriteToStream<T>(Stream stream, T objectToWrite, out string error, bool append = false) where T : new()
-        {            error = null;
+        {
+            error = null;
             try
             {
                 var xmlWriterSettings = new XmlWriterSettings()
@@ -121,7 +122,7 @@ namespace Effanville.Common.Structure.FileAccess
             error = null;
             try
             {
-                using (Stream stream = fileSystem.FileStream.Create(filePath, FileMode.Open))
+                using (Stream stream = fileSystem.FileStream.New(filePath, FileMode.Open))
                 using (TextReader reader = new StreamReader(stream))
                 {
                     XmlSerializer serializer = new XmlSerializer(typeof(T));
