@@ -11,13 +11,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Common.Structure\Common.Structure.csproj"/>
-        <ProjectReference Include="..\Common.UI\Common.UI.csproj"/>
+        <ProjectReference Include="..\Common.Structure\Common.Structure.csproj" />
+        <ProjectReference Include="..\Common.UI\Common.UI.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="DotNetProjects.WpfToolkit.DataVisualization" Version="6.1.94"/>
-        <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1823.32"/>
+        <PackageReference Include="DotNetProjects.WpfToolkit.DataVisualization" Version="6.1.94" />
+        <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2903.40" />
     </ItemGroup>
 
     <ItemGroup>
