@@ -23,7 +23,7 @@ namespace Effanville.Common.Structure.Tests.DataStructures.Numeric
         public void TimeList_CAROnOrBefore_Tests(TimeNumberList switcher, string earlierDate, string laterDate, double expected)
         {
             double rate = switcher.CAROnOrBefore(DateTime.Parse(earlierDate), DateTime.Parse(laterDate));
-            Assert.AreEqual(expected, rate, 1e-3, "CAR is not as expected.");
+            Assert.That(rate, Is.EqualTo(expected).Within(1e-3), "CAR is not as expected.");
         }
         private static IEnumerable<TestCaseData> CARTests()
         {
@@ -38,7 +38,7 @@ namespace Effanville.Common.Structure.Tests.DataStructures.Numeric
         public void TimeList_CAR_Tests(TimeNumberList switcher, string earlierDate, string laterDate, double expected)
         {
             double rate = switcher.CAR(DateTime.Parse(earlierDate), DateTime.Parse(laterDate));
-            Assert.AreEqual(expected, rate, 1e-3, "CAR is not as expected.");
+            Assert.That(rate, Is.EqualTo(expected).Within(1e-3), "CAR is not as expected.");
         }
 
         private static IEnumerable<TestCaseData> SumTests()
@@ -54,7 +54,7 @@ namespace Effanville.Common.Structure.Tests.DataStructures.Numeric
         public void TimeList_Sum_Tests(TimeNumberList listUnderTest, double expected)
         {
             double value = listUnderTest.Sum();
-            Assert.AreEqual(expected, value, "Values should be equal.");
+            Assert.That(value, Is.EqualTo(expected), "Values should be equal.");
         }
     }
 }

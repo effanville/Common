@@ -23,7 +23,7 @@ namespace Effanville.Common.Structure.Tests.MathLibrary.Finance
             double CAR = FinanceFunctions.CAR(new DailyValuation(first, firstValue), new DailyValuation(last, lastValue));
 
             double IRR = FinanceFunctions.IRR(new DailyValuation(first, firstValue), new List<DailyValuation>(), new DailyValuation(last, lastValue));
-            Assert.AreEqual(CAR, IRR, "CAR is not as expected.");
+            Assert.That(IRR, Is.EqualTo(CAR), "CAR is not as expected.");
         }
     }
 }

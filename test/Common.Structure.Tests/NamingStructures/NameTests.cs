@@ -18,8 +18,8 @@ namespace Effanville.Common.Structure.Tests.NamingStructures
 
             Name name = new Name(surname, forename);
 
-            Assert.AreEqual(forename, name.SecondaryName);
-            Assert.AreEqual(surname, name.PrimaryName);
+            Assert.That(name.SecondaryName, Is.EqualTo(forename));
+            Assert.That(name.PrimaryName, Is.EqualTo(surname));
         }
 
         [Test]
@@ -30,12 +30,12 @@ namespace Effanville.Common.Structure.Tests.NamingStructures
 
             Name name = new Name(surname, forename);
 
-            Assert.AreEqual(forename, name.SecondaryName);
-            Assert.AreEqual(surname, name.PrimaryName);
+            Assert.That(name.SecondaryName, Is.EqualTo(forename));
+            Assert.That(name.PrimaryName, Is.EqualTo(surname));
 
             name.EditName("Smith", "Steve");
-            Assert.AreEqual("Steve", name.SecondaryName);
-            Assert.AreEqual("Smith", name.PrimaryName);
+            Assert.That(name.SecondaryName, Is.EqualTo("Steve"));
+            Assert.That(name.PrimaryName, Is.EqualTo("Smith"));
         }
 
         [TestCase("Bloggs", "Joe", "Bloggs", "Joe", true)]
@@ -54,7 +54,7 @@ namespace Effanville.Common.Structure.Tests.NamingStructures
         public void EqualityCorrect(string surname, string forename, string testingSurname, string testingForename, bool expected)
         {
             Name player = new Name(surname, forename);
-            Assert.AreEqual(expected, player.Equals(new Name(testingSurname, testingForename)));
+            Assert.That(player.Equals(new Name(testingSurname, testingForename)), Is.EqualTo(expected));
         }
 
         [Test]
@@ -65,9 +65,9 @@ namespace Effanville.Common.Structure.Tests.NamingStructures
 
             Name name = new Name(surname, forename);
 
-            Assert.AreEqual(forename, name.SecondaryName);
-            Assert.AreEqual(surname, name.PrimaryName);
-            Assert.AreEqual($"{surname}-{forename}", name.ToString());
+            Assert.That(name.SecondaryName, Is.EqualTo(forename));
+            Assert.That(name.PrimaryName, Is.EqualTo(surname));
+            Assert.That(name.ToString(), Is.EqualTo($"{surname}-{forename}"));
         }
 
         [TestCase("Smith", "Steve", true)]
@@ -81,7 +81,7 @@ namespace Effanville.Common.Structure.Tests.NamingStructures
         {
             Name name = new Name(surname, forename);
             bool valid = name.Validate();
-            Assert.AreEqual(isValid, valid);
+            Assert.That(valid, Is.EqualTo(isValid));
         }
 
         [TestCase("Smith", "Steve", true, new string[] { })]
@@ -105,7 +105,7 @@ namespace Effanville.Common.Structure.Tests.NamingStructures
                 expectedList.Add(expected);
             }
 
-            CollectionAssert.AreEqual(expectedList, valid);
+            Assert.That(valid, Is.EqualTo(expectedList).AsCollection);
         }
 
         [Test]
@@ -128,7 +128,7 @@ namespace Effanville.Common.Structure.Tests.NamingStructures
             expectedForenameError.Messages.AddRange(new string[] { "SecondaryName cannot be empty or null." });
             expectedList.Add(expectedForenameError);
 
-            CollectionAssert.AreEqual(expectedList, valid);
+            Assert.That(valid, Is.EqualTo(expectedList).AsCollection);
         }
     }
 }

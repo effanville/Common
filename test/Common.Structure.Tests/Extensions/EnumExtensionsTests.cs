@@ -23,10 +23,10 @@ namespace Effanville.Common.Structure.Tests.Extensions
         public void LongestEntryTests()
         {
             int length = EnumExtensions.LongestEntry<TestEnum1>();
-            Assert.AreEqual(8, length);
+            Assert.That(length, Is.EqualTo(8));
 
             int enum2Length = EnumExtensions.LongestEntry<TestEnum2>();
-            Assert.AreEqual(5, enum2Length);
+            Assert.That(enum2Length, Is.EqualTo(5));
         }
     }
 }

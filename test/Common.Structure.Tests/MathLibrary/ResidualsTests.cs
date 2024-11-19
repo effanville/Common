@@ -22,7 +22,7 @@ namespace Effanville.Common.Structure.Tests.MathLibrary
         public void MeanSquareErrorTests(double[] a, double[] b, double expected)
         {
             double mse = Residuals.MeanSquareError(a, b);
-            Assert.AreEqual(expected, mse);
+            Assert.That(mse, Is.EqualTo(expected));
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Effanville.Common.UI.Wpf.Tests.Converters
         {
             DateTime inputTime = DateTime.Parse(input.ToString(), UKEnglishCulture);
             StringToUKDateConverter converter = new StringToUKDateConverter();
-            Assert.AreEqual(expected, converter.Convert(inputTime, null, null, UKEnglishCulture));
+            Assert.That(converter.Convert(inputTime, null, null, UKEnglishCulture), Is.EqualTo(expected));
         }
 
         [TestCase("13/2/2019", "2019-02-13")]
@@ -24,7 +24,7 @@ namespace Effanville.Common.UI.Wpf.Tests.Converters
         {
             DateTime expectedTime = DateTime.Parse(expected.ToString(), UKEnglishCulture);
             StringToUKDateConverter converter = new StringToUKDateConverter();
-            Assert.AreEqual(expectedTime, converter.ConvertBack(input, null, null, UKEnglishCulture));
+            Assert.That(converter.ConvertBack(input, null, null, UKEnglishCulture), Is.EqualTo(expectedTime));
         }
 
         [TestCase("13/2/2019")]
@@ -35,7 +35,7 @@ namespace Effanville.Common.UI.Wpf.Tests.Converters
             StringToUKDateConverter converter = new StringToUKDateConverter();
             object converted = converter.Convert(inputTime, null, null, UKEnglishCulture);
             object convertBack = converter.ConvertBack(converted, null, null, UKEnglishCulture);
-            Assert.AreEqual(inputTime, convertBack);
+            Assert.That(convertBack, Is.EqualTo(inputTime));
         }
 
         [TestCase("13/02/2019")]
@@ -44,7 +44,7 @@ namespace Effanville.Common.UI.Wpf.Tests.Converters
             StringToUKDateConverter converter = new StringToUKDateConverter();
             object converted = converter.ConvertBack(input, null, null, UKEnglishCulture);
             object convertBack = converter.Convert(converted, null, null, UKEnglishCulture);
-            Assert.AreEqual(input, convertBack);
+            Assert.That(convertBack, Is.EqualTo(input));
         }
     }
 }

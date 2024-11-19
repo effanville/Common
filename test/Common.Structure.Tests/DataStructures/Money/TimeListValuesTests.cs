@@ -146,15 +146,15 @@ namespace Effanville.Common.Structure.Tests.DataStructures.Money
             var value = timelist.Value(queryDate);
             if (isNull)
             {
-                Assert.IsNull(value);
+                Assert.That(value, Is.Null);
             }
             else
             {
                 Assert.Multiple(() =>
                 {
-                    Assert.IsNotNull(value);
+                    Assert.That(value, Is.Not.Null);
                     Assert.That(expectedValue - value.Value, Is.LessThan(1e-8));
-                    Assert.AreEqual(expectedDate, value.Day);
+                    Assert.That(value.Day, Is.EqualTo(expectedDate));
                 });
             }
         }
@@ -289,15 +289,15 @@ namespace Effanville.Common.Structure.Tests.DataStructures.Money
             var value = timelist.ValueZeroBefore(queryDate);
             if (isNull)
             {
-                Assert.IsNull(value);
+                Assert.That(value, Is.Null);
             }
             else
             {
                 Assert.Multiple(() =>
                 {
-                    Assert.IsNotNull(value);
+                    Assert.That(value, Is.Not.Null);
                     Assert.That(expectedValue - value.Value, Is.LessThan(1e-8), $"Expected {expectedValue} but was {value.Value}");
-                    Assert.AreEqual(expectedDate, value.Day);
+                    Assert.That(value.Day, Is.EqualTo(expectedDate));
                 });
             }
         }
@@ -444,15 +444,15 @@ namespace Effanville.Common.Structure.Tests.DataStructures.Money
             var value = timelist.ValueOnOrBefore(queryDate);
             if (isNull)
             {
-                Assert.IsNull(value);
+                Assert.That(value, Is.Null);
             }
             else
             {
                 Assert.Multiple(() =>
                 {
-                    Assert.IsNotNull(value);
+                    Assert.That(value, Is.Not.Null);
                     Assert.That(expectedValue - value.Value, Is.LessThan(1e-8), $"Expected {expectedValue} but was {value.Value}");
-                    Assert.AreEqual(expectedDate, value.Day);
+                    Assert.That(value.Day, Is.EqualTo(expectedDate));
                 });
             }
         }
@@ -599,15 +599,15 @@ namespace Effanville.Common.Structure.Tests.DataStructures.Money
             var value = timelist.ValueBefore(queryDate);
             if (isNull)
             {
-                Assert.IsNull(value);
+                Assert.That(value, Is.Null);
             }
             else
             {
                 Assert.Multiple(() =>
                 {
-                    Assert.IsNotNull(value);
+                    Assert.That(value, Is.Not.Null);
                     Assert.That(expectedValue - value.Value, Is.LessThan(1e-8), $"Expected {expectedValue} but was {value.Value}");
-                    Assert.AreEqual(expectedDate, value.Day);
+                    Assert.That(value.Day, Is.EqualTo(expectedDate));
                 });
             }
         }
@@ -754,15 +754,15 @@ namespace Effanville.Common.Structure.Tests.DataStructures.Money
             var value = timelist.ValueAfter(queryDate);
             if (isNull)
             {
-                Assert.IsNull(value);
+                Assert.That(value, Is.Null);
             }
             else
             {
                 Assert.Multiple(() =>
                 {
-                    Assert.IsNotNull(value);
+                    Assert.That(value, Is.Not.Null);
                     Assert.That(expectedValue - value.Value, Is.LessThan(1e-8), $"Expected {expectedValue} but was {value.Value}");
-                    Assert.AreEqual(expectedDate, value.Day);
+                    Assert.That(value.Day, Is.EqualTo(expectedDate));
                 });
             }
         }
@@ -775,12 +775,12 @@ namespace Effanville.Common.Structure.Tests.DataStructures.Money
             var actualValue = timelist.Value(date, interpolator);
             if (expectedResult == null)
             {
-                Assert.IsNull(actualValue);
+                Assert.That(actualValue, Is.Null);
             }
             else
             {
-                Assert.AreEqual(expectedDate, actualValue.Day, $" date not correct");
-                Assert.AreEqual(expectedResult, actualValue.Value, $" value not correct");
+                Assert.That(actualValue.Day, Is.EqualTo(expectedDate), $" date not correct");
+                Assert.That(actualValue.Value, Is.EqualTo(expectedResult), $" value not correct");
             }
         }
 

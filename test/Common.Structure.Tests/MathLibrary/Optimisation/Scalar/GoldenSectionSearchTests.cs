@@ -86,8 +86,8 @@ namespace Effanville.Common.Structure.Tests.MathLibrary.Optimisation.Scalar
             var min = GoldenSectionSearch.MinimumAlternative(data.Lower, data.Upper, data.Func, 1e-8, 100);
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(data.ExpectedResult.Data.Point, min.Data.Point, 1e-8);
-                Assert.AreEqual(data.ExpectedResult.Data.Value, min.Data.Value, 1e-8);
+                Assert.That(min.Data.Point, Is.EqualTo(data.ExpectedResult.Data.Point).Within(1e-8));
+                Assert.That(min.Data.Value, Is.EqualTo(data.ExpectedResult.Data.Value).Within(1e-8));
                 var optRes = min as IOptimisationResult<ScalarFuncEval>;
                 Assert.That(optRes.ReasonForExit, Is.EqualTo(data.ExpectedResult.ReasonForExit));
             });
@@ -99,8 +99,8 @@ namespace Effanville.Common.Structure.Tests.MathLibrary.Optimisation.Scalar
             var min = GoldenSectionSearch.Minimise(data.Lower, data.Upper, data.Func, 1e-8, 100);
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(data.ExpectedResult.Data.Point, min.Data.Point, 1e-8);
-                Assert.AreEqual(data.ExpectedResult.Data.Value, min.Data.Value, 1e-8);
+                Assert.That(min.Data.Point, Is.EqualTo(data.ExpectedResult.Data.Point).Within(1e-8));
+                Assert.That(min.Data.Value, Is.EqualTo(data.ExpectedResult.Data.Value).Within(1e-8));
                 var optRes = min as IOptimisationResult<ScalarFuncEval>;
                 Assert.That(optRes.ReasonForExit, Is.EqualTo(data.ExpectedResult.ReasonForExit));
             });

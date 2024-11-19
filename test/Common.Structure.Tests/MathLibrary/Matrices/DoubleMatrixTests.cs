@@ -20,7 +20,7 @@ namespace Effanville.Common.Structure.Tests.MathLibrary.Matrices
         [TestCaseSource(nameof(IdentityData))]
         public void IdentityCorrect(int n, string expectedMatrixIndex)
         {
-            Assert.AreEqual(MatrixTestHelper.ExampleMatrices.Matrix(expectedMatrixIndex), DoubleMatrix.Identity(n));
+            Assert.That(DoubleMatrix.Identity(n), Is.EqualTo(MatrixTestHelper.ExampleMatrices.Matrix(expectedMatrixIndex)));
         }
 
         private static IEnumerable<TestCaseData> TransposeData()
@@ -89,7 +89,7 @@ namespace Effanville.Common.Structure.Tests.MathLibrary.Matrices
         {
             double[,] matrix = MatrixTestHelper.ExampleMatrices.Matrix(expectedMatrixIndex);
             DoubleMatrix mat = new DoubleMatrix(matrix);
-            Assert.AreEqual(expectedMatrix, mat.Transpose());
+            Assert.That(mat.Transpose(), Is.EqualTo(expectedMatrix));
         }
 
         public static IEnumerable<TestCaseData> AddTestCases()
@@ -117,7 +117,7 @@ namespace Effanville.Common.Structure.Tests.MathLibrary.Matrices
         public void AddTests(double[,] firstMatrix, double[,] secondMatrix, double[,] expectedOutput)
         {
             double[,] add = DoubleMatrix.Add(firstMatrix, secondMatrix);
-            Assert.AreEqual(expectedOutput, add);
+            Assert.That(add, Is.EqualTo(expectedOutput));
         }
 
         [Test]

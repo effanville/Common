@@ -24,7 +24,7 @@ namespace Effanville.Common.Structure.Tests.DataStructures.Numeric
             DailyNumeric second = new DailyNumeric(secondDate, secondValue);
             int comparison = first.CompareTo(second);
 
-            Assert.AreEqual(result, comparison);
+            Assert.That(comparison, Is.EqualTo(result));
         }
 
         [Test]
@@ -35,8 +35,8 @@ namespace Effanville.Common.Structure.Tests.DataStructures.Numeric
 
             second.Day = new DateTime(2014, 1, 1);
             second.Value = 6;
-            Assert.AreNotEqual(first.Day, second.Day);
-            Assert.AreNotEqual(first.Value, second.Value);
+            Assert.That(second.Day, Is.Not.EqualTo(first.Day));
+            Assert.That(second.Value, Is.Not.EqualTo(first.Value));
         }
 
         [TestCase("1/1/2018", 1)]
@@ -47,37 +47,37 @@ namespace Effanville.Common.Structure.Tests.DataStructures.Numeric
             DailyNumeric newData = data.Copy();
 
             newData.Day = (DateTime.Parse("1/1/2019"));
-            Assert.AreNotEqual(data, newData);
+            Assert.That(newData, Is.Not.EqualTo(data));
         }
 
         private static IEnumerable<TestCaseData> WriteXmlTestCases()
         {
             yield return new TestCaseData(
-                new DateTime(2018,1,31), 
-                278.671, 
+                new DateTime(2018, 1, 31),
+                278.671,
                 $"<?xml version=\"1.0\" encoding=\"utf-16\"?>{enl}<DV D=\"2018-01-31T00:00:00\" V=\"278.671\" />");
             yield return new TestCaseData(
-                new DateTime(2018,1,31), 
-                0.0, 
+                new DateTime(2018, 1, 31),
+                0.0,
                 $"<?xml version=\"1.0\" encoding=\"utf-16\"?>{enl}<DV D=\"2018-01-31T00:00:00\" V=\"0\" />");
             yield return new TestCaseData(
-                new DateTime(2018,1,31), 
-                double.NaN, 
+                new DateTime(2018, 1, 31),
+                double.NaN,
                 $"<?xml version=\"1.0\" encoding=\"utf-16\"?>{enl}<DV D=\"2018-01-31T00:00:00\" V=\"NaN\" />");
             yield return new TestCaseData(
-                new DateTime(2018,1,31), 
-                -2345.67865, 
+                new DateTime(2018, 1, 31),
+                -2345.67865,
                 $"<?xml version=\"1.0\" encoding=\"utf-16\"?>{enl}<DV D=\"2018-01-31T00:00:00\" V=\"-2345.67865\" />");
             yield return new TestCaseData(
-                new DateTime(2018,1,31), 
-                double.NegativeInfinity, 
+                new DateTime(2018, 1, 31),
+                double.NegativeInfinity,
                 $"<?xml version=\"1.0\" encoding=\"utf-16\"?>{enl}<DV D=\"2018-01-31T00:00:00\" V=\"-Infinity\" />");
             yield return new TestCaseData(
-                null, 
-                null, 
+                null,
+                null,
                 $"<?xml version=\"1.0\" encoding=\"utf-16\"?>{enl}<DV D=\"0001-01-01T00:00:00\" V=\"0\" />");
         }
-        
+
         [TestCaseSource(nameof(WriteXmlTestCases))]
         public void WriteXmlTests(DateTime day, double value, string expectedXml)
         {
@@ -95,38 +95,38 @@ namespace Effanville.Common.Structure.Tests.DataStructures.Numeric
 
                 string output = fs.ToString();
 
-                Assert.AreEqual(expectedXml, output);
+                Assert.That(output, Is.EqualTo(expectedXml));
             }
         }
 
         private static IEnumerable<TestCaseData> ReadXmlTestsCases()
         {
             yield return new TestCaseData(
-                new DateTime(2018,1,31), 
-                278.671, 
+                new DateTime(2018, 1, 31),
+                278.671,
                 $"<?xml version=\"1.0\" encoding=\"utf-16\"?>{enl}<DV D=\"2018-01-31T00:00:00\" V=\"278.671\" />");
             yield return new TestCaseData(
-                new DateTime(2018,1,31), 
-                0.0, 
+                new DateTime(2018, 1, 31),
+                0.0,
                 $"<?xml version=\"1.0\" encoding=\"utf-16\"?>{enl}<DV D=\"2018-01-31T00:00:00\" V=\"0\" />");
             yield return new TestCaseData(
-                null, 
-                null, 
+                null,
+                null,
                 $"<?xml version=\"1.0\" encoding=\"utf-16\"?>{enl}<DV D=\"0001-01-01T00:00:00\" V=\"0\" />");
             yield return new TestCaseData(
-                new DateTime(2018,1,31), 
-                double.NaN, 
+                new DateTime(2018, 1, 31),
+                double.NaN,
                 $"<?xml version=\"1.0\" encoding=\"utf-16\"?>{enl}<DV D=\"2018-01-31T00:00:00\" V=\"NaN\" />");
             yield return new TestCaseData(
-                new DateTime(2018,1,31), 
-                -2345.67865, 
+                new DateTime(2018, 1, 31),
+                -2345.67865,
                 $"<?xml version=\"1.0\" encoding=\"utf-16\"?>{enl}<DV D=\"2018-01-31T00:00:00\" V=\"-2345.67865\" />");
             yield return new TestCaseData(
-                new DateTime(2018,1,31), 
-                double.NegativeInfinity, 
+                new DateTime(2018, 1, 31),
+                double.NegativeInfinity,
                 $"<?xml version=\"1.0\" encoding=\"utf-16\"?>{enl}<DV D=\"2018-01-31T00:00:00\" V=\"-Infinity\" />");
         }
-        
+
         [TestCaseSource(nameof(ReadXmlTestsCases))]
         public void ReadXmlTests(DateTime day, double value, string actualXml)
         {
@@ -139,7 +139,7 @@ namespace Effanville.Common.Structure.Tests.DataStructures.Numeric
                     valuation.ReadXml(reader);
                 }
 
-                Assert.AreEqual(new DailyNumeric(day, value), valuation);
+                Assert.That(valuation, Is.EqualTo(new DailyNumeric(day, value)));
             }
         }
 
@@ -148,7 +148,7 @@ namespace Effanville.Common.Structure.Tests.DataStructures.Numeric
         [TestCase("2018/1/31", -2345.67865)]
         [TestCase("2018/1/31", double.NegativeInfinity)]
         [TestCase("2018/1/31", 0.0)]
-        [TestCase(null, null)]
+        [TestCase("1/1/1", 0.0)]
         public void XmlRoundTripTests(DateTime day, double value)
         {
             string output;
@@ -176,7 +176,7 @@ namespace Effanville.Common.Structure.Tests.DataStructures.Numeric
                     valuation.ReadXml(reader);
                 }
 
-                Assert.AreEqual(valuation, val);
+                Assert.That(val, Is.EqualTo(valuation));
             }
         }
     }

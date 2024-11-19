@@ -33,7 +33,7 @@ namespace Effanville.Common.Structure.Tests.MathLibrary.Finance
         public void IRRTests(int listIndex, DateTime last, decimal lastValue, double expected)
         {
             double rate = FinanceFunctions.IRR(ExampleValuationList(listIndex), new DailyValuation(last, lastValue));
-            Assert.AreEqual(expected, rate, 1e-8, "CAR is not as expected.");
+            Assert.That(rate, Is.EqualTo(expected).Within(1e-8), "CAR is not as expected.");
         }
 
         [TestCase(0, "1/1/2018", 1000.0, "1/1/2019", 2000.0, double.NaN)]
@@ -44,7 +44,7 @@ namespace Effanville.Common.Structure.Tests.MathLibrary.Finance
         public void IRR_Time_Tests(int listIndex, DateTime start, decimal startValue, DateTime last, decimal lastValue, double expected)
         {
             double rate = FinanceFunctions.IRR(new DailyValuation(start, startValue), ExampleValuationList(listIndex), new DailyValuation(last, lastValue), 10);
-            Assert.AreEqual(expected, rate, 1e-8, "CAR is not as expected.");
+            Assert.That(rate, Is.EqualTo(expected).Within(1e-8), "CAR is not as expected.");
         }
 
         [TestCase(0, "1/1/2018", 1000.0, "1/1/2019", 2000.0, double.NaN)]
@@ -55,7 +55,7 @@ namespace Effanville.Common.Structure.Tests.MathLibrary.Finance
         public void IRR_Time_Tests_HighAccuracy(int listIndex, DateTime start, decimal startValue, DateTime last, decimal lastValue, double expected)
         {
             double rate = FinanceFunctions.IRR(new DailyValuation(start, startValue), ExampleValuationList(listIndex), new DailyValuation(last, lastValue), 20);
-            Assert.AreEqual(expected, rate, 1e-8, "CAR is not as expected.");
+            Assert.That(rate, Is.EqualTo(expected).Within(1e-8), "CAR is not as expected.");
         }
     }
 }

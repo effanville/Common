@@ -22,7 +22,7 @@ namespace Effanville.Common.Structure.Tests.Extensions
         public void TruncateToStringTests(decimal value, int decimalPlaces, string expected)
         {
             string truncated = value.TruncateToString(decimalPlaces);
-            Assert.AreEqual(expected, truncated);
+            Assert.That(truncated, Is.EqualTo(expected));
         }
         private static IEnumerable<TestCaseData> TruncateTestsData()
         {
@@ -36,7 +36,7 @@ namespace Effanville.Common.Structure.Tests.Extensions
         public void TruncateTests(decimal value, int decimalPlaces, decimal expected)
         {
             decimal truncated = value.Truncate(decimalPlaces);
-            Assert.AreEqual(expected, truncated);
+            Assert.That(truncated, Is.EqualTo(expected));
         }
 
         private static IEnumerable<TestCaseData> EqualsTestsData()
@@ -56,7 +56,7 @@ namespace Effanville.Common.Structure.Tests.Extensions
         public void EqualsTests(decimal first, decimal second, decimal tol, bool expected)
         {
             bool actual = first.Equals(second, tol);
-            Assert.AreEqual(expected, actual);
+            Assert.That(actual, Is.EqualTo(expected));
         }
 
         private static IEnumerable<TestCaseData> EqualsRelativeTestsData()
@@ -86,7 +86,7 @@ namespace Effanville.Common.Structure.Tests.Extensions
         public void EqualsRelativeTests(decimal first, decimal second, decimal tol, bool isRelative, bool expected)
         {
             bool actual = first.Equals(second, tol, isRelative);
-            Assert.AreEqual(expected, actual);
+            Assert.That(actual, Is.EqualTo(expected));
         }
 
         private static IEnumerable<TestCaseData> PowTestsData()
@@ -103,7 +103,7 @@ namespace Effanville.Common.Structure.Tests.Extensions
         public void PowTests(decimal first, int exp, decimal expected)
         {
             decimal actual = first.Pow(exp);
-            Assert.AreEqual(expected, actual);
+            Assert.That(actual, Is.EqualTo(expected));
         }
 
         private static IEnumerable<TestCaseData> PowErrorTestsData()

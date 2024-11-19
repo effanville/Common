@@ -14,7 +14,7 @@ namespace Effanville.Common.Structure.Tests.MathLibrary
         public void SignTests(double value, double sign, double expectedValue)
         {
             double signOutput = Helpers.Sign(value, sign);
-            Assert.AreEqual(expectedValue, signOutput);
+            Assert.That(signOutput, Is.EqualTo(expectedValue));
         }
     }
 }

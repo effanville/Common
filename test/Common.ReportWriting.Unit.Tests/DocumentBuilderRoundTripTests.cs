@@ -67,10 +67,10 @@ public class DocumentBuilderRoundTripTests
         string? output = documentWriter.Write(actualDocument)?.ToString();
         if (string.IsNullOrEmpty(reportString))
         {
-            Assert.True(string.IsNullOrEmpty(output));
+            Assert.That(string.IsNullOrEmpty(output), Is.True);
             return;
         }
-        Assert.AreEqual(reportString, output);
+        Assert.That(output, Is.EqualTo(reportString));
     }
 
     public static IEnumerable<TestCaseData> CanRoundTripDocumentTests()
@@ -179,6 +179,6 @@ public class DocumentBuilderRoundTripTests
 
         Document? actualDocument = ReportSplitter.SplitReportString(docType, output);
 
-        Assert.AreEqual(expectedDocument, actualDocument);
+        Assert.That(actualDocument, Is.EqualTo(expectedDocument));
     }
 }

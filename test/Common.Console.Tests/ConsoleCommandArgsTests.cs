@@ -14,9 +14,9 @@ public class ConsoleCommandArgsTests
         new [] {"--CommandName","download;all", "--filepath", "../database/url-address.xml"})]
     public void Test(string[] args, string[] expectedEffectiveArgs)
     {
-        var commandArgs = new ConsoleCommandArgs(args);
-        var actualEffectiveArgs = commandArgs.GetEffectiveArgs();
-        
-        CollectionAssert.AreEqual(expectedEffectiveArgs, actualEffectiveArgs);
+        ConsoleCommandArgs commandArgs = new ConsoleCommandArgs(args);
+        string[] actualEffectiveArgs = commandArgs.GetEffectiveArgs();
+
+        Assert.That(actualEffectiveArgs, Is.EqualTo(expectedEffectiveArgs).AsCollection);
     }
 }

@@ -13,7 +13,7 @@ namespace Effanville.Common.Structure.Tests.MathLibrary.RootFinding
         public void FindRootUsingBisection()
         {
             var bisectionResult = RootFinder.FindBracketForRoot(0, 3, x => (x - 2) * (x - 4));
-            Assert.IsFalse(bisectionResult.Failure);
+            Assert.That(bisectionResult.Failure, Is.False);
             Assert.That(Math.Abs(bisectionResult.Data.LowerBound - 0), Is.LessThan(1e-8));
             Assert.That(Math.Abs(bisectionResult.Data.UpperBound - 3), Is.LessThan(1e-8));
         }

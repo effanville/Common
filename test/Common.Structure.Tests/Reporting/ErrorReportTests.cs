@@ -15,7 +15,7 @@ namespace Effanville.Common.Structure.Tests.Reporting
             var report = new ErrorReport();
             var time = DateTime.Now;
             report.TimeStamp = time;
-            Assert.AreEqual($"[{time:yyyy-MM-ddTHH:mm:ss}] [Error] [Unknown] ", report.ToString());
+            Assert.That(report.ToString(), Is.EqualTo($"[{time:yyyy-MM-ddTHH:mm:ss}] [Error] [Unknown] "));
         }
 
         [Test]
@@ -25,7 +25,7 @@ namespace Effanville.Common.Structure.Tests.Reporting
             var otherReport = new ErrorReport();
             var time = DateTime.Now;
             report.TimeStamp = time;
-            Assert.AreEqual(0, report.CompareTo(otherReport));
+            Assert.That(report.CompareTo(otherReport), Is.EqualTo(0));
         }
     }
 }

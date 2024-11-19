@@ -153,8 +153,8 @@ namespace Effanville.Common.ReportWriting.Unit.Tests
         public void InvertTableTests(DocumentType docType, string table, List<string> expectedHeaders, List<List<string>> expectedRows)
         {
             var actualTable = TableInverter.InvertTable(docType, table);
-            CollectionAssert.AreEqual(expectedHeaders, actualTable.TableHeaders);
-            CollectionAssert.AreEqual(expectedRows, actualTable.TableRows);
+            Assert.That(actualTable.TableHeaders, Is.EqualTo(expectedHeaders).AsCollection);
+            Assert.That(actualTable.TableRows, Is.EqualTo(expectedRows).AsCollection);
         }
     }
 }

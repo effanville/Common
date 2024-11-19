@@ -17,13 +17,13 @@ namespace Effanville.Common.Structure.Tests.Reporting
             reports.AddErrorReport(ReportSeverity.Useful, ReportType.Error, ReportLocation.Unknown, errorString);
 
             var shallowCopy = reports.GetReports();
-            Assert.AreEqual(1, shallowCopy.Count);
+            Assert.That(shallowCopy.Count, Is.EqualTo(1));
 
             reports.Clear();
 
-            Assert.AreEqual(1, shallowCopy.Count);
+            Assert.That(shallowCopy.Count, Is.EqualTo(1));
             var onlyOne = shallowCopy.Single();
-            Assert.AreEqual(errorString, onlyOne.Message);
+            Assert.That(onlyOne.Message, Is.EqualTo(errorString));
         }
     }
 }

@@ -94,7 +94,7 @@ namespace Effanville.Common.Structure.Tests.DataStructures.Numeric
 
                 string output = Encoding.UTF8.GetString(stream.ToArray());
 
-                Assert.AreEqual(expectedXml, output);
+                Assert.That(output, Is.EqualTo(expectedXml));
             }
         }
 
@@ -123,7 +123,7 @@ namespace Effanville.Common.Structure.Tests.DataStructures.Numeric
                     }
                 }
 
-                Assert.AreEqual(timelist, valuation);
+                Assert.That(valuation, Is.EqualTo(timelist));
             }
         }
 
@@ -144,7 +144,7 @@ namespace Effanville.Common.Structure.Tests.DataStructures.Numeric
                 output = Encoding.UTF8.GetString(stream.ToArray());
             }
 
-            Assert.AreEqual(expectedXml, output);
+            Assert.That(output, Is.EqualTo(expectedXml));
 
             TestClass valuation = null;
             using (Stream fs = new MemoryStream(Encoding.UTF8.GetBytes(expectedXml)))
@@ -159,7 +159,7 @@ namespace Effanville.Common.Structure.Tests.DataStructures.Numeric
                     }
                 }
 
-                Assert.AreEqual(timelist, valuation);
+                Assert.That(valuation, Is.EqualTo(timelist));
             }
         }
     }

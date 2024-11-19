@@ -28,7 +28,7 @@ namespace Effanville.Common.ReportWriting.Unit.Tests.Writers.Markdown
             _ = tableWriter.WriteTableHeader(sb, headerValues);
 
             string markdownSnippet = sb.ToString();
-            Assert.AreEqual(expectedMarkdown, markdownSnippet);
+            Assert.That(markdownSnippet, Is.EqualTo(expectedMarkdown));
         }
 
         private static IEnumerable<TestCaseData> TableRowData()
@@ -46,7 +46,7 @@ namespace Effanville.Common.ReportWriting.Unit.Tests.Writers.Markdown
             tableWriter.WriteTableRow(sb, headerValues, headerFirstColumn: false);
 
             string markdownSnippet = sb.ToString();
-            Assert.AreEqual(expectedMarkdown, markdownSnippet);
+            Assert.That(markdownSnippet, Is.EqualTo(expectedMarkdown));
         }
 
         private static IEnumerable<TestCaseData> TableData()
@@ -72,7 +72,7 @@ namespace Effanville.Common.ReportWriting.Unit.Tests.Writers.Markdown
             tableWriter.WriteTable(sb, headerValues, rowValues, headerFirstColumn: header);
 
             string markdownSnippet = sb.ToString();
-            Assert.AreEqual(expectedMarkdown, markdownSnippet);
+            Assert.That(markdownSnippet, Is.EqualTo(expectedMarkdown));
         }
 
         [TestCaseSource(nameof(TableData))]
@@ -83,7 +83,7 @@ namespace Effanville.Common.ReportWriting.Unit.Tests.Writers.Markdown
             tableWriter.WriteTable(sb, headerValues, rowValues, headerFirstColumn: header);
 
             string markdownSnippet = sb.ToString();
-            Assert.AreEqual(expectedMarkdown, markdownSnippet);
+            Assert.That(markdownSnippet, Is.EqualTo(expectedMarkdown));
         }
     }
 }

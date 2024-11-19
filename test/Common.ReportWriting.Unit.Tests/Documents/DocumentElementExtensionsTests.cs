@@ -19,7 +19,7 @@ namespace Effanville.Common.ReportWriting.Unit.Tests.Documents
         public void GetNextTests(DocumentElement element, DocumentElement expectedElement)
         {
             var actualElement = element.GetNext();
-            Assert.AreEqual(expectedElement, actualElement);
+            Assert.That(actualElement, Is.EqualTo(expectedElement));
         }
 
         [TestCase(DocumentElement.h1, true)]
@@ -36,7 +36,7 @@ namespace Effanville.Common.ReportWriting.Unit.Tests.Documents
         public void IsHeaderTests(DocumentElement element, bool expectedResult)
         {
             bool actualResult = element.IsHeader();
-            Assert.AreEqual(expectedResult, actualResult);
+            Assert.That(actualResult, Is.EqualTo(expectedResult));
         }
     }
 }

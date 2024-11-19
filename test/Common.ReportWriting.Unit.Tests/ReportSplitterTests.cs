@@ -113,7 +113,7 @@ internal class ReportSplitterTests
     [TestCaseSource(nameof(Tests))]
     public void RunTest(DocumentType docType, string reportString, Document expectedDocument)
     {
-        Document actualDocument = ReportSplitter.SplitReportString(docType, reportString);
-        Assert.AreEqual(expectedDocument, actualDocument);
+        Document? actualDocument = ReportSplitter.SplitReportString(docType, reportString);
+        Assert.That(actualDocument, Is.EqualTo(expectedDocument));
     }
 }

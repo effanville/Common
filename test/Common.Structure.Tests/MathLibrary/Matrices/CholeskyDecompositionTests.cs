@@ -83,7 +83,7 @@ namespace Effanville.Common.Structure.Tests.MathLibrary.Matrices
             {
                 if(lUDecomposition is ErrorResult<CholeskyDecomposition> res)
                 {
-                    Assert.AreEqual(expectedErrorMessage, res.Message);
+                    Assert.That(res.Message, Is.EqualTo(expectedErrorMessage));
                 }
                 var value = lUDecomposition.Data;
                 if (value != null)

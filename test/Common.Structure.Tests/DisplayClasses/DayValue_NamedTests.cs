@@ -19,7 +19,7 @@ namespace Effanville.Common.Structure.Tests.DisplayClasses
         {
             Labelled<Name, DailyValuation> one = new Labelled<Name, DailyValuation>(new Name(company1, name1), new DailyValuation(new DateTime(), 0));
             Labelled<Name, DailyValuation> two = new Labelled<Name, DailyValuation>(new Name(company2, name2), new DailyValuation(new DateTime(), 0));
-            Assert.AreEqual(expected, one.CompareTo(two));
+            Assert.That(one.CompareTo(two), Is.EqualTo(expected));
         }
 
         [TestCase("name", "company", "12/5/2019", 5, "company-name-05/12/2019, 5")]
@@ -30,7 +30,7 @@ namespace Effanville.Common.Structure.Tests.DisplayClasses
         public void ToStringTests(string name1, string company1, DateTime date, decimal value, string expected)
         {
             Labelled<Name, DailyValuation> one = new Labelled<Name, DailyValuation>(new Name(company1, name1), new DailyValuation(date, value));
-            Assert.AreEqual(expected, one.ToString());
+            Assert.That(one.ToString(), Is.EqualTo(expected));
         }
     }
 }

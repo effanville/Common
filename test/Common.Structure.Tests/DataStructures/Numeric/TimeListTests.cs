@@ -54,7 +54,7 @@ namespace Effanville.Common.Structure.Tests.DataStructures.Numeric
             {
                 newList.SetData(value.date, value.value);
             }
-            Assert.AreEqual(count, newList.Count());
+            Assert.That(newList.Count(), Is.EqualTo(count));
         }
         private static IEnumerable<TestCaseData> AnyTestSource()
         {
@@ -66,7 +66,7 @@ namespace Effanville.Common.Structure.Tests.DataStructures.Numeric
         }
 
         [TestCaseSource(nameof(AnyTestSource))]
-        public void AnyTests(bool result, TimeNumberList listToTest) => Assert.AreEqual(result, listToTest.Any());
+        public void AnyTests(bool result, TimeNumberList listToTest) => Assert.That(listToTest.Any(), Is.EqualTo(result));
 
         private static IEnumerable<TestCaseData> CleanValuesTestSource()
         {
@@ -113,8 +113,8 @@ namespace Effanville.Common.Structure.Tests.DataStructures.Numeric
         {
             timelist.CleanValues();
             int count = expectedCleaned.Count();
-            Assert.AreEqual(count, timelist.Count());
-            Assert.AreEqual(timelist, expectedCleaned);
+            Assert.That(timelist.Count(), Is.EqualTo(count));
+            Assert.That(expectedCleaned, Is.EqualTo(timelist));
         }
         private static IEnumerable<TestCaseData> ValuesTestSource()
         {
@@ -136,12 +136,12 @@ namespace Effanville.Common.Structure.Tests.DataStructures.Numeric
             var actualValue = timelist.Value(date);
             if (expectedResult == null)
             {
-                Assert.IsNull(actualValue);
+                Assert.That(actualValue, Is.Null);
             }
             else
             {
-                Assert.AreEqual(expectedDate, actualValue.Day, $" date not correct");
-                Assert.AreEqual(expectedResult, actualValue.Value, $" value not correct");
+                Assert.That(actualValue.Day, Is.EqualTo(expectedDate), $" date not correct");
+                Assert.That(actualValue.Value, Is.EqualTo(expectedResult), $" value not correct");
             }
         }
 
@@ -158,12 +158,12 @@ namespace Effanville.Common.Structure.Tests.DataStructures.Numeric
             var actualValue = timelist.Value(date, interpolator);
             if (expectedResult == null)
             {
-                Assert.IsNull(actualValue);
+                Assert.That(actualValue, Is.Null);
             }
             else
             {
-                Assert.AreEqual(expectedDate, actualValue.Day, $" date not correct");
-                Assert.AreEqual(expectedResult, actualValue.Value, $" value not correct");
+                Assert.That(actualValue.Day, Is.EqualTo(expectedDate), $" date not correct");
+                Assert.That(actualValue.Value, Is.EqualTo(expectedResult), $" value not correct");
             }
         }
         private static IEnumerable<TestCaseData> ValuesSpecialFuncTestSource()
@@ -248,7 +248,7 @@ namespace Effanville.Common.Structure.Tests.DataStructures.Numeric
 
                 string output = fs.ToString();
 
-                Assert.AreEqual(expectedXml, output);
+                Assert.That(output, Is.EqualTo(expectedXml));
             }
         }
 
@@ -273,7 +273,7 @@ namespace Effanville.Common.Structure.Tests.DataStructures.Numeric
                     valuation.ReadXml(reader);
                 }
 
-                Assert.AreEqual(timelist, valuation);
+                Assert.That(valuation, Is.EqualTo(timelist));
             }
         }
 
@@ -295,7 +295,7 @@ namespace Effanville.Common.Structure.Tests.DataStructures.Numeric
                 output = fs.ToString();
             }
 
-            Assert.AreEqual(expectedXml, output);
+            Assert.That(output, Is.EqualTo(expectedXml));
 
             var valuation = new TimeNumberList();
             using (StringReader fs = new StringReader(output))
@@ -306,7 +306,7 @@ namespace Effanville.Common.Structure.Tests.DataStructures.Numeric
                     valuation.ReadXml(reader);
                 }
 
-                Assert.AreEqual(valuation, timelist);
+                Assert.That(timelist, Is.EqualTo(valuation));
             }
         }
     }

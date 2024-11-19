@@ -22,7 +22,7 @@ namespace Effanville.Common.Structure.Tests.MathLibrary.RootFinding.Vector
                 return result;
             }
             var bisectionResult = RootFinder.Vector.NewtonRaphson.FindRoot(func, x => derivative(x), new double[] { 1, 2 });
-            Assert.IsFalse(bisectionResult.Failure);
+            Assert.That(bisectionResult.Failure, Is.False);
             double[] value = bisectionResult.Data;
             Assert.That(Math.Abs(value[0] - 2), Is.LessThan(1e-8));
             Assert.That(Math.Abs(value[1] - 3), Is.LessThan(1e-8));

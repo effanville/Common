@@ -58,7 +58,7 @@ namespace Effanville.Common.Structure.Tests.MathLibrary.RootFinding
         public void FindRootSuccessTests(TestData<double> testData)
         {
             var rootFindingResult = RootFinder.Secant.FindRoot(testData.Func, testData.Lower, testData.Upper, testData.MaxIterations, testData.Tolerance);
-            Assert.IsFalse(rootFindingResult.Failure);
+            Assert.That(rootFindingResult.Failure, Is.False);
             Assert.That(Math.Abs(rootFindingResult.Data - testData.ExpectedResult), Is.LessThan(1e-8));
         }
         private static IEnumerable<TestCaseData> BracketFailureTestData()
@@ -78,9 +78,9 @@ namespace Effanville.Common.Structure.Tests.MathLibrary.RootFinding
         public void FindRootFailureTests(TestData<double> testData)
         {
             var rootFindingResult = RootFinder.Secant.FindRoot(testData.Func, testData.Lower, testData.Upper, maxIterations: 20);
-            Assert.IsTrue(rootFindingResult.Failure);
+            Assert.That(rootFindingResult.Failure, Is.True);
             var res = rootFindingResult as ErrorResult<double>;
-            Assert.AreEqual(testData.ErrorMessage, res.Message);
+            Assert.That(res.Message, Is.EqualTo(testData.ErrorMessage));
             Assert.That(Math.Abs(rootFindingResult.Data - testData.ExpectedResult), Is.LessThan(1e-8));
         }
     }

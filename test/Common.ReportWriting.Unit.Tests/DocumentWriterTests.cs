@@ -110,6 +110,6 @@ internal class DocumentWriterTests
         var documentWriter = new DocumentWriter(settings, tablew, tw, cw);
 
         string? actualDocument = documentWriter.Write(document)?.ToString();
-        Assert.AreEqual(expectedDocument, actualDocument);
+        Assert.That(actualDocument, Is.EqualTo(expectedDocument));
     }
 }

@@ -111,7 +111,7 @@ namespace Effanville.Common.Structure.Tests.DataStructures.Money
 
                 string output = Encoding.UTF8.GetString(stream.ToArray());
 
-                Assert.AreEqual(expectedXml, output);
+                Assert.That(output, Is.EqualTo(expectedXml));
             }
         }
 
@@ -149,7 +149,7 @@ namespace Effanville.Common.Structure.Tests.DataStructures.Money
                     }
                 }
 
-                Assert.AreEqual(timelist, valuation);
+                Assert.That(valuation, Is.EqualTo(timelist));
             }
         }
 
@@ -170,7 +170,7 @@ namespace Effanville.Common.Structure.Tests.DataStructures.Money
                 output = Encoding.UTF8.GetString(stream.ToArray());
             }
 
-            Assert.AreEqual(expectedXml, output);
+            Assert.That(output, Is.EqualTo(expectedXml));
 
             TestClass valuation = null;
             using (Stream fs = new MemoryStream(Encoding.UTF8.GetBytes(expectedXml)))
@@ -185,7 +185,7 @@ namespace Effanville.Common.Structure.Tests.DataStructures.Money
                     }
                 }
 
-                Assert.AreEqual(timelist, valuation);
+                Assert.That(valuation, Is.EqualTo(timelist));
             }
         }
     }

@@ -21,7 +21,7 @@ namespace Effanville.Common.Structure.Tests.Extensions
         public void TruncateToStringTests(double value, int decimalPlaces, string expected)
         {
             string truncated = value.TruncateToString(decimalPlaces);
-            Assert.AreEqual(expected, truncated);
+            Assert.That(truncated, Is.EqualTo(expected));
         }
         private static IEnumerable<TestCaseData> TruncateTestsData()
         {
@@ -35,7 +35,7 @@ namespace Effanville.Common.Structure.Tests.Extensions
         public void TruncateTests(double value, int decimalPlaces, double expected)
         {
             double truncated = value.Truncate(decimalPlaces);
-            Assert.AreEqual(expected, truncated);
+            Assert.That(truncated, Is.EqualTo(expected));
         }
 
         private static IEnumerable<TestCaseData> EqualsTestsData()
@@ -55,7 +55,7 @@ namespace Effanville.Common.Structure.Tests.Extensions
         public void EqualsTests(double first, double second, double tol, bool expected)
         {
             bool actual = first.Equals(second, tol);
-            Assert.AreEqual(expected, actual);
+            Assert.That(actual, Is.EqualTo(expected));
         }
 
         private static IEnumerable<TestCaseData> EqualsRelativeTestsData()
@@ -85,7 +85,7 @@ namespace Effanville.Common.Structure.Tests.Extensions
         public void EqualsRelativeTests(double first, double second, double tol, bool isRelative, bool expected)
         {
             bool actual = first.Equals(second, tol, isRelative);
-            Assert.AreEqual(expected, actual);
+            Assert.That(actual, Is.EqualTo(expected));
         }
     }
 }

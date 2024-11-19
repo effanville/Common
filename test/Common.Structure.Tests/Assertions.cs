@@ -34,7 +34,7 @@ namespace Effanville.Common.Structure.Tests
                 {
                     for (int columnIndex = 0; columnIndex < expected.GetLength(1); columnIndex++)
                     {
-                        Assert.AreEqual(expected[rowIndex, columnIndex], actual[rowIndex, columnIndex], tol, $"{message}-row{rowIndex}-column{columnIndex}");
+                        Assert.That(actual[rowIndex, columnIndex], Is.EqualTo(expected[rowIndex, columnIndex]).Within(tol), $"{message}-row{rowIndex}-column{columnIndex}");
                     }
                 }
             });
@@ -58,7 +58,7 @@ namespace Effanville.Common.Structure.Tests
             {
                 for (int rowIndex = 0; rowIndex < expected.GetLength(0); rowIndex++)
                 {
-                    Assert.AreEqual(expected[rowIndex], actual[rowIndex], tol, $"{message}-row{rowIndex}");
+                    Assert.That(actual[rowIndex], Is.EqualTo(expected[rowIndex]).Within(tol), $"{message}-row{rowIndex}");
                 }
             });
         }

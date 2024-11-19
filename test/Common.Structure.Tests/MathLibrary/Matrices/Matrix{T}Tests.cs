@@ -73,7 +73,7 @@ namespace Effanville.Common.Structure.Tests.MathLibrary.Matrices
         public void TransposeCorrect(string expectedMatrixIndex, double[,] expectedMatrix)
         {
             double[,] matrix = MatrixTestHelper.ExampleMatrices.Matrix(expectedMatrixIndex);
-            Assert.AreEqual(expectedMatrix, matrix.Transpose());
+            Assert.That(matrix.Transpose(), Is.EqualTo(expectedMatrix));
         }
 
         [TestCase(1, 1)]
@@ -100,7 +100,7 @@ namespace Effanville.Common.Structure.Tests.MathLibrary.Matrices
             TestMatrixValues matrix = MatrixTestHelper.GetMatrix(matrixIndex);
             TestMatrixValues vector = MatrixTestHelper.GetMatrix(matrix2Index);
             double[,] expected = MatrixTestHelper.GetExpectedMatrixProduct(matrixIndex, matrix2Index);
-            Assert.AreEqual(expected, matrix.Matrix.Multiply(vector.Matrix));
+            Assert.That(matrix.Matrix.Multiply(vector.Matrix), Is.EqualTo(expected));
         }
 
         [TestCase(1, 1)]
@@ -127,21 +127,21 @@ namespace Effanville.Common.Structure.Tests.MathLibrary.Matrices
             TestMatrixValues matrix = MatrixTestHelper.GetMatrix(matrixIndex);
             double[] vector = MatrixTestHelper.GetVector(vectorIndex);
             double[] expected = MatrixTestHelper.GetExpectedProduct(matrixIndex, vectorIndex);
-            Assert.AreEqual(expected, matrix.Matrix.PostMultiplyVector(vector));
+            Assert.That(matrix.Matrix.PostMultiplyVector(vector), Is.EqualTo(expected));
         }
 
         [Test]
         public void ComputeXTXOK([Values(1, 2, 3, 4, 5, 6, 7)] int expectedMatrixIndex)
         {
             TestMatrixValues matrix = MatrixTestHelper.GetMatrix(expectedMatrixIndex);
-            Assert.AreEqual(matrix.XTX, matrix.Matrix.XTX());
+            Assert.That(matrix.Matrix.XTX(), Is.EqualTo(matrix.XTX));
         }
 
         [Test]
         public void ComputeIsSymmetric([Values(1, 2, 3, 4, 5, 6, 7, 8, 9)] int expectedMatrixIndex)
         {
             TestMatrixValues matrix = MatrixTestHelper.GetMatrix(expectedMatrixIndex);
-            Assert.AreEqual(matrix.IsSymmetric, Matrix<double>.IsSymmetric(matrix.Matrix));
+            Assert.That(Matrix<double>.IsSymmetric(matrix.Matrix), Is.EqualTo(matrix.IsSymmetric));
         }
     }
 }

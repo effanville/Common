@@ -27,7 +27,7 @@ namespace Effanville.Common.Structure.Tests.MathLibrary.Vectors
         public void MaxTests(List<double> values, int number, double expected)
         {
             double max = DoubleVector.Max(values, number, double.NaN);
-            Assert.AreEqual(expected, max);
+            Assert.That(max, Is.EqualTo(expected));
         }
 
         private static IEnumerable<TestCaseData> MinTestCases()
@@ -47,7 +47,7 @@ namespace Effanville.Common.Structure.Tests.MathLibrary.Vectors
         public void MinTests(List<double> values, int number, double expected)
         {
             double min = DoubleVector.Min(values, number, double.NaN);
-            Assert.AreEqual(expected, min);
+            Assert.That(min, Is.EqualTo(expected));
         }
 
         private static IEnumerable<TestCaseData> MeanTestCases()
@@ -67,7 +67,7 @@ namespace Effanville.Common.Structure.Tests.MathLibrary.Vectors
         public void MeanTests(List<double> values, int number, double expected)
         {
             double mean = DoubleVector.Mean(values, number);
-            Assert.AreEqual(expected, mean);
+            Assert.That(mean, Is.EqualTo(expected));
         }
 
         private static IEnumerable<TestCaseData> VarianceTestCases()
@@ -87,7 +87,7 @@ namespace Effanville.Common.Structure.Tests.MathLibrary.Vectors
         public void VarianceTests(List<double> values, int number, double expected)
         {
             double variance = DoubleVector.Variance(values, number);
-            Assert.AreEqual(expected, variance);
+            Assert.That(variance, Is.EqualTo(expected));
         }
 
         private static IEnumerable<TestCaseData> StdDevTestCases()
@@ -107,7 +107,7 @@ namespace Effanville.Common.Structure.Tests.MathLibrary.Vectors
         public void StdDevTests(List<double> values, int number, double expected)
         {
             double stdDev = DoubleVector.StandardDev(values, number);
-            Assert.AreEqual(expected, stdDev);
+            Assert.That(stdDev, Is.EqualTo(expected));
         }
 
         private static IEnumerable<TestCaseData> VarianceStdDevTestCases()
@@ -128,7 +128,7 @@ namespace Effanville.Common.Structure.Tests.MathLibrary.Vectors
         {
             double stdDev = DoubleVector.StandardDev(values, number);
             double variance = DoubleVector.Variance(values, number);
-            Assert.AreEqual(Math.Sqrt(variance), stdDev);
+            Assert.That(stdDev, Is.EqualTo(Math.Sqrt(variance)));
         }
     }
 }

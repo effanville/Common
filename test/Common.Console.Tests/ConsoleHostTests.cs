@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,7 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-using Moq;
+using NSubstitute;
 
 using NUnit.Framework;
 
@@ -20,39 +21,37 @@ public class ConsoleHostTests
 {
     private static IEnumerable<TestCaseData> CanRunTests()
     {
-        yield return new TestCaseData(new string[] { "NotATest"}, 2,
+        yield return new TestCaseData(new[] { "NotATest" }, 2,
             "Command line input failed validation.");
-        yield return new TestCaseData(new [] { "Test" }, 0, "");
-        yield return new TestCaseData(new [] { "Test", "--number", "4" }, 0, "");
+        yield return new TestCaseData(new[] { "Test" }, 0, "");
+        yield return new TestCaseData(new[] { "Test", "--number", "4" }, 0, "");
     }
 
     [TestCaseSource(nameof(CanRunTests))]
     public async Task CanRun(string[] args, int expectedExitCode, string errorMessage)
     {
-        var mock = new Mock<ILogger<ConsoleHost>>();
-        ILogger<ConsoleHost> logger = mock.Object;
-        var consoleContextMock = new Mock<ILogger<ConsoleContext>>();
-        ILogger<ConsoleContext> consoleContextLogger = consoleContextMock.Object;       
-        var mockLogger = new Mock<ILogger<TestCommand>>();
-        var testCommand = new TestCommand(mockLogger.Object);
+        ILogger<ConsoleHost> logger = Substitute.For<ILogger<ConsoleHost>>();
+        ILogger<ConsoleContext> consoleContextLogger = Substitute.For<ILogger<ConsoleContext>>();
+        ILogger<TestCommand> mockLogger = Substitute.For<ILogger<TestCommand>>();
+        TestCommand testCommand = new TestCommand(mockLogger);
         testCommand.Options.Add(new CommandOption<string>("number", ""));
-        var applicationLifetime = new Mock<IHostApplicationLifetime>();
-        var applicationStartedCts = new CancellationTokenSource();
+        IHostApplicationLifetime applicationLifetime = Substitute.For<IHostApplicationLifetime>();
+        CancellationTokenSource applicationStartedCts = new CancellationTokenSource();
         IConfiguration config = new ConfigurationBuilder()
             .AddCommandLine(new ConsoleCommandArgs(args).GetEffectiveArgs())
             .AddEnvironmentVariables()
             .Build();
-        applicationLifetime.Setup(x => x.ApplicationStarted).Returns(applicationStartedCts.Token);
-        var consoleContext = new ConsoleContext(
-            config, 
+        applicationLifetime.ApplicationStarted.Returns(applicationStartedCts.Token);
+        ConsoleContext consoleContext = new ConsoleContext(
+            config,
             new List<ICommand>() { testCommand },
             consoleContextLogger);
-        var host = new ConsoleHost(
+        ConsoleHost host = new ConsoleHost(
             consoleContext,
             logger,
-            applicationLifetime.Object);
+            applicationLifetime);
 
-        var cts = new CancellationTokenSource();
+        CancellationTokenSource cts = new CancellationTokenSource();
         await host.StartAsync(cts.Token);
 
         applicationStartedCts.Cancel();
@@ -61,16 +60,25 @@ public class ConsoleHostTests
             await Task.Delay(10);
         }
 
-        Assert.AreEqual(expectedExitCode, host.ExitCode);
-        Times times = expectedExitCode != 0 ? Times.Once() : Times.Never();
-        consoleContextMock.Verify(l =>
-                l.Log(LogLevel.Error,
-                    It.IsAny<EventId>(),
-                    It.Is<It.IsAnyType>((v, _) => v.ToString().Contains(errorMessage)),
-                    It.IsAny<Exception>(),
-                    It.IsAny<Func<It.IsAnyType, Exception, string>>()
-                ),
-            times
-        );
+        Assert.That(host.ExitCode, Is.EqualTo(expectedExitCode));
+        if (expectedExitCode != 0)
+        {
+            Expression<Predicate<object>> predicate = str => str.ToString().Contains(errorMessage);
+            consoleContextLogger.Received()
+                .Log(LogLevel.Error,
+                    Arg.Any<EventId>(),
+                    Arg.Is<Arg.AnyType>(predicate),
+                    Arg.Any<Exception>(),
+                    Arg.Any<Func<Arg.AnyType, Exception, string>>());
+        }
+        else
+        {
+            consoleContextLogger.DidNotReceive()
+                .Log(Arg.Is(LogLevel.Error),
+                    Arg.Any<EventId>(),
+                    Arg.Any<Arg.AnyType>(),
+                    Arg.Any<Exception>(),
+                    Arg.Any<Func<Arg.AnyType, Exception, string>>());
+        }
     }
 }

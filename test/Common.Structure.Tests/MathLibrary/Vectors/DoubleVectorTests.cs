@@ -28,7 +28,7 @@ namespace Effanville.Common.Structure.Tests.MathLibrary.Vectors
         {
             var vector = new DoubleVector(values?.ToArray());
             double max = vector.Max(number);
-            Assert.AreEqual(expected, max);
+            Assert.That(max, Is.EqualTo(expected));
         }
 
         private static IEnumerable<TestCaseData> MinTestCases()
@@ -49,7 +49,7 @@ namespace Effanville.Common.Structure.Tests.MathLibrary.Vectors
         {
             var vector = new DoubleVector(values?.ToArray());
             double min = vector.Min(number);
-            Assert.AreEqual(expected, min);
+            Assert.That(min, Is.EqualTo(expected));
         }
 
         private static IEnumerable<TestCaseData> MeanTestCases()
@@ -70,7 +70,7 @@ namespace Effanville.Common.Structure.Tests.MathLibrary.Vectors
         {
             var vector = new DoubleVector(values?.ToArray());
             double mean = vector.Mean(number);
-            Assert.AreEqual(expected, mean);
+            Assert.That(mean, Is.EqualTo(expected));
         }
 
         private static IEnumerable<TestCaseData> VarianceTestCases()
@@ -91,7 +91,7 @@ namespace Effanville.Common.Structure.Tests.MathLibrary.Vectors
         {
             var vector = new DoubleVector(values?.ToArray());
             double variance = vector.Variance(number);
-            Assert.AreEqual(expected, variance);
+            Assert.That(variance, Is.EqualTo(expected));
         }
 
         private static IEnumerable<TestCaseData> StdDevTestCases()
@@ -112,7 +112,7 @@ namespace Effanville.Common.Structure.Tests.MathLibrary.Vectors
         {
             var vector = new DoubleVector(values?.ToArray());
             double stdDev = vector.StandardDev(number);
-            Assert.AreEqual(expected, stdDev);
+            Assert.That(stdDev, Is.EqualTo(expected));
         }
 
         private static IEnumerable<TestCaseData> VarianceStdDevTestCases()
@@ -134,7 +134,7 @@ namespace Effanville.Common.Structure.Tests.MathLibrary.Vectors
             var vector = new DoubleVector(values?.ToArray());
             double stdDev = vector.StandardDev(number);
             double variance = vector.Variance(number);
-            Assert.AreEqual(Math.Sqrt(variance), stdDev);
+            Assert.That(stdDev, Is.EqualTo(Math.Sqrt(variance)));
         }
     }
 }

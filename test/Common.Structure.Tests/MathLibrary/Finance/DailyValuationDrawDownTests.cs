@@ -88,7 +88,7 @@ namespace Effanville.Common.Structure.Tests.MathLibrary.Finance
         public void DrawDownTests(int listIndex, double expected)
         {
             decimal rate = FinanceFunctions.Drawdown(ExampleValuationList(listIndex));
-            Assert.AreEqual(expected, (double)rate, 1e-8, "MDD is not as expected.");
+            Assert.That((double)rate, Is.EqualTo(expected).Within(1e-8), "MDD is not as expected.");
         }
     }
 }

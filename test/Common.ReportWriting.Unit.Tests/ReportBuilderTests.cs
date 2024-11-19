@@ -32,7 +32,7 @@ namespace Effanville.Common.ReportWriting.Unit.Tests
             _ = rb.WriteParagraph(new[] { reportString });
 
             string actualDocument = rb.ToString();
-            Assert.AreEqual(expectedDocument, actualDocument);
+            Assert.That(actualDocument, Is.EqualTo(expectedDocument));
         }
 
         public static IEnumerable<TestCaseData> WriteHeaderTestCases()
@@ -55,7 +55,7 @@ namespace Effanville.Common.ReportWriting.Unit.Tests
             _ = rb.WriteTitle(reportString, DocumentElement.h1);
 
             string actualDocument = rb.ToString();
-            Assert.AreEqual(expectedDocument, actualDocument);
+            Assert.That(actualDocument, Is.EqualTo(expectedDocument));
         }
     }
 }

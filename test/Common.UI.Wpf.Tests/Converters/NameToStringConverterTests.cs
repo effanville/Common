@@ -21,7 +21,7 @@ namespace Effanville.Common.UI.Wpf.Tests.Converters
             NameToStringConverter converter = new NameToStringConverter();
 
             object converted = converter.Convert(name, null, null, null);
-            Assert.AreEqual(name.ToString(), converted);
+            Assert.That(converted, Is.EqualTo(name.ToString()));
         }
 
         [TestCase("Bloggs", "Joe")]
@@ -39,7 +39,7 @@ namespace Effanville.Common.UI.Wpf.Tests.Converters
             //This test is broken because it required a specific ToSTring that has changed
             // when moving into this solution. Need to rewrite test to fix.
             object converted = converter.ConvertBack(name.ToString(), null, null, null);
-            Assert.AreEqual(name, (Name)converted);
+            Assert.That((Name)converted, Is.EqualTo(name));
         }
     }
 }

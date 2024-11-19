@@ -13,7 +13,7 @@ namespace Effanville.Common.UI.Wpf.Tests.Converters
         public void CanConvert(object input, object expected)
         {
             BoolToYesNoConverter converter = new BoolToYesNoConverter();
-            Assert.AreEqual(expected, converter.Convert(input, null, null, null));
+            Assert.That(converter.Convert(input, null, null, null), Is.EqualTo(expected));
         }
 
         [TestCase("Yes", true)]
@@ -22,7 +22,7 @@ namespace Effanville.Common.UI.Wpf.Tests.Converters
         public void CanConvertBack(object input, object expected)
         {
             BoolToYesNoConverter converter = new BoolToYesNoConverter();
-            Assert.AreEqual(expected, converter.ConvertBack(input, null, null, null));
+            Assert.That(converter.ConvertBack(input, null, null, null), Is.EqualTo(expected));
         }
 
         [TestCase(true)]
@@ -32,7 +32,7 @@ namespace Effanville.Common.UI.Wpf.Tests.Converters
             BoolToYesNoConverter converter = new BoolToYesNoConverter();
             object converted = converter.Convert(input, null, null, null);
             object convertBack = converter.ConvertBack(converted, null, null, null);
-            Assert.AreEqual(input, convertBack);
+            Assert.That(convertBack, Is.EqualTo(input));
         }
 
         [TestCase("Yes")]
@@ -42,7 +42,7 @@ namespace Effanville.Common.UI.Wpf.Tests.Converters
             BoolToYesNoConverter converter = new BoolToYesNoConverter();
             object converted = converter.ConvertBack(input, null, null, null);
             object convertBack = converter.Convert(converted, null, null, null);
-            Assert.AreEqual(input, convertBack);
+            Assert.That(convertBack, Is.EqualTo(input));
         }
     }
 }

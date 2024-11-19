@@ -29,10 +29,10 @@ namespace Effanville.Common.ReportWriting.Unit.Tests.Documents
         [TestCase(DocumentType.Md, DocumentElement.None, "\r\n")]
         [TestCase(DocumentType.Csv, DocumentElement.p, null)]
         [TestCase(DocumentType.Csv, DocumentElement.None, null)]
-        public void StringFormTests(DocumentType docType, DocumentElement element, string expectedForm)
+        public void StringFormTests(DocumentType docType, DocumentElement element, string? expectedForm)
         {
             string actualElement = docType.StringForm(element);
-            Assert.AreEqual(expectedForm, actualElement);
+            Assert.That(actualElement, Is.EqualTo(expectedForm));
         }
     }
 }

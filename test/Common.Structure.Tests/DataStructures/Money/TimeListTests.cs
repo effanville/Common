@@ -64,7 +64,7 @@ namespace Effanville.Common.Structure.Tests.DataStructures.Money
             {
                 newList.SetData(value.date, value.value);
             }
-            Assert.AreEqual(count, newList.Count());
+            Assert.That(newList.Count(), Is.EqualTo(count));
         }
         private static IEnumerable<TestCaseData> AnyTestSource()
         {
@@ -78,7 +78,7 @@ namespace Effanville.Common.Structure.Tests.DataStructures.Money
         [TestCaseSource(nameof(AnyTestSource))]
         public void AnyTests(bool result, TimeList listToTest)
         {
-            Assert.AreEqual(result, listToTest.Any());
+            Assert.That(listToTest.Any(), Is.EqualTo(result));
         }
 
         private static IEnumerable<TestCaseData> CleanValuesTestSource()
@@ -103,8 +103,8 @@ namespace Effanville.Common.Structure.Tests.DataStructures.Money
         {
             timelist.CleanValues();
             int count = expectedCleaned.Count();
-            Assert.AreEqual(count, timelist.Count());
-            Assert.AreEqual(timelist, expectedCleaned);
+            Assert.That(timelist.Count(), Is.EqualTo(count));
+            Assert.That(expectedCleaned, Is.EqualTo(timelist));
         }
 
         private static IEnumerable<TestCaseData> WriteSerializationData(string testName)
@@ -134,7 +134,7 @@ namespace Effanville.Common.Structure.Tests.DataStructures.Money
 
                 string output = fs.ToString();
 
-                Assert.AreEqual(expectedXml, output);
+                Assert.That(output, Is.EqualTo(expectedXml));
             }
         }
 
@@ -177,7 +177,7 @@ namespace Effanville.Common.Structure.Tests.DataStructures.Money
                     valuation.ReadXml(reader);
                 }
 
-                Assert.AreEqual(timelist, valuation);
+                Assert.That(valuation, Is.EqualTo(timelist));
             }
         }
 
@@ -201,7 +201,7 @@ namespace Effanville.Common.Structure.Tests.DataStructures.Money
                 output = fs.ToString();
             }
 
-            Assert.AreEqual(expectedXml, output);
+            Assert.That(output, Is.EqualTo(expectedXml));
 
             var valuation = new TimeList();
             using (StringReader fs = new StringReader(output))
@@ -212,7 +212,7 @@ namespace Effanville.Common.Structure.Tests.DataStructures.Money
                     valuation.ReadXml(reader);
                 }
 
-                Assert.AreEqual(valuation, timelist);
+                Assert.That(timelist, Is.EqualTo(valuation));
             }
         }
     }

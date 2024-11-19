@@ -68,7 +68,7 @@ internal class TableWriterExtensionTests
         tableWriter.WriteTable(stringBuilder, rows, headerFirstColumn);
 
         string actualTable = stringBuilder.ToString();
-        Assert.AreEqual(expectedTable, actualTable);
+        Assert.That(actualTable, Is.EqualTo(expectedTable));
     }
     public static IEnumerable<TestCaseData> CanWriteTableFromEnumerableTestData()
     {
@@ -119,7 +119,7 @@ internal class TableWriterExtensionTests
         tableWriter.WriteTable(stringBuilder, rows, headerFirstColumn);
 
         string actualTable = stringBuilder.ToString();
-        Assert.AreEqual(expectedTable, actualTable);
+        Assert.That(actualTable, Is.EqualTo(expectedTable));
     }
 
     public static IEnumerable<TestCaseData> CanWriteTableFromValuesTestData()
@@ -197,9 +197,8 @@ internal class TableWriterExtensionTests
         tableWriter.WriteTable(stringBuilder, headers, rows, headerFirstColumn);
 
         string actualTable = stringBuilder.ToString();
-        Assert.AreEqual(expectedTable, actualTable);
+        Assert.That(actualTable, Is.EqualTo(expectedTable));
     }
-
 
     public static IEnumerable<TestCaseData> CanWriteTableWithEnumerableValuesTestData()
     {
@@ -276,6 +275,6 @@ internal class TableWriterExtensionTests
         tableWriter.WriteTable(stringBuilder, headers, rows, headerFirstColumn);
 
         string actualTable = stringBuilder.ToString();
-        Assert.AreEqual(expectedTable, actualTable);
+        Assert.That(actualTable, Is.EqualTo(expectedTable));
     }
 }
