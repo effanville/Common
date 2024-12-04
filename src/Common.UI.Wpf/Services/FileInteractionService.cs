@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Threading.Tasks;
+using System.Windows;
 
 using Effanville.Common.UI.Services;
 
@@ -28,7 +29,10 @@ namespace Effanville.Common.UI.Wpf.Services
         /// Interaction with a saving dialog.
         /// </summary>
         /// <inheritdoc/>
-        public FileInteractionResult SaveFile(string defaultExt, string fileName, string initialDirectory = null, string filter = null)
+        public async Task<FileInteractionResult> SaveFile(string defaultExt,
+            string fileName,
+            string initialDirectory = null,
+            string filter = null)
         {
             SaveFileDialog saving = new SaveFileDialog() { DefaultExt = defaultExt, FileName = fileName };
 
@@ -41,6 +45,7 @@ namespace Effanville.Common.UI.Wpf.Services
             {
                 saving.Filter = filter;
             }
+
             bool? saved = saving.ShowDialog(fDefaultParent);
             if (saved.HasValue)
             {
@@ -54,7 +59,9 @@ namespace Effanville.Common.UI.Wpf.Services
         /// Interaction with an opening file dialog.
         /// </summary>
         /// <inheritdoc/>
-        public FileInteractionResult OpenFile(string defaultExt, string initialDirectory = null, string filter = null)
+        public async Task<FileInteractionResult> OpenFile(string defaultExt,
+            string initialDirectory = null,
+            string filter = null)
         {
             OpenFileDialog openFile = new OpenFileDialog() { DefaultExt = defaultExt };
 
