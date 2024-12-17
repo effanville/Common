@@ -1,29 +1,19 @@
 ﻿using System;
 
-namespace Effanville.Common.Structure.DataEdit
+namespace Effanville.Common.Structure.DataEdit;
+
+/// <summary>
+/// Contains methods for updating arbitrary objects.
+/// </summary>
+public interface IUpdater
 {
     /// <summary>
-    /// Contains methods for updating an object of type <see typeparamcref="T"/> using callbacks.
+    /// Update the portfolio with the given action.
     /// </summary>
-    public interface IUpdater<T> where T : class
-    {
-        /// <summary>
-        /// The underlying instance to update.
-        /// </summary>
-        T Database
-        {
-            get;
-            set;
-        }
+    void PerformUpdateAction<T>(T data, Action<T> action) where T : class;
 
-        /// <summary>
-        /// Update the portfolio with the given action.
-        /// </summary>
-        void PerformUpdateAction(Action<T> action, T portfolio);
-
-        /// <summary>
-        /// Update the portfolio with the given action.
-        /// </summary>
-        void PerformUpdate(object obj, UpdateRequestArgs<T> requestArgs);
-    }
+    /// <summary>
+    /// Update the portfolio with the given action.
+    /// </summary>
+    void PerformUpdate<T>(T data, UpdateRequestArgs<T> requestArgs) where T : class;
 }
