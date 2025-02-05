@@ -80,7 +80,7 @@ namespace Effanville.Common.Structure.FileAccess
                 using (Stream stream = fileSystem.FileStream.New(filePath, FileMode.Create))
                 using (TextWriter writer = new StreamWriter(stream))
                 {
-                    dataTypeToWrite.WriteDataToCsv(writer, reportLogger);
+                    dataTypeToWrite.WriteDataToCsv(writer);
                 }
             }
             catch (Exception ex)

@@ -18,6 +18,6 @@ namespace Effanville.Common.Structure.FileAccess
         /// <summary>
         /// Exports data to a csv file.
         /// </summary>
-        void WriteDataToCsv(TextWriter writer, IReportLogger reportLogger = null);
+        void WriteDataToCsv(TextWriter writer);
     }
 }

@@ -1,7 +1,5 @@
 ﻿using System;
 
-using Effanville.Common.Structure.Reporting;
-
 namespace Effanville.Common.Structure.DataStructures
 {
     /// <summary>
@@ -20,10 +18,7 @@ namespace Effanville.Common.Structure.DataStructures
         /// </summary>
         /// <param name="index">The index to access data at.</param>
         /// <returns>A copy of the data at the index.</returns>
-        Daily<T> this[int index]
-        {
-            get;
-        }
+        Daily<T> this[int index] { get; }
 
         /// <summary>
         /// Returns true if contains any entries.
@@ -55,8 +50,7 @@ namespace Effanville.Common.Structure.DataStructures
         /// </summary>
         /// <param name="date">The date to edit data on.</param>
         /// <param name="value">The value to set for this date.</param>
-        /// <param name="reportLogger">Reports the logging of this action.</param>
-        void SetData(DateTime date, T value, IReportLogger reportLogger = null);
+        void SetData(DateTime date, T value);
 
         /// <summary>
         /// Edits data in the TimeList on the date provided if it can.
@@ -64,15 +58,13 @@ namespace Effanville.Common.Structure.DataStructures
         /// <param name="oldDate">The date to edit data on.</param>
         /// <param name="newDate">The date to set the value to be stored on.</param>
         /// <param name="value">The value to set for this date.</param>
-        /// <param name="reportLogger">Reports the logging of this action.</param>
-        bool TryEditData(DateTime oldDate, DateTime newDate, T value, IReportLogger reportLogger = null);
+        bool TryEditData(DateTime oldDate, DateTime newDate, T value);
 
         /// <summary>
         /// Deletes data if exists. If deletes, returns true.
         /// </summary>
         /// <param name="date">The date to edit data on.</param>
-        /// <param name="reportLogger">Reports the logging of this action.</param>
-        bool TryDeleteValue(DateTime date, IReportLogger reportLogger = null);
+        bool TryDeleteValue(DateTime date);
 
         /// <summary>
         /// Returns the linearly interpolated value of the List on the date provided.
@@ -107,6 +99,10 @@ namespace Effanville.Common.Structure.DataStructures
         /// <returns>
         /// A valuation with the date and the value on that date. The date is not necessarily the date requested. For example
         /// if the prior evaluator returns a different date, then that date is recorded.</returns>
-        Daily<T> Value(DateTime date, Func<Daily<T>, DateTime, Daily<T>> priorEstimator, Func<Daily<T>, DateTime, Daily<T>> postEstimator, Func<Daily<T>, Daily<T>, DateTime, double> interpolationFunction);
+        Daily<T> Value(
+            DateTime date,
+            Func<Daily<T>, DateTime, Daily<T>> priorEstimator,
+            Func<Daily<T>, DateTime, Daily<T>> postEstimator,
+            Func<Daily<T>, Daily<T>, DateTime, double> interpolationFunction);
     }
 }

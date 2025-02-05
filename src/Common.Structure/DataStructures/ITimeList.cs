@@ -1,7 +1,5 @@
 ﻿using System;
 
-using Effanville.Common.Structure.Reporting;
-
 namespace Effanville.Common.Structure.DataStructures
 {
     /// <summary>
@@ -20,10 +18,7 @@ namespace Effanville.Common.Structure.DataStructures
         /// </summary>
         /// <param name="index">The index to access data at.</param>
         /// <returns>A copy of the data at the index.</returns>
-        DailyValuation this[int index]
-        {
-            get;
-        }
+        DailyValuation this[int index] { get; }
 
         /// <summary>
         /// Returns true if contains any entries.
@@ -62,9 +57,8 @@ namespace Effanville.Common.Structure.DataStructures
         /// <param name="oldDate">The date to edit data on.</param>
         /// <param name="newDate">The date to set the value to be stored on.</param>
         /// <param name="value">The value to set on the new date.</param>
-        /// <param name="reportLogger">Reports the logging of this action.</param>
         /// <returns></returns>
-        bool AddOrEditData(DateTime oldDate, DateTime newDate, decimal value, IReportLogger reportLogger = null);
+        bool AddOrEditData(DateTime oldDate, DateTime newDate, decimal value);
 
         /// <summary>
         /// Edits data in the TimeList on the date provided if it can.
@@ -72,22 +66,20 @@ namespace Effanville.Common.Structure.DataStructures
         /// <param name="oldDate">The date to edit data on.</param>
         /// <param name="newDate">The date to set the value to be stored on.</param>
         /// <param name="value">The value to set for this date.</param>
-        /// <param name="reportLogger">Reports the logging of this action.</param>
         /// <returns>Whether the editing was successful.</returns>
-        bool TryEditData(DateTime oldDate, DateTime newDate, decimal value, IReportLogger reportLogger = null);
+        bool TryEditData(DateTime oldDate, DateTime newDate, decimal value);
 
         /// <summary>
         /// Sets data in the TimeList on the date provided. Adds if it doesnt exist, edits if it does.
         /// </summary>
         /// <param name="date">The date to edit data on.</param>
         /// <param name="value">The value to set for this date.</param>
-        /// <param name="reportLogger">Reports the logging of this action.</param>
-        void SetData(DateTime date, decimal value, IReportLogger reportLogger = null);
+        void SetData(DateTime date, decimal value);
 
         /// <summary>
         /// Deletes data if exists. If deletes, returns true.
         /// </summary>
-        bool TryDeleteValue(DateTime date, IReportLogger reportLogger = null);
+        bool TryDeleteValue(DateTime date);
 
         /// <summary>
         /// Returns the linearly interpolated value of the List on the date provided.
@@ -122,7 +114,11 @@ namespace Effanville.Common.Structure.DataStructures
         /// <returns>
         /// A valuation with the date and the value on that date. The date is not necessarily the date requested. For example
         /// if the prior evaluator returns a different date, then that date is recorded.</returns>
-        DailyValuation Value(DateTime date, Func<DailyValuation, DateTime, DailyValuation> priorEstimator, Func<DailyValuation, DateTime, DailyValuation> postEstimator, Func<DailyValuation, DailyValuation, DateTime, DailyValuation> interpolationFunction);
+        DailyValuation Value(
+            DateTime date,
+            Func<DailyValuation, DateTime, DailyValuation> priorEstimator,
+            Func<DailyValuation, DateTime, DailyValuation> postEstimator,
+            Func<DailyValuation, DailyValuation, DateTime, DailyValuation> interpolationFunction);
 
         /// <summary>
         /// Provides a new <see cref="TimeList"/> with multiplicative inverses as values,

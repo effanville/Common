@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Linq;
 
-using Effanville.Common.Structure.Reporting;
-
 namespace Effanville.Common.Structure.DataStructures
 {
     public partial class TimeList
@@ -71,19 +69,19 @@ namespace Effanville.Common.Structure.DataStructures
         }
 
         /// <inheritdoc/>
-        public bool AddOrEditData(DateTime oldDate, DateTime date, decimal value, IReportLogger reportLogger = null)
+        public bool AddOrEditData(DateTime oldDate, DateTime date, decimal value)
         {
-            if (TryEditData(oldDate, date, value, reportLogger))
+            if (TryEditData(oldDate, date, value))
             {
                 return true;
             }
 
-            SetData(date, value, reportLogger);
+            SetData(date, value);
             return true;
         }
 
         /// <inheritdoc/>
-        public void SetData(DateTime date, decimal value, IReportLogger reportLogger = null)
+        public void SetData(DateTime date, decimal value)
         {
             bool valueExists = false;
             bool edited = false;
@@ -98,7 +96,6 @@ namespace Effanville.Common.Structure.DataStructures
                             if (fValues[i].Value != value)
                             {
                                 edited = true;
-                                reportLogger?.Log(ReportSeverity.Detailed, ReportType.Information, $"{nameof(TimeList)}.{nameof(SetData)}", $"Edit value {date} value changed from {fValues[i].Value} to {value}");
                             }
 
                             fValues[i].Value = value;
@@ -111,7 +108,6 @@ namespace Effanville.Common.Structure.DataStructures
                 {
                     DailyValuation valuation = new DailyValuation(date, value);
                     fValues.Add(valuation);
-                    reportLogger?.Log(ReportSeverity.Detailed, ReportType.Information, $"{nameof(TimeList)}.{nameof(SetData)}", $"Add value {date}-{value}.");
                     Sort();
                     edited = true;
                 }
@@ -124,7 +120,7 @@ namespace Effanville.Common.Structure.DataStructures
         }
 
         /// <inheritdoc/>
-        public bool TryEditData(DateTime oldDate, DateTime newDate, decimal value, IReportLogger reportLogger = null)
+        public bool TryEditData(DateTime oldDate, DateTime newDate, decimal value)
         {
             bool edited = false;
             lock (valuesLock)
@@ -138,11 +134,6 @@ namespace Effanville.Common.Structure.DataStructures
                         {
                             if (thisValue.Value != value)
                             {
-                                reportLogger?.Log(
-                                    ReportSeverity.Detailed,
-                                    ReportType.Information,
-                                    $"{nameof(TimeList)}.{nameof(TryEditData)}",
-                                    $"{oldDate}-{fValues[i].Value} changed to {newDate}-{value}");
                                 thisValue.SetData(newDate, value);
                                 edited = true;
                             }
@@ -160,7 +151,7 @@ namespace Effanville.Common.Structure.DataStructures
         }
 
         /// <inheritdoc/>
-        public bool TryDeleteValue(DateTime date, IReportLogger reportLogger = null)
+        public bool TryDeleteValue(DateTime date)
         {
             bool deleted = false;
             lock (valuesLock)
@@ -171,7 +162,6 @@ namespace Effanville.Common.Structure.DataStructures
                     {
                         if (fValues[i].Day == date)
                         {
-                            reportLogger?.Log(ReportSeverity.Detailed, ReportType.Information, $"{nameof(TimeList)}.{nameof(TryDeleteValue)}", $"Value {date}-{fValues[i].Value} deleted.");
                             fValues.RemoveAt(i);
                             deleted = true;
                         }
