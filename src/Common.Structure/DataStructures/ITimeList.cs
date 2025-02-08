@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Effanville.Common.Structure.ChangeLogging;
+
 namespace Effanville.Common.Structure.DataStructures
 {
     /// <summary>
@@ -51,35 +53,25 @@ namespace Effanville.Common.Structure.DataStructures
         bool TryGetValue(DateTime date, out decimal value);
 
         /// <summary>
-        /// Edits data if it exists on that date (and can update the date of that entry), and otherwise
-        /// it adds data on the date.
-        /// </summary>
-        /// <param name="oldDate">The date to edit data on.</param>
-        /// <param name="newDate">The date to set the value to be stored on.</param>
-        /// <param name="value">The value to set on the new date.</param>
-        /// <returns></returns>
-        bool AddOrEditData(DateTime oldDate, DateTime newDate, decimal value);
-
-        /// <summary>
         /// Edits data in the TimeList on the date provided if it can.
         /// </summary>
         /// <param name="oldDate">The date to edit data on.</param>
         /// <param name="newDate">The date to set the value to be stored on.</param>
         /// <param name="value">The value to set for this date.</param>
         /// <returns>Whether the editing was successful.</returns>
-        bool TryEditData(DateTime oldDate, DateTime newDate, decimal value);
+        UpdateResult<DailyValuation> TryEditData(DateTime oldDate, DateTime newDate, decimal value);
 
         /// <summary>
         /// Sets data in the TimeList on the date provided. Adds if it doesnt exist, edits if it does.
         /// </summary>
         /// <param name="date">The date to edit data on.</param>
         /// <param name="value">The value to set for this date.</param>
-        void SetData(DateTime date, decimal value);
+        UpdateResult<DailyValuation> SetData(DateTime date, decimal value);
 
         /// <summary>
         /// Deletes data if exists. If deletes, returns true.
         /// </summary>
-        bool TryDeleteValue(DateTime date);
+        UpdateResult<DailyValuation> TryDeleteValue(DateTime date);
 
         /// <summary>
         /// Returns the linearly interpolated value of the List on the date provided.

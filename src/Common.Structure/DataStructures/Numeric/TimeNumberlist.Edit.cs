@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 
+using Effanville.Common.Structure.ChangeLogging;
+
 namespace Effanville.Common.Structure.DataStructures.Numeric
 {
     public partial class TimeNumberList
@@ -68,111 +70,114 @@ namespace Effanville.Common.Structure.DataStructures.Numeric
         }
 
         /// <inheritdoc/>
-        public bool AddOrEditData(DateTime oldDate, DateTime date, double value)
+        public UpdateResult<DailyNumeric> AddOrEditData(DateTime oldDate, DateTime date, double value)
         {
-            if (TryEditData(oldDate, date, value))
+            UpdateResult<DailyNumeric> editResult = TryEditData(oldDate, date, value);
+            if (editResult.Success)
             {
-                return true;
+                return editResult;
             }
 
-            SetData(date, value);
-            return true;
+            return SetData(date, value);
         }
 
         /// <inheritdoc/>
-        public void SetData(DateTime date, double value)
+        public UpdateResult<DailyNumeric> SetData(DateTime date, double value)
         {
-            bool valueExists = false;
-            bool edited = false;
-            lock (valuesLock)
+            try
             {
-                if (fValues.Any())
+                lock (valuesLock)
                 {
-                    for (int i = 0; i < fValues.Count; i++)
+                    if (fValues.Count != 0)
                     {
-                        if (fValues[i].Day == date)
+                        for (int i = 0; i < fValues.Count; i++)
                         {
-                            if (fValues[i].Value != value)
+                            if (fValues[i].Day == date)
                             {
-                                edited = true;
+                                DailyNumeric oldValue = fValues[i].Copy();
+                                fValues[i].Value = value;
+                                return UpdateResult.Change(oldValue, fValues[i].Copy());
                             }
-
-                            fValues[i].Value = value;
-                            valueExists = true;
                         }
                     }
-                }
 
-                if (!valueExists)
-                {
                     DailyNumeric valuation = new DailyNumeric(date, value);
                     fValues.Add(valuation);
                     Sort();
-                    edited = true;
+                    return UpdateResult.Add(valuation);
                 }
             }
-
-            if (edited)
+            finally
             {
                 OnDataEdit(this);
             }
         }
 
         /// <inheritdoc/>
-        public bool TryEditData(DateTime oldDate, DateTime newDate, double value)
+        public UpdateResult<DailyNumeric> TryEditData(DateTime oldDate, DateTime newDate, double value)
         {
-            bool edited = false;
-            lock (valuesLock)
+            try
             {
-                if (fValues.Any())
+                lock (valuesLock)
                 {
+                    if (fValues.Count == 0)
+                    {
+                        return UpdateResult.Fail(new DailyNumeric(oldDate, value), isChange: true);
+                    }
+
                     for (int i = 0; i < fValues.Count; i++)
                     {
-                        if (fValues[i].Day == oldDate)
+                        var thisValue = fValues[i];
+                        if (thisValue.Day == oldDate)
                         {
-                            if (fValues[i].Value != value)
+                            if (thisValue.Value != value)
                             {
-                                fValues[i].SetData(newDate, value);
-                                edited = true;
+                                DailyNumeric oldValue = thisValue.Copy();
+                                thisValue.SetData(newDate, value);
+
+                                return UpdateResult.Change(oldValue, thisValue.Copy());
                             }
                         }
                     }
+
+                    return UpdateResult.Fail(new DailyNumeric(oldDate, value), isChange: true);
                 }
             }
-
-            if (edited)
+            finally
             {
                 OnDataEdit(this);
             }
-
-            return edited;
         }
 
         /// <inheritdoc/>
-        public bool TryDeleteValue(DateTime date)
+        public UpdateResult<DailyNumeric> TryDeleteValue(DateTime date)
         {
-            bool deleted = false;
-            lock (valuesLock)
+            try
             {
-                if (fValues.Any())
+                lock (valuesLock)
                 {
+                    if (fValues.Count == 0)
+                    {
+                        return UpdateResult.Fail(new DailyNumeric(date, default), isDelete: true);
+                    }
+
                     for (int i = 0; i < fValues.Count; i++)
                     {
                         if (fValues[i].Day == date)
                         {
+                            var value = fValues[i].Copy();
                             fValues.RemoveAt(i);
-                            deleted = true;
+                            return UpdateResult.Delete(value);
                         }
                     }
+
+                    return UpdateResult.Fail(new DailyNumeric(date, default), isDelete: true);
                 }
             }
-
-            if (deleted)
+            finally
             {
                 OnDataEdit(this);
             }
-
-            return deleted;
         }
 
         /// <inheritdoc/>

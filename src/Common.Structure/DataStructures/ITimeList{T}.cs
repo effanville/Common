@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Effanville.Common.Structure.ChangeLogging;
+
 namespace Effanville.Common.Structure.DataStructures
 {
     /// <summary>
@@ -50,7 +52,7 @@ namespace Effanville.Common.Structure.DataStructures
         /// </summary>
         /// <param name="date">The date to edit data on.</param>
         /// <param name="value">The value to set for this date.</param>
-        void SetData(DateTime date, T value);
+        UpdateResult<Daily<T>> SetData(DateTime date, T value);
 
         /// <summary>
         /// Edits data in the TimeList on the date provided if it can.
@@ -58,13 +60,13 @@ namespace Effanville.Common.Structure.DataStructures
         /// <param name="oldDate">The date to edit data on.</param>
         /// <param name="newDate">The date to set the value to be stored on.</param>
         /// <param name="value">The value to set for this date.</param>
-        bool TryEditData(DateTime oldDate, DateTime newDate, T value);
+        UpdateResult<Daily<T>> TryEditData(DateTime oldDate, DateTime newDate, T value);
 
         /// <summary>
         /// Deletes data if exists. If deletes, returns true.
         /// </summary>
         /// <param name="date">The date to edit data on.</param>
-        bool TryDeleteValue(DateTime date);
+        UpdateResult<Daily<T>> TryDeleteValue(DateTime date);
 
         /// <summary>
         /// Returns the linearly interpolated value of the List on the date provided.
