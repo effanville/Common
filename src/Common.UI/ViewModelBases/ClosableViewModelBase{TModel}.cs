@@ -8,8 +8,8 @@ namespace Effanville.Common.UI.ViewModelBases;
 /// <summary>
 /// A view model base that enables closing, and invokes a closing action when closed.
 /// </summary>
-/// <typeparam name="T">The type for the ModelData</typeparam>
-public abstract class ClosableViewModelBase<T> : ViewModelBase<T> where T : class
+/// <typeparam name="TModel">The type for the ModelData</typeparam>
+public abstract class ClosableViewModelBase<TModel> : ViewModelBase<TModel> where TModel : class
 {
     private bool _closable;
 
@@ -17,7 +17,7 @@ public abstract class ClosableViewModelBase<T> : ViewModelBase<T> where T : clas
     /// An event where this view model requests to close.
     /// </summary>
     public EventHandler RequestClose;
-        
+
     /// <summary>
     /// Whether the display can be closed or not.
     /// </summary>
@@ -26,7 +26,7 @@ public abstract class ClosableViewModelBase<T> : ViewModelBase<T> where T : clas
         get => _closable;
         set => SetAndNotify(ref _closable, value);
     }
-        
+
     /// <summary>
     /// handle the events raised in the above.
     /// </summary>
@@ -44,22 +44,18 @@ public abstract class ClosableViewModelBase<T> : ViewModelBase<T> where T : clas
     /// <summary>
     /// Command for initiating the close.
     /// </summary>
-    public ICommand CloseCommand
-    {
-        get;
-        set;
-    }
+    public ICommand CloseCommand { get; set; }
 
     private void InitiateClose() => OnRequestClose(EventArgs.Empty);
 
-    protected ClosableViewModelBase(string header, UiGlobals globals, bool closable) 
+    protected ClosableViewModelBase(string header, UiGlobals globals, bool closable)
         : base(header, globals)
     {
         Closable = closable;
         CloseCommand = new RelayCommand(InitiateClose);
     }
 
-    protected ClosableViewModelBase(string header, T modelData, UiGlobals displayGlobals, bool closable)
+    protected ClosableViewModelBase(string header, TModel modelData, UiGlobals displayGlobals, bool closable)
         : base(header, modelData, displayGlobals)
     {
         Closable = closable;
