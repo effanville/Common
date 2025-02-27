@@ -156,6 +156,21 @@ namespace Effanville.Common.Structure.Reporting
         public List<ErrorReport> GetReports(ReportType reportType)
             => GetReports().Where(report => report.ErrorType == reportType).ToList();
 
+        public List<ErrorReport> GetAtLevel(ReportType reportType)
+        {
+            switch (reportType)
+            {
+                case ReportType.Error:
+                    return GetReports().Where(report => report.ErrorType == reportType).ToList();
+                default:
+                case ReportType.Warning:
+                    return GetReports().Where(report =>
+                        report.ErrorType == reportType || report.ErrorType == ReportType.Error).ToList();
+                case ReportType.Information:
+                    return GetReports();
+            }
+        }
+
         /// <summary>
         /// Removes element at index <param name="i"/>
         /// </summary>
