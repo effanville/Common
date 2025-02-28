@@ -21,5 +21,10 @@ public interface ITaskQueue
     /// <summary>
     /// Add a task to the queue
     /// </summary>
-    void Enqueue(Task currentTask);
+    Task Enqueue(Task currentTask);
+
+    /// <summary>
+    /// Add a task with return to the queue
+    /// </summary>
+    Task<TReturn> Enqueue<TData, TReturn>(Func<TData, TReturn> func, TData obj);
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace Effanville.Common.Structure.DataEdit;
 
@@ -10,10 +11,15 @@ public interface IUpdater
     /// <summary>
     /// Update the portfolio with the given action.
     /// </summary>
-    void PerformUpdateAction<T>(T data, Action<T> action) where T : class;
+    void PerformUpdateAction<TData>(TData data, Action<TData> action) where TData : class;
 
     /// <summary>
     /// Update the portfolio with the given action.
     /// </summary>
-    void PerformUpdate<T>(T data, UpdateRequestArgs<T> requestArgs) where T : class;
+    Task PerformUpdate<TData>(TData data, UpdateRequestArgs<TData> requestArgs) where TData : class;
+
+    /// <summary>
+    /// Update the data using the args
+    /// </summary>
+    Task<UpdateResult<TReturn>> PerformUpdate<TData, TReturn>(TData data, UpdateRequestArgs<TData, TReturn> requestArgs) where TData : class;
 }

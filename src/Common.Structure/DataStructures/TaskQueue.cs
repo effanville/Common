@@ -8,17 +8,17 @@ namespace Effanville.Common.Structure.DataStructures;
 /// </summary>
 public sealed class TaskQueue : ITaskQueue
 {
-    private readonly object lockRoot = new object();
-    private Task fPreviousTask;
+    private readonly object _previousTaskLock = new object();
+    private Task _previousTask;
 
     /// <summary>
     /// Add an action to the queue.
     /// </summary>
     public void Enqueue(Action action)
     {
-        lock (lockRoot)
+        lock (_previousTaskLock)
         {
-            fPreviousTask = fPreviousTask?.ContinueWith(tsk => action()) ?? Task.Factory.StartNew(action);
+            _previousTask = _previousTask?.ContinueWith(tsk => action()) ?? Task.Factory.StartNew(action);
         }
     }
 
@@ -27,9 +27,9 @@ public sealed class TaskQueue : ITaskQueue
     /// </summary>
     public void Enqueue<T>(Action<T> action, T obj)
     {
-        lock (lockRoot)
+        lock (_previousTaskLock)
         {
-            fPreviousTask = fPreviousTask?.ContinueWith(tsk => action(obj)) ?? Task.Factory.StartNew(Convert(action), obj);
+            _previousTask = _previousTask?.ContinueWith(tsk => action(obj)) ?? Task.Factory.StartNew(Convert(action), obj);
         }
     }
 
@@ -43,11 +43,29 @@ public sealed class TaskQueue : ITaskQueue
     /// <summary>
     /// Add a task to the queue
     /// </summary>
-    public void Enqueue(Task currentTask)
+    public Task Enqueue(Task currentTask)
     {
-        lock (lockRoot)
+        lock (_previousTaskLock)
         {
-            fPreviousTask = fPreviousTask?.ContinueWith(tsk => currentTask) ?? currentTask;
+            _previousTask = _previousTask?.ContinueWith(tsk => currentTask) ?? currentTask;
+            return _previousTask;
         }
+    }
+
+    /// <inheritdoc/>
+    public Task<TReturn> Enqueue<TData, TReturn>(Func<TData, TReturn> func, TData obj)
+    {
+        lock (_previousTaskLock)
+        {
+            _previousTask = _previousTask?.ContinueWith(tsk => func(obj)) ?? Task.Factory.StartNew(Convert(func), obj);
+            return _previousTask as Task<TReturn>;
+        }
+    }
+
+    private static Func<object, S> Convert<T, S>(Func<T, S> myActionT)
+    {
+        return myActionT == null
+            ? null
+            : new Func<object, S>(o => myActionT((T)o));
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Effanville.Common.Structure.ChangeLogging;
+﻿﻿using System.Text;
+
+namespace Effanville.Common.Structure.DataEdit;
 
 /// <summary>
 /// Encompasses details about an update to an object of type <see typecref="TValue"/>
@@ -40,4 +42,37 @@ public class UpdateResult<TValue>
     /// Any message about the update
     /// </summary>
     public string Message { get; set; }
+
+    /// <inheritdoc/>
+    public override string ToString()
+    {
+        StringBuilder sb = new StringBuilder("Value");
+        if (IsChange)
+        {
+            sb.Append(" changed. OldValue=")
+                .Append(OldValue)
+                .Append(",NewValue=")
+                .Append(NewValue);
+        }
+
+        if (IsDelete)
+        {
+            sb.Append(" deleted. OldValue=").Append(OldValue);
+        }
+
+        if (IsAdd)
+        {
+            sb.Append(" added. NewValue=").Append(NewValue);
+        }
+
+        string successString = Success ? "Succeeded" : "Failed";
+        sb.Append($",Update {successString}");
+
+        if (!string.IsNullOrEmpty(Message))
+        {
+            sb.Append(", Message=").Append(Message);
+        }
+
+        return sb.ToString();
+    }
 }

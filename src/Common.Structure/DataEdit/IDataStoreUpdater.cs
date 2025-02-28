@@ -10,11 +10,7 @@ namespace Effanville.Common.Structure.DataEdit
         /// <summary>
         /// The underlying instance to update.
         /// </summary>
-        T Database
-        {
-            get;
-            set;
-        }
+        T Database { get; set; }
 
         /// <summary>
         /// Update the portfolio with the given action.

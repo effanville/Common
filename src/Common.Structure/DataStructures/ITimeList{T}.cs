@@ -1,6 +1,6 @@
 ﻿using System;
 
-using Effanville.Common.Structure.ChangeLogging;
+using Effanville.Common.Structure.DataEdit;
 
 namespace Effanville.Common.Structure.DataStructures
 {

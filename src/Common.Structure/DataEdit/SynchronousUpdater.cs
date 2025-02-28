@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace Effanville.Common.Structure.DataEdit;
 
@@ -8,16 +9,31 @@ namespace Effanville.Common.Structure.DataEdit;
 public sealed class SynchronousUpdater : IUpdater
 {
     /// <inheritdoc/>
-    public void PerformUpdateAction<T>(T data, Action<T> action) where T : class
+    public void PerformUpdateAction<TData>(TData data, Action<TData> action) where TData : class
         => action(data);
 
     /// <inheritdoc/>
-    public void PerformUpdate<T>(T data, UpdateRequestArgs<T> requestArgs) where T : class
+    public Task PerformUpdate<TData>(TData data, UpdateRequestArgs<TData> requestArgs) where TData : class
     {
         if (!requestArgs.IsHandled)
         {
             requestArgs.UpdateAction(data);
             requestArgs.IsHandled = true;
         }
+
+        return Task.CompletedTask;
+    }
+
+    /// <inheritdoc/>
+    public Task<UpdateResult<TReturn>> PerformUpdate<TData, TReturn>(TData data, UpdateRequestArgs<TData, TReturn> requestArgs) where TData : class
+    {
+        if (!requestArgs.IsHandled)
+        {
+
+            requestArgs.IsHandled = true;
+            return Task.FromResult(requestArgs.UpdateFunction(data));
+        }
+
+        return null;
     }
 }

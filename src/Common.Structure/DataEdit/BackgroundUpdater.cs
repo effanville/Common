@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 using Effanville.Common.Structure.DataStructures;
 
@@ -16,12 +17,27 @@ public sealed class BackgroundUpdater : IUpdater
         => _taskQueue.Enqueue(action, data);
 
     /// <inheritdoc/>
-    public void PerformUpdate<T>(T data, UpdateRequestArgs<T> requestArgs) where T : class
+    public Task PerformUpdate<T>(T data, UpdateRequestArgs<T> requestArgs) where T : class
     {
         if (!requestArgs.IsHandled)
         {
             _taskQueue.Enqueue(requestArgs.UpdateAction, data);
             requestArgs.IsHandled = true;
         }
+
+        return Task.CompletedTask;
+    }
+
+    /// <inheritdoc/>
+    public async Task<UpdateResult<TReturn>> PerformUpdate<TData, TReturn>(TData data, UpdateRequestArgs<TData, TReturn> requestArgs)
+        where TData : class
+    {
+        if (!requestArgs.IsHandled)
+        {
+            requestArgs.IsHandled = true;
+            return await _taskQueue.Enqueue(requestArgs.UpdateFunction, data);
+        }
+
+        return null;
     }
 }

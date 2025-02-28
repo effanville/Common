@@ -15,5 +15,13 @@ public sealed class SingleTaskQueue : ITaskQueue
     public void Enqueue<T>(Action<T> action, T obj) => action(obj);
 
     /// <inheritdoc/>
-    public void Enqueue(Task currentTask){ }
+    public Task Enqueue(Task currentTask)
+    {
+        currentTask.RunSynchronously();
+        return currentTask;
+    }
+
+    /// <inheritdoc/>
+    public Task<TReturn> Enqueue<TData, TReturn>(Func<TData, TReturn> func, TData obj)
+        => Task.FromResult(func(obj));
 }

@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Effanville.Common.Structure.ChangeLogging;
+namespace Effanville.Common.Structure.DataEdit;
 
 /// <summary>
 /// Contains <see cref="UpdateResult{TValue}"/> creation helpers
