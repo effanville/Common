@@ -35,7 +35,7 @@ namespace Effanville.Common.Structure.DataStructures
         {
             lock (valuesLock)
             {
-                return fValues.ToList();
+                return fValues.Select(value => value.Copy()).ToList();
             }
         }
 
