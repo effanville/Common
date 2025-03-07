@@ -7,11 +7,11 @@ public static class ReportTypeExtensions
         switch(me)
         {
             case ReportType.Error:
-                return "Error";
+                return "ERR";
             case ReportType.Warning:
-                return "Warn ";
+                return "WRN";
             case ReportType.Information:
-                return "Info ";
+                return "INF";
             default:
                 return null;
         }

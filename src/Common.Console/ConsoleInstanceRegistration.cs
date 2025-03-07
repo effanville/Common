@@ -35,7 +35,7 @@ public static class ConsoleInstanceRegistration
 
     private static void ReportAction(ReportSeverity severity, ReportType reportType, string location, string text)
     {
-        string message = $"[{DateTime.Now:yyyyMMddTHH:mm:ss.fff}] [{reportType.ToLogString()}] [{location}] {text}";
+        string message = $"{DateTime.Now:yyyy-MM-ddTHH:mm:ss.fff} | {reportType.ToLogString()} | {location.PadRight(15)} | {text}";
         if (reportType == ReportType.Error)
         {
             WriteError(message);
