@@ -1,19 +1,22 @@
 namespace Effanville.Common.Structure.Reporting;
 
+/// <summary>
+/// Contains extension methods for a <see cref="ReportType"/>
+/// </summary>
 public static class ReportTypeExtensions
 {
+    /// <summary>
+    /// Provide a short string representation for the <see cref="ReportType"/> enum.
+    /// </summary>
     public static string ToLogString(this ReportType me)
     {
-        switch(me)
+        return me switch
         {
-            case ReportType.Error:
-                return "ERR";
-            case ReportType.Warning:
-                return "WRN";
-            case ReportType.Information:
-                return "INF";
-            default:
-                return null;
-        }
+            ReportType.Error => "ERR",
+            ReportType.Warning => "WRN",
+            ReportType.Information => "INF",
+            ReportType.Debug => "DBG",
+            _ => null,
+        };
     }
 }

@@ -156,19 +156,23 @@ namespace Effanville.Common.Structure.Reporting
         public List<ErrorReport> GetReports(ReportType reportType)
             => GetReports().Where(report => report.ErrorType == reportType).ToList();
 
+        /// <summary>
+        /// Return reports for at least the requested level.
+        /// Error reprots returns just errors, and debug returns everything.
+        /// </summary>
         public List<ErrorReport> GetAtLevel(ReportType reportType)
         {
-            switch (reportType)
+            return reportType switch
             {
-                case ReportType.Error:
-                    return GetReports().Where(report => report.ErrorType == reportType).ToList();
-                default:
-                case ReportType.Warning:
-                    return GetReports().Where(report =>
-                        report.ErrorType == reportType || report.ErrorType == ReportType.Error).ToList();
-                case ReportType.Information:
-                    return GetReports();
-            }
+                ReportType.Error => GetReports().Where(report => report.ErrorType == reportType).ToList(),
+                ReportType.Information => GetReports().Where(report =>
+                                        report.ErrorType == reportType
+                                        || report.ErrorType == ReportType.Error
+                                        || report.ErrorType == ReportType.Warning).ToList(),
+                ReportType.Debug => GetReports(),
+                _ => GetReports().Where(report =>
+                                        report.ErrorType == reportType || report.ErrorType == ReportType.Error).ToList(),
+            };
         }
 
         /// <summary>

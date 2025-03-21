@@ -10,8 +10,7 @@ namespace Effanville.Common.Structure.Reporting
         /// <summary>
         /// The time the report was logged.
         /// </summary>
-        public DateTime TimeStamp { get; internal set;  }
-
+        public DateTime TimeStamp { get; internal set; }
 
         /// <summary>
         /// How serious the report is, enabling a grading of the reports based on seriousness.
@@ -61,7 +60,7 @@ namespace Effanville.Common.Structure.Reporting
         {
             ErrorSeverity = severity;
         }
-        
+
         /// <summary>
         /// Constructs an error report with default <see cref="ReportSeverity"/>.
         /// </summary>
@@ -92,13 +91,13 @@ namespace Effanville.Common.Structure.Reporting
         /// Output the headers for the report in csv format.
         /// </summary>
         public static string ToCsvHeader() => "TimeStamp,Severity,ErrorType,Location,Message";
-        
+
         /// <summary>
         /// Output of the report in csv format.
         /// </summary>
         /// <returns></returns>
         public string ToCsvString() => $"{TimeStamp},{ErrorSeverity},{ErrorType},{ErrorLocation},{Message}";
-        
+
         /// <summary>
         /// Method of comparison
         /// </summary>
@@ -124,8 +123,8 @@ namespace Effanville.Common.Structure.Reporting
                 return ErrorType.CompareTo(other.ErrorType);
             }
 
-            return string.Equals(other.ErrorLocation, ErrorLocation) 
-                ? string.Compare(Message, other.Message, StringComparison.InvariantCulture) 
+            return string.Equals(other.ErrorLocation, ErrorLocation)
+                ? string.Compare(Message, other.Message, StringComparison.InvariantCulture)
                 : string.Compare(other.ErrorLocation, ErrorLocation, StringComparison.InvariantCulture);
         }
     }
