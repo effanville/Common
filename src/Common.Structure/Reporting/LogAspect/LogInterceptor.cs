@@ -20,7 +20,7 @@ public class LogInterceptor : IInterceptor
             invocation.Proceed();
             return;
         }
-        
+
         object cacheableAttribute = invocation.MethodInvocationTarget
             .GetCustomAttributes(typeof(LogInterceptAttribute), true)
             .FirstOrDefault();
@@ -30,19 +30,19 @@ public class LogInterceptor : IInterceptor
             return;
         }
 
-        target.Logger.LogInformation($"{invocation.Method.Name}. Args {string.Join(", ", invocation.Arguments)}");
+        target.Logger.LogDebug($"{invocation.Method.Name}. Args {string.Join(", ", invocation.Arguments)}");
         try
         {
             invocation.Proceed();
         }
-        catch(Exception)
+        catch (Exception ex)
         {
-            target.Logger.LogInformation($"{invocation.Method.Name}. Exception!");
+            target.Logger.LogError($"{invocation.Method.Name}. Exception={ex}");
             throw;
         }
         finally
         {
-            target.Logger.LogInformation($"{invocation.Method.Name}. Return {invocation.ReturnValue}");
+            target.Logger.LogDebug($"{invocation.Method.Name}. Return {invocation.ReturnValue}");
         }
     }
 }

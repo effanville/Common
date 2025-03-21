@@ -4,11 +4,17 @@ using Microsoft.Extensions.Logging;
 
 namespace Effanville.Common.Structure.Reporting;
 
+/// <summary>
+/// An <see cref="ILogger"/> implementation that logs using an <see cref="IReportLogger"/> instance.
+/// </summary>
 public sealed class InjectableReportLogger : ILogger
 {
     private readonly string _name;
     private readonly IReportLogger _internalLogger;
 
+    /// <summary>
+    /// Construct an instance
+    /// </summary>
     public InjectableReportLogger(string name, IReportLogger internalLogger)
     {
         _name = name;

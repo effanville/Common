@@ -49,34 +49,16 @@ namespace Effanville.Common.Structure.Reporting
             SaveInternally = saveInternally;
         }
 
-        private void AddReport(ReportSeverity severity, ReportType type, string location, string message)
+        /// <inheritdoc />
+        public void Log(ReportType type, string location, string message)
+            => LogInternal(ReportSeverity.Useful, type, location, message);
+
+        private bool LogInternal(ReportSeverity severity, ReportType type, string location, string message)
         {
             if (SaveInternally)
             {
                 Reports.AddErrorReport(severity, type, location, message);
             }
-        }
-
-        /// <inheritdoc />
-        public void Log(ReportType type, string location, string message)
-        {
-            Log(ReportSeverity.Useful, type, location, message);
-        }
-
-        /// <inheritdoc />
-        public void Log(ReportSeverity severity, ReportType type, string location, string message)
-        {
-            AddReport(severity, type, location, message);
-            if (_loggingAction != null)
-            {
-                _loggingQueue.Enqueue(() => _loggingAction?.Invoke(severity, type, location, message));
-            }
-        }
-
-        /// <inheritdoc />
-        public bool Log(ReportSeverity severity, ReportType type, ReportLocation location, string message)
-        {
-            AddReport(severity, type, location.ToString(), message);
             if (_loggingAction == null)
             {
                 return false;
@@ -84,36 +66,6 @@ namespace Effanville.Common.Structure.Reporting
 
             _loggingQueue.Enqueue(() => _loggingAction(severity, type, location.ToString(), message));
             return true;
-        }
-
-        /// <inheritdoc/>
-        public void Error(string location, string message)
-        {
-            Log(ReportSeverity.Useful, ReportType.Error, location, message);
-        }
-
-        /// <inheritdoc/>
-        public void Warning(string location, string message)
-        {
-            Log(ReportSeverity.Useful, ReportType.Warning, location, message);
-        }
-
-        /// <inheritdoc/>
-        public void WriteReportsToFile(string filePath)
-        {
-            WriteReportsToFile(filePath, new FileSystem());
-        }
-
-        /// <inheritdoc/>
-        public void WriteReportsToFile(string filePath, out string message)
-        {
-            WriteReportsToFile(filePath, new FileSystem(), out message);
-        }
-
-        /// <inheritdoc/>
-        public void WriteReportsToFile(string filePath, IFileSystem fileSystem)
-        {
-            WriteReportsToFile(filePath, fileSystem, out _);
         }
 
         /// <inheritdoc/>
