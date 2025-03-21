@@ -33,9 +33,9 @@ public sealed class InjectableReportLogger : ILogger
             LogLevel.Error => ReportType.Error,
             LogLevel.Warning => ReportType.Warning,
             LogLevel.Information => ReportType.Information,
-            LogLevel.Debug => ReportType.Information,
-            LogLevel.Trace => ReportType.Information,
-            LogLevel.None => ReportType.Information,
+            LogLevel.Debug => ReportType.Debug,
+            LogLevel.Trace => ReportType.Debug,
+            LogLevel.None => ReportType.Debug,
             _ => ReportType.Error
         };
 
