@@ -16,17 +16,10 @@ namespace Effanville.Common.Structure.Reporting
         private readonly ITaskQueue _loggingQueue;
 
         /// <inheritdoc/>
-        public ErrorReports Reports
-        {
-            get;
-            set;
-        } = new ErrorReports();
+        public ErrorReports Reports { get; set; } = new ErrorReports();
 
         /// <inheritdoc/>
-        public bool SaveInternally
-        {
-            get; set;
-        }
+        public bool SaveInternally { get; set; }
 
         /// <summary>
         /// Constructor for reporting mechanisms. Parameter addReport is the report callback mechanism.
@@ -64,12 +57,6 @@ namespace Effanville.Common.Structure.Reporting
             }
         }
 
-        /// <inheritdoc/>
-        public IReport Critical()
-        {
-            return new ReportBuilder(this, ReportSeverity.Critical);
-        }
-
         /// <inheritdoc />
         public void Log(ReportType type, string location, string message)
         {
@@ -97,22 +84,6 @@ namespace Effanville.Common.Structure.Reporting
 
             _loggingQueue.Enqueue(() => _loggingAction(severity, type, location.ToString(), message));
             return true;
-        }
-
-        /// <summary>
-        /// Log an arbitrary message.
-        /// </summary>
-        public bool LogUseful(ReportType type, ReportLocation location, string message)
-        {
-            return Log(ReportSeverity.Useful, type, location, message);
-        }
-
-        /// <summary>
-        /// Log an arbitrary message.
-        /// </summary>
-        public bool LogUsefulError(ReportLocation location, string message)
-        {
-            return Log(ReportSeverity.Useful, ReportType.Error, location, message);
         }
 
         /// <inheritdoc/>

@@ -8,21 +8,9 @@ namespace Effanville.Common.Structure.Reporting
     public class NothingReportLogger : IReportLogger
     {
         /// <inheritdoc/>
-        public ErrorReports Reports
-        {
-            get;
-        }
+        public ErrorReports Reports { get; }
 
-        bool IReportLogger.SaveInternally
-        {
-            get; set;
-        }
-
-        /// <inheritdoc/>
-        public IReport Critical()
-        {
-            return null;
-        }
+        bool IReportLogger.SaveInternally { get; set; }
 
         /// <inheritdoc/>
         public bool Log(ReportSeverity severity, ReportType type, ReportLocation location, string message)
@@ -30,17 +18,6 @@ namespace Effanville.Common.Structure.Reporting
             return true;
         }
 
-        /// <inheritdoc/>
-        public bool LogUseful(ReportType type, ReportLocation location, string message)
-        {
-            return true;
-        }
-
-        /// <inheritdoc/>
-        public bool LogUsefulError(ReportLocation location, string message)
-        {
-            return true;
-        }
 
         /// <inheritdoc/>
         public void WriteReportsToFile(string filePath)

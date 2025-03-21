@@ -9,25 +9,14 @@ namespace Effanville.Common.Structure.Reporting
     public interface IReportLogger
     {
         /// <summary>
-        /// Return a Report constructor with <see cref="ReportSeverity.Critical"/>.
-        /// </summary>
-        IReport Critical();
-
-        /// <summary>
         /// The store of reports logged by the report logger.
         /// </summary>
-        ErrorReports Reports
-        {
-            get;
-        }
+        ErrorReports Reports { get; }
 
         /// <summary>
         /// Set whether the logger stores an internal record of the report.
         /// </summary>
-        bool SaveInternally
-        {
-            get; set;
-        }
+        bool SaveInternally { get; set; }
 
         /// <summary>
         /// Logs a <see cref="ReportSeverity.Useful"/> report using the type enums.
@@ -44,6 +33,7 @@ namespace Effanville.Common.Structure.Reporting
         /// <param name="type">The type of report being logged.</param>
         /// <param name="location">The location the report pertains to.</param>
         /// <param name="message">The message specifying more information about the report.</param>
+        [Obsolete("Should be using the Log method without severity and with string location")]
         void Log(ReportSeverity severity, ReportType type, string location, string message);
 
         /// <summary>
@@ -53,25 +43,8 @@ namespace Effanville.Common.Structure.Reporting
         /// <param name="type">The type of report being logged.</param>
         /// <param name="location">The location the report pertains to.</param>
         /// <param name="message">The message specifying more information about the report.</param>
+        [Obsolete("Should be using the Log method without severity and with string location")]
         bool Log(ReportSeverity severity, ReportType type, ReportLocation location, string message);
-
-        /// <summary>
-        /// Logs a report with severity <see cref="ReportSeverity.Useful"/> using the other type enums.
-        /// </summary>
-        /// <param name="type">The type of report being logged.</param>
-        /// <param name="location">The location the report pertains to.</param>
-        /// <param name="message">The message specifying more information about the report.</param>
-        [Obsolete("User should use the log method instead.")]
-        bool LogUseful(ReportType type, ReportLocation location, string message);
-
-        /// <summary>
-        /// Logs an <see cref="ReportType.Error"/> report with severity <see cref="ReportSeverity.Useful"/> using
-        /// the other type enums.
-        /// </summary>
-        /// <param name="location">The location the report pertains to.</param>
-        /// <param name="message">The message specifying more information about the report.</param>
-        [Obsolete("User should use the Error method instead.")]
-        bool LogUsefulError(ReportLocation location, string message);
 
         /// <summary>
         /// Logs an <see cref="ReportType.Error"/> report with severity <see cref="ReportSeverity.Useful"/>.
