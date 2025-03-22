@@ -13,7 +13,8 @@ namespace Effanville.Common.Structure.Tests.WebAccess
         [TestCase("https://markets.ft.com/data/funds/tearsheet/summary?s=gb00b4khn986:gbx")]
         public async Task DownloadTest(string url)
         {
-            string data = await WebDownloader.DownloadFromURLasync(url, addCookie: false, null).ConfigureAwait(false);
+            var webDownloader = new WebDownloader(null);
+            string data = await webDownloader.DownloadFromURLasync(url, addCookie: false).ConfigureAwait(false);
             Assert.That(data, Is.Not.Empty);
         }
     }

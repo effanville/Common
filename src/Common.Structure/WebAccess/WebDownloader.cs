@@ -19,6 +19,16 @@ namespace Effanville.Common.Structure.WebAccess
 
         private static IWebDriver _driver;
         private bool _disposedValue;
+        private readonly IReportLogger _logger;
+
+        /// <summary>
+        /// Construct an instance
+        /// </summary>
+        /// <param name="logger"></param>
+        public WebDownloader(IReportLogger logger)
+        {
+            _logger = logger;
+        }
 
         /// <summary>
         /// Determines whether the string is well formed as a url.
@@ -36,18 +46,24 @@ namespace Effanville.Common.Structure.WebAccess
         /// <summary>
         /// downloads the data from url asynchronously.
         /// </summary>
-        public static async Task<string> DownloadFromURLasync(string url, bool addCookie = false, IReportLogger reportLogger = null)
+        public async Task<string> GetWebData(string url, bool addCookie = false)
+            => await DownloadFromURLasync(CleanUrlString(url), addCookie).ConfigureAwait(false);
+
+        /// <summary>
+        /// downloads the data from url asynchronously.
+        /// </summary>
+        public async Task<string> DownloadFromURLasync(string url, bool addCookie = false)
         {
             if (string.IsNullOrEmpty(url))
             {
-                reportLogger?.Error(nameof(WebDownloader), "Url was empty.");
+                _logger?.Error(nameof(WebDownloader), "Url was empty.");
                 return string.Empty;
             }
 
             string output = string.Empty;
             if (!IsValidWebAddress(url))
             {
-                reportLogger?.Error(nameof(WebDownloader), $"Url {url} is not a valid web address.");
+                _logger?.Error(nameof(WebDownloader), $"Url {url} is not a valid web address.");
                 return string.Empty;
             }
 
@@ -86,7 +102,7 @@ namespace Effanville.Common.Structure.WebAccess
                 string result = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 if (string.IsNullOrEmpty(result))
                 {
-                    reportLogger?.Warn(nameof(WebDownloader), $"No data retrieved from url {url}");
+                    _logger?.Warn(nameof(WebDownloader), $"No data retrieved from url {url}");
                 }
                 else
                 {
@@ -96,12 +112,14 @@ namespace Effanville.Common.Structure.WebAccess
             }
             catch (Exception ex)
             {
-                reportLogger?.Exception(nameof(WebDownloader), $"Failed to download from url {url}", ex);
+                _logger?.Exception(nameof(WebDownloader), $"Failed to download from url {url}", ex);
                 return output;
             }
 
             return output;
         }
+
+        private static string CleanUrlString(string url) => url.Replace("^", "%5E");
 
         /// <summary>
         /// Returns a cached instance of a web driver.
