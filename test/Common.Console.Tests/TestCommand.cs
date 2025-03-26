@@ -11,25 +11,29 @@ namespace Effanville.Common.Console.Tests
     public sealed class TestCommand : ICommand
     {
         private readonly ILogger<TestCommand> _logger;
+        private readonly IConfiguration _config;
+
         public string Name { get; set; } = "Test";
 
         public IList<CommandOption> Options { get; } = new List<CommandOption>();
 
         public IList<ICommand> SubCommands { get; } = new List<ICommand>();
 
-        public TestCommand(ILogger<TestCommand> logger) 
+        public TestCommand(ILogger<TestCommand> logger,
+            IConfiguration config)
         {
             _logger = logger;
+            _config = config;
         }
 
         /// <inheritdoc/>
         public void WriteHelp() => this.WriteHelp(_logger);
 
         /// <inheritdoc/>
-        public int Execute(IConfiguration config) => 0;
+        public int Execute() => 0;
 
         /// <inheritdoc/>
-        public bool Validate(IConfiguration config) 
-            => this.Validate(config, _logger);
+        public bool Validate()
+            => this.Validate(_config, _logger);
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 
+using Effanville.Common.Structure.Extensions;
+
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
@@ -31,10 +33,10 @@ namespace Effanville.Common.Console.Commands
                 return;
             }
 
-            logger.Log(LogLevel.Information,"Valid options:");
+            logger.Log(LogLevel.Information, "Valid options:");
             foreach (var option in cmd.Options)
             {
-                logger.Log(LogLevel.Information,$"{option.Name} - {option.Description}");
+                logger.Log(LogLevel.Information, $"{option.Name} - {option.Description}");
             }
         }
 
@@ -53,7 +55,8 @@ namespace Effanville.Common.Console.Commands
                     var subCommand = cmd.SubCommands.FirstOrDefault(command => command.Name == commandNames[currentCommand + 1]);
                     if (subCommand != null)
                     {
-                        return subCommand.Validate(config);
+                        logger?.Info($"Validating command {subCommand.Name}");
+                        return subCommand.Validate();
                     }
                 }
             }
@@ -84,17 +87,18 @@ namespace Effanville.Common.Console.Commands
             {
                 if (option.Validate())
                 {
+                    logger?.Info($"{option.Name}={option.ValueAsObject}");
                     continue;
                 }
 
-                string error = $"{option.GetPrettyErrorMessage()}";
-                logger?.Log(LogLevel.Error, error);
+                string error = option.GetPrettyErrorMessage();
+                logger?.Error(error);
                 isValid = false;
             }
 
             return isValid;
         }
-        
+
         /// <summary>
         /// A default execute algorithm that attempts to execute a sub command.
         /// Returns error if fails to execute a sub command.
@@ -115,8 +119,8 @@ namespace Effanville.Common.Console.Commands
             }
 
             var subCommand = cmd.SubCommands.FirstOrDefault(command => command.Name == commandNames[currentCommand + 1]);
-            logger?.Log(LogLevel.Information, $"Executing command {subCommand?.Name}");
-            return subCommand?.Execute(config) ?? 1;
+            logger?.Info($"Executing command {subCommand?.Name}");
+            return subCommand?.Execute() ?? 1;
         }
 
         /// <summary>

@@ -32,15 +32,16 @@ public class ConsoleContextTests
     [TestCaseSource(nameof(CanRunTests))]
     public void CanRun(string[] args, int expectedExitCode, string errorMessage)
     {
-        var mockLogger = Substitute.For<ILogger<TestCommand>>();
-        TestCommand testCommand = new TestCommand(mockLogger);
-        testCommand.Options.Add(new CommandOption<string>("number", ""));
-        var consoleContextLogger = Substitute.For<ILogger<ConsoleContext>>();
-
         IConfiguration config = new ConfigurationBuilder()
             .AddCommandLine(new ConsoleCommandArgs(args).GetEffectiveArgs())
             .AddEnvironmentVariables()
             .Build();
+
+        var mockLogger = Substitute.For<ILogger<TestCommand>>();
+        TestCommand testCommand = new TestCommand(mockLogger, config);
+        testCommand.Options.Add(new CommandOption<string>("number", ""));
+        var consoleContextLogger = Substitute.For<ILogger<ConsoleContext>>();
+
         ConsoleContext context = new ConsoleContext(
             config,
             new List<ICommand>() { testCommand },
@@ -86,19 +87,19 @@ public class ConsoleContextTests
     [TestCaseSource(nameof(CanRunSubCommandTests))]
     public void CanRunSubCommand(string[] args, int expectedExitCode, string errorMessage)
     {
-        var mockLogger = Substitute.For<ILogger<TestCommand>>();
-        TestCommand testCommand = new TestCommand(mockLogger);
-        testCommand.Options.Add(new CommandOption<string>("number", ""));
-
-        TestCommand subCommand = new TestCommand(mockLogger) { Name = "Subtest" };
-        subCommand.Options.Add(new CommandOption<string>("otherNumber", ""));
-        testCommand.SubCommands.Add(subCommand);
-        var consoleContextLogger = Substitute.For<ILogger<ConsoleContext>>();
-
         IConfiguration config = new ConfigurationBuilder()
             .AddCommandLine(new ConsoleCommandArgs(args).GetEffectiveArgs())
             .AddEnvironmentVariables()
             .Build();
+        var mockLogger = Substitute.For<ILogger<TestCommand>>();
+        TestCommand testCommand = new TestCommand(mockLogger, config);
+        testCommand.Options.Add(new CommandOption<string>("number", ""));
+
+        TestCommand subCommand = new TestCommand(mockLogger, config) { Name = "Subtest" };
+        subCommand.Options.Add(new CommandOption<string>("otherNumber", ""));
+        testCommand.SubCommands.Add(subCommand);
+        var consoleContextLogger = Substitute.For<ILogger<ConsoleContext>>();
+
         ConsoleContext context = new ConsoleContext(
             config,
             new List<ICommand>() { testCommand },

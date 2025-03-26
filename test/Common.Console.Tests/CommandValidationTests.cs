@@ -135,18 +135,18 @@ namespace Effanville.Common.Console.Tests
         [TestCaseSource(nameof(TwoOptionTestSource))]
         public void CommandValidatorTester((string, bool, Func<double, bool>)[] options, string[] args, bool expectedOutcome, string expectedError)
         {
+            IConfiguration config = new ConfigurationBuilder()
+                .AddCommandLine(new ConsoleCommandArgs(args).GetEffectiveArgs())
+                .AddEnvironmentVariables()
+                .Build();
             ILogger<TestCommand> mockLogger = Substitute.For<ILogger<TestCommand>>();
-            TestCommand testCommand = new TestCommand(mockLogger);
+            TestCommand testCommand = new TestCommand(mockLogger, config);
             foreach ((string, bool, Func<double, bool>) optionData in options)
             {
                 CommandOption<double> option = new CommandOption<double>(optionData.Item1, "", optionData.Item2, optionData.Item3);
                 testCommand.Options.Add(option);
             }
-            IConfiguration config = new ConfigurationBuilder()
-                .AddCommandLine(new ConsoleCommandArgs(args).GetEffectiveArgs())
-                .AddEnvironmentVariables()
-                .Build();
-            bool validated = testCommand.Validate(config);
+            bool validated = testCommand.Validate();
 
             Assert.Multiple(() =>
             {

@@ -11,13 +11,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Effanville.Common.Console;
+namespace Effanville.Common.Console.DependencyInjection;
 
 /// <summary>
 /// Contains extension methods to register the necessary services for the <see cref="ConsoleContext"/> to run.
 /// </summary>
-public static class ConsoleContextRegistration
-{        
+public static class ConsoleContextExtensions
+{
     /// <summary>
     /// Setup the given host with command line configuration and console context from the given command types.
     /// </summary>
@@ -33,7 +33,7 @@ public static class ConsoleContextRegistration
         hostApplicationBuilder.Configuration.AddConfiguration(args);
         return hostApplicationBuilder;
     }
-    
+
     /// <summary>
     /// Register the command line args as configuration in the builder.
     /// </summary>
@@ -44,10 +44,10 @@ public static class ConsoleContextRegistration
         string executingAssemblyLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         string appSettingsFilePath = Path.Combine(executingAssemblyLocation, "appsettings.json");
         var configuration = new ConsoleCommandArgs(args);
-        builder.AddCommandLine(configuration.GetEffectiveArgs())
+        return builder
+            .AddCommandLine(configuration.GetEffectiveArgs())
             .AddJsonFile(appSettingsFilePath)
             .AddEnvironmentVariables();
-        return builder;
     }
 
     /// <summary>
@@ -58,10 +58,10 @@ public static class ConsoleContextRegistration
         this IServiceCollection serviceCollection,
         IEnumerable<Type> consoleCommandTypes)
     {
-        serviceCollection.AddSingleton<IFileSystem, FileSystem>();
-        serviceCollection.AddConsoleCommands(consoleCommandTypes);
-        serviceCollection.AddSingleton<IConsoleContext, ConsoleContext>();
-        serviceCollection.AddHostedService<ConsoleHost>();
-        return serviceCollection;
+        return serviceCollection
+            .AddSingleton<IFileSystem, FileSystem>()
+            .AddConsoleCommands(consoleCommandTypes)
+            .AddSingleton<IConsoleContext, ConsoleContext>()
+            .AddHostedService<ConsoleHost>();
     }
 }

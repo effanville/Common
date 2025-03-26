@@ -30,17 +30,18 @@ public class ConsoleHostTests
     [TestCaseSource(nameof(CanRunTests))]
     public async Task CanRun(string[] args, int expectedExitCode, string errorMessage)
     {
-        ILogger<ConsoleHost> logger = Substitute.For<ILogger<ConsoleHost>>();
-        ILogger<ConsoleContext> consoleContextLogger = Substitute.For<ILogger<ConsoleContext>>();
-        ILogger<TestCommand> mockLogger = Substitute.For<ILogger<TestCommand>>();
-        TestCommand testCommand = new TestCommand(mockLogger);
-        testCommand.Options.Add(new CommandOption<string>("number", ""));
-        IHostApplicationLifetime applicationLifetime = Substitute.For<IHostApplicationLifetime>();
-        CancellationTokenSource applicationStartedCts = new CancellationTokenSource();
         IConfiguration config = new ConfigurationBuilder()
             .AddCommandLine(new ConsoleCommandArgs(args).GetEffectiveArgs())
             .AddEnvironmentVariables()
             .Build();
+        ILogger<ConsoleHost> logger = Substitute.For<ILogger<ConsoleHost>>();
+        ILogger<ConsoleContext> consoleContextLogger = Substitute.For<ILogger<ConsoleContext>>();
+        ILogger<TestCommand> mockLogger = Substitute.For<ILogger<TestCommand>>();
+        TestCommand testCommand = new TestCommand(mockLogger, config);
+        testCommand.Options.Add(new CommandOption<string>("number", ""));
+        IHostApplicationLifetime applicationLifetime = Substitute.For<IHostApplicationLifetime>();
+        CancellationTokenSource applicationStartedCts = new CancellationTokenSource();
+
         applicationLifetime.ApplicationStarted.Returns(applicationStartedCts.Token);
         ConsoleContext consoleContext = new ConsoleContext(
             config,

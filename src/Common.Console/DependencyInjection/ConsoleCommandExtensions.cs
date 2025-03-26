@@ -6,13 +6,13 @@ using Effanville.Common.Structure.Reporting.LogAspect;
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Effanville.Common.Console;
+namespace Effanville.Common.Console.DependencyInjection;
 
 /// <summary>
 /// Contains registration methods for adding <see cref="ICommand"/>s
 /// into the DI container.
 /// </summary>
-public static class ConsoleCommandRegistration
+public static class ConsoleCommandExtensions
 {
     /// <summary>
     /// Registers the provided types into the container as
@@ -27,7 +27,7 @@ public static class ConsoleCommandRegistration
     {
         foreach (Type commandType in consoleCommandTypes)
         {
-            if(commandType.IsAssignableTo(typeof(ILogInterceptable)))
+            if (commandType.IsAssignableTo(typeof(ILogInterceptable)))
             {
                 serviceCollection.AddProxiedScoped(typeof(ICommand), commandType);
             }

@@ -33,7 +33,7 @@ namespace Effanville.Common.Console
         /// A list of valid commands.
         /// </summary>
         private List<ICommand> _validCommands;
-        
+
         /// <summary>
         /// Construct an instance.
         /// </summary>
@@ -48,7 +48,7 @@ namespace Effanville.Common.Console
         public int ValidateAndExecute()
         {
             if (IsHelpRequired())
-            { 
+            {
                 WriteHelp();
                 return (int)ExitCode.Success;
             }
@@ -74,8 +74,8 @@ namespace Effanville.Common.Console
         /// Whether help is needed for this context.
         /// </summary>
         /// <returns></returns>
-        private bool IsHelpRequired() 
-            => string.IsNullOrEmpty(_config.GetValue<string>("CommandName")) 
+        private bool IsHelpRequired()
+            => string.IsNullOrEmpty(_config.GetValue<string>("CommandName"))
                || !string.IsNullOrWhiteSpace(_config.GetValue<string>("help"))
                || _helpNames.Contains(_config.GetValue<string>("CommandName"));
 
@@ -110,7 +110,7 @@ namespace Effanville.Common.Console
                 return false;
             }
 
-            return _command.Validate(_config);
+            return _command.Validate();
         }
 
         /// <inheritdoc />
@@ -133,7 +133,7 @@ namespace Effanville.Common.Console
                 return (int)ExitCode.Success;
             }
 
-            return _command.Execute(_config);
+            return _command.Execute();
         }
     }
 }

@@ -2,8 +2,6 @@
 
 using Effanville.Common.Console.Options;
 
-using Microsoft.Extensions.Configuration;
-
 namespace Effanville.Common.Console.Commands
 {
     /// <summary>
@@ -41,15 +39,13 @@ namespace Effanville.Common.Console.Commands
         /// <summary>
         /// The mechanism for validating the input option values.
         /// </summary>
-        /// <param name="config">The command line arguments.</param>
         /// <returns>Was validation successful.</returns>
-        bool Validate(IConfiguration config);
+        bool Validate();
 
         /// <summary>
         /// Execute the given command.
         /// </summary>
-        /// <param name="config">The command line arguments.</param>
         /// <returns>The exit code of the command.</returns>
-        int Execute(IConfiguration config);
+        int Execute();
     }
 }
