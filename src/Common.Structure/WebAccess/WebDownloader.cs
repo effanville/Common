@@ -187,8 +187,8 @@ namespace Effanville.Common.Structure.WebAccess
                 if (disposing)
                 {
                     _client.Dispose();
-                    _driver.Dispose();
-                    _driver.Quit();
+                    _driver?.Dispose();
+                    _driver?.Quit();
                 }
 
                 _client = null;
