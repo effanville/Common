@@ -19,8 +19,14 @@ namespace Effanville.Common.Structure.Extensions
         /// <summary>
         /// Outputs a date in ISO-8601 format.
         /// </summary>
-        public static string ToIsoDateString(this DateTime date) 
+        public static string ToIsoDateString(this DateTime date)
             => date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+        /// <summary>
+        /// Outputs the date and time in ISO-8601 format.
+        /// </summary>
+        public static string ToIsoString(this DateTime date)
+            => date.ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture);
 
         /// <summary>
         /// Outputs a date in the UK format (the good format) from a datetime

@@ -63,7 +63,7 @@ namespace Effanville.Common.Structure.DataStructures
         /// <summary>
         /// Appends date in UK format with value, separated by a comma.
         /// </summary>
-        public override string ToString() => Day.ToUkDateStringPadded() + ", " + Value.ToString();
+        public override string ToString() => $"{Day.ToIsoString()}, {Value}";
 
         /// <inheritdoc/>
         public int CompareTo(DailyValuation other) => DateTime.Compare(Day, other.Day);
@@ -175,10 +175,11 @@ namespace Effanville.Common.Structure.DataStructures
         public void WriteXml(XmlWriter writer)
         {
             writer.WriteStartElement(XmlBaseElementNew);
-            writer.WriteAttributeString(XmlDayElementNew, Day.ToString("yyyy-MM-ddTHH:mm:ss"));
+            writer.WriteAttributeString(XmlDayElementNew, Day.ToString("s"));
             writer.WriteAttributeString(XmlValueElementNew, Value.ToString(CultureInfo.InvariantCulture));
             writer.WriteEndElement();
         }
+
         /// <inheritdoc/>
         public void ReadXml(XmlReader reader)
         {
@@ -191,6 +192,7 @@ namespace Effanville.Common.Structure.DataStructures
                 string valueString = reader.GetAttribute(XmlValueElementNew);
 
                 _ = DateTime.TryParse(dayString, out DateTime date);
+                date = DateTime.SpecifyKind(date, DateTimeKind.Utc);
                 _ = decimal.TryParse(valueString, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal value);
 
                 Day = date;
@@ -201,10 +203,6 @@ namespace Effanville.Common.Structure.DataStructures
             else if (reader.Name == XmlBaseElement)
             {
                 ReadXmlOld(reader);
-            }
-            else
-            {
-
             }
         }
     }
