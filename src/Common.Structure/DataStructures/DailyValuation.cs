@@ -191,7 +191,8 @@ namespace Effanville.Common.Structure.DataStructures
                 string dayString = reader.GetAttribute(XmlDayElementNew);
                 string valueString = reader.GetAttribute(XmlValueElementNew);
 
-                _ = DateTime.TryParse(dayString, out DateTime date);
+                _ = DateTimeOffset.TryParse(dayString, out DateTimeOffset dateTimeOffset);
+                DateTime date = dateTimeOffset.DateTime;
                 date = DateTime.SpecifyKind(date, DateTimeKind.Utc);
                 _ = decimal.TryParse(valueString, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal value);
 
