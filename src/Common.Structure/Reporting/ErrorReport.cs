@@ -85,7 +85,7 @@ namespace Effanville.Common.Structure.Reporting
         /// <summary>
         /// Output of error as a string. This does not include the severity of the report.
         /// </summary>
-        public override string ToString() => $"[{TimeStamp:yyyy-MM-ddTHH:mm:ss}] [{ErrorType.ToLogString()}] [{ErrorLocation}] {Message}";
+        public override string ToString() => $"{TimeStamp:yyyy-MM-ddTHH:mm:ss.fff} | {ErrorType.ToLogString()} | {ErrorLocation,-15} | {Message}";
 
         /// <summary>
         /// Output the headers for the report in csv format.
