@@ -17,15 +17,13 @@ public sealed class BackgroundUpdater : IUpdater
         => _taskQueue.Enqueue(action, data);
 
     /// <inheritdoc/>
-    public Task PerformUpdate<T>(T data, UpdateRequestArgs<T> requestArgs) where T : class
+    public async Task PerformUpdate<T>(T data, UpdateRequestArgs<T> requestArgs) where T : class
     {
         if (!requestArgs.IsHandled)
         {
-            _taskQueue.Enqueue(requestArgs.UpdateAction, data);
+            await _taskQueue.Enqueue(requestArgs.UpdateAction, data);
             requestArgs.IsHandled = true;
         }
-
-        return Task.CompletedTask;
     }
 
     /// <inheritdoc/>

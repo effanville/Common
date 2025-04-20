@@ -11,12 +11,12 @@ public interface ITaskQueue
     /// <summary>
     /// Add an action to the queue.
     /// </summary>
-    void Enqueue(Action action);
+    Task Enqueue(Action action);
 
     /// <summary>
     /// Add an action to the queue.
     /// </summary>
-    void Enqueue<T>(Action<T> action, T obj);
+    Task Enqueue<T>(Action<T> action, T obj);
 
     /// <summary>
     /// Add a task to the queue

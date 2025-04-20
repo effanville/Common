@@ -9,10 +9,18 @@ namespace Effanville.Common.Structure.DataStructures;
 public sealed class SingleTaskQueue : ITaskQueue
 {
     /// <inheritdoc/>
-    public void Enqueue(Action action) => action();
+    public Task Enqueue(Action action)
+    {
+        action();
+        return Task.CompletedTask;
+    }
 
     /// <inheritdoc/>
-    public void Enqueue<T>(Action<T> action, T obj) => action(obj);
+    public Task Enqueue<T>(Action<T> action, T obj)
+    {
+        action(obj);
+        return Task.CompletedTask;
+    }
 
     /// <inheritdoc/>
     public Task Enqueue(Task currentTask)

@@ -14,22 +14,22 @@ public sealed class TaskQueue : ITaskQueue
     /// <summary>
     /// Add an action to the queue.
     /// </summary>
-    public void Enqueue(Action action)
+    public Task Enqueue(Action action)
     {
         lock (_previousTaskLock)
         {
-            _previousTask = _previousTask?.ContinueWith(tsk => action()) ?? Task.Factory.StartNew(action);
+            return _previousTask = _previousTask?.ContinueWith(tsk => action()) ?? Task.Factory.StartNew(action);
         }
     }
 
     /// <summary>
     /// Add an action to the queue.
     /// </summary>
-    public void Enqueue<T>(Action<T> action, T obj)
+    public Task Enqueue<T>(Action<T> action, T obj)
     {
         lock (_previousTaskLock)
         {
-            _previousTask = _previousTask?.ContinueWith(tsk => action(obj)) ?? Task.Factory.StartNew(Convert(action), obj);
+            return _previousTask = _previousTask?.ContinueWith(tsk => action(obj)) ?? Task.Factory.StartNew(Convert(action), obj);
         }
     }
 
