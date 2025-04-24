@@ -54,15 +54,6 @@ public static class IReportLoggerExtensions
     /// Logs an <see cref="ReportType.Information"/> report with severity <see cref="ReportSeverity.Useful"/>.
     /// </summary>
     /// <param name="logger">The logger to use</param>
-    /// <param name="message">The message specifying more information about the report.</param>
-    /// <param name="location">The location the report pertains to, defaults to <see cref="CallerMemberNameAttribute"/>.</param>
-    public static void Info(this IReportLogger logger, string message, [CallerMemberName] string location = null)
-        => logger.Log(ReportType.Information, location, message);
-
-    /// <summary>
-    /// Logs an <see cref="ReportType.Information"/> report with severity <see cref="ReportSeverity.Useful"/>.
-    /// </summary>
-    /// <param name="logger">The logger to use</param>
     /// <param name="name">The name to associate to the logger</param>
     /// <param name="message">The message specifying more information about the report.</param>
     /// <param name="location">The location the report pertains to, defaults to <see cref="CallerMemberNameAttribute"/>.</param>
