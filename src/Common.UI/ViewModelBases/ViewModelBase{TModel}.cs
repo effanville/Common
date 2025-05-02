@@ -1,3 +1,5 @@
+using System;
+
 using Effanville.Common.Structure.Reporting;
 
 namespace Effanville.Common.UI.ViewModelBases;
@@ -21,6 +23,9 @@ public abstract class ViewModelBase<TModel> : PropertyChangedBase
     /// The logging mechanism.
     /// </summary>
     public IReportLogger ReportLogger => DisplayGlobals.ReportLogger;
+
+    public EventHandler ModelUpdated;
+
     /// <summary>
     /// The data for the model in this view model.
     /// </summary>
@@ -68,4 +73,11 @@ public abstract class ViewModelBase<TModel> : PropertyChangedBase
         ModelData = null;
         ModelData = modelData;
     }
+
+    /// <summary>
+    /// Use to raise a model data change event
+    /// </summary>
+    /// <param name="e"></param>
+    protected virtual void OnModelUpdated(EventArgs e)
+        => ModelUpdated?.Invoke(this, e);
 }
