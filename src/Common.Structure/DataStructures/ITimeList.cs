@@ -11,11 +11,6 @@ namespace Effanville.Common.Structure.DataStructures
     public interface ITimeList
     {
         /// <summary>
-        /// Event that is raised when data is edited.
-        /// </summary>
-        event EventHandler DataEdit;
-
-        /// <summary>
         /// Access the list at the specified index. This returns a copy of the data.
         /// </summary>
         /// <param name="index">The index to access data at.</param>

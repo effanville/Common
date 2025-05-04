@@ -16,13 +16,6 @@ namespace Effanville.Common.Structure.DataStructures
         private readonly object valuesLock = new object();
 
         /// <summary>
-        /// Event that controls when data is edited.
-        /// </summary>
-        public event EventHandler DataEdit;
-
-        internal void OnDataEdit(object edited) => DataEdit?.Invoke(edited, new EventArgs());
-
-        /// <summary>
         /// Collection of data within the TimeList.
         /// </summary>
         private List<DailyValuation> fValues;
