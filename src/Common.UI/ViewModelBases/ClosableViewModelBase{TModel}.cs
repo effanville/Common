@@ -9,7 +9,7 @@ namespace Effanville.Common.UI.ViewModelBases;
 /// A view model base that enables closing, and invokes a closing action when closed.
 /// </summary>
 /// <typeparam name="TModel">The type for the ModelData</typeparam>
-public abstract class ClosableViewModelBase<TModel> : ViewModelBase<TModel> where TModel : class
+public abstract class ClosableViewModelBase<TModel> : ViewModelBase<TModel>, IClosableViewModel where TModel : class
 {
     private bool _isDisposed;
     private bool _closable;
