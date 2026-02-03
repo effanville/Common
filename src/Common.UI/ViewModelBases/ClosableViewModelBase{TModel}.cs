@@ -11,21 +11,38 @@ namespace Effanville.Common.UI.ViewModelBases;
 /// <typeparam name="TModel">The type for the ModelData</typeparam>
 public abstract class ClosableViewModelBase<TModel> : ViewModelBase<TModel> where TModel : class
 {
+    private bool _isDisposed;
     private bool _closable;
 
-    /// <summary>
-    /// An event where this view model requests to close.
-    /// </summary>
-    public EventHandler RequestClose;
+    /// <inheritdoc/>
+    public EventHandler RequestClose { get; set; }
 
-    /// <summary>
-    /// Whether the display can be closed or not.
-    /// </summary>
+    /// <inheritdoc/>
     public bool Closable
     {
         get => _closable;
         set => SetAndNotify(ref _closable, value);
     }
+
+    /// <inheritdoc/>
+    public ICommand CloseCommand { get; set; }
+
+
+    protected ClosableViewModelBase(string header, UiGlobals globals, bool closable)
+        : base(header, globals)
+    {
+        Closable = closable;
+        CloseCommand = new RelayCommand(InitiateClose);
+    }
+
+    protected ClosableViewModelBase(string header, TModel modelData, UiGlobals displayGlobals, bool closable)
+        : base(header, modelData, displayGlobals)
+    {
+        Closable = closable;
+        CloseCommand = new RelayCommand(InitiateClose);
+    }
+
+    private void InitiateClose() => OnRequestClose(EventArgs.Empty);
 
     /// <summary>
     /// handle the events raised in the above.
@@ -41,24 +58,19 @@ public abstract class ClosableViewModelBase<TModel> : ViewModelBase<TModel> wher
         handler?.Invoke(this, e);
     }
 
-    /// <summary>
-    /// Command for initiating the close.
-    /// </summary>
-    public ICommand CloseCommand { get; set; }
-
-    private void InitiateClose() => OnRequestClose(EventArgs.Empty);
-
-    protected ClosableViewModelBase(string header, UiGlobals globals, bool closable)
-        : base(header, globals)
+    /// <inheritdoc/>
+    protected override void Dispose(bool disposing)
     {
-        Closable = closable;
-        CloseCommand = new RelayCommand(InitiateClose);
-    }
+        if (!_isDisposed)
+        {
+            _isDisposed = true;
 
-    protected ClosableViewModelBase(string header, TModel modelData, UiGlobals displayGlobals, bool closable)
-        : base(header, modelData, displayGlobals)
-    {
-        Closable = closable;
-        CloseCommand = new RelayCommand(InitiateClose);
+            if (disposing)
+            {
+                RequestClose = null;
+            }
+        }
+
+        base.Dispose(disposing);
     }
 }

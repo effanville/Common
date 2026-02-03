@@ -9,10 +9,11 @@ namespace Effanville.Common.UI.ViewModelBases;
 /// global type
 /// </summary>
 /// <typeparam name="TModel">The type of the model data to display.</typeparam>
-public abstract class ViewModelBase<TModel> : PropertyChangedBase
+public abstract class ViewModelBase<TModel> : PropertyChangedBase, IDisposable
     where TModel : class
 {
     private string _header;
+    private bool _isDisposed;
 
     /// <summary>
     /// The globals for this view model.
@@ -80,4 +81,25 @@ public abstract class ViewModelBase<TModel> : PropertyChangedBase
     /// <param name="e"></param>
     protected virtual void OnModelUpdated(EventArgs e)
         => ModelUpdated?.Invoke(this, e);
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!_isDisposed)
+        {
+            if (disposing)
+            {
+                ModelUpdated = null;
+            }
+
+            ModelData = null;
+            _isDisposed = true;
+        }
+    }
+
+    /// <inheritdoc/>
+    public void Dispose()
+    {
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
+    }
 }
