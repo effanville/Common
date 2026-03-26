@@ -1,0 +1,22 @@
+<Solution>
+  <Folder Name="/Build/">
+    <File Path="Directory.Build.props" />
+    <Project Path="BuildProcess/source/_build.csproj">
+      <Build Project="false" />
+    </Project>
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path="global.json" />
+  </Folder>
+  <Project Path="src/Common.Console/Common.Console.csproj" />
+  <Project Path="src/Common.ReportWriting/Common.ReportWriting.csproj" />
+  <Project Path="src/Common.Structure/Common.Structure.csproj" />
+  <Project Path="src/Common.UI.Wpf/Common.UI.Wpf.csproj" />
+  <Project Path="src/Common.UI/Common.UI.csproj" />
+  <Project Path="test/Common.Console.Tests/Common.Console.Tests.csproj" />
+  <Project Path="test/Common.ReportWriting.Unit.Tests/Common.ReportWriting.Unit.Tests.csproj" />
+  <Project Path="test/Common.Structure.Tests/Common.Structure.Tests.csproj" />
+  <Project Path="test/Common.UI.Tests/Common.UI.Tests.csproj" />
+  <Project Path="test/Common.UI.Wpf.Tests/Common.UI.Wpf.Tests.csproj" />
+</Solution>
