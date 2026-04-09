@@ -1,7 +1,8 @@
 <Solution>
   <Folder Name="/Build/">
     <File Path="Directory.Build.props" />
-    <Project Path="BuildProcess/source/_build.csproj">
+    <File Path="Directory.Packages.props" />
+    <Project Path="BuildProcess/src/_build.csproj">
       <Build Project="false" />
     </Project>
   </Folder>
