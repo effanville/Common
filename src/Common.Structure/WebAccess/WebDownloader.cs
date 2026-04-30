@@ -2,7 +2,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 
-using Effanville.Common.Structure.Reporting;
+using Microsoft.Extensions.Logging;
 
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
@@ -19,13 +19,13 @@ namespace Effanville.Common.Structure.WebAccess
 
         private static IWebDriver _driver;
         private bool _disposedValue;
-        private readonly IReportLogger _logger;
+        private readonly ILogger<WebDownloader> _logger;
 
         /// <summary>
         /// Construct an instance
         /// </summary>
         /// <param name="logger"></param>
-        public WebDownloader(IReportLogger logger)
+        public WebDownloader(ILogger<WebDownloader> logger)
         {
             _logger = logger;
         }
@@ -56,14 +56,14 @@ namespace Effanville.Common.Structure.WebAccess
         {
             if (string.IsNullOrEmpty(url))
             {
-                _logger?.Error(nameof(WebDownloader), "Url was empty.");
+                _logger?.LogError("Url was empty.");
                 return string.Empty;
             }
 
             string output = string.Empty;
             if (!IsValidWebAddress(url))
             {
-                _logger?.Error(nameof(WebDownloader), $"Url {url} is not a valid web address.");
+                _logger?.LogError($"Url {url} is not a valid web address.");
                 return string.Empty;
             }
 
@@ -102,7 +102,7 @@ namespace Effanville.Common.Structure.WebAccess
                 string result = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 if (string.IsNullOrEmpty(result))
                 {
-                    _logger?.Warn(nameof(WebDownloader), $"No data retrieved from url {url}");
+                    _logger?.LogWarning($"No data retrieved from url {url}");
                 }
                 else
                 {
@@ -112,7 +112,7 @@ namespace Effanville.Common.Structure.WebAccess
             }
             catch (Exception ex)
             {
-                _logger?.Exception(nameof(WebDownloader), $"Failed to download from url {url}", ex);
+                _logger?.LogError($"Failed to download from url {url}", ex);
                 return output;
             }
 
@@ -140,7 +140,7 @@ namespace Effanville.Common.Structure.WebAccess
         /// <summary>
         /// Returns the element text from the specified element from the web driver.
         /// </summary>
-        public static string GetWebpageSource(IWebDriver driver, string url, int msDelay, IReportLogger logger = null)
+        public static string GetWebpageSource(IWebDriver driver, string url, int msDelay, ILogger logger = null)
         {
             try
             {
@@ -151,7 +151,7 @@ namespace Effanville.Common.Structure.WebAccess
             }
             catch (Exception ex)
             {
-                logger?.Exception(nameof(WebDownloader), ex);
+                logger?.LogError(ex, nameof(WebDownloader));
             }
 
             return null;
@@ -160,7 +160,7 @@ namespace Effanville.Common.Structure.WebAccess
         /// <summary>
         /// Returns the element text from the specified elememnt from the web driver.
         /// </summary>
-        public static string GetElementText(IWebDriver driver, string url, string elementId, int msDelay, IReportLogger logger = null)
+        public static string GetElementText(IWebDriver driver, string url, string elementId, int msDelay, ILogger logger = null)
         {
             try
             {
@@ -173,7 +173,7 @@ namespace Effanville.Common.Structure.WebAccess
             }
             catch (Exception ex)
             {
-                logger?.Exception(nameof(WebDownloader), ex);
+                logger?.LogError(ex, nameof(WebDownloader));
             }
 
             return null;
