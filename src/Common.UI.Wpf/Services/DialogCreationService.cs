@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 
 using Effanville.Common.UI.Services;
+using Effanville.Common.UI.ViewModelBases;
 using Effanville.Common.UI.Wpf.Dialogs;
 
 namespace Effanville.Common.UI.Wpf.Services
@@ -64,6 +65,10 @@ namespace Effanville.Common.UI.Wpf.Services
             {
                 // if obj isnt a window, guess it is a view model, so try to display as such.
                 DialogWindow dialog = new DialogWindow() { DataContext = obj };
+                if (obj is IClosableViewModel closableVm)
+                {
+                    closableVm.RequestClose += (obj, e) => dialog.Close();
+                }
                 dialog.ShowInTaskbar = true;
                 _ = dialog.ShowDialog();
             }
